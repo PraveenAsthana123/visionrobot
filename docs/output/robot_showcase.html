@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Robot Showcase - VisionBot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px 0;
+            border-bottom: 2px solid #334155;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85em;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .nav-section {
+            margin-bottom: 25px;
+        }
+
+        .nav-section-title {
+            color: #64748b;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.65em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.2em;
+        }
+
+        /* Robot Categories */
+        .category-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 12px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 2px solid #334155;
+            border-radius: 10px;
+            color: #cbd5e1;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Robot Grid */
+        .robot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .robot-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .robot-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .robot-card.selected {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .robot-card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .robot-card h3 {
+            color: white;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .robot-card p {
+            color: #94a3b8;
+            font-size: 0.85em;
+        }
+
+        /* Robot Display Area */
+        .robot-display {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        .robot-display-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Robot Visualization */
+        .robot-visualization {
+            background: #0f172a;
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .robot-3d {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Different Robot Visualizations */
+        .robot-arm {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .robot-base {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 40px;
+            background: linear-gradient(135deg, #475569, #334155);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .robot-joint {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--warning), var(--danger));
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        .robot-link {
+            position: absolute;
+            background: linear-gradient(135deg, #64748b, #475569);
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(245, 158, 11, 1); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Humanoid Robot */
+        .humanoid-robot {
+            width: 80px;
+            height: 200px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .humanoid-head {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+
+        .humanoid-eyes {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 15px;
+        }
+
+        .eye-left { left: 10px; }
+        .eye-right { right: 10px; }
+
+        .humanoid-body {
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, #475569, #334155);
+            border-radius: 15px;
+            margin: 0 auto;
+        }
+
+        .humanoid-arm {
+            width: 15px;
+            height: 60px;
+            background: linear-gradient(135deg, #64748b, #475569);
+            border-radius: 8px;
+            position: absolute;
+            top: 50px;
+        }
+
+        .arm-left {
+            left: 5px;
+            transform-origin: top;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        .arm-right {
+            right: 5px;
+            transform-origin: top;
+            animation: wave 2s ease-in-out infinite 1s;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(20deg); }
+        }
+
+        .humanoid-leg {
+            width: 20px;
+            height: 70px;
+            background: linear-gradient(135deg, #64748b, #475569);
+            border-radius: 10px;
+            position: absolute;
+            top: 130px;
+        }
+
+        .leg-left { left: 15px; }
+        .leg-right { right: 15px; }
+
+        /* Wheeled Robot */
+        .wheeled-robot {
+            width: 120px;
+            height: 100px;
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .wheeled-body {
+            width: 100px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .wheel {
+            width: 30px;
+            height: 30px;
+            background: #334155;
+            border: 3px solid #64748b;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -15px;
+            animation: rotate 2s linear infinite;
+        }
+
+        .wheel-left { left: 5px; }
+        .wheel-right { right: 5px; }
+
+        /* Drone Visualization */
+        .drone-robot {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .drone-body {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            margin: 45px auto;
+            position: relative;
+        }
+
+        .propeller {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--info);
+            border-radius: 50%;
+            position: absolute;
+            animation: rotate 0.5s linear infinite;
+        }
+
+        .propeller:before, .propeller:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--info);
+            top: 50%;
+            left: 0;
+        }
+
+        .propeller:after {
+            transform: rotate(90deg);
+        }
+
+        .prop-tl { top: 0; left: 0; }
+        .prop-tr { top: 0; right: 0; }
+        .prop-bl { bottom: 0; left: 0; }
+        .prop-br { bottom: 0; right: 0; }
+
+        /* Robot Info Panel */
+        .robot-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-section {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .info-section h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-section h3 i {
+            color: var(--primary);
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .spec-item {
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .spec-label {
+            color: #94a3b8;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+
+        .spec-value {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #334155;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .features-list li i {
+            color: var(--success);
+        }
+
+        .applications {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .app-tag {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid var(--primary);
+            color: #cbd5e1;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        /* Live Metrics */
+        .live-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .metric-box {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #334155;
+        }
+
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.85em;
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-robot"></i> VisionBot</h1>
+            <p>Interactive Robot Showcase</p>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <div class="nav-section-title">📁 MAIN</div>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="demo_ui.html" class="nav-item">
+                    <i class="fas fa-desktop"></i>
+                    <span>Demo UI</span>
+                </a>
+                <a href="simulation_phases.html" class="nav-item">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Simulation Phases</span>
+                </a>
+                <a href="engineering_workflow.html" class="nav-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Engineering Workflow</span>
+                </a>
+                <a href="robot_showcase.html" class="nav-item active">
+                    <i class="fas fa-th-large"></i>
+                    <span>Robot Showcase</span>
+                </a>
+                <a href="robot_scenario_testing.html" class="nav-item">
+                    <i class="fas fa-vial"></i>
+                    <span>Scenario Testing</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">📁 DOCUMENTATION</div>
+                <a href="html_styled/28_multi_domain_simulation_testing_platform.html" class="nav-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>Doc 28: Simulation</span>
+                </a>
+                <a href="html_styled/29_demo_guide_complete_flow.html" class="nav-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>Doc 29: Demo Guide</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-th-large"></i> Interactive Robot Showcase</h1>
+            <p>Explore Different Robot Types - Select and Compare</p>
+        </div>
+
+        <!-- Category Selector -->
+        <div class="category-selector">
+            <button class="category-btn active" data-category="industrial" onclick="filterCategory('industrial')">
+                <i class="fas fa-industry"></i> Industrial
+            </button>
+            <button class="category-btn" data-category="collaborative" onclick="filterCategory('collaborative')">
+                <i class="fas fa-handshake"></i> Collaborative
+            </button>
+            <button class="category-btn" data-category="mobile" onclick="filterCategory('mobile')">
+                <i class="fas fa-running"></i> Mobile
+            </button>
+            <button class="category-btn" data-category="humanoid" onclick="filterCategory('humanoid')">
+                <i class="fas fa-user-astronaut"></i> Humanoid
+            </button>
+            <button class="category-btn" data-category="medical" onclick="filterCategory('medical')">
+                <i class="fas fa-heartbeat"></i> Medical
+            </button>
+            <button class="category-btn" data-category="drone" onclick="filterCategory('drone')">
+                <i class="fas fa-helicopter"></i> Drones
+            </button>
+            <button class="category-btn" data-category="warehouse" onclick="filterCategory('warehouse')">
+                <i class="fas fa-warehouse"></i> Warehouse
+            </button>
+        </div>
+
+        <!-- Robot Grid -->
+        <div class="robot-grid" id="robotGrid">
+            <!-- Robots will be populated by JavaScript -->
+        </div>
+
+        <!-- Robot Display Area -->
+        <div class="robot-display">
+            <div class="robot-display-grid">
+                <!-- Robot Visualization -->
+                <div class="robot-visualization">
+                    <div class="robot-3d" id="robot3D">
+                        <!-- Robot visualization will be dynamically generated -->
+                    </div>
+                    <div class="status-indicator">
+                        <div class="status-dot"></div>
+                        <span>ONLINE - READY</span>
+                    </div>
+                </div>
+
+                <!-- Robot Info -->
+                <div class="robot-info">
+                    <div class="info-section">
+                        <h3><i class="fas fa-info-circle"></i> <span id="robotName">FANUC M-10iA</span></h3>
+                        <p style="color: #94a3b8; margin-bottom: 20px;" id="robotManufacturer">FANUC Robotics - Industrial Arm</p>
+
+                        <div class="spec-grid" id="specGrid">
+                            <!-- Specs will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <h3><i class="fas fa-star"></i> Key Features</h3>
+                        <ul class="features-list" id="featuresList">
+                            <!-- Features will be populated by JavaScript -->
+                        </ul>
+                    </div>
+
+                    <div class="info-section">
+                        <h3><i class="fas fa-briefcase"></i> Applications</h3>
+                        <div class="applications" id="applicationsList">
+                            <!-- Applications will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Metrics -->
+            <div class="live-metrics" id="liveMetrics">
+                <!-- Metrics will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Robot Database
+        const robots = {
+            // INDUSTRIAL ROBOTS
+            'fanuc_m10ia': {
+                name: 'FANUC M-10iA',
+                manufacturer: 'FANUC Robotics',
+                category: 'industrial',
+                icon: '🏭',
+                type: 'arm',
+                specs: {
+                    dof: '6-DOF',
+                    payload: '10 kg',
+                    reach: '1420 mm',
+                    accuracy: '±0.03 mm',
+                    speed: '2.5 m/s',
+                    weight: '130 kg'
+                },
+                features: [
+                    'High-precision positioning',
+                    'Heavy payload handling',
+                    'Robust construction',
+                    'Multi-axis control'
+                ],
+                applications: ['Micro-Assembly', 'Electronics', 'Manufacturing', 'Precision Tasks'],
+                metrics: { speed: '2.5 m/s', uptime: '99.8%', cycles: '15,420' }
+            },
+            'abb_irb120': {
+                name: 'ABB IRB 120',
+                manufacturer: 'ABB Robotics',
+                category: 'industrial',
+                icon: '⚙️',
+                type: 'arm',
+                specs: {
+                    dof: '6-DOF',
+                    payload: '3 kg',
+                    reach: '580 mm',
+                    accuracy: '±0.02 mm',
+                    speed: '2.0 m/s',
+                    weight: '25 kg'
+                },
+                features: [
+                    'Compact design',
+                    'High-speed operation',
+                    'Thermal stability',
+                    'Easy integration'
+                ],
+                applications: ['Assembly', 'Material Handling', 'Machine Tending', 'Testing'],
+                metrics: { speed: '2.0 m/s', uptime: '99.5%', cycles: '12,850' }
+            },
+            'kuka_kr_quantec': {
+                name: 'KUKA KR QUANTEC',
+                manufacturer: 'KUKA Robotics',
+                category: 'industrial',
+                icon: '🦾',
+                type: 'arm',
+                specs: {
+                    dof: '6-DOF',
+                    payload: '120 kg',
+                    reach: '2700 mm',
+                    accuracy: '±0.06 mm',
+                    speed: '2.1 m/s',
+                    weight: '1050 kg'
+                },
+                features: [
+                    'Massive payload capacity',
+                    'Extended reach',
+                    'Robust design',
+                    'Automotive-grade'
+                ],
+                applications: ['Automotive', 'Heavy Industry', 'Palletizing', 'Welding'],
+                metrics: { speed: '2.1 m/s', uptime: '99.2%', cycles: '8,500' }
+            },
+
+            // COLLABORATIVE ROBOTS
+            'ur5e': {
+                name: 'Universal Robots UR5e',
+                manufacturer: 'Universal Robots',
+                category: 'collaborative',
+                icon: '🤝',
+                type: 'arm',
+                specs: {
+                    dof: '6-DOF',
+                    payload: '5 kg',
+                    reach: '850 mm',
+                    accuracy: '±0.03 mm',
+                    speed: '1.0 m/s',
+                    weight: '20.6 kg'
+                },
+                features: [
+                    'Human-safe interaction',
+                    'Force sensing',
+                    'Easy programming',
+                    'Lightweight design'
+                ],
+                applications: ['Assembly', 'Pick & Place', 'Quality Inspection', 'Packaging'],
+                metrics: { speed: '1.0 m/s', uptime: '99.9%', cycles: '18,200' }
+            },
+            'sawyer': {
+                name: 'Sawyer',
+                manufacturer: 'Rethink Robotics',
+                category: 'collaborative',
+                icon: '👁️',
+                type: 'arm',
+                specs: {
+                    dof: '7-DOF',
+                    payload: '4 kg',
+                    reach: '1260 mm',
+                    accuracy: '±0.1 mm',
+                    speed: '1.5 m/s',
+                    weight: '19 kg'
+                },
+                features: [
+                    'Vision-guided operations',
+                    'Compact footprint',
+                    '7-DOF flexibility',
+                    'Intuitive training'
+                ],
+                applications: ['Machine Tending', 'Circuit Board Testing', 'Packaging', 'Material Handling'],
+                metrics: { speed: '1.5 m/s', uptime: '98.5%', cycles: '10,340' }
+            },
+            'yumi': {
+                name: 'ABB YuMi',
+                manufacturer: 'ABB Robotics',
+                category: 'collaborative',
+                icon: '🔬',
+                type: 'arm',
+                specs: {
+                    dof: '14-DOF (Dual Arm)',
+                    payload: '0.5 kg (per arm)',
+                    reach: '559 mm',
+                    accuracy: '±0.02 mm',
+                    speed: '1.5 m/s',
+                    weight: '38 kg'
+                },
+                features: [
+                    'Dual-arm collaboration',
+                    'Delicate handling',
+                    'Padded arms',
+                    'Perfect for small parts'
+                ],
+                applications: ['Electronics Assembly', 'Small Parts Handling', 'Testing', 'Packaging'],
+                metrics: { speed: '1.5 m/s', uptime: '99.1%', cycles: '22,150' }
+            },
+
+            // MOBILE ROBOTS
+            'spot': {
+                name: 'Spot',
+                manufacturer: 'Boston Dynamics',
+                category: 'mobile',
+                icon: '🐕',
+                type: 'quadruped',
+                specs: {
+                    dof: '12 (3 per leg)',
+                    payload: '14 kg',
+                    reach: 'N/A',
+                    accuracy: '±50 mm',
+                    speed: '1.6 m/s',
+                    weight: '32.5 kg'
+                },
+                features: [
+                    '360° obstacle avoidance',
+                    'Stair climbing',
+                    'All-terrain capability',
+                    'Autonomous navigation'
+                ],
+                applications: ['Industrial Inspection', 'Construction Sites', 'Oil & Gas', 'Public Safety'],
+                metrics: { speed: '1.6 m/s', uptime: '92%', battery: '90 min' }
+            },
+            'atlas': {
+                name: 'Atlas',
+                manufacturer: 'Boston Dynamics',
+                category: 'mobile',
+                icon: '🏃',
+                type: 'humanoid',
+                specs: {
+                    dof: '28',
+                    payload: '11 kg',
+                    reach: 'N/A',
+                    accuracy: 'N/A',
+                    speed: '2.5 m/s',
+                    weight: '89 kg'
+                },
+                features: [
+                    'Parkour capabilities',
+                    'Dynamic balance',
+                    'Human-like movement',
+                    'Advanced mobility'
+                ],
+                applications: ['Research', 'Rescue Operations', 'Disaster Response', 'Exploration'],
+                metrics: { speed: '2.5 m/s', uptime: '85%', battery: '60 min' }
+            },
+            'mir100': {
+                name: 'MiR100',
+                manufacturer: 'Mobile Industrial Robots',
+                category: 'mobile',
+                icon: '🚚',
+                type: 'wheeled',
+                specs: {
+                    dof: 'Omnidirectional',
+                    payload: '100 kg',
+                    reach: 'N/A',
+                    accuracy: '±10 mm',
+                    speed: '1.5 m/s',
+                    weight: '67 kg'
+                },
+                features: [
+                    'Laser-guided navigation',
+                    'Autonomous routing',
+                    'Obstacle detection',
+                    'Fleet management'
+                ],
+                applications: ['Warehouse Logistics', 'Material Transport', 'Manufacturing', 'Healthcare'],
+                metrics: { speed: '1.5 m/s', uptime: '98%', battery: '12 hrs' }
+            },
+
+            // HUMANOID ROBOTS
+            'asimo': {
+                name: 'ASIMO',
+                manufacturer: 'Honda',
+                category: 'humanoid',
+                icon: '🚶',
+                type: 'humanoid',
+                specs: {
+                    dof: '57',
+                    payload: 'N/A',
+                    reach: 'N/A',
+                    accuracy: 'N/A',
+                    speed: '1.6 m/s (walk)',
+                    weight: '48 kg'
+                },
+                features: [
+                    'Fluid human-like walking',
+                    'Stair navigation',
+                    'Gesture recognition',
+                    'Multi-language support'
+                ],
+                applications: ['Social Robotics', 'Research', 'Hospitality', 'Education'],
+                metrics: { speed: '1.6 m/s', uptime: '90%', battery: '1 hr' }
+            },
+            'sophia': {
+                name: 'Sophia',
+                manufacturer: 'Hanson Robotics',
+                category: 'humanoid',
+                icon: '😊',
+                type: 'humanoid',
+                specs: {
+                    dof: '62 (facial)',
+                    payload: 'N/A',
+                    reach: 'N/A',
+                    accuracy: 'N/A',
+                    speed: 'N/A',
+                    weight: '~25 kg'
+                },
+                features: [
+                    'Expressive facial interactions',
+                    'AI conversation',
+                    'Emotional intelligence',
+                    'Learning capability'
+                ],
+                applications: ['Social Intelligence', 'Research', 'Public Relations', 'Entertainment'],
+                metrics: { expressions: '62', languages: '10+', uptime: '95%' }
+            },
+            'pepper': {
+                name: 'Pepper',
+                manufacturer: 'SoftBank Robotics',
+                category: 'humanoid',
+                icon: '💬',
+                type: 'humanoid',
+                specs: {
+                    dof: '20',
+                    payload: 'N/A',
+                    reach: 'N/A',
+                    accuracy: 'N/A',
+                    speed: '0.5 m/s',
+                    weight: '28 kg'
+                },
+                features: [
+                    'Multi-language communication',
+                    'Emotion recognition',
+                    'Touch sensors',
+                    'Cloud-connected AI'
+                ],
+                applications: ['Customer Service', 'Retail', 'Healthcare', 'Education'],
+                metrics: { speed: '0.5 m/s', languages: '20+', uptime: '94%' }
+            },
+
+            // MEDICAL ROBOTS
+            'davinci': {
+                name: 'da Vinci Surgical System',
+                manufacturer: 'Intuitive Surgical',
+                category: 'medical',
+                icon: '🏥',
+                type: 'arm',
+                specs: {
+                    dof: '7 (per arm)',
+                    payload: 'N/A',
+                    reach: 'N/A',
+                    accuracy: '±0.5 mm',
+                    speed: 'Surgeon-controlled',
+                    weight: '~270 kg'
+                },
+                features: [
+                    'Microsurgical precision',
+                    'Minimally invasive',
+                    '3D HD vision',
+                    'Surgeon augmentation'
+                ],
+                applications: ['General Surgery', 'Urology', 'Gynecology', 'Cardiac Surgery'],
+                metrics: { accuracy: '0.5 mm', procedures: '10M+', uptime: '99%' }
+            },
+
+            // DRONES
+            'dji_mavic3': {
+                name: 'DJI Mavic 3',
+                manufacturer: 'DJI',
+                category: 'drone',
+                icon: '🚁',
+                type: 'drone',
+                specs: {
+                    dof: 'N/A',
+                    payload: 'N/A',
+                    reach: 'N/A',
+                    accuracy: '±1 m',
+                    speed: '19 m/s',
+                    weight: '895 g'
+                },
+                features: [
+                    'High-res imaging',
+                    'Obstacle avoidance',
+                    'Extended flight time',
+                    'Intelligent tracking'
+                ],
+                applications: ['Aerial Photography', 'Surveying', 'Inspection', 'Mapping'],
+                metrics: { speed: '19 m/s', flight: '46 min', range: '30 km' }
+            },
+            'zipline_drone': {
+                name: 'Zipline Medical Drone',
+                manufacturer: 'Zipline',
+                category: 'drone',
+                icon: '💊',
+                type: 'drone',
+                specs: {
+                    dof: 'N/A',
+                    payload: '1.8 kg',
+                    reach: 'N/A',
+                    accuracy: '±2 m',
+                    speed: '25 m/s',
+                    weight: '~13 kg'
+                },
+                features: [
+                    'Precision delivery',
+                    'Critical supply transport',
+                    'Remote area access',
+                    'Autonomous flight'
+                ],
+                applications: ['Healthcare Logistics', 'Emergency Delivery', 'Remote Areas', 'Blood/Vaccine Transport'],
+                metrics: { speed: '25 m/s', range: '160 km', payload: '1.8 kg' }
+            },
+
+            // WAREHOUSE ROBOTS
+            'kiva': {
+                name: 'Kiva Robot',
+                manufacturer: 'Amazon Robotics',
+                category: 'warehouse',
+                icon: '📦',
+                type: 'wheeled',
+                specs: {
+                    dof: 'Omnidirectional',
+                    payload: '340 kg',
+                    reach: 'N/A',
+                    accuracy: '±5 mm',
+                    speed: '1.3 m/s',
+                    weight: '145 kg'
+                },
+                features: [
+                    'Autonomous shelf transportation',
+                    'QR code navigation',
+                    'Fleet coordination',
+                    'High-density storage'
+                ],
+                applications: ['Warehouse Automation', 'E-commerce Fulfillment', 'Inventory Management', 'Order Picking'],
+                metrics: { speed: '1.3 m/s', payload: '340 kg', uptime: '99%' }
+            },
+            'fetch_robot': {
+                name: 'Fetch Robot',
+                manufacturer: 'Fetch Robotics',
+                category: 'warehouse',
+                icon: '🤖',
+                type: 'wheeled',
+                specs: {
+                    dof: '7 (arm) + Mobile',
+                    payload: '70 kg',
+                    reach: '1400 mm',
+                    accuracy: '±10 mm',
+                    speed: '1.1 m/s',
+                    weight: '130 kg'
+                },
+                features: [
+                    'Goods-to-person delivery',
+                    'Dynamic path planning',
+                    'Integrated manipulation',
+                    'Cloud-based fleet management'
+                ],
+                applications: ['Order Fulfillment', 'Material Handling', 'Inventory Transport', 'Warehouse Picking'],
+                metrics: { speed: '1.1 m/s', payload: '70 kg', battery: '8 hrs' }
+            },
+            'handle': {
+                name: 'Handle',
+                manufacturer: 'Boston Dynamics',
+                category: 'warehouse',
+                icon: '🦾',
+                type: 'wheeled',
+                specs: {
+                    dof: '10+',
+                    payload: '15 kg',
+                    reach: '1500 mm',
+                    accuracy: '±20 mm',
+                    speed: '1.5 m/s',
+                    weight: '105 kg'
+                },
+                features: [
+                    'Wheel and arm combination',
+                    'Box palletizing',
+                    'Adaptive balance',
+                    'High maneuverability'
+                ],
+                applications: ['Warehouse Logistics', 'Palletizing', 'Material Handling', 'Truck Loading'],
+                metrics: { speed: '1.5 m/s', payload: '15 kg', boxes: '360/hr' }
+            }
+        };
+
+        let currentCategory = 'industrial';
+        let selectedRobot = 'fanuc_m10ia';
+
+        // Initialize
+        function init() {
+            filterCategory('industrial');
+            selectRobot('fanuc_m10ia');
+        }
+
+        // Filter robots by category
+        function filterCategory(category) {
+            currentCategory = category;
+
+            // Update category buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Filter and display robots
+            const robotGrid = document.getElementById('robotGrid');
+            robotGrid.innerHTML = '';
+
+            const filteredRobots = Object.entries(robots).filter(([id, robot]) => robot.category === category);
+
+            filteredRobots.forEach(([id, robot]) => {
+                const card = document.createElement('div');
+                card.className = 'robot-card';
+                if (id === selectedRobot) card.classList.add('selected');
+                card.onclick = () => selectRobot(id);
+                card.innerHTML = `
+                    <div class="robot-card-icon">${robot.icon}</div>
+                    <h3>${robot.name}</h3>
+                    <p>${robot.manufacturer}</p>
+                `;
+                robotGrid.appendChild(card);
+            });
+
+            // Select first robot if current selection is not in this category
+            if (filteredRobots.length > 0 && !filteredRobots.find(([id]) => id === selectedRobot)) {
+                selectRobot(filteredRobots[0][0]);
+            }
+        }
+
+        // Select and display robot
+        function selectRobot(robotId) {
+            selectedRobot = robotId;
+            const robot = robots[robotId];
+
+            // Update selected card
+            document.querySelectorAll('.robot-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event?.target?.closest('.robot-card')?.classList.add('selected');
+
+            // Update robot name and manufacturer
+            document.getElementById('robotName').textContent = robot.name;
+            document.getElementById('robotManufacturer').textContent = `${robot.manufacturer} - ${robot.category.charAt(0).toUpperCase() + robot.category.slice(1)} Robot`;
+
+            // Update 3D visualization
+            update3DVisualization(robot.type);
+
+            // Update specifications
+            const specGrid = document.getElementById('specGrid');
+            specGrid.innerHTML = '';
+            Object.entries(robot.specs).forEach(([key, value]) => {
+                const specItem = document.createElement('div');
+                specItem.className = 'spec-item';
+                specItem.innerHTML = `
+                    <div class="spec-label">${key.toUpperCase()}</div>
+                    <div class="spec-value">${value}</div>
+                `;
+                specGrid.appendChild(specItem);
+            });
+
+            // Update features
+            const featuresList = document.getElementById('featuresList');
+            featuresList.innerHTML = '';
+            robot.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.innerHTML = `<i class="fas fa-check-circle"></i> ${feature}`;
+                featuresList.appendChild(li);
+            });
+
+            // Update applications
+            const applicationsList = document.getElementById('applicationsList');
+            applicationsList.innerHTML = '';
+            robot.applications.forEach(app => {
+                const tag = document.createElement('div');
+                tag.className = 'app-tag';
+                tag.textContent = app;
+                applicationsList.appendChild(tag);
+            });
+
+            // Update live metrics
+            const liveMetrics = document.getElementById('liveMetrics');
+            liveMetrics.innerHTML = '';
+            Object.entries(robot.metrics).forEach(([key, value]) => {
+                const metricBox = document.createElement('div');
+                metricBox.className = 'metric-box';
+                metricBox.innerHTML = `
+                    <div class="metric-value">${value}</div>
+                    <div class="metric-label">${key.replace('_', ' ').toUpperCase()}</div>
+                `;
+                liveMetrics.appendChild(metricBox);
+            });
+
+            // Simulate metric updates
+            startMetricUpdates(robot);
+        }
+
+        // Update 3D visualization based on robot type
+        function update3DVisualization(type) {
+            const robot3D = document.getElementById('robot3D');
+            robot3D.innerHTML = '';
+
+            if (type === 'arm') {
+                robot3D.innerHTML = `
+                    <div class="robot-arm">
+                        <div class="robot-base"></div>
+                        <div class="robot-joint" style="bottom: 40px; left: 140px;"></div>
+                        <div class="robot-link" style="bottom: 40px; left: 145px; width: 6px; height: 80px;"></div>
+                        <div class="robot-joint" style="bottom: 120px; left: 140px;"></div>
+                        <div class="robot-link" style="bottom: 120px; left: 80px; width: 60px; height: 6px;"></div>
+                        <div class="robot-joint" style="bottom: 118px; left: 75px;"></div>
+                        <div class="robot-link" style="bottom: 75px; left: 78px; width: 6px; height: 45px; transform: rotate(-20deg);"></div>
+                        <div class="robot-joint" style="bottom: 50px; left: 55px;"></div>
+                    </div>
+                `;
+            } else if (type === 'humanoid') {
+                robot3D.innerHTML = `
+                    <div class="humanoid-robot">
+                        <div class="humanoid-head">
+                            <div class="humanoid-eyes eye-left"></div>
+                            <div class="humanoid-eyes eye-right"></div>
+                        </div>
+                        <div class="humanoid-body"></div>
+                        <div class="humanoid-arm arm-left"></div>
+                        <div class="humanoid-arm arm-right"></div>
+                        <div class="humanoid-leg leg-left"></div>
+                        <div class="humanoid-leg leg-right"></div>
+                    </div>
+                `;
+            } else if (type === 'wheeled' || type === 'quadruped') {
+                robot3D.innerHTML = `
+                    <div class="wheeled-robot">
+                        <div class="wheeled-body"></div>
+                        <div class="wheel wheel-left"></div>
+                        <div class="wheel wheel-right"></div>
+                    </div>
+                `;
+            } else if (type === 'drone') {
+                robot3D.innerHTML = `
+                    <div class="drone-robot">
+                        <div class="drone-body"></div>
+                        <div class="propeller prop-tl"></div>
+                        <div class="propeller prop-tr"></div>
+                        <div class="propeller prop-bl"></div>
+                        <div class="propeller prop-br"></div>
+                    </div>
+                `;
+            }
+        }
+
+        // Simulate metric updates
+        function startMetricUpdates(robot) {
+            // Update metrics every 3 seconds with slight variations
+            setInterval(() => {
+                const liveMetrics = document.getElementById('liveMetrics');
+                const metricBoxes = liveMetrics.querySelectorAll('.metric-value');
+
+                metricBoxes.forEach((box, index) => {
+                    const currentValue = box.textContent;
+                    // Slight random variation for demonstration
+                    if (currentValue.includes('%')) {
+                        const num = parseFloat(currentValue);
+                        const variation = (Math.random() - 0.5) * 0.5;
+                        box.textContent = (num + variation).toFixed(1) + '%';
+                    }
+                });
+            }, 3000);
+        }
+
+        // Initialize on load
+        window.onload = init;
+    </script>
+</body>
+</html>

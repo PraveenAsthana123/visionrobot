@@ -1,0 +1,762 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={13 Sequence Diagrams},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{13 Sequence Diagrams}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{sequence-diagrams---vision-based-pick-and-place-system}{%
+\section{Sequence Diagrams - Vision-Based Pick and Place
+System}\label{sequence-diagrams---vision-based-pick-and-place-system}}
+
+\hypertarget{document-control}{%
+\subsection{Document Control}\label{document-control}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\textbf{Item} & \textbf{Details} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Document Title} & Sequence Diagrams \\
+\textbf{Version} & 1.0 \\
+\textbf{Date} & 2025-10-18 \\
+\textbf{Status} & Draft \\
+\textbf{Author(s)} & System Architect \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{introduction}{%
+\subsection{1. Introduction}\label{introduction}}
+
+This document provides sequence diagrams showing time-ordered
+interactions between system components. All diagrams use ASCII art and
+can be rendered with Mermaid or PlantUML.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{end-to-end-pick-place-sequence}{%
+\subsection{2. End-to-End Pick-Place
+Sequence}\label{end-to-end-pick-place-sequence}}
+
+\hypertarget{complete-workflow-nominal-path}{%
+\subsubsection{2.1 Complete Workflow (Nominal
+Path)}\label{complete-workflow-nominal-path}}
+
+\begin{verbatim}
+User    Task         Vision      Grasp       MoveIt2     ros2_control   Robot    Gripper
+ │      Orchestrator  Pipeline   Planner                 Manager        Arm
+ │          │            │          │            │            │           │         │
+ ├─Start───▶│            │          │            │            │           │         │
+ │          │            │          │            │            │           │         │
+ │          │─ScanReq───▶│          │            │            │           │         │
+ │          │            │          │            │            │           │         │
+ │          │            │─Capture──▶Camera      │            │           │         │
+ │          │            │          │            │            │           │         │
+ │          │            │◀─Image───│            │            │           │         │
+ │          │            │          │            │            │           │         │
+ │          │            │─RunYOLO──│            │            │           │         │
+ │          │            │          │            │            │           │         │
+ │          │            │─EstPose──│            │            │           │         │
+ │          │            │          │            │            │           │         │
+ │          │◀─ObjPoses──│          │            │            │           │         │
+ │          │            │          │            │            │           │         │
+ │          │─GraspReq──────────────▶│            │            │           │         │
+ │          │          (pose,cloud)  │            │            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │─Sample─────│            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │─CheckColl──│            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │─RankGrasps─│            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │◀─GraspPose─────────────│            │            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │─PlanPickReq────────────────────────▶│            │           │         │
+ │          │            │        (target_pose)   │            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │─SolveIK────│           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │─PlanPath───│           │         │
+ │          │            │            │      (RRT*)│            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │─GenTraj────│           │         │
+ │          │            │            │            │            │           │         │
+ │          │◀─Trajectory────────────────────────│            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │─ExecPickReq────────────────────────────────────▶│           │         │
+ │          │            │            │       (trajectory)     │           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │            │─MoveToPre─▶         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │            │─MoveToGrsp▶         │
+ │          │            │            │            │            │           │         │
+ │          │─CloseGripper───────────────────────────────────────────────────────────▶│
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │◀─GraspForce────────────────────────────────────────────────────────────│
+ │          │         (F/T sensor: 20N)            │            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │─CheckGrasp─│            │            │            │           │         │
+ │          │            │            │            │            │           │         │
+ │          ├─Success────│            │            │            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │─PlanPlaceReq───────────────────────▶│            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │─PlanPath───│           │         │
+ │          │            │            │            │            │           │         │
+ │          │◀─Trajectory────────────────────────│            │           │         │
+ │          │            │            │            │            │           │         │
+ │          │─ExecPlaceReq───────────────────────────────────▶│           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │            │─MoveToTarget▶       │
+ │          │            │            │            │            │           │         │
+ │          │─OpenGripper────────────────────────────────────────────────────────────▶│
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │            │─Retract───▶         │
+ │          │            │            │            │            │           │         │
+ │          │─ReturnHome─────────────────────────────────────▶│           │         │
+ │          │            │            │            │            │           │         │
+ │          │            │            │            │            │─MoveHome──▶         │
+ │          │            │            │            │            │           │         │
+ │◀─Complete─│            │            │            │            │           │         │
+ │          │            │            │            │            │           │         │
+\end{verbatim}
+
+\textbf{Timing:} - Total cycle time: \textasciitilde2 seconds - Vision
+(Scan → ObjPoses): 150ms - Grasp planning: 200ms - Motion planning
+(pick): 300ms - Execution (pick): 800ms - Motion planning (place): 250ms
+- Execution (place): 300ms
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{vision-pipeline-sequence}{%
+\subsection{3. Vision Pipeline
+Sequence}\label{vision-pipeline-sequence}}
+
+\hypertarget{object-detection-pose-estimation}{%
+\subsubsection{3.1 Object Detection \& Pose
+Estimation}\label{object-detection-pose-estimation}}
+
+\begin{verbatim}
+Task         Camera      Image       Object      Pose         TF2
+Orchestrator Driver      Processor   Detector    Estimator
+ │              │            │           │           │          │
+ │─ScanRequest─▶│            │           │           │          │
+ │              │            │           │           │          │
+ │              │─Trigger───▶│           │           │          │
+ │              │            │           │           │          │
+ │              │◀─RGB+Depth─│           │           │          │
+ │              │            │           │           │          │
+ │              │─PublishRGB─────────────▶           │          │
+ │              │  (topic)   │           │           │          │
+ │              │            │           │           │          │
+ │              │─PublishDepth──────────▶│           │          │
+ │              │  (topic)   │           │           │          │
+ │              │            │           │           │          │
+ │              │            │           │─Preprocess│          │
+ │              │            │           │ (resize)  │          │
+ │              │            │           │           │          │
+ │              │            │           │─RunYOLO───│          │
+ │              │            │      (TensorRT)       │          │
+ │              │            │           │           │          │
+ │              │            │           │─NMS───────│          │
+ │              │            │           │           │          │
+ │              │            │           │─Filter────│          │
+ │              │            │       (conf>0.7)      │          │
+ │              │            │           │           │          │
+ │              │            │           │─Publish───────────────▶Task
+ │              │            │           │Detections │          │
+ │              │            │           │           │          │
+ │              │            │           │           │──────────▶│
+ │              │            │           │      (for each det)   │
+ │              │            │           │           │          │
+ │              │            │           │           │─ExtractROI
+ │              │            │           │           │          │
+ │              │            │           │           │─Deproject─│
+ │              │            │           │      (depth→3D)      │
+ │              │            │           │           │          │
+ │              │            │           │           │─EstPose───│
+ │              │            │           │         (PnP/ICP)    │
+ │              │            │           │           │          │
+ │              │            │           │           │─LookupTF──▶│
+ │              │            │           │   (camera→base)      │
+ │              │            │           │           │          │
+ │              │            │           │           │◀─Transform│
+ │              │            │           │           │          │
+ │              │            │           │           │─Publish───▶Task
+ │              │            │           │          Poses       │
+ │              │            │           │          (base frame)│
+ │◀─ObjPoses──────────────────────────────────────────────────────
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{grasp-planning-sequence}{%
+\subsection{4. Grasp Planning Sequence}\label{grasp-planning-sequence}}
+
+\hypertarget{grasp-synthesis-collision-checking}{%
+\subsubsection{4.1 Grasp Synthesis \& Collision
+Checking}\label{grasp-synthesis-collision-checking}}
+
+\begin{verbatim}
+Task         Grasp       Grasp        Collision    Grasp
+Orchestrator Planner     Sampler      Checker      Ranker
+ │              │            │             │           │
+ │─GraspRequest─▶│            │             │           │
+ │  (pose,cloud)│            │             │           │
+ │              │            │             │           │
+ │              │─Sample────▶│             │           │
+ │              │            │             │           │
+ │              │            │─GenCandidates           │
+ │              │            │  (N=50)     │           │
+ │              │            │             │           │
+ │              │◀─Grasps────│             │           │
+ │              │            │             │           │
+ │              │─ForEach────────────────▶│           │
+ │              │   Grasp    │             │           │
+ │              │            │             │           │
+ │              │            │             │─CheckGripper
+ │              │            │             │ -Object   │
+ │              │            │             │           │
+ │              │            │             │─CheckGripper
+ │              │            │             │ -Scene    │
+ │              │            │             │           │
+ │              │◀─CollFree──────────────│           │
+ │              │   (boolean)│             │           │
+ │              │            │             │           │
+ │              │─IfCollFree─────────────────────────▶│
+ │              │            │             │           │
+ │              │            │             │           │─CompQuality
+ │              │            │             │      (force closure)
+ │              │            │             │           │
+ │              │◀─Quality───────────────────────────│
+ │              │            │             │           │
+ │              │─AddToValid─│             │           │
+ │              │  List      │             │           │
+ │              │            │             │           │
+ │              │─EndLoop────│             │           │
+ │              │            │             │           │
+ │              │─Sort───────────────────────────────▶│
+ │              │  ByQuality │             │           │
+ │              │            │             │           │
+ │              │◀─RankedList────────────────────────│
+ │              │            │             │           │
+ │              │─SelectTop──│             │           │
+ │              │            │             │           │
+ │◀─GraspPose───│            │             │           │
+ │   +Quality   │            │             │           │
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{motion-planning-sequence-moveit2}{%
+\subsection{5. Motion Planning Sequence
+(MoveIt2)}\label{motion-planning-sequence-moveit2}}
+
+\hypertarget{path-planning-with-collision-checking}{%
+\subsubsection{5.1 Path Planning with Collision
+Checking}\label{path-planning-with-collision-checking}}
+
+\begin{verbatim}
+Task         MoveIt      Planning    IK          OMPL        Trajectory
+Orchestrator MoveGroup   Scene       Solver      Planner     Generator
+ │              │            │           │           │            │
+ │─PlanRequest──▶│            │           │           │            │
+ │ (target_pose)│            │           │           │            │
+ │              │            │           │           │            │
+ │              │─UpdateScene─▶           │           │            │
+ │              │            │           │           │            │
+ │              │            │─AddObstacles          │            │
+ │              │       (point cloud)    │           │            │
+ │              │            │           │           │            │
+ │              │◀─SceneReady─           │           │            │
+ │              │            │           │           │            │
+ │              │─SolveIK────────────────▶           │            │
+ │              │            │           │           │            │
+ │              │            │           │─ComputeIK─│            │
+ │              │            │      (KDL/TRAC-IK)    │            │
+ │              │            │           │           │            │
+ │              │◀─JointAngles───────────│           │            │
+ │              │            │           │           │            │
+ │              │─ValidateGoal           │           │            │
+ │              │            │           │           │            │
+ │              │─PlanPath───────────────────────────▶            │
+ │              │            │      (start, goal)    │            │
+ │              │            │           │           │            │
+ │              │            │           │           │─RunRRT*────│
+ │              │            │           │     (5 sec timeout)    │
+ │              │            │           │           │            │
+ │              │            │           │           │─CheckColl──▶Scene
+ │              │            │           │   (repeated)           │
+ │              │            │           │           │            │
+ │              │            │           │           │◀─CollFree──│
+ │              │            │           │           │            │
+ │              │◀─Path──────────────────────────────│            │
+ │              │            │      (joint configs)  │            │
+ │              │            │           │           │            │
+ │              │─GenTrajectory──────────────────────────────────▶│
+ │              │            │           │           │            │
+ │              │            │           │           │            │─TimeParam
+ │              │            │           │           │       (parabolic)
+ │              │            │           │           │            │
+ │              │            │           │           │            │─ApplyLimits
+ │              │            │           │     (vel, accel)       │
+ │              │            │           │           │            │
+ │              │◀─Trajectory────────────────────────────────────│
+ │              │            │           │           │            │
+ │◀─Trajectory──│            │           │           │            │
+ │   (ready)    │            │           │           │            │
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{trajectory-execution-sequence}{%
+\subsection{6. Trajectory Execution
+Sequence}\label{trajectory-execution-sequence}}
+
+\hypertarget{ros2_control-execution-loop}{%
+\subsubsection{6.1 ros2\_control Execution
+Loop}\label{ros2_control-execution-loop}}
+
+\begin{verbatim}
+MoveIt      Controller   Trajectory  PID         Hardware    Motor
+MoveGroup   Manager      Follower    Controller  Interface   Driver
+ │              │            │           │           │           │
+ │─ExecAction──▶│            │           │           │           │
+ │ (trajectory) │            │           │           │           │
+ │              │            │           │           │           │
+ │              │─LoadTraj───▶           │           │           │
+ │              │            │           │           │           │
+ │              │            │─Start─────│           │           │
+ │              │            │  Loop     │           │           │
+ │              │            │  @1kHz    │           │           │
+ │              │            │           │           │           │
+ │              │            │─Interpolate           │           │
+ │              │            │ Setpoint  │           │           │
+ │              │            │  (t=now)  │           │           │
+ │              │            │           │           │           │
+ │              │            │─SendSetpoint──────────▶           │
+ │              │            │           │           │           │
+ │              │            │           │─CompPID───│           │
+ │              │            │     (error = sp-fb)   │           │
+ │              │            │           │           │           │
+ │              │            │           │─AddFF─────│           │
+ │              │            │      (gravity comp)   │           │
+ │              │            │           │           │           │
+ │              │            │           │─Output────────────────▶│
+ │              │            │         (torque cmd)  │           │
+ │              │            │           │           │           │
+ │              │            │           │           │─ReadEnc───▶│
+ │              │            │           │     (position)        │
+ │              │            │           │           │           │
+ │              │            │           │◀─Feedback─────────────│
+ │              │            │           │           │           │
+ │              │            │◀─JointStates──────────│           │
+ │              │            │           │           │           │
+ │              │◀─Feedback──│           │           │           │
+ │   (progress) │            │           │           │           │
+ │              │            │           │           │           │
+ │              │            │─CheckDone─│           │           │
+ │              │            │           │           │           │
+ │              │            │─IfDone────────────────▶           │
+ │              │            │  Stop     │           │           │
+ │              │            │  Loop     │           │           │
+ │              │            │           │           │           │
+ │◀─Result──────│            │           │           │           │
+ │  (success)   │            │           │           │           │
+\end{verbatim}
+
+\textbf{Loop Timing:} - Control frequency: 1000 Hz (1ms period) -
+Setpoint interpolation: \textless50μs - PID computation: \textless100μs
+- EtherCAT communication: \textless200μs - Total loop time: \textless1ms
+(with margin for jitter)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{error-recovery-sequence}{%
+\subsection{7. Error Recovery Sequence}\label{error-recovery-sequence}}
+
+\hypertarget{grasp-failure-retry}{%
+\subsubsection{7.1 Grasp Failure → Retry}\label{grasp-failure-retry}}
+
+\begin{verbatim}
+Task         F/T         Error       Grasp       MoveIt2     ros2_control
+Orchestrator Sensor      Detector    Planner                 Manager
+ │              │            │           │           │            │
+ │─ExecPick────────────────────────────────────────▶            │
+ │              │            │           │           │            │
+ │              │            │           │           │──MoveToPre──▶Robot
+ │              │            │           │           │            │
+ │              │            │           │           │──MoveToGrsp─▶Robot
+ │              │            │           │           │            │
+ │─CloseGripper────────────────────────────────────────────────────▶Gripper
+ │              │            │           │           │            │
+ │              │◀─ForceReading──────────────────────────────────│
+ │              │   (5N, low!)          │           │            │
+ │              │            │           │           │            │
+ │              │─DetectDrop─▶           │           │            │
+ │              │            │           │           │            │
+ │              │            │─RaiseFault            │            │
+ │              │            │           │           │            │
+ │◀─ErrorEvent──────────────│           │           │            │
+ │  (GRASP_FAIL)            │           │           │            │
+ │              │            │           │           │            │
+ │─LogError─────│            │           │           │            │
+ │              │            │           │           │            │
+ │─CheckRetry───│            │           │           │            │
+ │  Count       │            │           │           │            │
+ │              │            │           │           │            │
+ │─IfRetry<Max─│            │           │           │            │
+ │              │            │           │           │            │
+ │─Retract──────────────────────────────────────────▶            │
+ │              │            │           │           │            │
+ │              │            │           │           │──MoveBack───▶Robot
+ │              │            │           │           │            │
+ │─ReplanGrasp─────────────────────────▶│           │            │
+ │  (increase   │            │           │           │            │
+ │   force)     │            │           │           │            │
+ │              │            │           │           │            │
+ │              │            │           │─AdjustForce           │
+ │              │            │           │  (50%→100%)           │
+ │              │            │           │           │            │
+ │◀─NewGrasp────────────────────────────│           │            │
+ │              │            │           │           │            │
+ │─RetryPick────────────────────────────────────────▶            │
+ │              │            │           │           │            │
+ │              │            │           │           │──Execute────▶Robot
+ │              │            │           │           │            │
+ │─CloseGripper────────────────────────────────────────────────────▶Gripper
+ │              │            │           │           │            │
+ │              │◀─ForceReading──────────────────────────────────│
+ │              │   (20N, OK!)          │           │            │
+ │              │            │           │           │            │
+ │◀─Success─────│            │           │           │            │
+ │              │            │           │           │            │
+ │─Continue─────│            │           │           │            │
+ │  (place)     │            │           │           │            │
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{calibration-sequence}{%
+\subsection{8. Calibration Sequence}\label{calibration-sequence}}
+
+\hypertarget{hand-eye-calibration}{%
+\subsubsection{8.1 Hand-Eye Calibration}\label{hand-eye-calibration}}
+
+\begin{verbatim}
+Calib       Robot       Camera      Detection   Calibration
+Wizard      Controller  Driver      Node        Solver
+ │              │           │           │             │
+ │─Start────────│           │           │             │
+ │              │           │           │             │
+ │─MoveToPos1──▶           │           │             │
+ │              │           │           │             │
+ │              │─Execute───▶           │             │
+ │              │           │           │             │
+ │◀─AtPosition──│           │           │             │
+ │              │           │           │             │
+ │─CaptureImg──────────────▶           │             │
+ │              │           │           │             │
+ │              │           │─Trigger───▶             │
+ │              │           │           │             │
+ │              │           │◀─Image────│             │
+ │              │           │           │             │
+ │──────────────────────────────────────▶             │
+ │              │           │ Detect    │             │
+ │              │           │ Checkerboard            │
+ │              │           │           │             │
+ │◀─Corners─────────────────────────────│             │
+ │              │           │           │             │
+ │─ReadRobotPose▶           │           │             │
+ │              │           │           │             │
+ │◀─TcpPose─────│           │           │             │
+ │              │           │           │             │
+ │─StoreData────│           │           │             │
+ │ (corners,    │           │           │             │
+ │  robot_pose) │           │           │             │
+ │              │           │           │             │
+ │─RepeatFor────│           │           │             │
+ │  Pos2-5      │           │           │             │
+ │              │           │           │             │
+ │ (loop 4 more times)      │           │             │
+ │              │           │           │             │
+ │─AllDataCollected         │           │             │
+ │              │           │           │             │
+ │─SolveCalib───────────────────────────────────────▶│
+ │              │           │      (AX=XB)            │
+ │              │           │           │             │
+ │              │           │           │             │─ComputeTF
+ │              │           │           │       (camera→base)
+ │              │           │           │             │
+ │◀─Transformation──────────────────────────────────│
+ │   Matrix     │           │           │             │
+ │              │           │           │             │
+ │─Validate─────│           │           │             │
+ │              │           │           │             │
+ │─PlaceObject──│           │           │             │
+ │              │           │           │             │
+ │─DetectObject─────────────────────────▶             │
+ │              │           │           │             │
+ │◀─Pos(camera)─────────────────────────│             │
+ │              │           │           │             │
+ │─TransformTo──────────────────────────────────────▶│
+ │  BaseFrame   │           │   (using TF)            │
+ │              │           │           │             │
+ │◀─Pos(base)───────────────────────────────────────│
+ │              │           │           │             │
+ │─MeasureActual▶           │           │             │
+ │  (CMM/ruler) │           │           │             │
+ │              │           │           │             │
+ │◀─ActualPos───│           │           │             │
+ │              │           │           │             │
+ │─CompError────│           │           │             │
+ │ (predicted-  │           │           │             │
+ │  actual)     │           │           │             │
+ │              │           │           │             │
+ │─IfError<5mm─│           │           │             │
+ │              │           │           │             │
+ │─SaveCalib────────────────────────────────────────▶│
+ │              │      (to YAML file)   │             │
+ │              │           │           │             │
+ │◀─Success─────│           │           │             │
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{system-startup-sequence}{%
+\subsection{9. System Startup Sequence}\label{system-startup-sequence}}
+
+\hypertarget{boot-initialization}{%
+\subsubsection{9.1 Boot \& Initialization}\label{boot-initialization}}
+
+\begin{verbatim}
+User    Init        ROS2        Vision      MoveIt2     ros2_control  Robot
+        Script      Daemon      Nodes       Nodes       Manager       Hardware
+ │         │           │            │           │            │            │
+ │─PowerOn─▶           │            │           │            │            │
+ │         │           │            │           │            │            │
+ │         │─StartROS2 ▶            │           │            │            │
+ │         │           │            │           │            │            │
+ │         │           │─LaunchCore─│           │            │            │
+ │         │           │            │           │            │            │
+ │         │           │◀─CoreReady─│           │            │            │
+ │         │           │            │           │            │            │
+ │         │─LaunchVision───────────▶           │            │            │
+ │         │           │            │           │            │            │
+ │         │           │            │─InitCamera│            │            │
+ │         │           │            │           │            │            │
+ │         │           │            │◀─CamReady─│            │            │
+ │         │           │            │           │            │            │
+ │         │           │            │─LoadModel─│            │            │
+ │         │           │        (YOLOv8)        │            │            │
+ │         │           │            │           │            │            │
+ │         │           │            │◀─ModelReady           │            │
+ │         │           │            │           │            │            │
+ │         │─LaunchMoveIt───────────────────────▶            │            │
+ │         │           │            │           │            │            │
+ │         │           │            │           │─LoadURDF───│            │
+ │         │           │            │           │            │            │
+ │         │           │            │           │─InitPlanningScene       │
+ │         │           │            │           │            │            │
+ │         │           │            │           │◀─Ready─────│            │
+ │         │           │            │           │            │            │
+ │         │─LaunchControl──────────────────────────────────▶            │
+ │         │           │            │           │            │            │
+ │         │           │            │           │            │─InitHW─────▶
+ │         │           │            │           │      (EtherCAT)         │
+ │         │           │            │           │            │            │
+ │         │           │            │           │            │◀─HwReady───│
+ │         │           │            │           │            │            │
+ │         │           │            │           │            │─LoadControllers
+ │         │           │            │           │            │            │
+ │         │           │            │           │            │◀─CtrlReady─│
+ │         │           │            │           │            │            │
+ │         │─HomeRobot──────────────────────────────────────▶            │
+ │         │           │            │           │            │            │
+ │         │           │            │           │            │─MoveHome───▶
+ │         │           │            │           │            │            │
+ │         │           │            │           │            │◀─AtHome────│
+ │         │           │            │           │            │            │
+ │◀─SystemReady────────│            │           │            │            │
+ │         │           │            │           │            │            │
+ │─Display─│           │            │           │            │            │
+ │ "READY" │           │           │           │            │            │
+\end{verbatim}
+
+\textbf{Startup Time:} \textasciitilde45 seconds total - ROS2 daemon: 5s
+- Vision nodes: 15s (model loading) - MoveIt2: 10s (URDF, planning
+scene) - ros2\_control: 10s (EtherCAT init, homing) - Final checks: 5s
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{shutdown-sequence}{%
+\subsection{10. Shutdown Sequence}\label{shutdown-sequence}}
+
+\hypertarget{graceful-shutdown}{%
+\subsubsection{10.1 Graceful Shutdown}\label{graceful-shutdown}}
+
+\begin{verbatim}
+User    Task         ros2_control  MoveIt2    Vision      ROS2
+        Orchestrator Manager        Nodes      Nodes       Daemon
+ │          │            │            │          │           │
+ │─Shutdown─▶            │            │          │           │
+ │          │            │            │          │           │
+ │          │─StopTasks──│            │          │           │
+ │          │            │            │          │           │
+ │          │─MoveHome───────────────▶            │           │
+ │          │            │            │          │           │
+ │          │            │─Execute────▶          │           │
+ │          │            │            │          │           │
+ │          │◀─AtHome────────────────│          │           │
+ │          │            │            │          │           │
+ │          │─DisableMotors──────────▶            │           │
+ │          │            │            │          │           │
+ │          │            │─Deactivate─▶          │           │
+ │          │            │            │          │           │
+ │          │◀─MotorsOff────────────│          │           │
+ │          │            │            │          │           │
+ │          │─StopVision─────────────────────────▶           │
+ │          │            │            │          │           │
+ │          │            │            │          │─UnloadModel
+ │          │            │            │          │           │
+ │          │            │            │          │─CloseCamera
+ │          │            │            │          │           │
+ │          │◀─VisionStopped──────────────────────│           │
+ │          │            │            │          │           │
+ │          │─StopMoveIt─────────────────────────▶           │
+ │          │            │            │          │           │
+ │          │◀─MoveItStopped──────────────────────│           │
+ │          │            │            │          │           │
+ │          │─StopControl────────────▶            │           │
+ │          │            │            │          │           │
+ │          │            │─UnloadCtrl─│          │           │
+ │          │            │            │          │           │
+ │          │            │─CloseHW────▶          │           │
+ │          │            │            │          │           │
+ │          │◀─ControlStopped─────────│          │           │
+ │          │            │            │          │           │
+ │          │─ShutdownROS────────────────────────────────────▶│
+ │          │            │            │          │           │
+ │          │            │            │          │           │─KillNodes
+ │          │            │            │          │           │
+ │◀─Shutdown─────────────│            │          │           │
+ │ Complete │            │            │          │           │
+ │          │            │            │          │           │
+ │─PowerOff─│            │            │          │           │
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{summary}{%
+\subsection{Summary}\label{summary}}
+
+This document provides \textbf{10 comprehensive sequence diagrams}
+covering:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{End-to-End Pick-Place} - Complete workflow with all subsystems
+\item
+  \textbf{Vision Pipeline} - Object detection and pose estimation
+\item
+  \textbf{Grasp Planning} - Synthesis and collision checking
+\item
+  \textbf{Motion Planning} - MoveIt2 path planning
+\item
+  \textbf{Trajectory Execution} - ros2\_control real-time loop
+\item
+  \textbf{Error Recovery} - Grasp failure retry logic
+\item
+  \textbf{Calibration} - Hand-eye calibration procedure
+\item
+  \textbf{System Startup} - Boot and initialization
+\item
+  \textbf{System Shutdown} - Graceful shutdown
+\end{enumerate}
+
+\textbf{Key Insights:} - Vision pipeline: 150ms (camera→poses) - Grasp
+planning: 200ms (pose→grasp) - Motion planning: 300-500ms
+(IK→trajectory) - Control loop: 1ms period @ 1kHz - Startup time:
+\textasciitilde45 seconds - Total cycle time: \textasciitilde2 seconds
+(scan→place)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Format:} ASCII sequence diagrams (convertible to Mermaid)
+\textbf{Review Status:} Pending Technical Review
+
+\end{document}

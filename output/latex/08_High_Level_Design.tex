@@ -1,0 +1,1385 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={08 High Level Design},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{08 High Level Design}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{high-level-design-hld---vision-based-pick-and-place-system}{%
+\section{High-Level Design (HLD) - Vision-Based Pick and Place
+System}\label{high-level-design-hld---vision-based-pick-and-place-system}}
+
+\hypertarget{document-information}{%
+\subsection{Document Information}\label{document-information}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Project:} Vision-Based Pick and Place Robotic System
+\item
+  \textbf{Version:} 1.0
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Status:} Draft
+\item
+  \textbf{Authors:} System Architecture Team
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{table-of-contents}{%
+\subsection{Table of Contents}\label{table-of-contents}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \protect\hyperlink{1-introduction}{Introduction}
+\item
+  \protect\hyperlink{2-system-context}{System Context}
+\item
+  \protect\hyperlink{3-architectural-principles}{Architectural
+  Principles}
+\item
+  \protect\hyperlink{4-system-architecture-overview}{System Architecture
+  Overview}
+\item
+  \protect\hyperlink{5-subsystem-design}{Subsystem Design}
+\item
+  \protect\hyperlink{6-data-architecture}{Data Architecture}
+\item
+  \protect\hyperlink{7-interface-design}{Interface Design}
+\item
+  \protect\hyperlink{8-deployment-architecture}{Deployment Architecture}
+\item
+  \protect\hyperlink{9-security-architecture}{Security Architecture}
+\item
+  \protect\hyperlink{10-scalability--performance}{Scalability \&
+  Performance}
+\item
+  \protect\hyperlink{11-appendices}{Appendices}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{introduction}{%
+\subsection{1. Introduction}\label{introduction}}
+
+\hypertarget{purpose}{%
+\subsubsection{1.1 Purpose}\label{purpose}}
+
+This High-Level Design (HLD) document describes the system architecture
+for a vision-based pick-and-place robotic system. It provides: -
+Architectural overview and design principles - Subsystem decomposition
+and responsibilities - Interface specifications between subsystems -
+Data flow and storage architecture - Deployment and infrastructure
+design
+
+\hypertarget{scope}{%
+\subsubsection{1.2 Scope}\label{scope}}
+
+\textbf{In Scope:} - System architecture (software, hardware, network) -
+Subsystem decomposition - Interface definitions (APIs, messages,
+protocols) - Data architecture (databases, caching, logging) -
+Deployment models (single-machine, distributed)
+
+\textbf{Out of Scope:} - Detailed class diagrams (see Low-Level Design)
+- Algorithm implementation details - Hardware schematics (see Electrical
+Design docs) - Test plans (see Testing \& Validation Plan)
+
+\hypertarget{definitions-acronyms}{%
+\subsubsection{1.3 Definitions \& Acronyms}\label{definitions-acronyms}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Term & Definition \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+HLD & High-Level Design \\
+ROS2 & Robot Operating System 2 \\
+DDS & Data Distribution Service (ROS2 middleware) \\
+IK & Inverse Kinematics \\
+FK & Forward Kinematics \\
+F/T & Force/Torque \\
+TF & Transform (coordinate frame transformations) \\
+URDF & Unified Robot Description Format \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{system-context}{%
+\subsection{2. System Context}\label{system-context}}
+
+\hypertarget{system-boundary}{%
+\subsubsection{2.1 System Boundary}\label{system-boundary}}
+
+\begin{verbatim}
+┌────────────────────────────────────────────────────────────────┐
+│                       EXTERNAL ACTORS                          │
+├────────────────────────────────────────────────────────────────┤
+│  • Operator (HMI interaction)                                  │
+│  • Integrator (configuration, calibration)                     │
+│  • Engineer (development, debugging)                           │
+│  • Manager (monitoring, reporting)                             │
+│  • Maintenance Tech (diagnostics, repair)                      │
+└────────────────────────┬───────────────────────────────────────┘
+                         │
+                         ▼
+┌────────────────────────────────────────────────────────────────┐
+│                 VISION-BASED PICK-PLACE SYSTEM                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  Vision         Motion       Grasp       Task            │  │
+│  │  Perception     Planning     Planning    Orchestration   │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  Control &      Monitoring   Security    Data            │  │
+│  │  Execution      & Logging    & Auth      Management      │  │
+│  └──────────────────────────────────────────────────────────┘  │
+└────────────────────────┬───────────────────────────────────────┘
+                         │
+                         ▼
+┌────────────────────────────────────────────────────────────────┐
+│                     EXTERNAL SYSTEMS                           │
+├────────────────────────────────────────────────────────────────┤
+│  • Warehouse Management System (WMS)                           │
+│  • Manufacturing Execution System (MES)                        │
+│  • Cloud Analytics Platform (AWS/Azure)                        │
+│  • Time-Series Database (InfluxDB Cloud)                       │
+└────────────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{system-interfaces}{%
+\subsubsection{2.2 System Interfaces}\label{system-interfaces}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2679}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1786}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3036}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Interface}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Protocol}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+HMI (Web) & Input & HTTP/WebSocket & Operator control panel \\
+Robot API & Bidirectional & EtherCAT/Modbus & Motor control, status \\
+Camera & Input & USB 3.0 & RGB-D image stream \\
+F/T Sensor & Input & Ethernet/UDP & Force-torque data \\
+WMS/MES & Bidirectional & REST API & Task orders, completion reports \\
+Cloud Analytics & Output & HTTPS/MQTT & Telemetry, logs \\
+\end{longtable}
+
+\hypertarget{stakeholders}{%
+\subsubsection{2.3 Stakeholders}\label{stakeholders}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3469}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2857}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3673}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Stakeholder}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Interest}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Key Concerns}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+End User (Operator) & Ease of use, reliability & Simple UI, fast error
+recovery \\
+System Integrator & Easy deployment, configuration & Documentation,
+calibration tools \\
+Software Developer & Code quality, modularity & Clean architecture,
+testability \\
+Project Manager & On-time delivery, ROI & Progress tracking, risk
+management \\
+Safety Officer & Compliance, worker safety & ISO 10218, E-stop, audit
+trails \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{architectural-principles}{%
+\subsection{3. Architectural
+Principles}\label{architectural-principles}}
+
+\hypertarget{design-principles}{%
+\subsubsection{3.1 Design Principles}\label{design-principles}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Modularity:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Each subsystem is independently deployable and testable
+  \item
+    Clear interfaces between modules (ROS2 topics, services, actions)
+  \item
+    Loose coupling, high cohesion
+  \end{itemize}
+\item
+  \textbf{Scalability:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Horizontal scaling: Add more robots without redesigning system
+  \item
+    Vertical scaling: Upgrade compute (e.g., Jetson Xavier → Orin)
+  \end{itemize}
+\item
+  \textbf{Real-Time Performance:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Control loops run at deterministic frequencies (1 kHz for motion
+    control)
+  \item
+    Vision pipeline optimized for low latency (\textless50ms)
+  \end{itemize}
+\item
+  \textbf{Fault Tolerance:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Graceful degradation (e.g., if F/T sensor fails, continue with
+    vision-only)
+  \item
+    Automatic retry mechanisms for transient errors
+  \item
+    Comprehensive error logging
+  \end{itemize}
+\item
+  \textbf{Security:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Authentication required for configuration changes
+  \item
+    Encrypted communication for sensitive data (TLS)
+  \item
+    Audit trail for all critical operations
+  \end{itemize}
+\item
+  \textbf{Maintainability:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Self-documenting code (docstrings, type hints)
+  \item
+    Automated testing (unit, integration, system)
+  \item
+    Version control for all artifacts (code, configs, models)
+  \end{itemize}
+\item
+  \textbf{Usability:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Intuitive UIs (web dashboard, RViz)
+  \item
+    Guided wizards for complex tasks (calibration)
+  \item
+    Clear error messages with actionable guidance
+  \end{itemize}
+\end{enumerate}
+
+\hypertarget{architectural-patterns}{%
+\subsubsection{3.2 Architectural
+Patterns}\label{architectural-patterns}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3095}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3810}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3095}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pattern}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Benefit}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Layered Architecture} & Separate concerns (perception, planning,
+control) & Clear separation, testability \\
+\textbf{Event-Driven (Pub-Sub)} & ROS2 topics for sensor data &
+Decoupling, flexibility \\
+\textbf{Microservices} & Independent ROS2 nodes & Scalability, fault
+isolation \\
+\textbf{State Machine} & Task orchestration & Clear control flow, error
+handling \\
+\textbf{Repository Pattern} & Data access (PostgreSQL, Redis) &
+Abstraction, testability \\
+\textbf{Adapter Pattern} & Hardware abstraction (ros2\_control) &
+Portability across robots \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{system-architecture-overview}{%
+\subsection{4. System Architecture
+Overview}\label{system-architecture-overview}}
+
+\hypertarget{logical-architecture-layered-view}{%
+\subsubsection{4.1 Logical Architecture (Layered
+View)}\label{logical-architecture-layered-view}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────────┐
+│               LAYER 6: PRESENTATION                          │
+│  Web UI, RViz2, Grafana, Foxglove, Mobile App               │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (HTTPS, WebSocket)
+┌──────────────────────────────────────────────────────────────┐
+│            LAYER 5: APPLICATION / BUSINESS LOGIC             │
+│  Task Orchestrator (FSM/BT), Workflow Manager, Analytics     │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (ROS2 Services/Actions)
+┌──────────────────────────────────────────────────────────────┐
+│              LAYER 4: DOMAIN / CORE LOGIC                    │
+│  Vision Pipeline, Grasp Planner, Motion Planner (MoveIt2)    │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (ROS2 Topics/Services)
+┌──────────────────────────────────────────────────────────────┐
+│           LAYER 3: MIDDLEWARE (ROS2)                         │
+│  DDS (CycloneDDS), TF2, Image Transport, ros2_control        │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (ROS2 APIs)
+┌──────────────────────────────────────────────────────────────┐
+│          LAYER 2: DEVICE ABSTRACTION                         │
+│  Camera SDK, Motor Drivers, Sensor Drivers, GPIO             │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (USB, EtherCAT, Ethernet)
+┌──────────────────────────────────────────────────────────────┐
+│               LAYER 1: HARDWARE                              │
+│  Robot, Camera, F/T Sensor, Compute (Jetson, NUC), Network   │
+└──────────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{subsystem-decomposition}{%
+\subsubsection{4.2 Subsystem
+Decomposition}\label{subsystem-decomposition}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2586}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3793}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3621}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Subsystem}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Responsibilities}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Key Components}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Vision Perception} & Detect objects, estimate poses, generate
+point clouds & YOLO detector, Pose estimator, PCL processor \\
+\textbf{Grasp Planning} & Compute optimal gripper poses & Grasp sampler,
+Collision checker, Quality scorer \\
+\textbf{Motion Planning} & Plan collision-free trajectories & MoveIt2,
+OMPL, IK solver \\
+\textbf{Control \& Execution} & Execute trajectories with feedback &
+ros2\_control, PID controllers, Trajectory interpolator \\
+\textbf{Task Orchestration} & High-level task sequencing, error handling
+& State machine (BT.CPP), Event dispatcher \\
+\textbf{Monitoring \& Logging} & Telemetry, logging, alerting &
+Prometheus, Grafana, ELK stack, rosbag2 \\
+\textbf{Security \& Auth} & User authentication, access control &
+OAuth2, JWT, Firewall \\
+\textbf{Data Management} & Persistent storage, caching & PostgreSQL,
+Redis, InfluxDB \\
+\textbf{Configuration} & System configuration, parameter management &
+YAML files, ROS2 parameter server \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{subsystem-design}{%
+\subsection{5. Subsystem Design}\label{subsystem-design}}
+
+\hypertarget{vision-perception-subsystem}{%
+\subsubsection{5.1 Vision Perception
+Subsystem}\label{vision-perception-subsystem}}
+
+\textbf{Purpose:} Acquire images, detect objects, estimate 6DoF poses,
+generate point clouds
+
+\textbf{Architecture:}
+
+\begin{verbatim}
+┌─────────────────┐
+│  RealSense D435 │ (Hardware)
+└────────┬────────┘
+         │ USB 3.0 (RGB-D stream)
+         ▼
+┌──────────────────────────────────┐
+│  Camera Driver Node              │
+│  (realsense2_camera)             │
+│  - Publishes: /camera/color/image_raw  │
+│             : /camera/depth/image_rect │
+│             : /camera/color/camera_info │
+└────────┬─────────────────────────┘
+         │ ROS2 Topics (image_transport)
+         ▼
+┌──────────────────────────────────┐
+│  Object Detection Node           │
+│  - Subscribes: RGB image         │
+│  - Runs: YOLOv8 inference        │
+│  - Publishes: Detection2DArray   │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Pose Estimation Node            │
+│  - Subscribes: RGB-D, Detections │
+│  - Runs: PnP / Deep pose model   │
+│  - Publishes: PoseArray          │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Point Cloud Processor Node      │
+│  - Subscribes: Depth image       │
+│  - Runs: Deprojection, filtering │
+│  - Publishes: PointCloud2        │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Coordinate Transform Node       │
+│  - Subscribes: Poses (cam frame) │
+│  - Uses: TF2 (cam → robot frame) │
+│  - Publishes: Poses (base frame) │
+└──────────────────────────────────┘
+\end{verbatim}
+
+\textbf{Interfaces:} - \textbf{Input:} Camera USB stream (RGB 1920×1080
+@ 30fps, Depth 1280×720 @ 30fps) - \textbf{Output:} -
+\texttt{/vision/detected\_objects} (vision\_msgs/Detection2DArray) -
+\texttt{/vision/object\_poses} (geometry\_msgs/PoseArray) -
+\texttt{/vision/point\_cloud} (sensor\_msgs/PointCloud2)
+
+\textbf{Performance:} - Detection latency: \textless50ms (YOLOv8 on
+Jetson Xavier) - Pose estimation latency: \textless100ms - Total
+pipeline latency: \textless150ms (end-to-end)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{grasp-planning-subsystem}{%
+\subsubsection{5.2 Grasp Planning
+Subsystem}\label{grasp-planning-subsystem}}
+
+\textbf{Purpose:} Compute grasp poses given object pose and geometry
+
+\textbf{Architecture:}
+
+\begin{verbatim}
+┌──────────────────────────────────┐
+│  Grasp Planner Node              │
+│  - Service: /compute_grasp       │
+│    Request: object_pose, point_cloud │
+│    Response: grasp_pose, quality │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Grasp Sampling Module           │
+│  - Samples candidate grasps      │
+│  - Methods: Centroid, GPD, GraspNet │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Collision Checking Module       │
+│  - Checks gripper-object collision│
+│  - Uses: FCL (Flexible Collision Library) │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Grasp Ranking Module            │
+│  - Computes quality metrics      │
+│  - Metrics: Force closure, reachability │
+└────────┬─────────────────────────┘
+         │
+         ▼
+     Best Grasp
+\end{verbatim}
+
+\textbf{Interfaces:} - \textbf{Input:} - Object pose
+(geometry\_msgs/PoseStamped) - Point cloud (sensor\_msgs/PointCloud2) -
+\textbf{Output:} - Grasp pose (geometry\_msgs/PoseStamped) - Quality
+score (float, 0-1)
+
+\textbf{Performance:} - Grasp computation: \textless200ms - Success
+rate: \textgreater90\% (for known objects)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{motion-planning-subsystem-moveit2}{%
+\subsubsection{5.3 Motion Planning Subsystem
+(MoveIt2)}\label{motion-planning-subsystem-moveit2}}
+
+\textbf{Purpose:} Plan collision-free trajectories from current state to
+goal
+
+\textbf{Architecture:}
+
+\begin{verbatim}
+┌──────────────────────────────────┐
+│  MoveIt2 Move Group Interface    │
+│  - Action: /move_group/goal      │
+│    Goal: target_pose             │
+│    Result: trajectory            │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Planning Scene Manager          │
+│  - Maintains collision objects   │
+│  - Subscribes: /point_cloud (obstacles) │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  IK Solver (KDL/TRAC-IK)         │
+│  - Computes joint angles for pose│
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Path Planner (RRT*, PRM)        │
+│  - Searches collision-free path  │
+│  - Library: OMPL                 │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Trajectory Generator            │
+│  - Time-parameterizes path       │
+│  - Respects velocity/accel limits│
+└────────┬─────────────────────────┘
+         │
+         ▼
+   Joint Trajectory
+\end{verbatim}
+
+\textbf{Interfaces:} - \textbf{Input:} - Target pose
+(geometry\_msgs/PoseStamped) - Planning scene (obstacles) -
+\textbf{Output:} - Joint trajectory (trajectory\_msgs/JointTrajectory)
+
+\textbf{Performance:} - Planning time: \textless500ms (typical) -
+Success rate: \textgreater95\% (in uncluttered workspace)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{control-execution-subsystem-ros2_control}{%
+\subsubsection{5.4 Control \& Execution Subsystem
+(ros2\_control)}\label{control-execution-subsystem-ros2_control}}
+
+\textbf{Purpose:} Execute trajectories with real-time feedback control
+
+\textbf{Architecture:}
+
+\begin{verbatim}
+┌──────────────────────────────────┐
+│  Controller Manager              │
+│  - Loads/unloads controllers     │
+│  - Runs at 1 kHz                 │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Joint Trajectory Controller     │
+│  - Subscribes: /joint_trajectory │
+│  - Interpolates waypoints        │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  PID Controller (per joint)      │
+│  - Computes torque command       │
+│  - Feedforward + feedback        │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Hardware Interface              │
+│  - Writes: motor commands (EtherCAT) │
+│  - Reads: encoder positions      │
+└────────┬─────────────────────────┘
+         │
+         ▼
+     Robot Motors
+\end{verbatim}
+
+\textbf{Interfaces:} - \textbf{Input:} - Joint trajectory
+(trajectory\_msgs/JointTrajectory) - \textbf{Output:} - Motor commands
+(EtherCAT PDO) - Joint states (sensor\_msgs/JointState)
+
+\textbf{Performance:} - Control loop: 1 kHz - Trajectory tracking error:
+\textless2mm (Cartesian space)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{task-orchestration-subsystem}{%
+\subsubsection{5.5 Task Orchestration
+Subsystem}\label{task-orchestration-subsystem}}
+
+\textbf{Purpose:} High-level task sequencing, state management, error
+handling
+
+\textbf{State Machine Diagram:}
+
+\begin{verbatim}
+  ┌──────────┐
+  │   IDLE   │◄──────────────┐
+  └─────┬────┘               │
+        │ (Start)            │
+        ▼                    │
+  ┌──────────┐               │
+  │   SCAN   │               │
+  └─────┬────┘               │
+        │ (Image captured)   │
+        ▼                    │
+  ┌──────────┐               │
+  │  DETECT  │               │
+  └─────┬────┘               │
+        │ (Object found)     │
+        ▼                    │
+  ┌─────────────┐            │
+  │ PLAN_GRASP  │            │
+  └─────┬───────┘            │
+        │ (Grasp computed)   │
+        ▼                    │
+  ┌─────────────┐            │
+  │ PLAN_PICK   │            │
+  └─────┬───────┘            │
+        │ (Trajectory ready) │
+        ▼                    │
+  ┌──────────────┐           │
+  │ EXECUTE_PICK │           │
+  └─────┬────────┘           │
+        │ (Grasped)          │
+        ▼                    │
+  ┌──────────────┐           │
+  │ PLAN_PLACE   │           │
+  └─────┬────────┘           │
+        │ (Trajectory ready) │
+        ▼                    │
+  ┌───────────────┐          │
+  │ EXECUTE_PLACE │          │
+  └─────┬─────────┘          │
+        │ (Released)         │
+        ▼                    │
+  ┌──────────┐               │
+  │  VERIFY  │               │
+  └─────┬────┘               │
+        │ (Success)          │
+        └────────────────────┘
+
+   (Any error) → ┌───────┐
+                 │ ERROR │
+                 └───┬───┘
+                     │ (Retry / Abort)
+                     └─→ IDLE or previous state
+\end{verbatim}
+
+\textbf{Interfaces:} - \textbf{Input:} - User commands (start, stop,
+reset) - Sensor events (object detected, grasp success/fail) -
+\textbf{Output:} - High-level commands to subsystems (scan, plan,
+execute) - System state (published to /system/state)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{monitoring-logging-subsystem}{%
+\subsubsection{5.6 Monitoring \& Logging
+Subsystem}\label{monitoring-logging-subsystem}}
+
+\textbf{Architecture:}
+
+\begin{verbatim}
+┌────────────────────────────────────────┐
+│  Data Collection Agents                │
+│  - ROS Topic Logger (rosbag2)          │
+│  - Prometheus Exporters (node, GPU)    │
+│  - Application Loggers (Python, C++)   │
+└────────┬───────────────────────────────┘
+         │
+         ▼
+┌────────────────────────────────────────┐
+│  Storage Layer                         │
+│  - Time-Series: InfluxDB (metrics)     │
+│  - Logs: Elasticsearch (text search)   │
+│  - Bags: Local SSD (ROS bag files)     │
+└────────┬───────────────────────────────┘
+         │
+         ▼
+┌────────────────────────────────────────┐
+│  Visualization & Alerting              │
+│  - Grafana (dashboards)                │
+│  - Kibana (log search)                 │
+│  - Alertmanager (threshold alerts)     │
+└────────────────────────────────────────┘
+\end{verbatim}
+
+\textbf{Key Metrics:} - \textbf{Performance:} Cycle time, throughput
+(picks/hour) - \textbf{Quality:} Grasp success rate, placement accuracy
+- \textbf{System Health:} CPU, GPU, RAM usage, temperatures -
+\textbf{Errors:} Error counts by type, mean time between failures (MTBF)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{data-architecture}{%
+\subsection{6. Data Architecture}\label{data-architecture}}
+
+\hypertarget{data-flow-diagram}{%
+\subsubsection{6.1 Data Flow Diagram}\label{data-flow-diagram}}
+
+\begin{verbatim}
+Sensors (Camera, F/T)
+   │
+   ├─→ Vision Pipeline → Object Poses ─┐
+   │                                   │
+   └─→ Motor Encoders → Joint States ──┤
+                                       │
+                                       ▼
+                          ┌─────────────────────┐
+                          │  Core Processing    │
+                          │  (Planning, Control)│
+                          └─────────┬───────────┘
+                                    │
+         ┌──────────────────────────┼──────────────────────┐
+         │                          │                      │
+         ▼                          ▼                      ▼
+┌─────────────────┐    ┌─────────────────┐    ┌──────────────────┐
+│  PostgreSQL     │    │  Redis          │    │  InfluxDB        │
+│  (Persistent)   │    │  (Cache)        │    │  (Time-Series)   │
+├─────────────────┤    ├─────────────────┤    ├──────────────────┤
+│ • Tasks         │    │ • Session state │    │ • Sensor data    │
+│ • Configs       │    │ • Recent poses  │    │ • Metrics        │
+│ • Users         │    │ • Temp results  │    │ • Performance    │
+└─────────────────┘    └─────────────────┘    └──────────────────┘
+\end{verbatim}
+
+\hypertarget{database-schemas}{%
+\subsubsection{6.2 Database Schemas}\label{database-schemas}}
+
+\hypertarget{postgresql-relational-data}{%
+\paragraph{PostgreSQL (Relational
+Data)}\label{postgresql-relational-data}}
+
+\textbf{Table: tasks} \textbar{} Column \textbar{} Type \textbar{}
+Description \textbar{}
+\textbar--------------\textbar-----------\textbar-------------\textbar{}
+\textbar{} task\_id \textbar{} SERIAL \textbar{} Primary key \textbar{}
+\textbar{} object\_type \textbar{} VARCHAR \textbar{} Object class
+\textbar{} \textbar{} status \textbar{} ENUM \textbar{} pending,
+in\_progress, completed, failed \textbar{} \textbar{} start\_time
+\textbar{} TIMESTAMP \textbar{} Task start \textbar{} \textbar{}
+end\_time \textbar{} TIMESTAMP \textbar{} Task completion \textbar{}
+\textbar{} result \textbar{} JSONB \textbar{} Task outcome (success,
+error message) \textbar{}
+
+\textbf{Table: users} \textbar{} Column \textbar{} Type \textbar{}
+Description \textbar{}
+\textbar--------------\textbar-----------\textbar-------------\textbar{}
+\textbar{} user\_id \textbar{} SERIAL \textbar{} Primary key \textbar{}
+\textbar{} username \textbar{} VARCHAR \textbar{} Unique username
+\textbar{} \textbar{} password\_hash\textbar{} VARCHAR \textbar{} bcrypt
+hash \textbar{} \textbar{} role \textbar{} ENUM \textbar{} operator,
+engineer, admin \textbar{} \textbar{} created\_at \textbar{} TIMESTAMP
+\textbar{} Account creation \textbar{}
+
+\hypertarget{influxdb-time-series-data}{%
+\paragraph{InfluxDB (Time-Series
+Data)}\label{influxdb-time-series-data}}
+
+\textbf{Measurement: sensor\_data} - \textbf{Tags:} sensor\_id, type
+(camera, force, encoder) - \textbf{Fields:} value (float), unit (string)
+- \textbf{Timestamp:} nanosecond precision
+
+\textbf{Measurement: performance\_metrics} - \textbf{Tags:} metric\_name
+(cycle\_time, success\_rate) - \textbf{Fields:} value (float) -
+\textbf{Timestamp:} nanosecond precision
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{interface-design}{%
+\subsection{7. Interface Design}\label{interface-design}}
+
+\hypertarget{ros2-topic-interfaces}{%
+\subsubsection{7.1 ROS2 Topic Interfaces}\label{ros2-topic-interfaces}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1549}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2535}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2113}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2676}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1127}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Topic}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Message Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Publisher}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Subscriber(s)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Hz}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{/camera/color/image\_raw} & sensor\_msgs/Image &
+realsense2\_camera & vision\_pipeline & 30 \\
+\texttt{/vision/detected\_objects} & vision\_msgs/Detection2DArray &
+object\_detector & grasp\_planner & 10 \\
+\texttt{/vision/object\_poses} & geometry\_msgs/PoseArray &
+pose\_estimator & grasp\_planner, task\_orchestrator & 10 \\
+\texttt{/joint\_states} & sensor\_msgs/JointState & hardware\_interface
+& moveit2, RViz & 100 \\
+\texttt{/joint\_trajectory} & trajectory\_msgs/JointTrajectory & moveit2
+& controller\_manager & on-demand \\
+\texttt{/system/state} & std\_msgs/String & task\_orchestrator &
+monitoring, UI & 10 \\
+\end{longtable}
+
+\hypertarget{ros2-service-interfaces}{%
+\subsubsection{7.2 ROS2 Service
+Interfaces}\label{ros2-service-interfaces}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2708}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2083}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2708}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Service}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Server}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{/compute\_grasp} & custom\_msgs/ComputeGrasp & grasp\_planner &
+Compute grasp pose \\
+\texttt{/plan\_trajectory} & moveit\_msgs/GetMotionPlan & moveit2 & Plan
+pick/place trajectory \\
+\texttt{/start\_task} & std\_srvs/Trigger & task\_orchestrator & Start
+pick-place workflow \\
+\end{longtable}
+
+\hypertarget{ros2-action-interfaces}{%
+\subsubsection{7.3 ROS2 Action
+Interfaces}\label{ros2-action-interfaces}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2553}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2128}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2553}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2766}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Action}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Server}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{/move\_group} & moveit\_msgs/MoveGroup & moveit2 & Execute
+motion plan \\
+\texttt{/execute\_trajectory} & control\_msgs/FollowJointTrajectory &
+controller\_manager & Execute trajectory with feedback \\
+\end{longtable}
+
+\hypertarget{rest-api-interfaces}{%
+\subsubsection{7.4 REST API Interfaces}\label{rest-api-interfaces}}
+
+\textbf{Base URL:}
+\texttt{https://\textless{}robot\_ip\textgreater{}:8000/api/v1}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+\textbf{Endpoint} & \textbf{Method} & \textbf{Description} &
+\textbf{Auth} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{/status} & GET & Get system status & None \\
+\texttt{/start} & POST & Start pick-place task & JWT \\
+\texttt{/stop} & POST & Stop current task & JWT \\
+\texttt{/tasks} & GET & List all tasks & JWT \\
+\texttt{/tasks/\{id\}} & GET & Get task details & JWT \\
+\texttt{/config} & GET & Get system config & JWT (admin) \\
+\texttt{/config} & PUT & Update system config & JWT (admin) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{deployment-architecture}{%
+\subsection{8. Deployment Architecture}\label{deployment-architecture}}
+
+\hypertarget{single-machine-deployment-development}{%
+\subsubsection{8.1 Single-Machine Deployment
+(Development)}\label{single-machine-deployment-development}}
+
+\begin{verbatim}
+┌────────────────────────────────────────────────────────┐
+│              Intel NUC (Ubuntu 22.04 RT)               │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Docker Container: ros2_workspace                │  │
+│  │  - Vision Pipeline (CPU-based YOLO)              │  │
+│  │  - MoveIt2, ros2_control                         │  │
+│  │  - Task Orchestrator                             │  │
+│  │  - Monitoring (Prometheus)                       │  │
+│  └──────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Docker Container: data_services                 │  │
+│  │  - PostgreSQL, Redis, InfluxDB                   │  │
+│  └──────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Docker Container: visualization                 │  │
+│  │  - Grafana, Kibana                               │  │
+│  └──────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
+           │ USB 3.0         │ EtherCAT
+           ▼                 ▼
+    RealSense D435      Servo Drives → Robot
+\end{verbatim}
+
+\textbf{Advantages:} - Simple setup, single machine to manage - Low
+cost, suitable for prototyping
+
+\textbf{Disadvantages:} - Limited compute for vision (CPU-only) - Single
+point of failure
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{distributed-deployment-production}{%
+\subsubsection{8.2 Distributed Deployment
+(Production)}\label{distributed-deployment-production}}
+
+\begin{verbatim}
+┌────────────────────────────────┐
+│  NVIDIA Jetson Xavier NX       │
+│  - Vision Pipeline (GPU)       │
+│  - YOLOv8 (TensorRT)           │
+│  - Pose Estimation             │
+└───────────┬────────────────────┘
+            │ ROS2 DDS (UDP multicast)
+            ▼
+┌────────────────────────────────┐
+│  Intel NUC (RT Linux)          │
+│  - MoveIt2, ros2_control       │
+│  - Task Orchestrator           │
+│  - Controller Manager (1kHz)   │
+└───────────┬────────────────────┘
+            │ EtherCAT (real-time)
+            ▼
+┌────────────────────────────────┐
+│  Servo Drives (EtherCAT)       │
+│  - Joint 1-6 drivers           │
+└────────────────────────────────┘
+
+┌────────────────────────────────┐
+│  Edge Server (x86, optional)   │
+│  - PostgreSQL, Redis, InfluxDB │
+│  - Grafana, Kibana             │
+│  - REST API (FastAPI)          │
+└────────────────────────────────┘
+\end{verbatim}
+
+\textbf{Advantages:} - GPU acceleration for vision (Jetson) - Real-time
+control isolated on NUC - Scalable (add more Jetsons for multi-camera)
+
+\textbf{Disadvantages:} - More complex networking (DDS configuration) -
+Higher cost
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{cloud-connected-deployment}{%
+\subsubsection{8.3 Cloud-Connected
+Deployment}\label{cloud-connected-deployment}}
+
+\begin{verbatim}
+┌───────────────────────────────────────────────────┐
+│                  AWS / Azure Cloud                │
+│  - MLflow (model registry)                        │
+│  - S3 / Blob Storage (rosbag backups)             │
+│  - CloudWatch / Application Insights (monitoring) │
+│  - Grafana Cloud (dashboards)                     │
+└────────────────┬──────────────────────────────────┘
+                 │ HTTPS, MQTT
+                 ▼
+┌───────────────────────────────────────────────────┐
+│            Edge Gateway (on-premises)             │
+│  - Data uplink (buffered, resilient)              │
+│  - Local cache (Redis)                            │
+│  - Security (firewall, VPN)                       │
+└────────────────┬──────────────────────────────────┘
+                 │ Internal network
+                 ▼
+     ┌─────────────────────────┐
+     │  Robot Controller       │
+     │  (same as distributed)  │
+     └─────────────────────────┘
+\end{verbatim}
+
+\textbf{Advantages:} - Centralized analytics across multiple sites -
+Cloud storage for long-term data retention - Remote monitoring
+
+\textbf{Disadvantages:} - Requires reliable internet connection - Data
+privacy concerns (check regulations)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{security-architecture}{%
+\subsection{9. Security Architecture}\label{security-architecture}}
+
+\hypertarget{security-layers}{%
+\subsubsection{9.1 Security Layers}\label{security-layers}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────┐
+│          Layer 5: Application Security       │
+│  - Input validation, SQL injection prevention│
+└──────────────────────────────────────────────┘
+                    ▲
+┌──────────────────────────────────────────────┐
+│       Layer 4: Authentication & Authorization│
+│  - OAuth2, JWT tokens, RBAC                  │
+└──────────────────────────────────────────────┘
+                    ▲
+┌──────────────────────────────────────────────┐
+│          Layer 3: Data Encryption            │
+│  - TLS 1.3 (HTTPS, gRPC), AES-256 (storage)  │
+└──────────────────────────────────────────────┘
+                    ▲
+┌──────────────────────────────────────────────┐
+│          Layer 2: Network Security           │
+│  - Firewalls, VLANs, Intrusion Detection     │
+└──────────────────────────────────────────────┘
+                    ▲
+┌──────────────────────────────────────────────┐
+│          Layer 1: Physical Security          │
+│  - Locked cabinets, E-stop, safety zones     │
+└──────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{security-controls}{%
+\subsubsection{9.2 Security Controls}\label{security-controls}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\textbf{Threat} & \textbf{Mitigation} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Unauthorized access & OAuth2 authentication, JWT tokens \\
+Data breach & TLS encryption (in transit), AES encryption (at rest) \\
+Denial of Service & Rate limiting (100 req/min), firewall rules \\
+Code injection & Input validation, parameterized queries \\
+Privilege escalation & RBAC (operator, engineer, admin roles) \\
+Insider threat & Audit logging (immutable), separation of duties \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{scalability-performance}{%
+\subsection{10. Scalability \&
+Performance}\label{scalability-performance}}
+
+\hypertarget{scalability-dimensions}{%
+\subsubsection{10.1 Scalability
+Dimensions}\label{scalability-dimensions}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3750}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2750}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Dimension}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Approach}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Limit}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Concurrent Robots} & ROS2 DDS namespaces, multi-master & 10
+robots/network \\
+\textbf{Throughput} & Parallel planning, GPU acceleration & 60 picks/min
+(2× current) \\
+\textbf{Data Volume} & InfluxDB downsampling, log rotation & 1
+TB/month \\
+\textbf{Users} & Load balancer (NGINX), stateless API & 100
+concurrent \\
+\end{longtable}
+
+\hypertarget{performance-requirements}{%
+\subsubsection{10.2 Performance
+Requirements}\label{performance-requirements}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+\textbf{Metric} & \textbf{Target} & \textbf{Current} & \textbf{Gap} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Cycle Time & 2 sec & 3 sec & -1 sec (optimize trajectory) \\
+Vision Latency & \textless50ms & 45ms & ✅ Met \\
+Control Loop & 1 kHz & 1 kHz & ✅ Met \\
+API Response & \textless100ms & 80ms & ✅ Met \\
+Uptime & 99.5\% & 98.2\% & +1.3\% (improve error handling) \\
+\end{longtable}
+
+\hypertarget{performance-optimization-strategies}{%
+\subsubsection{10.3 Performance Optimization
+Strategies}\label{performance-optimization-strategies}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Vision Pipeline:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    TensorRT quantization (FP16 → 2× speedup)
+  \item
+    Reduce input size (640×640 → 512×512)
+  \end{itemize}
+\item
+  \textbf{Motion Planning:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Pre-computed IK solutions (lookup table)
+  \item
+    Trajectory caching for repeated tasks
+  \end{itemize}
+\item
+  \textbf{Control:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    RT-Preempt kernel tuning (CPU isolation)
+  \item
+    Feedforward compensation (reduce PID load)
+  \end{itemize}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{appendices}{%
+\subsection{11. Appendices}\label{appendices}}
+
+\hypertarget{appendix-a-technology-versions}{%
+\subsubsection{Appendix A: Technology
+Versions}\label{appendix-a-technology-versions}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Component & Version \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ROS2 & Humble (LTS) \\
+Ubuntu & 22.04 LTS \\
+Python & 3.10 \\
+Docker & 24.0.5 \\
+PostgreSQL & 15.3 \\
+InfluxDB & 2.7.1 \\
+Grafana & 10.0.3 \\
+\end{longtable}
+
+\hypertarget{appendix-b-key-design-decisions}{%
+\subsubsection{Appendix B: Key Design
+Decisions}\label{appendix-b-key-design-decisions}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4828}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5172}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Rationale}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ROS2 over ROS1 & Real-time support, better security, active
+development \\
+CycloneDDS over FastDDS & Better performance on small networks \\
+PostgreSQL over MySQL & JSONB support, extensibility \\
+YOLOv8 over Faster R-CNN & Real-time inference, good accuracy \\
+Docker over bare metal & Reproducibility, easy deployment \\
+\end{longtable}
+
+\hypertarget{appendix-c-glossary}{%
+\subsubsection{Appendix C: Glossary}\label{appendix-c-glossary}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Term & Definition \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+OMPL & Open Motion Planning Library \\
+PCL & Point Cloud Library \\
+TF2 & ROS2 transform library \\
+URDF & Unified Robot Description Format \\
+DDS & Data Distribution Service \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{document-approval}{%
+\subsection{Document Approval}\label{document-approval}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+\textbf{Role} & \textbf{Name} & \textbf{Signature} & \textbf{Date} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+System Architect & TBD & & \\
+Lead Engineer & TBD & & \\
+Project Manager & TBD & & \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Next Review:} 2025-11-18 \textbf{Version Control:} Git (branch:
+main)
+
+\end{document}

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision-Guided Path Planning - End-to-End Simulation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px 0;
+            border-bottom: 2px solid #334155;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-bottom: 6px;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.15);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.2em;
+        }
+
+        /* Phase Timeline */
+        .phase-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            padding: 30px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 15px;
+        }
+
+        .phase-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .phase-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -50%;
+            top: 30px;
+            width: 100%;
+            height: 3px;
+            background: #334155;
+            z-index: 0;
+        }
+
+        .phase-step.active::after,
+        .phase-step.completed::after {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .phase-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5em;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+        }
+
+        .phase-step.active .phase-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        .phase-step.completed .phase-icon {
+            background: #10b981;
+        }
+
+        .phase-step:hover .phase-icon {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.6); }
+            50% { box-shadow: 0 0 40px rgba(102, 126, 234, 1); }
+        }
+
+        .phase-label {
+            font-size: 0.9em;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .phase-step.active .phase-label {
+            color: #fff;
+        }
+
+        /* Phase Content */
+        .phase-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .phase-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .content-card {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid #334155;
+        }
+
+        .content-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Visualization Canvas */
+        .visualization {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .viz-placeholder {
+            text-align: center;
+            color: #64748b;
+        }
+
+        /* Code Block */
+        pre {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #94a3b8;
+        }
+
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-box {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #334155;
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.85em;
+            color: #94a3b8;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(100, 116, 139, 0.3);
+            color: #e2e8f0;
+            border: 2px solid #475569;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(100, 116, 139, 0.5);
+        }
+
+        /* Canvas for visualization */
+        canvas {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        /* Camera feed */
+        .camera-feed {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .camera-grid {
+            width: 100%;
+            height: 100%;
+            background-image:
+                repeating-linear-gradient(0deg, rgba(102, 126, 234, 0.1) 0px, transparent 1px, transparent 20px, rgba(102, 126, 234, 0.1) 21px),
+                repeating-linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0px, transparent 1px, transparent 20px, rgba(102, 126, 234, 0.1) 21px);
+        }
+
+        .detected-object {
+            position: absolute;
+            border: 3px solid #10b981;
+            border-radius: 8px;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .object-label {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            background: #10b981;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        /* Path visualization */
+        .path-canvas {
+            width: 100%;
+            height: 400px;
+            background: radial-gradient(circle at center, #1e3a5f 0%, #0f1419 100%);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .robot-path {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.8);
+        }
+
+        .waypoint {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-robot"></i> VisionBot</h1>
+            <p style="font-size: 0.8em; color: #94a3b8; margin-top: 8px;">End-to-End Simulation</p>
+        </div>
+
+        <nav>
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="demo_ui.html" class="nav-item">
+                <i class="fas fa-desktop"></i>
+                <span>Demo UI</span>
+            </a>
+            <a href="simulation_phases.html" class="nav-item active">
+                <i class="fas fa-play-circle"></i>
+                <span>End-to-End Simulation</span>
+            </a>
+            <a href="engineering_workflow.html" class="nav-item">
+                <i class="fas fa-project-diagram"></i>
+                <span>Engineering Workflow</span>
+            </a>
+            <a href="robot_showcase.html" class="nav-item">
+                <i class="fas fa-th-large"></i>
+                <span>Robot Showcase</span>
+            </a>
+            <a href="robot_scenario_testing.html" class="nav-item">
+                <i class="fas fa-vial"></i>
+                <span>Scenario Testing</span>
+            </a>
+            <a href="html_styled/28_multi_domain_simulation_testing_platform.html" class="nav-item">
+                <i class="fas fa-cogs"></i>
+                <span>Doc 28: Simulation</span>
+            </a>
+            <a href="html_styled/29_demo_guide_complete_flow.html" class="nav-item">
+                <i class="fas fa-book-open"></i>
+                <span>Doc 29: Demo Guide</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Vision-Guided Adaptive Path Planning</h1>
+            <p>End-to-End Simulation: Camera → Detection → Planning → Execution</p>
+        </div>
+
+        <!-- Phase Timeline -->
+        <div class="phase-timeline">
+            <div class="phase-step active" onclick="showPhase(1)" id="phase-1">
+                <div class="phase-icon"><i class="fas fa-camera"></i></div>
+                <div class="phase-label">Phase 1<br>Vision Capture</div>
+            </div>
+            <div class="phase-step" onclick="showPhase(2)" id="phase-2">
+                <div class="phase-icon"><i class="fas fa-search"></i></div>
+                <div class="phase-label">Phase 2<br>Object Detection</div>
+            </div>
+            <div class="phase-step" onclick="showPhase(3)" id="phase-3">
+                <div class="phase-icon"><i class="fas fa-route"></i></div>
+                <div class="phase-label">Phase 3<br>Path Planning</div>
+            </div>
+            <div class="phase-step" onclick="showPhase(4)" id="phase-4">
+                <div class="phase-icon"><i class="fas fa-robot"></i></div>
+                <div class="phase-label">Phase 4<br>Robot Execution</div>
+            </div>
+            <div class="phase-step" onclick="showPhase(5)" id="phase-5">
+                <div class="phase-icon"><i class="fas fa-hand-holding"></i></div>
+                <div class="phase-label">Phase 5<br>Grasp & Place</div>
+            </div>
+        </div>
+
+        <!-- Phase 1: Vision Capture -->
+        <div class="phase-content active" id="content-1">
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-camera"></i> Camera Feed</h3>
+                    <div class="camera-feed">
+                        <div class="camera-grid"></div>
+                        <div style="position: absolute; color: #667eea; font-size: 1.2em;">
+                            <i class="fas fa-video"></i> 1920×1080 @ 30fps
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><i class="fas fa-info-circle"></i> Phase Details</h3>
+                    <div class="metrics">
+                        <div class="metric-box">
+                            <div class="metric-value">1920×1080</div>
+                            <div class="metric-label">Resolution</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">30fps</div>
+                            <div class="metric-label">Frame Rate</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">10ms</div>
+                            <div class="metric-label">Exposure</div>
+                        </div>
+                    </div>
+                    <p style="color: #94a3b8; line-height: 1.6;">
+                        The camera captures a high-resolution image of the workspace.
+                        The scene includes multiple objects at various positions and orientations.
+                    </p>
+                    <pre><code>{
+  "command": "scan_workspace",
+  "camera_id": "main_camera",
+  "resolution": [1920, 1080],
+  "exposure_ms": 10
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="content-card full-width">
+                <h3><i class="fas fa-check-circle"></i> Output</h3>
+                <pre><code>{
+  "status": "success",
+  "image_captured": true,
+  "timestamp": "2025-10-19T10:00:02.500Z",
+  "image_size_bytes": 6220800,
+  "transfer_time_ms": 28.5
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Phase 2: Object Detection -->
+        <div class="phase-content" id="content-2">
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-search"></i> Detected Objects</h3>
+                    <div class="camera-feed">
+                        <div class="camera-grid"></div>
+                        <div class="detected-object" style="left: 20%; top: 30%; width: 80px; height: 80px;">
+                            <div class="object-label">Cube 94%</div>
+                        </div>
+                        <div class="detected-object" style="left: 55%; top: 25%; width: 70px; height: 70px;">
+                            <div class="object-label">Cube 91%</div>
+                        </div>
+                        <div class="detected-object" style="left: 65%; top: 60%; width: 60px; height: 90px;">
+                            <div class="object-label" style="background: #3b82f6;">Cylinder 88%</div>
+                        </div>
+                        <div class="detected-object" style="left: 25%; top: 65%; width: 65px; height: 65px; border-radius: 50%;">
+                            <div class="object-label" style="background: #10b981;">Sphere 91%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><i class="fas fa-brain"></i> AI/ML Processing</h3>
+                    <div class="metrics">
+                        <div class="metric-box">
+                            <div class="metric-value">6</div>
+                            <div class="metric-label">Objects Found</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">42ms</div>
+                            <div class="metric-label">Inference Time</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">91%</div>
+                            <div class="metric-label">Avg Confidence</div>
+                        </div>
+                    </div>
+                    <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 15px;">
+                        YOLO model detects and classifies objects with bounding boxes and 3D position estimation.
+                    </p>
+                    <pre><code>Model: YOLOv8n
+Backend: TensorRT
+Device: GPU
+Classes: [cube, cylinder, sphere]</code></pre>
+                </div>
+            </div>
+
+            <div class="content-card full-width">
+                <h3><i class="fas fa-list"></i> Detection Results</h3>
+                <pre><code>{
+  "detections": [
+    {"id": 1, "class": "cube", "confidence": 0.94, "position_3d": [0.52, 0.18, 0.05]},
+    {"id": 2, "class": "cube", "confidence": 0.91, "position_3d": [0.48, -0.05, 0.05]},
+    {"id": 3, "class": "cylinder", "confidence": 0.88, "position_3d": [0.38, 0.22, 0.05]},
+    {"id": 4, "class": "sphere", "confidence": 0.91, "position_3d": [0.60, -0.15, 0.05]}
+  ],
+  "inference_time_ms": 42,
+  "total_objects": 6
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Phase 3: Path Planning -->
+        <div class="phase-content" id="content-3">
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-route"></i> Path Visualization</h3>
+                    <div class="path-canvas">
+                        <!-- Robot base -->
+                        <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 80px; height: 30px; background: linear-gradient(135deg, #475569, #334155); border-radius: 10px;"></div>
+
+                        <!-- Path waypoints -->
+                        <div class="waypoint" style="left: 50%; bottom: 60px;"></div>
+                        <div class="waypoint" style="left: 45%; bottom: 120px;"></div>
+                        <div class="waypoint" style="left: 35%; bottom: 180px;"></div>
+                        <div class="waypoint" style="left: 30%; bottom: 240px;"></div>
+                        <div class="waypoint" style="left: 25%; bottom: 300px;"></div>
+
+                        <!-- Target object -->
+                        <div style="position: absolute; left: 20%; bottom: 320px; width: 40px; height: 40px; background: #ef4444; border-radius: 5px; box-shadow: 0 0 20px rgba(239, 68, 68, 0.6);"></div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><i class="fas fa-calculator"></i> Planning Metrics</h3>
+                    <div class="metrics">
+                        <div class="metric-box">
+                            <div class="metric-value">47</div>
+                            <div class="metric-label">Waypoints</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">1.5s</div>
+                            <div class="metric-label">Duration</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">0.5m/s</div>
+                            <div class="metric-label">Max Velocity</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">2.0m/s²</div>
+                            <div class="metric-label">Max Accel</div>
+                        </div>
+                    </div>
+                    <p style="color: #94a3b8; line-height: 1.6;">
+                        <strong>Algorithm:</strong> RRT* (Rapidly-exploring Random Tree)<br>
+                        <strong>Planner:</strong> MoveIt2<br>
+                        <strong>Constraints:</strong> Collision-free, joint limits, velocity limits
+                    </p>
+                </div>
+            </div>
+
+            <div class="content-card full-width">
+                <h3><i class="fas fa-code"></i> Trajectory Plan</h3>
+                <pre><code>{
+  "target_object": {"id": 1, "position": [0.52, 0.18, 0.05]},
+  "trajectory": {
+    "waypoints": 47,
+    "duration_s": 1.5,
+    "max_velocity": 0.5,
+    "max_acceleration": 2.0,
+    "collision_free": true,
+    "joint_path": [[0, 0, 0, 0, 0, 0], ..., [1.2, -0.5, 1.8, 0.3, -0.7, 0]]
+  }
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Phase 4: Robot Execution -->
+        <div class="phase-content" id="content-4">
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-robot"></i> Robot State</h3>
+                    <div class="visualization">
+                        <div style="text-align: center;">
+                            <div style="font-size: 4em; color: #667eea; margin-bottom: 20px;">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div style="font-size: 1.2em; color: #e2e8f0;">
+                                Robot Executing Trajectory
+                            </div>
+                            <div style="margin-top: 20px;">
+                                <div class="metrics" style="display: inline-grid;">
+                                    <div class="metric-box">
+                                        <div class="metric-value">65%</div>
+                                        <div class="metric-label">Progress</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <h3><i class="fas fa-tachometer-alt"></i> Real-Time Metrics</h3>
+                    <div class="metrics">
+                        <div class="metric-box">
+                            <div class="metric-value">0.35m/s</div>
+                            <div class="metric-label">Current Velocity</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">1.2m/s²</div>
+                            <div class="metric-label">Acceleration</div>
+                        </div>
+                    </div>
+                    <h4 style="color: #667eea; margin: 20px 0 10px;">Joint Torques (Nm)</h4>
+                    <div class="metrics">
+                        <div class="metric-box">
+                            <div class="metric-value" style="font-size: 1.2em;">5.2</div>
+                            <div class="metric-label">J1</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value" style="font-size: 1.2em;">3.8</div>
+                            <div class="metric-label">J2</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value" style="font-size: 1.2em;">2.5</div>
+                            <div class="metric-label">J3</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value" style="font-size: 1.2em;">1.2</div>
+                            <div class="metric-label">J4</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value" style="font-size: 1.2em;">0.6</div>
+                            <div class="metric-label">J5</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value" style="font-size: 1.2em;">0.3</div>
+                            <div class="metric-label">J6</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card full-width">
+                <h3><i class="fas fa-exchange-alt"></i> Multi-Domain Signals</h3>
+                <pre><code>Software → Electronics: Execute trajectory (waypoint 31/47)
+Electronics → Electrical: PWM commands [0.45, 0.32, 0.28, 0.15, 0.08, 0.05]
+Electrical → Mechanical: Motor torques [5.2, 3.8, 2.5, 1.2, 0.6, 0.3] Nm
+Mechanical → Electronics: Encoder feedback [1.05, -0.48, 1.72, 0.28, -0.65, 0.02] rad</code></pre>
+            </div>
+        </div>
+
+        <!-- Phase 5: Grasp & Place -->
+        <div class="phase-content" id="content-5">
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-hand-holding"></i> Grasp Operation</h3>
+                    <div class="metrics">
+                        <div class="metric-box">
+                            <div class="metric-value">45.0N</div>
+                            <div class="metric-label">Grasp Force</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">44.8N</div>
+                            <div class="metric-label">Measured Force</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">✓</div>
+                            <div class="metric-label">Verified</div>
+                        </div>
+                    </div>
+                    <h4 style="color: #667eea; margin: 20px 0 10px;">Force/Torque Sensor</h4>
+                    <pre><code>Reading: [0.2, -0.1, -44.8, 0.05, 0.02, -0.01]
+Expected: [0.0, 0.0, -45.0, 0.0, 0.0, 0.0]
+Error: 0.2N (0.4%)
+Status: GRASP_VERIFIED</code></pre>
+                </div>
+
+                <div class="content-card">
+                    <h3><i class="fas fa-box"></i> Place Operation</h3>
+                    <div class="metrics">
+                        <div class="metric-box">
+                            <div class="metric-value">Bin A</div>
+                            <div class="metric-label">Target</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">1.2mm</div>
+                            <div class="metric-label">Accuracy</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-value">8.4s</div>
+                            <div class="metric-label">Cycle Time</div>
+                        </div>
+                    </div>
+                    <p style="color: #94a3b8; line-height: 1.6; margin-top: 15px;">
+                        Object successfully placed in target bin with high accuracy.
+                        Gripper released, robot returning to home position.
+                    </p>
+                </div>
+            </div>
+
+            <div class="content-card full-width">
+                <h3><i class="fas fa-chart-line"></i> Cycle Summary</h3>
+                <div class="metrics" style="grid-template-columns: repeat(6, 1fr);">
+                    <div class="metric-box">
+                        <div class="metric-value">2.45m</div>
+                        <div class="metric-label">Distance</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">0.32m/s</div>
+                        <div class="metric-label">Peak Velocity</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">42.5J</div>
+                        <div class="metric-label">Energy</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">0</div>
+                        <div class="metric-label">Collisions</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">Success</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value">8.4s</div>
+                        <div class="metric-label">Total Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="prevPhase()">
+                <i class="fas fa-chevron-left"></i> Previous Phase
+            </button>
+            <button class="btn btn-primary" onclick="nextPhase()">
+                Next Phase <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="btn btn-primary" onclick="runComplete()">
+                <i class="fas fa-play"></i> Run Complete Simulation
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentPhase = 1;
+        const totalPhases = 5;
+
+        function showPhase(phaseNum) {
+            // Hide all content
+            for (let i = 1; i <= totalPhases; i++) {
+                document.getElementById(`content-${i}`).classList.remove('active');
+                document.getElementById(`phase-${i}`).classList.remove('active');
+            }
+
+            // Mark completed phases
+            for (let i = 1; i < phaseNum; i++) {
+                document.getElementById(`phase-${i}`).classList.add('completed');
+            }
+
+            // Show selected phase
+            document.getElementById(`content-${phaseNum}`).classList.add('active');
+            document.getElementById(`phase-${phaseNum}`).classList.add('active');
+            currentPhase = phaseNum;
+        }
+
+        function nextPhase() {
+            if (currentPhase < totalPhases) {
+                showPhase(currentPhase + 1);
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        }
+
+        function prevPhase() {
+            if (currentPhase > 1) {
+                showPhase(currentPhase - 1);
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        }
+
+        function runComplete() {
+            alert('Running complete end-to-end simulation!\n\nThis will execute all 5 phases:\n1. Vision Capture\n2. Object Detection\n3. Path Planning\n4. Robot Execution\n5. Grasp & Place\n\nSimulation would run for ~10 seconds...');
+
+            // Auto-advance through phases
+            let phase = 1;
+            const interval = setInterval(() => {
+                if (phase <= totalPhases) {
+                    showPhase(phase);
+                    phase++;
+                } else {
+                    clearInterval(interval);
+                    alert('Simulation Complete!\n\nSuccess Rate: 100%\nCycle Time: 8.4s\nObjects Processed: 6');
+                }
+            }, 2000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextPhase();
+            if (e.key === 'ArrowLeft') prevPhase();
+        });
+    </script>
+</body>
+</html>

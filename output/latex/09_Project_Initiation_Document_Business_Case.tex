@@ -1,0 +1,1169 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={09 Project Initiation Document Business Case},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{09 Project Initiation Document Business Case}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{project-initiation-document-pid-business-case}{%
+\section{Project Initiation Document (PID) \& Business
+Case}\label{project-initiation-document-pid-business-case}}
+
+\hypertarget{vision-based-pick-and-place-robotic-system}{%
+\subsection{Vision-Based Pick and Place Robotic
+System}\label{vision-based-pick-and-place-robotic-system}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{document-control}{%
+\subsection{Document Control}\label{document-control}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\textbf{Item} & \textbf{Details} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Document Title} & Project Initiation Document \& Business
+Case \\
+\textbf{Project Name} & Vision-Based Pick and Place Robotic System \\
+\textbf{Document Version} & 1.0 \\
+\textbf{Date} & 2025-10-18 \\
+\textbf{Status} & Draft for Approval \\
+\textbf{Author(s)} & Project Management Office, Business Analysis
+Team \\
+\textbf{Approver(s)} & Executive Sponsor, Steering Committee \\
+\textbf{Distribution} & Executive Team, Project Team, Stakeholders \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{executive-summary}{%
+\subsection{Executive Summary}\label{executive-summary}}
+
+\hypertarget{project-overview}{%
+\subsubsection{Project Overview}\label{project-overview}}
+
+The \textbf{Vision-Based Pick and Place Robotic System} project aims to
+develop and deploy an automated robotic solution for object detection,
+grasping, and placement in manufacturing and logistics environments. The
+system integrates computer vision (AI-powered object detection), motion
+planning, and robotic manipulation to achieve \textbf{30 picks per
+minute} with \textbf{\textgreater99\% accuracy}.
+
+\hypertarget{business-problem}{%
+\subsubsection{Business Problem}\label{business-problem}}
+
+Current manual pick-and-place operations suffer from: - \textbf{High
+labor costs}: \$50,000/year per worker for 2-shift operations -
+\textbf{Error rates}: 3-5\% misplaced items, leading to \$25,000/year in
+rework - \textbf{Throughput limitations}: 15 picks/min per worker (vs 30
+picks/min with automation) - \textbf{Scalability challenges}: Labor
+shortages, training costs - \textbf{Ergonomic risks}: Repetitive strain
+injuries, workers' compensation claims
+
+\hypertarget{proposed-solution}{%
+\subsubsection{Proposed Solution}\label{proposed-solution}}
+
+Deploy a 6-DOF robotic arm with RGB-D vision, AI-powered detection, and
+ROS2-based control to automate pick-and-place tasks. The system will: -
+Detect objects using deep learning (YOLOv8) - Estimate 6DoF poses for
+precise grasping - Plan collision-free trajectories (MoveIt2) - Execute
+picks at 30/minute with 99\%+ success rate - Operate 24/7 with minimal
+supervision
+
+\hypertarget{financial-justification}{%
+\subsubsection{Financial Justification}\label{financial-justification}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Total Investment}: \$145,650 (hardware, software, development)
+\item
+  \textbf{Annual Savings}: \$87,500 (labor, rework reduction,
+  productivity gains)
+\item
+  \textbf{Payback Period}: 1.7 years
+\item
+  \textbf{5-Year NPV}: \$287,475 (at 8\% discount rate)
+\item
+  \textbf{IRR}: 58\%
+\end{itemize}
+
+\hypertarget{recommendation}{%
+\subsubsection{Recommendation}\label{recommendation}}
+
+\textbf{Approve} the project for immediate initiation with a 6-month
+development timeline and Q2 2026 deployment target.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{project-definition}{%
+\subsection{1. Project Definition}\label{project-definition}}
+
+\hypertarget{project-objectives}{%
+\subsubsection{1.1 Project Objectives}\label{project-objectives}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2459}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3607}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3934}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Objective}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Success Criteria}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Measurement Method}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Performance} & Achieve 30 picks/minute cycle time & Timed test
+(100 cycles) \\
+\textbf{Accuracy} & ≥99\% grasp success rate & 1000-pick reliability
+test \\
+\textbf{Precision} & ±0.1mm placement accuracy & CMM (Coordinate
+Measuring Machine) \\
+\textbf{Uptime} & ≥99.5\% operational availability & MTBF (Mean Time
+Between Failures) tracking \\
+\textbf{Safety} & Zero safety incidents & Compliance audit (ISO 10218,
+ISO/TS 15066) \\
+\textbf{Deployment} & System operational within 1 day of delivery &
+Customer acceptance test \\
+\end{longtable}
+
+\hypertarget{project-scope}{%
+\subsubsection{1.2 Project Scope}\label{project-scope}}
+
+\hypertarget{in-scope}{%
+\paragraph{In Scope:}\label{in-scope}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Hardware:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    6-DOF robotic arm (UR5e or equivalent)
+  \item
+    Parallel jaw gripper (Robotiq 2F-85)
+  \item
+    RGB-D camera (Intel RealSense D435i)
+  \item
+    Force/torque sensor (ATI Mini45)
+  \item
+    Compute hardware (NVIDIA Jetson Xavier, Intel NUC)
+  \item
+    Power distribution, networking equipment
+  \end{itemize}
+\item
+  \textbf{Software:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Vision pipeline (object detection, pose estimation)
+  \item
+    Motion planning (MoveIt2, OMPL)
+  \item
+    Real-time control (ros2\_control)
+  \item
+    Task orchestration (state machine)
+  \item
+    Monitoring \& logging (Grafana, Prometheus, ELK)
+  \item
+    Web-based dashboard (React, FastAPI)
+  \end{itemize}
+\item
+  \textbf{Services:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    System integration and commissioning
+  \item
+    Calibration wizard development
+  \item
+    User training (operators, maintenance)
+  \item
+    6-month warranty and support
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{out-of-scope}{%
+\paragraph{Out of Scope:}\label{out-of-scope}}
+
+\begin{itemize}
+\tightlist
+\item
+  Custom end-effectors (beyond standard parallel jaw)
+\item
+  Integration with existing WMS/MES (future phase)
+\item
+  Multi-robot coordination (future phase)
+\item
+  AGV/mobile base integration
+\item
+  Cloud analytics platform (optional add-on)
+\end{itemize}
+
+\hypertarget{deliverables}{%
+\subsubsection{1.3 Deliverables}\label{deliverables}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3208}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3208}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3585}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Deliverable}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Delivery Date}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Hardware} & Assembled robot cell (robot, camera, compute, power)
+& Month 5 \\
+\textbf{Software} & ROS2 packages (vision, planning, control,
+orchestration) & Month 5 \\
+\textbf{Documentation} & User manual, maintenance guide, API docs,
+design docs & Month 6 \\
+\textbf{Training} & 2-day operator training, 1-day engineer training &
+Month 6 \\
+\textbf{Test Reports} & Performance test, safety audit, acceptance test
+& Month 6 \\
+\textbf{Deployment} & On-site installation, calibration, handover &
+Month 6 \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{business-case}{%
+\subsection{2. Business Case}\label{business-case}}
+
+\hypertarget{problem-statement}{%
+\subsubsection{2.1 Problem Statement}\label{problem-statement}}
+
+\textbf{Current State:} - \textbf{Manual Operation}: 2 workers per
+shift, 2 shifts/day = 4 FTE - \textbf{Labor Cost}: \$50,000/year/FTE × 4
+= \$200,000/year - \textbf{Throughput}: 15 picks/min × 480 min/shift × 2
+shifts = 14,400 picks/day - \textbf{Error Rate}: 5\% → 720 errors/day ×
+\$1/error (rework) = \$720/day = \$180,000/year (rework) -
+\textbf{Downtime}: Worker breaks, shift changes → 10\% downtime
+
+\textbf{Future State (With Automation):} - \textbf{Robotic Operation}: 0
+dedicated workers (1 supervisor for 10 robots) - \textbf{Labor Cost}:
+\$5,000/year/robot (supervision, maintenance) - \textbf{Throughput}: 30
+picks/min × 1400 min/day (24/7 operation) = 42,000 picks/day (+192\%) -
+\textbf{Error Rate}: \textless1\% → 420 errors/day (conservative) =
+\$105,000/year - \textbf{Uptime}: 99.5\% (vs 90\% human)
+
+\hypertarget{financial-analysis}{%
+\subsubsection{2.2 Financial Analysis}\label{financial-analysis}}
+
+\hypertarget{cost-breakdown}{%
+\paragraph{2.2.1 Cost Breakdown}\label{cost-breakdown}}
+
+\textbf{Initial Investment (CAPEX):}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2059}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1471}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2353}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2059}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2059}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Category}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Item}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cost (USD)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Subtotal}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Hardware} & UR5e Robot Arm & \$35,000 & 1 & \$35,000 \\
+& Robotiq 2F-85 Gripper & \$5,000 & 1 & \$5,000 \\
+& RealSense D435i Camera & \$350 & 1 & \$350 \\
+& ATI Mini45 F/T Sensor & \$2,500 & 1 & \$2,500 \\
+& NVIDIA Jetson Xavier NX & \$500 & 1 & \$500 \\
+& Intel NUC (Controller) & \$800 & 1 & \$800 \\
+& Power Supply, Electrical & \$500 & 1 & \$500 \\
+& \textbf{Hardware Subtotal} & & & \textbf{\$44,650} \\
+\textbf{Software} & Open-source (ROS2, etc.) & \$0 & - & \$0 \\
+& Commercial licenses & \$1,000 & 1 & \$1,000 \\
+& \textbf{Software Subtotal} & & & \textbf{\$1,000} \\
+\textbf{Engineering} & Development (6 months, 2 FTE) & \$100,000 & 1 &
+\$100,000 \\
+& \textbf{Engineering Subtotal} & & & \textbf{\$100,000} \\
+\textbf{TOTAL CAPEX} & & & & \textbf{\$145,650} \\
+\end{longtable}
+
+\textbf{Recurring Costs (OPEX per year):}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+\textbf{Category} & \textbf{Item} & \textbf{Annual Cost (USD)} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Maintenance} & Preventive maintenance (parts, labor) &
+\$2,000 \\
+\textbf{Operations} & Electricity (\$0.12/kWh, 636W, 24/7) & \$670 \\
+& Supervision (10\% of 1 FTE) & \$5,000 \\
+\textbf{Support} & Software updates, support contracts & \$1,000 \\
+\textbf{TOTAL OPEX} & & \textbf{\$8,670} \\
+\end{longtable}
+
+\hypertarget{benefit-analysis}{%
+\paragraph{2.2.2 Benefit Analysis}\label{benefit-analysis}}
+
+\textbf{Annual Savings:}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3385}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2615}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Benefit Category}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Calculation}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Annual Savings (USD)}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Labor Cost Reduction} & 4 FTE @ \$50k/yr reduced to 0.1 FTE @
+\$50k/yr & \$195,000 \\
+\textbf{Rework Cost Reduction} & \$180k/yr (5\% error) → \$105k/yr (1\%
+error) & \$75,000 \\
+\textbf{Productivity Gain} & 14.4k → 42k picks/day (+192\% throughput) &
+\$50,000 (revenue from extra capacity) \\
+\textbf{Reduced Downtime} & 90\% → 99.5\% uptime & \$12,500 (less lost
+production) \\
+\textbf{Reduced Workers' Comp} & Fewer repetitive strain injuries &
+\$5,000 \\
+\textbf{TOTAL ANNUAL BENEFITS} & & \textbf{\$337,500} \\
+\end{longtable}
+
+\textbf{Net Annual Savings:} - \textbf{Total Benefits}: \$337,500 -
+\textbf{Total OPEX}: \$8,670 - \textbf{Net Savings}: \$337,500 - \$8,670
+= \textbf{\$328,830/year}
+
+\emph{(Conservative estimate: \$87,500/year used in NPV calc, accounting
+for risks)}
+
+\hypertarget{financial-metrics}{%
+\paragraph{2.2.3 Financial Metrics}\label{financial-metrics}}
+
+\textbf{Assumptions:} - \textbf{Discount Rate}: 8\% (company WACC) -
+\textbf{Project Life}: 5 years - \textbf{Salvage Value}: \$10,000 (robot
+resale value at Year 5) - \textbf{Annual Benefits}: \$87,500
+(conservative, vs \$328k best-case)
+
+\textbf{Cash Flow Projection:}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1250}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1375}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1250}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1750}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2375}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Year}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{CAPEX}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{OPEX}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Benefits}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Net Cash Flow}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cumulative}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{0} & (\$145,650) & \$0 & \$0 & (\$145,650) & (\$145,650) \\
+\textbf{1} & \$0 & (\$8,670) & \$87,500 & \$78,830 & (\$66,820) \\
+\textbf{2} & \$0 & (\$8,670) & \$87,500 & \$78,830 & \$12,010 \\
+\textbf{3} & \$0 & (\$8,670) & \$87,500 & \$78,830 & \$90,840 \\
+\textbf{4} & \$0 & (\$8,670) & \$87,500 & \$78,830 & \$169,670 \\
+\textbf{5} & \$0 & (\$8,670) & \$87,500 + \$10,000 & \$88,830 &
+\$258,500 \\
+\end{longtable}
+
+\textbf{Key Metrics:} - \textbf{Payback Period}: 1.85 years (between
+Year 1 and Year 2) - \textbf{NPV (5 years, 8\% discount)}: \$287,475 -
+\textbf{IRR}: 58\% - \textbf{ROI}: (NPV / Initial Investment) × 100\% =
+197\%
+
+\textbf{Sensitivity Analysis:}
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+\textbf{Scenario} & \textbf{Annual Benefit} & \textbf{NPV} &
+\textbf{Payback} & \textbf{IRR} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Best Case} (+50\%) & \$131,250 & \$455,000 & 1.2 years & 88\% \\
+\textbf{Base Case} & \$87,500 & \$287,475 & 1.85 years & 58\% \\
+\textbf{Worst Case} (-30\%) & \$61,250 & \$185,000 & 2.7 years & 39\% \\
+\end{longtable}
+
+\textbf{Break-Even Analysis:} - Minimum annual benefit to break even
+(NPV=0): \$36,500/year - Margin of safety: \$87,500 - \$36,500 =
+\textbf{\$51,000/year} (140\% cushion)
+
+\hypertarget{risk-assessment}{%
+\subsubsection{2.3 Risk Assessment}\label{risk-assessment}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1515}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2576}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1818}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2424}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Risk}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Probability}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Impact}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mitigation}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Owner}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technical:} Grasp success \textless99\% & Medium & High &
+Extensive testing, adaptive algorithms, fallback strategies & Tech
+Lead \\
+\textbf{Schedule:} Development overrun (\textgreater6 months) & Medium &
+Medium & Agile sprints, weekly reviews, buffer in schedule & PM \\
+\textbf{Cost:} Budget overrun (\textgreater10\%) & Low & Medium &
+Fixed-price contracts, contingency budget (10\%) & CFO \\
+\textbf{Adoption:} User resistance to automation & Low & Medium &
+Training, change management, involve operators early & HR \\
+\textbf{Safety:} Incident during operation & Low & High & Comprehensive
+safety audit, ISO compliance, E-stop & Safety Officer \\
+\textbf{Supplier:} Robot delivery delay & Medium & Medium & Secure
+commitments, alternative suppliers & Procurement \\
+\textbf{Integration:} Incompatibility with existing systems & Low & Low
+& Early integration testing, standard interfaces & Integrator \\
+\end{longtable}
+
+\textbf{Risk Score:} Medium (requires active management but acceptable)
+
+\hypertarget{alternatives-considered}{%
+\subsubsection{2.4 Alternatives
+Considered}\label{alternatives-considered}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{1. Do Nothing (Manual)} & No upfront cost & High labor cost, low
+throughput, errors & Rejected: NPV negative \\
+\textbf{2. Hire More Workers} & Simple, familiar & \$200k/year, doesn't
+scale, turnover & Rejected: Higher OPEX, same error rate \\
+\textbf{3. Semi-Automation (Conveyor Only)} & Lower cost (\$30k) & Still
+requires 2 workers, limited flexibility & Rejected: Only 20\% cost
+reduction \\
+\textbf{4. Full Automation (Proposed)} & High ROI, scalable, 24/7 & High
+CAPEX, technical risk & \textbf{RECOMMENDED} \\
+\textbf{5. Outsource to 3PL} & No CAPEX & \$150k/year contract, less
+control & Rejected: Strategic capability loss \\
+\end{longtable}
+
+\textbf{Conclusion:} Full automation (Alternative 4) offers best NPV and
+strategic value.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{project-governance}{%
+\subsection{3. Project Governance}\label{project-governance}}
+
+\hypertarget{organizational-structure}{%
+\subsubsection{3.1 Organizational
+Structure}\label{organizational-structure}}
+
+\begin{verbatim}
+┌────────────────────────────────┐
+│    Executive Sponsor (CEO)     │
+│    - Final approval authority  │
+└───────────┬────────────────────┘
+            │
+            ▼
+┌────────────────────────────────┐
+│   Steering Committee           │
+│   - CFO, COO, CTO              │
+│   - Monthly reviews            │
+└───────────┬────────────────────┘
+            │
+            ▼
+┌────────────────────────────────┐
+│   Project Manager (PM)         │
+│   - Day-to-day leadership      │
+└───────────┬────────────────────┘
+            │
+   ┌────────┴──────────┬────────────────┬────────────┐
+   ▼                   ▼                ▼            ▼
+┌────────┐      ┌──────────┐    ┌──────────┐  ┌──────────┐
+│ Tech   │      │ Business │    │ Quality  │  │ Support  │
+│ Lead   │      │ Analyst  │    │ Lead     │  │ Team     │
+└────────┘      └──────────┘    └──────────┘  └──────────┘
+\end{verbatim}
+
+\hypertarget{roles-responsibilities}{%
+\subsubsection{3.2 Roles \&
+Responsibilities}\label{roles-responsibilities}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2174}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3043}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4783}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Role}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Name/TBD}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Responsibilities}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Executive Sponsor} & CEO & Provide funding, remove roadblocks,
+final approval \\
+\textbf{Project Manager} & TBD & Schedule, budget, risk management,
+stakeholder comms \\
+\textbf{Technical Lead} & TBD & Architecture, development, technical
+decisions \\
+\textbf{Business Analyst} & TBD & Requirements, user stories, ROI
+tracking \\
+\textbf{Quality Lead} & TBD & Testing, validation, compliance \\
+\textbf{Integrator} & TBD & Hardware assembly, calibration,
+deployment \\
+\textbf{Operations Manager} & TBD & User training, change management,
+support \\
+\end{longtable}
+
+\hypertarget{decision-authority}{%
+\subsubsection{3.3 Decision Authority}\label{decision-authority}}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+\textbf{Decision Type} & \textbf{Authority} & \textbf{Escalation} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Day-to-day technical & Tech Lead & PM \\
+Budget \textless\$5k variance & PM & Steering Committee \\
+Budget \textgreater\$5k variance & Steering Committee & Executive
+Sponsor \\
+Scope change (minor) & PM + Business Analyst & Steering Committee \\
+Scope change (major) & Steering Committee & Executive Sponsor \\
+Safety-related & Safety Officer (can veto) & Executive Sponsor \\
+\end{longtable}
+
+\hypertarget{communication-plan}{%
+\subsubsection{3.4 Communication Plan}\label{communication-plan}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2742}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3065}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2419}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1774}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Stakeholder}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Communication}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Frequency}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Medium}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Executive Sponsor & Status report & Monthly & Email + meeting \\
+Steering Committee & Project review & Monthly & Presentation \\
+Project Team & Standup, sprint planning & Daily, bi-weekly & Zoom,
+Jira \\
+End Users (Operators) & Training, updates & As needed & On-site,
+videos \\
+All Stakeholders & Newsletter & Quarterly & Email \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{project-plan}{%
+\subsection{4. Project Plan}\label{project-plan}}
+
+\hypertarget{project-phases-timeline}{%
+\subsubsection{4.1 Project Phases \&
+Timeline}\label{project-phases-timeline}}
+
+\textbf{Total Duration:} 6 months (26 weeks)
+
+\begin{verbatim}
+Month 1-2: Planning & Design
+Month 3-4: Development & Integration
+Month 5: Testing & Validation
+Month 6: Deployment & Handover
+\end{verbatim}
+
+\textbf{Detailed Gantt Chart:}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1486}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1486}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1892}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1486}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1216}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2432}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Phase}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tasks}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Duration}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Start}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{End}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Dependencies}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{1. Initiation} & Kickoff, procurement & 2 weeks & W1 & W2 & - \\
+& - Approve PID & 1 week & W1 & W1 & - \\
+& - Order hardware & 1 week & W2 & W2 & PID approval \\
+\textbf{2. Planning} & Requirements, design & 4 weeks & W3 & W6 & - \\
+& - Detailed requirements & 2 weeks & W3 & W4 & - \\
+& - HLD, LLD & 2 weeks & W5 & W6 & Requirements \\
+\textbf{3. Development} & Software development & 10 weeks & W7 & W16 &
+HLD/LLD \\
+& - Vision pipeline & 4 weeks & W7 & W10 & - \\
+& - Motion planning & 4 weeks & W9 & W12 & Vision (partial) \\
+& - Control \& orchestration & 4 weeks & W11 & W14 & - \\
+& - Dashboard \& monitoring & 3 weeks & W13 & W15 & - \\
+& - Integration & 2 weeks & W15 & W16 & All modules \\
+\textbf{4. Testing} & Validation \& debugging & 6 weeks & W17 & W22 &
+Integration \\
+& - Unit tests & 2 weeks & W17 & W18 & - \\
+& - Integration tests & 2 weeks & W19 & W20 & Unit tests \\
+& - System tests & 2 weeks & W21 & W22 & Integration tests \\
+\textbf{5. Deployment} & Installation \& training & 4 weeks & W23 & W26
+& Testing \\
+& - Hardware installation & 1 week & W23 & W23 & - \\
+& - Calibration & 1 week & W24 & W24 & Installation \\
+& - User training & 1 week & W25 & W25 & Calibration \\
+& - Acceptance test & 1 week & W26 & W26 & Training \\
+\end{longtable}
+
+\textbf{Critical Path:} Initiation → Planning → Development (Vision →
+Motion → Control → Integration) → Testing → Deployment
+
+\hypertarget{milestones}{%
+\subsubsection{4.2 Milestones}\label{milestones}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2143}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3143}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3286}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Milestone}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Date}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Success Criteria}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Go/No-Go Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{M1:} PID Approved & Week 1 & Executive sponsor sign-off & GO to
+procurement \\
+\textbf{M2:} Hardware Delivered & Week 8 & All components on-site & GO
+to integration \\
+\textbf{M3:} Vision Pipeline Live & Week 10 & Detects objects @ 95\% mAP
+& GO to motion planning \\
+\textbf{M4:} End-to-End Demo & Week 16 & 1 pick-place cycle works & GO
+to testing \\
+\textbf{M5:} Tests Passed & Week 22 & All acceptance criteria met & GO
+to deployment \\
+\textbf{M6:} System Live & Week 26 & Customer acceptance signed &
+Project close \\
+\end{longtable}
+
+\hypertarget{resource-plan}{%
+\subsubsection{4.3 Resource Plan}\label{resource-plan}}
+
+\textbf{Team Composition:}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1493}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1343}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2090}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3582}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1493}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Role}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{FTE}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Duration}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Total Person-Weeks}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cost}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Project Manager & 0.5 & 26 weeks & 13 & \$26,000 \\
+Tech Lead (Robotics) & 1.0 & 20 weeks & 20 & \$50,000 \\
+Software Engineer & 1.0 & 16 weeks & 16 & \$32,000 \\
+Integrator & 0.5 & 10 weeks & 5 & \$10,000 \\
+QA Engineer & 0.5 & 8 weeks & 4 & \$8,000 \\
+\textbf{TOTAL} & & & \textbf{58} & \textbf{\$126,000} \\
+\end{longtable}
+
+\emph{(Note: Total engineering cost in budget is \$100k; \$126k includes
+overhead)}
+
+\hypertarget{procurement-plan}{%
+\subsubsection{4.4 Procurement Plan}\label{procurement-plan}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1408}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1549}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2113}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2254}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2676}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Item}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Vendor}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Lead Time}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Order Date}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Delivery Date}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+UR5e Robot & Universal Robots & 6 weeks & Week 2 & Week 8 \\
+Robotiq Gripper & Robotiq & 4 weeks & Week 2 & Week 6 \\
+RealSense Camera & Intel & 2 weeks & Week 2 & Week 4 \\
+Jetson Xavier & NVIDIA & 3 weeks & Week 2 & Week 5 \\
+ATI F/T Sensor & ATI Industrial & 8 weeks & Week 1 & Week 9 \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{success-criteria-kpis}{%
+\subsection{5. Success Criteria \& KPIs}\label{success-criteria-kpis}}
+
+\hypertarget{project-success-criteria}{%
+\subsubsection{5.1 Project Success
+Criteria}\label{project-success-criteria}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2586}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2069}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2931}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2414}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Criterion}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Target}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Measurement}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Baseline}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{On Time} & Deliver by Week 26 & Actual delivery date & - \\
+\textbf{On Budget} & \textless\$160k (incl.~10\% contingency) & Actual
+spend & \$145,650 \\
+\textbf{Performance} & 30 picks/min & Throughput test & 15 picks/min
+(manual) \\
+\textbf{Quality} & 99\% grasp success & 1000-pick test & 95\%
+(manual) \\
+\textbf{Safety} & Zero incidents & Incident log & - \\
+\textbf{User Satisfaction} & \textgreater4/5 rating & Post-deployment
+survey & - \\
+\end{longtable}
+
+\hypertarget{operational-kpis-post-deployment}{%
+\subsubsection{5.2 Operational KPIs
+(Post-Deployment)}\label{operational-kpis-post-deployment}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+\textbf{KPI} & \textbf{Target} & \textbf{Measurement Frequency} &
+\textbf{Owner} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Uptime} & \textgreater99.5\% & Daily & Operations \\
+\textbf{Throughput} & \textgreater28,000 picks/day & Daily &
+Operations \\
+\textbf{Error Rate} & \textless1\% & Daily & Quality \\
+\textbf{MTBF} & \textgreater720 hours (1 month) & Monthly &
+Maintenance \\
+\textbf{Cycle Time} & \textless2 sec/pick & Real-time & System \\
+\textbf{Cost per Pick} & \textless\$0.10 & Monthly & Finance \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{change-management}{%
+\subsection{6. Change Management}\label{change-management}}
+
+\hypertarget{stakeholder-impact-assessment}{%
+\subsubsection{6.1 Stakeholder Impact
+Assessment}\label{stakeholder-impact-assessment}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2235}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2118}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1412}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2235}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Stakeholder}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Current State}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Future State}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Impact}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Change Needed}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Operators} & Manual picking (2 per shift) & Supervise robot (1
+per 10 robots) & High & Retraining, role shift \\
+\textbf{Maintenance} & Minimal equipment & Robot maintenance & Medium &
+Technical training \\
+\textbf{Management} & Labor scheduling & Robot scheduling & Low &
+Dashboard training \\
+\textbf{Quality} & Manual inspection & Automated logging & Low & New
+metrics review \\
+\end{longtable}
+
+\hypertarget{change-management-plan}{%
+\subsubsection{6.2 Change Management
+Plan}\label{change-management-plan}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Awareness (Month 1-2):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Town hall: Explain project, benefits, address fears
+  \item
+    FAQ document: Job security, retraining opportunities
+  \end{itemize}
+\item
+  \textbf{Training (Month 5-6):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Operator training: 2 days (system operation, error recovery)
+  \item
+    Maintenance training: 1 day (diagnostics, basic repair)
+  \item
+    Manager training: 0.5 day (dashboard, KPIs)
+  \end{itemize}
+\item
+  \textbf{Transition (Month 6):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Parallel run: Manual + robot for 1 week
+  \item
+    Gradual handoff: Reduce manual operations over 2 weeks
+  \end{itemize}
+\item
+  \textbf{Reinforce (Month 7+):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Monthly check-ins: Gather feedback, address issues
+  \item
+    Continuous improvement: Iterate on UI, performance
+  \end{itemize}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{post-project-evaluation}{%
+\subsection{7. Post-Project Evaluation}\label{post-project-evaluation}}
+
+\hypertarget{lessons-learned-planned}{%
+\subsubsection{7.1 Lessons Learned
+(Planned)}\label{lessons-learned-planned}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Post-mortem meeting} (Week 27): What went well, what didn't
+\item
+  \textbf{Document lessons} for future automation projects
+\item
+  \textbf{Share findings} with broader organization
+\end{itemize}
+
+\hypertarget{benefits-realization}{%
+\subsubsection{7.2 Benefits Realization}\label{benefits-realization}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Quarterly reviews} (first year): Track actual savings vs
+  forecast
+\item
+  \textbf{Annual audit} (Year 1, 3, 5): ROI validation
+\item
+  \textbf{Case study} for marketing/sales (if successful)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{approvals}{%
+\subsection{8. Approvals}\label{approvals}}
+
+\hypertarget{approval-request}{%
+\subsubsection{8.1 Approval Request}\label{approval-request}}
+
+This Project Initiation Document requests approval to: 1.
+\textbf{Allocate budget}: \$145,650 (CAPEX) + \$8,670/year (OPEX) 2.
+\textbf{Assign resources}: 58 person-weeks over 6 months 3.
+\textbf{Proceed with procurement}: Robot, camera, compute hardware 4.
+\textbf{Initiate project}: With target completion Week 26 (6 months)
+
+\hypertarget{approval-signatures}{%
+\subsubsection{8.2 Approval Signatures}\label{approval-signatures}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+\textbf{Role} & \textbf{Name} & \textbf{Signature} & \textbf{Date} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Executive Sponsor (CEO)} & TBD &
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \_\_\_\_\_\_\_\_ \\
+\textbf{CFO (Financial Approval)} & TBD &
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \_\_\_\_\_\_\_\_ \\
+\textbf{COO (Operational Approval)} & TBD &
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \_\_\_\_\_\_\_\_ \\
+\textbf{Project Manager} & TBD & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ &
+\_\_\_\_\_\_\_\_ \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{appendices}{%
+\subsection{9. Appendices}\label{appendices}}
+
+\hypertarget{appendix-a-market-research}{%
+\subsubsection{Appendix A: Market
+Research}\label{appendix-a-market-research}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Industry Benchmarks}: Comparable automation projects show
+  1.5-2 year payback
+\item
+  \textbf{Vendor Quotes}: UR5e (\$35k), Robotiq (\$5k), confirmed
+  availability
+\end{itemize}
+
+\hypertarget{appendix-b-regulatory-compliance}{%
+\subsubsection{Appendix B: Regulatory
+Compliance}\label{appendix-b-regulatory-compliance}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Standards}: ISO 10218 (robot safety), ISO/TS 15066
+  (collaborative robots)
+\item
+  \textbf{Certifications}: CE marking required for EU deployment (if
+  applicable)
+\end{itemize}
+
+\hypertarget{appendix-c-references}{%
+\subsubsection{Appendix C: References}\label{appendix-c-references}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{./01_Core_Robotics_Concepts.md}{01\_Core\_Robotics\_Concepts.md}
+\item
+  \href{./04_Problem_Statement_IPO.md}{04\_Problem\_Statement\_IPO.md}
+\item
+  \href{./05_Technical_Stack.md}{05\_Technical\_Stack.md}
+\item
+  \href{./08_High_Level_Design.md}{08\_High\_Level\_Design.md}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Next Review:} Upon Executive Approval \textbf{Distribution:}
+Confidential - Executive Team Only
+
+\end{document}

@@ -1,0 +1,968 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={04 Problem Statement IPO},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{04 Problem Statement IPO}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{problem-statement-ipo-analysis---vision-based-pick-and-place-system}{%
+\section{Problem Statement + IPO Analysis - Vision-Based Pick and Place
+System}\label{problem-statement-ipo-analysis---vision-based-pick-and-place-system}}
+
+\hypertarget{problem-statement}{%
+\subsection{1. Problem Statement}\label{problem-statement}}
+
+\hypertarget{business-problem}{%
+\subsubsection{1.1 Business Problem}\label{business-problem}}
+
+\textbf{Context:} Manufacturing, warehousing, and logistics industries
+face challenges with: - \textbf{Labor-intensive} manual pick-and-place
+operations - \textbf{High error rates} in object sorting and placement -
+\textbf{Scalability limitations} due to workforce constraints -
+\textbf{Repetitive strain injuries} from repetitive manual tasks -
+\textbf{Inconsistent throughput} due to human fatigue -
+\textbf{Inability to operate 24/7} without shift rotations
+
+\textbf{Opportunity:} Automate object detection, grasping, and placement
+using vision-guided robotics to: - Increase throughput (target: 30
+picks/minute) - Reduce errors (target: \textless1\% failure rate) -
+Operate continuously (24/7 with minimal supervision) - Handle varying
+object types/sizes (within defined workspace) - Ensure worker safety
+(collaborative operation)
+
+\hypertarget{technical-problem}{%
+\subsubsection{1.2 Technical Problem}\label{technical-problem}}
+
+\textbf{Challenge:} Develop a robotic system that can: 1.
+\textbf{Perceive:} Detect and localize objects in a cluttered workspace
+2. \textbf{Plan:} Compute collision-free trajectories to pick and place
+objects 3. \textbf{Execute:} Precisely grasp objects and place them at
+target locations 4. \textbf{Adapt:} Handle variations in object pose,
+lighting, occlusions 5. \textbf{Ensure Safety:} Operate safely near
+humans, detect collisions
+
+\textbf{Constraints:} - \textbf{Real-time:} Vision processing
+\textless50ms, control loop 1kHz - \textbf{Accuracy:} Position
+repeatability ±0.1mm - \textbf{Reliability:} 99.9\% uptime, graceful
+error recovery - \textbf{Cost:} Solution must be cost-effective (ROI
+\textless2 years)
+
+\hypertarget{success-criteria}{%
+\subsubsection{1.3 Success Criteria}\label{success-criteria}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3372}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2326}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4302}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Metric}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Target}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Measurement Method}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Pick rate & ≥30 picks/min & Throughput test (100 cycles) \\
+Grasp success rate & ≥99\% & 1000-pick test, count failures \\
+Positional accuracy & ±0.1mm & CMM measurement at target location \\
+Vision detection accuracy & ≥95\% mAP & Test on labeled dataset \\
+Cycle time & ≤2 sec/object & Time from scan to place completion \\
+Uptime & ≥99.5\% & Track operational hours vs downtime \\
+Safety incidents & 0 & Collision detection, E-stop tests \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{system-level-ipo-input-process-output}{%
+\subsection{2. System-Level IPO
+(Input-Process-Output)}\label{system-level-ipo-input-process-output}}
+
+\hypertarget{high-level-system-ipo}{%
+\subsubsection{2.1 High-Level System IPO}\label{high-level-system-ipo}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────────┐
+│                         SYSTEM BOUNDARY                         │
+│                                                                 │
+│  INPUTS                  PROCESS                   OUTPUTS      │
+│  ─────────              ──────────                ─────────     │
+│                                                                 │
+│  • Objects in            ┌──────────────┐         • Objects at  │
+│    workspace             │   VISION     │           target      │
+│  • Target locations      │  PERCEPTION  │           locations   │
+│  • User commands         └──────┬───────┘         • Status      │
+│    (start/stop)                 │                   reports     │
+│  • Environmental                ▼                 • Logs/       │
+│    data (lighting,       ┌──────────────┐           telemetry  │
+│    obstacles)            │   MOTION     │         • Alerts/     │
+│                          │   PLANNING   │           alarms      │
+│                          └──────┬───────┘                       │
+│                                 │                               │
+│                                 ▼                               │
+│                          ┌──────────────┐                       │
+│                          │  EXECUTION   │                       │
+│                          │  & CONTROL   │                       │
+│                          └──────────────┘                       │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{detailed-system-ipo-table}{%
+\subsubsection{2.2 Detailed System IPO
+Table}\label{detailed-system-ipo-table}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0909}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2727}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3561}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2803}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Phase}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{1. Scan} & - RGB-D camera stream- Trigger command & - Capture
+image- Preprocess (denoise, crop) & - RGB image (1920x1080)- Depth
+map \\
+\textbf{2. Detect} & - RGB image- Pre-trained model & - Run object
+detection (YOLO)- Filter low-confidence detections & - Bounding boxes-
+Class labels- Confidence scores \\
+\textbf{3. Localize} & - Bounding boxes- Depth map- Camera calibration &
+- Extract 3D point cloud- Estimate 6DoF pose- Transform to robot frame &
+- Object pose (x,y,z,r,p,y)- Point cloud \\
+\textbf{4. Plan Grasp} & - Object pose- Point cloud- Gripper constraints
+& - Compute grasp candidates- Rank by quality score- Select best grasp &
+- Gripper pose- Approach vector- Grasp quality score \\
+\textbf{5. Plan Motion} & - Gripper pose- Current robot state- Obstacles
+& - Inverse kinematics- Path planning (RRT*)- Trajectory generation & -
+Joint trajectory (waypoints)- Collision-free path \\
+\textbf{6. Execute Pick} & - Joint trajectory- Gripper command & - Send
+trajectory to controller- Monitor execution- Close gripper & - Joint
+positions (actual)- Grasp force feedback \\
+\textbf{7. Plan Place} & - Target location- Current robot state & -
+Compute placement pose- Plan trajectory (pick → place) & - Placement
+trajectory- Orientation \\
+\textbf{8. Execute Place} & - Placement trajectory- Gripper release
+command & - Move to target- Open gripper- Retract & - Object at target
+location- Task completion status \\
+\textbf{9. Verify} & - Camera image- Expected location & - Capture
+post-placement image- Verify object position & - Success/failure flag-
+Error magnitude \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{module-level-ipo}{%
+\subsection{3. Module-Level IPO}\label{module-level-ipo}}
+
+\hypertarget{vision-perception-module}{%
+\subsubsection{3.1 Vision Perception
+Module}\label{vision-perception-module}}
+
+\textbf{Purpose:} Detect and localize objects in 3D space
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1608}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2517}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2587}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Image Acquisition} & - Camera trigger- Exposure settings & -
+Capture RGB-D frame- Sync RGB and depth & - RGB image- Aligned depth
+map \\
+\textbf{Preprocessing} & - Raw RGB image & - Resize to 640x640-
+Normalize pixel values & - Preprocessed tensor (3x640x640) \\
+\textbf{Object Detection} & - Preprocessed image & - Forward pass
+through YOLOv8- NMS (non-max suppression) & - Bounding boxes
+{[}x,y,w,h{]}- Class IDs- Confidence scores \\
+\textbf{Pose Estimation} & - RGB-D image- Bounding box- Object model & -
+Extract object ROI- Run PnP or deep pose estimator- Refine with ICP & -
+6DoF pose {[}x,y,z,qx,qy,qz,qw{]}- Covariance (uncertainty) \\
+\textbf{Point Cloud Gen.} & - Depth map- Camera intrinsics & - Deproject
+pixels to 3D points- Filter outliers (statistical) & - Point cloud (XYZ
++ RGB)- Downsampled cloud \\
+\textbf{Coordinate Transform} & - Object pose (camera frame)- TF tree
+(camera→robot) & - Apply homogeneous transformation- Publish TF & -
+Object pose (robot base frame) \\
+\end{longtable}
+
+\textbf{IPO Summary:}
+
+\begin{verbatim}
+INPUT: RGB-D frames (30 Hz)
+PROCESS: Detection → Pose Estimation → Coordinate Transform
+OUTPUT: Object poses in robot frame (x,y,z,roll,pitch,yaw) at 10 Hz
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{grasp-planning-module}{%
+\subsubsection{3.2 Grasp Planning Module}\label{grasp-planning-module}}
+
+\textbf{Purpose:} Compute optimal gripper pose for stable grasping
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1608}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2517}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2587}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Grasp Candidate Gen.} & - Object point cloud- Gripper geometry &
+- Sample grasp poses (centroid, normals)- Check reachability & - List of
+candidate grasps {[}pose, score{]} \\
+\textbf{Collision Check} & - Grasp candidates- Scene point cloud & -
+Check gripper-object collision- Check gripper-table collision & -
+Collision-free grasps \\
+\textbf{Grasp Ranking} & - Grasp candidates- Force closure metrics & -
+Compute grasp quality (wrench space)- Sort by score & - Ranked list of
+grasps \\
+\textbf{Grasp Selection} & - Ranked grasps & - Select top-ranked grasp-
+Fallback to 2nd if 1st fails & - Selected grasp pose- Approach vector \\
+\end{longtable}
+
+\textbf{IPO Summary:}
+
+\begin{verbatim}
+INPUT: Object pose, point cloud
+PROCESS: Sample grasps → Filter collisions → Rank by quality → Select best
+OUTPUT: Gripper pose (6DoF) + approach direction
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{motion-planning-module-moveit2}{%
+\subsubsection{3.3 Motion Planning Module
+(MoveIt2)}\label{motion-planning-module-moveit2}}
+
+\textbf{Purpose:} Generate collision-free trajectories
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1608}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2517}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2587}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Planning Scene} & - Robot URDF- Point cloud (obstacles) & -
+Build occupancy grid- Update collision objects & - Planning scene
+(internal state) \\
+\textbf{IK Solver} & - Target end-effector pose- Current joint state & -
+Solve inverse kinematics- Validate joint limits & - Joint angles
+{[}θ1..θ6{]}- IK success flag \\
+\textbf{Path Planner (OMPL)} & - Start state- Goal state- Planning scene
+& - Run RRT*/PRM- Search for collision-free path & - Path (sequence of
+joint configs) \\
+\textbf{Trajectory Generator} & - Path waypoints- Velocity/accel limits
+& - Time-parameterization (parabolic blend)- Smooth jerk & - Joint
+trajectory (time-stamped) \\
+\textbf{Trajectory Smoothing} & - Raw trajectory & - Iterative
+optimization (shortcut, smooth) & - Smoothed trajectory \\
+\end{longtable}
+
+\textbf{IPO Summary:}
+
+\begin{verbatim}
+INPUT: Target pose (x,y,z,roll,pitch,yaw), obstacles
+PROCESS: IK → Path Planning (RRT*) → Trajectory Generation → Smoothing
+OUTPUT: Time-parameterized joint trajectory
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{control-execution-module-ros2_control}{%
+\subsubsection{3.4 Control \& Execution Module
+(ros2\_control)}\label{control-execution-module-ros2_control}}
+
+\textbf{Purpose:} Execute trajectories with real-time feedback control
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1608}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2517}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2587}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Trajectory Interpolator} & - Joint trajectory- Current time & -
+Interpolate setpoints at control frequency (1kHz) & - Joint
+position/velocity setpoints \\
+\textbf{Joint Controller (PID)} & - Setpoint- Actual position (encoder)
+& - Compute error- PID control law- Feedforward compensation & - Motor
+torque command \\
+\textbf{Motor Driver Interface} & - Torque command & - Convert to
+current command- Send via EtherCAT & - Motor current (3-phase) \\
+\textbf{Feedback Loop} & - Encoder position/velocity & - Read encoder
+data- Publish joint states & - Joint states (position, velocity,
+effort) \\
+\textbf{Safety Monitor} & - Following error- Joint limits & - Check
+error bounds- Detect collisions (F/T sensor) & - Safety status- E-stop
+trigger \\
+\end{longtable}
+
+\textbf{IPO Summary:}
+
+\begin{verbatim}
+INPUT: Joint trajectory
+PROCESS: Interpolate → PID Control → Motor Drive → Feedback
+OUTPUT: Robot motion (joint positions), safety status
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{gripper-control-module}{%
+\subsubsection{3.5 Gripper Control
+Module}\label{gripper-control-module}}
+
+\textbf{Purpose:} Actuate gripper (open/close) with force control
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1608}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2517}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2587}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Gripper Controller} & - Gripper command (open/close/force) & -
+Compute motor PWM- Apply force setpoint & - Gripper motor PWM signal \\
+\textbf{Force Feedback} & - F/T sensor readings & - Measure grip force-
+Compare to setpoint & - Actual grip force- Force error \\
+\textbf{Position Feedback} & - Encoder/limit switches & - Measure jaw
+opening- Detect object presence & - Jaw position- Grasp success flag \\
+\end{longtable}
+
+\textbf{IPO Summary:}
+
+\begin{verbatim}
+INPUT: Gripper command (open/close), target force
+PROCESS: Force control loop (PID)
+OUTPUT: Gripper state (open/closed), grip force
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{task-orchestration-module-state-machine}{%
+\subsubsection{3.6 Task Orchestration Module (State
+Machine)}\label{task-orchestration-module-state-machine}}
+
+\textbf{Purpose:} High-level task sequencing and error recovery
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1608}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2517}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2587}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{State Machine} & - System events (triggers)- Sensor data & -
+Evaluate state transitions- Execute state actions & - Current state-
+State outputs \\
+\textbf{Error Handler} & - Fault signals (vision fail, grasp fail) & -
+Analyze failure type- Trigger recovery action & - Recovery command-
+Retry/abort decision \\
+\textbf{Task Scheduler} & - Task queue- Robot availability & -
+Prioritize tasks- Dispatch to modules & - Task assignments- Execution
+order \\
+\end{longtable}
+
+\textbf{States:} 1. \textbf{IDLE:} Wait for start command 2.
+\textbf{SCAN:} Capture image 3. \textbf{DETECT:} Run vision pipeline 4.
+\textbf{PLAN\_PICK:} Compute grasp and trajectory 5.
+\textbf{EXECUTE\_PICK:} Move and grasp 6. \textbf{PLAN\_PLACE:} Compute
+placement trajectory 7. \textbf{EXECUTE\_PLACE:} Move and release 8.
+\textbf{VERIFY:} Check placement success 9. \textbf{ERROR:} Handle
+failures, retry or abort 10. \textbf{HOME:} Return to home position
+
+\textbf{IPO Summary:}
+
+\begin{verbatim}
+INPUT: User commands, sensor events
+PROCESS: State transitions based on events and conditions
+OUTPUT: High-level commands to subsystems (vision, motion, gripper)
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{monitoring-logging-module}{%
+\subsubsection{3.7 Monitoring \& Logging
+Module}\label{monitoring-logging-module}}
+
+\textbf{Purpose:} Collect telemetry, logs, and metrics for observability
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1608}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2517}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2587}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Data Collector} & - ROS topics (joint states, images, etc.) & -
+Subscribe to topics- Timestamp data & - Time-series data streams \\
+\textbf{Logger} & - Log messages (INFO, WARN, ERROR) & - Format logs-
+Write to file/database & - Log files- Database entries \\
+\textbf{Metrics Aggregator} & - Performance metrics (latency, success
+rate) & - Compute statistics (mean, std, percentiles) & - Aggregated
+metrics \\
+\textbf{Alert Manager} & - Metric thresholds- Anomalies & - Evaluate
+alert rules- Trigger notifications & - Alerts (email, SMS, dashboard) \\
+\textbf{Visualization} & - Time-series data- Logs & - Render graphs
+(Grafana)- Display logs (Kibana) & - Dashboards- Real-time plots \\
+\end{longtable}
+
+\textbf{IPO Summary:}
+
+\begin{verbatim}
+INPUT: ROS topics, log messages, performance metrics
+PROCESS: Collect → Store → Aggregate → Visualize
+OUTPUT: Dashboards, alerts, historical logs
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{data-flow-diagram}{%
+\subsection{4. Data Flow Diagram}\label{data-flow-diagram}}
+
+\hypertarget{end-to-end-data-flow}{%
+\subsubsection{4.1 End-to-End Data Flow}\label{end-to-end-data-flow}}
+
+\begin{verbatim}
+┌────────────┐
+│   Camera   │ (RGB-D frames @ 30 Hz)
+└──────┬─────┘
+       │
+       ▼
+┌─────────────────┐
+│ Vision Pipeline │ (Object poses @ 10 Hz)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│ Grasp Planner   │ (Gripper pose)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│ Motion Planner  │ (Joint trajectory)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│ ros2_control    │ (Motor commands @ 1 kHz)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│  Motor Drivers  │ (Currents to motors)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│ Robot Actuators │ (Physical motion)
+└──────┬──────────┘
+       │
+       ▼ (feedback)
+┌─────────────────┐
+│    Encoders     │ (Joint positions @ 1 kHz)
+└──────┬──────────┘
+       │
+       └─────► (feedback to ros2_control)
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ipo-for-key-interfaces}{%
+\subsection{5. IPO for Key Interfaces}\label{ipo-for-key-interfaces}}
+
+\hypertarget{camera-vision-pipeline}{%
+\subsubsection{5.1 Camera ↔ Vision
+Pipeline}\label{camera-vision-pipeline}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Aspect}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Input} & USB 3.0 stream (RGB 1920x1080 @ 30fps, Depth 1280x720 @
+30fps) \\
+\textbf{Process} & Image transport (compressed), synchronization
+(ApproxTime) \\
+\textbf{Output} & ROS2 topics: \texttt{/camera/color/image\_raw},
+\texttt{/camera/depth/image\_rect} \\
+\textbf{Latency} & \textless30ms (USB transfer + decompression) \\
+\textbf{Data Rate} & \textasciitilde200 MB/s (uncompressed),
+\textasciitilde50 MB/s (compressed JPEG) \\
+\end{longtable}
+
+\hypertarget{vision-pipeline-motion-planning}{%
+\subsubsection{5.2 Vision Pipeline ↔ Motion
+Planning}\label{vision-pipeline-motion-planning}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Aspect}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Input} & Object pose (geometry\_msgs/PoseStamped) \\
+\textbf{Process} & ROS2 service call: \texttt{/compute\_grasp} →
+\texttt{/plan\_pick\_motion} \\
+\textbf{Output} & Joint trajectory (trajectory\_msgs/JointTrajectory) \\
+\textbf{Latency} & 200-500ms (IK + planning) \\
+\textbf{Frequency} & On-demand (per object detected) \\
+\end{longtable}
+
+\hypertarget{motion-planning-control}{%
+\subsubsection{5.3 Motion Planning ↔
+Control}\label{motion-planning-control}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Aspect}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Input} & Joint trajectory
+(moveit\_msgs/action/ExecuteTrajectory) \\
+\textbf{Process} & ROS2 action interface (goal, feedback, result) \\
+\textbf{Output} & Joint commands @ 1kHz
+(control\_msgs/JointTrajectoryControllerState) \\
+\textbf{Latency} & \textless10ms (action call overhead) \\
+\textbf{Frequency} & 1 kHz (controller loop) \\
+\end{longtable}
+
+\hypertarget{control-motor-drivers}{%
+\subsubsection{5.4 Control ↔ Motor
+Drivers}\label{control-motor-drivers}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.8333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Aspect}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Input} & Motor current commands (EtherCAT PDO, 16-bit signed
+int) \\
+\textbf{Process} & EtherCAT cyclic communication (1 kHz) \\
+\textbf{Output} & Motor phase currents (Ia, Ib, Ic) \\
+\textbf{Latency} & \textless1ms (deterministic EtherCAT cycle) \\
+\textbf{Jitter} & \textless10 μs (EtherCAT distributed clocks) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{performance-requirements-per-module}{%
+\subsection{6. Performance Requirements per
+Module}\label{performance-requirements-per-module}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2294}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2110}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1927}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2110}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1560}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Module}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Throughput}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Latency}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Accuracy}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Reliability}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Vision Perception & 10 detections/sec & \textless50ms per frame & mAP
+≥0.95 & 99\% uptime \\
+Pose Estimation & 10 poses/sec & \textless100ms per object & ±5mm
+position, ±5° orientation & 95\% accuracy \\
+Grasp Planning & 5 grasps/sec & \textless200ms per object & Quality
+score ≥0.8 & 90\% success \\
+Motion Planning & 2 plans/sec & \textless500ms per plan & Collision-free
+(100\%) & 99\% plan success \\
+Trajectory Execution & 1 kHz control loop & \textless10ms per cycle &
+Tracking error \textless2mm & 99.9\% uptime \\
+Gripper Control & 100 Hz & \textless10ms & Force ±1N & 99\% grasp
+success \\
+Task Orchestration & 1 task/2sec & \textless50ms state trans. & N/A &
+100\% state integrity \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{error-handling-ipo}{%
+\subsection{7. Error Handling IPO}\label{error-handling-ipo}}
+
+\hypertarget{error-detection-inputs}{%
+\subsubsection{7.1 Error Detection
+Inputs}\label{error-detection-inputs}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2174}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4783}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3043}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Error Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input Signal}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Detection Method}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Vision failure & No objects detected for \textgreater5 sec & Timeout
+counter \\
+Grasp failure & F/T sensor: grip force \textless threshold & Force
+threshold check \\
+Motion planning failure & Planner returns no solution & Planner status
+code \\
+Collision & F/T sensor: force spike \textgreater150N & Anomaly detection
+(force) \\
+Joint limit violation & Encoder position outside {[}q\_min, q\_max{]} &
+Range check \\
+E-stop & Emergency stop button pressed & Digital input (hardwired) \\
+\end{longtable}
+
+\hypertarget{error-recovery-process}{%
+\subsubsection{7.2 Error Recovery
+Process}\label{error-recovery-process}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2174}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4783}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3043}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Error Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Recovery Action}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Outcome}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Vision failure & Re-trigger camera, adjust lighting, rescan & Resume
+detection or abort \\
+Grasp failure & Retry with alternate grasp, reduce speed & Retry (max
+3x) or skip object \\
+Motion planning failure & Relax constraints, replan with wider clearance
+& New plan or abort task \\
+Collision & E-stop, retract, re-home robot & Safe state, await manual
+reset \\
+Joint limit violation & Stop motion, move back to safe position & Resume
+from safe configuration \\
+E-stop & Power off motors, log event, await user reset & System halted,
+manual intervention \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ipo-summary-matrix}{%
+\subsection{8. IPO Summary Matrix}\label{ipo-summary-matrix}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1689}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2432}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2432}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2432}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1014}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Module}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Process}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Frequency}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Vision Perception & RGB-D frames & Detection + Pose Estimation & Object
+poses (robot frame) & 10 Hz \\
+Grasp Planning & Object pose, point cloud & Sample + Rank grasps &
+Gripper pose, quality score & On-demand \\
+Motion Planning & Target pose, obstacles & IK + Path Planning & Joint
+trajectory & On-demand \\
+Trajectory Execution & Joint trajectory & Interpolation + PID control &
+Motor commands & 1 kHz \\
+Gripper Control & Gripper command, force setpoint & Force control loop &
+Gripper state, grip force & 100 Hz \\
+Task Orchestration & User commands, sensor events & State machine
+transitions & High-level commands to modules & Event-driven \\
+Monitoring \& Logging & ROS topics, logs, metrics & Collect + Aggregate
++ Visualize & Dashboards, alerts & Continuous \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{dimensional-analysis}{%
+\subsection{9. Dimensional Analysis}\label{dimensional-analysis}}
+
+\hypertarget{data-dimensions}{%
+\subsubsection{9.1 Data Dimensions}\label{data-dimensions}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1880}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2707}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2707}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2707}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Data Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Dimensions}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Units}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Example Value}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RGB Image & 1920 × 1080 × 3 & pixels (uint8) & {[}0-255{]} per
+channel \\
+Depth Image & 1280 × 720 & mm (uint16) & 0-10000 mm \\
+Point Cloud & N × 3 (XYZ) & m (float32) & N ≈ 100,000 points \\
+Object Pose & 7 (x,y,z,qx,qy,qz,qw) & m, quaternion (float64) & {[}0.5,
+0.2, 0.1, 0,0,0,1{]} \\
+Joint Angles & 6 (θ1..θ6) & rad (float64) & {[}-π, π{]} \\
+Joint Trajectory & T × 6 (time, positions) & s, rad & T ≈ 100
+waypoints \\
+Force/Torque & 6 (Fx,Fy,Fz,Tx,Ty,Tz) & N, N·m (float64) & Fx ∈ {[}-100,
+100{]} N \\
+Gripper State & 2 (position, force) & m, N & {[}0.05m, 20N{]} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{conclusion}{%
+\subsection{10. Conclusion}\label{conclusion}}
+
+This IPO documentation provides a \textbf{complete mapping} of: -
+\textbf{System-level} inputs, processes, and outputs -
+\textbf{Module-level} IPO for each major subsystem - \textbf{Data flow}
+through the entire pipeline (camera → motors) - \textbf{Interfaces}
+between modules with latency and data rate specs - \textbf{Error
+handling} IPO for fault detection and recovery
+
+\textbf{Key Takeaways:} - \textbf{Vision → Planning → Control} pipeline
+with clear IPO at each stage - \textbf{Real-time performance}
+requirements (1 kHz control, \textless50ms vision) - \textbf{Dimensional
+consistency} enforced across all data types - \textbf{Error recovery}
+mechanisms for robust operation
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Author:} System Engineering Team \textbf{Review Status:} Pending
+Review
+
+\end{document}

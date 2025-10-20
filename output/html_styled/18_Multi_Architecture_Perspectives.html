@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>18 Multi Architecture Perspectives</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../styles/beautiful.css" />
+
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        #TOC {
+            background: var(--dark);
+            color: white;
+            padding: 30px;
+            position: sticky;
+            top: 0;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        #TOC ul {
+            list-style: none;
+        }
+
+        #TOC a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        #TOC a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        main {
+            padding: 60px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin: 1.5em 0 0.5em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 0;
+            padding-bottom: 20px;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            margin-top: 1.5em;
+            padding-left: 20px;
+            border-left: 5px solid var(--primary);
+        }
+
+        h3 {
+            font-size: 1.6em;
+        }
+
+        p {
+            margin: 1em 0;
+            font-size: 1.05em;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--secondary);
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        blockquote {
+            border-left: 5px solid var(--primary);
+            background: #f8fafc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        a:hover {
+            border-bottom-color: var(--primary);
+        }
+
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 0.5em 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            #TOC {
+                display: none;
+            }
+        }
+        </style>
+        </head>
+<body><div class="container">
+<header id="title-block-header">
+<h1 class="title">18 Multi Architecture Perspectives</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#multi-architecture-perspectives"
+id="toc-multi-architecture-perspectives"><span
+class="toc-section-number">1</span> Multi-Architecture Perspectives</a>
+<ul>
+<li><a href="#enterprise-data-integration-business-architecture"
+id="toc-enterprise-data-integration-business-architecture"><span
+class="toc-section-number">1.1</span> Enterprise, Data, Integration
+&amp; Business Architecture</a></li>
+<li><a href="#table-of-contents" id="toc-table-of-contents"><span
+class="toc-section-number">1.2</span> Table of Contents</a></li>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1.3</span> 1. Introduction</a>
+<ul>
+<li><a href="#purpose" id="toc-purpose"><span
+class="toc-section-number">1.3.1</span> 1.1 Purpose</a></li>
+<li><a href="#architecture-framework"
+id="toc-architecture-framework"><span
+class="toc-section-number">1.3.2</span> 1.2 Architecture
+Framework</a></li>
+<li><a href="#stakeholders" id="toc-stakeholders"><span
+class="toc-section-number">1.3.3</span> 1.3 Stakeholders</a></li>
+</ul></li>
+<li><a href="#enterprise-architecture"
+id="toc-enterprise-architecture"><span
+class="toc-section-number">1.4</span> 2. Enterprise Architecture</a>
+<ul>
+<li><a href="#enterprise-architecture-vision"
+id="toc-enterprise-architecture-vision"><span
+class="toc-section-number">1.4.1</span> 2.1 Enterprise Architecture
+Vision</a></li>
+<li><a href="#current-state-architecture-as-is"
+id="toc-current-state-architecture-as-is"><span
+class="toc-section-number">1.4.2</span> 2.2 Current State Architecture
+(As-Is)</a></li>
+<li><a href="#target-state-architecture-to-be"
+id="toc-target-state-architecture-to-be"><span
+class="toc-section-number">1.4.3</span> 2.3 Target State Architecture
+(To-Be)</a></li>
+<li><a href="#technology-standards-principles"
+id="toc-technology-standards-principles"><span
+class="toc-section-number">1.4.4</span> 2.4 Technology Standards &amp;
+Principles</a></li>
+<li><a href="#application-portfolio"
+id="toc-application-portfolio"><span
+class="toc-section-number">1.4.5</span> 2.5 Application
+Portfolio</a></li>
+<li><a href="#ea-roadmap-3-year" id="toc-ea-roadmap-3-year"><span
+class="toc-section-number">1.4.6</span> 2.6 EA Roadmap (3-Year)</a></li>
+</ul></li>
+<li><a href="#data-architecture" id="toc-data-architecture"><span
+class="toc-section-number">1.5</span> 3. Data Architecture</a>
+<ul>
+<li><a href="#data-architecture-overview"
+id="toc-data-architecture-overview"><span
+class="toc-section-number">1.5.1</span> 3.1 Data Architecture
+Overview</a></li>
+<li><a href="#conceptual-data-model"
+id="toc-conceptual-data-model"><span
+class="toc-section-number">1.5.2</span> 3.2 Conceptual Data
+Model</a></li>
+<li><a href="#logical-data-model-relational"
+id="toc-logical-data-model-relational"><span
+class="toc-section-number">1.5.3</span> 3.3 Logical Data Model
+(Relational)</a></li>
+<li><a href="#data-flow-architecture"
+id="toc-data-flow-architecture"><span
+class="toc-section-number">1.5.4</span> 3.4 Data Flow
+Architecture</a></li>
+<li><a href="#data-quality-framework"
+id="toc-data-quality-framework"><span
+class="toc-section-number">1.5.5</span> 3.5 Data Quality
+Framework</a></li>
+<li><a href="#data-governance" id="toc-data-governance"><span
+class="toc-section-number">1.5.6</span> 3.6 Data Governance</a></li>
+<li><a href="#master-data-management-mdm"
+id="toc-master-data-management-mdm"><span
+class="toc-section-number">1.5.7</span> 3.7 Master Data Management
+(MDM)</a></li>
+</ul></li>
+<li><a href="#integration-architecture"
+id="toc-integration-architecture"><span
+class="toc-section-number">1.6</span> 4. Integration Architecture</a>
+<ul>
+<li><a href="#integration-landscape"
+id="toc-integration-landscape"><span
+class="toc-section-number">1.6.1</span> 4.1 Integration
+Landscape</a></li>
+<li><a href="#integration-patterns" id="toc-integration-patterns"><span
+class="toc-section-number">1.6.2</span> 4.2 Integration
+Patterns</a></li>
+<li><a href="#api-specifications" id="toc-api-specifications"><span
+class="toc-section-number">1.6.3</span> 4.3 API Specifications</a></li>
+<li><a href="#message-formats" id="toc-message-formats"><span
+class="toc-section-number">1.6.4</span> 4.4 Message Formats</a></li>
+<li><a href="#integration-governance"
+id="toc-integration-governance"><span
+class="toc-section-number">1.6.5</span> 4.5 Integration
+Governance</a></li>
+</ul></li>
+<li><a href="#business-architecture"
+id="toc-business-architecture"><span
+class="toc-section-number">1.7</span> 5. Business Architecture</a>
+<ul>
+<li><a href="#value-stream-map" id="toc-value-stream-map"><span
+class="toc-section-number">1.7.1</span> 5.1 Value Stream Map</a></li>
+<li><a href="#business-capability-model"
+id="toc-business-capability-model"><span
+class="toc-section-number">1.7.2</span> 5.2 Business Capability
+Model</a></li>
+<li><a href="#operating-model" id="toc-operating-model"><span
+class="toc-section-number">1.7.3</span> 5.3 Operating Model</a></li>
+<li><a href="#business-process-models-bpmn"
+id="toc-business-process-models-bpmn"><span
+class="toc-section-number">1.7.4</span> 5.4 Business Process Models
+(BPMN)</a></li>
+<li><a href="#kpi-dashboard-business-metrics"
+id="toc-kpi-dashboard-business-metrics"><span
+class="toc-section-number">1.7.5</span> 5.5 KPI Dashboard (Business
+Metrics)</a></li>
+</ul></li>
+<li><a href="#cross-architecture-alignment"
+id="toc-cross-architecture-alignment"><span
+class="toc-section-number">1.8</span> 6. Cross-Architecture
+Alignment</a>
+<ul>
+<li><a href="#architecture-alignment-matrix"
+id="toc-architecture-alignment-matrix"><span
+class="toc-section-number">1.8.1</span> 6.1 Architecture Alignment
+Matrix</a></li>
+<li><a href="#architecture-decision-alignment"
+id="toc-architecture-decision-alignment"><span
+class="toc-section-number">1.8.2</span> 6.2 Architecture Decision
+Alignment</a></li>
+</ul></li>
+<li><a href="#governance-standards" id="toc-governance-standards"><span
+class="toc-section-number">1.9</span> 7. Governance &amp; Standards</a>
+<ul>
+<li><a href="#architecture-review-board-arb"
+id="toc-architecture-review-board-arb"><span
+class="toc-section-number">1.9.1</span> 7.1 Architecture Review Board
+(ARB)</a></li>
+<li><a href="#architecture-health-metrics"
+id="toc-architecture-health-metrics"><span
+class="toc-section-number">1.9.2</span> 7.2 Architecture Health
+Metrics</a></li>
+</ul></li>
+<li><a href="#summary" id="toc-summary"><span
+class="toc-section-number">1.10</span> Summary</a>
+<ul>
+<li><a href="#multi-architecture-coverage"
+id="toc-multi-architecture-coverage"><span
+class="toc-section-number">1.10.1</span> Multi-Architecture
+Coverage</a></li>
+<li><a href="#key-deliverables" id="toc-key-deliverables"><span
+class="toc-section-number">1.10.2</span> Key Deliverables</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="multi-architecture-perspectives"><span
+class="header-section-number">1</span> Multi-Architecture
+Perspectives</h1>
+<h2 data-number="1.1"
+id="enterprise-data-integration-business-architecture"><span
+class="header-section-number">1.1</span> Enterprise, Data, Integration
+&amp; Business Architecture</h2>
+<p><strong>Document Version:</strong> 1.0 <strong>Last Updated:</strong>
+2025-10-18 <strong>Status:</strong> ✅ Complete</p>
+<hr />
+<h2 data-number="1.2" id="table-of-contents"><span
+class="header-section-number">1.2</span> Table of Contents</h2>
+<ol type="1">
+<li><a href="#1-introduction">Introduction</a></li>
+<li><a href="#2-enterprise-architecture">Enterprise
+Architecture</a></li>
+<li><a href="#3-data-architecture">Data Architecture</a></li>
+<li><a href="#4-integration-architecture">Integration
+Architecture</a></li>
+<li><a href="#5-business-architecture">Business Architecture</a></li>
+<li><a href="#6-cross-architecture-alignment">Cross-Architecture
+Alignment</a></li>
+<li><a href="#7-governance--standards">Governance &amp;
+Standards</a></li>
+</ol>
+<hr />
+<h2 data-number="1.3" id="introduction"><span
+class="header-section-number">1.3</span> 1. Introduction</h2>
+<h3 data-number="1.3.1" id="purpose"><span
+class="header-section-number">1.3.1</span> 1.1 Purpose</h3>
+<p>This document provides comprehensive architectural views from four
+critical perspectives: - <strong>Enterprise Architecture:</strong>
+Strategic technology landscape, standards, principles - <strong>Data
+Architecture:</strong> Data models, flows, governance, quality -
+<strong>Integration Architecture:</strong> System interfaces, APIs,
+message patterns - <strong>Business Architecture:</strong> Value
+streams, capabilities, processes</p>
+<h3 data-number="1.3.2" id="architecture-framework"><span
+class="header-section-number">1.3.2</span> 1.2 Architecture
+Framework</h3>
+<p>We use <strong>TOGAF 9.2</strong> (The Open Group Architecture
+Framework) as our foundation, adapted for robotics and manufacturing
+domains.</p>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                    TOGAF Architecture Domains               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────────────┐  ┌──────────────────┐               │
+│  │   Business       │  │   Data           │               │
+│  │   Architecture   │  │   Architecture   │               │
+│  │                  │  │                  │               │
+│  │ • Value streams  │  │ • Data models    │               │
+│  │ • Capabilities   │  │ • Data flows     │               │
+│  │ • Processes      │  │ • Governance     │               │
+│  └──────────────────┘  └──────────────────┘               │
+│           │                      │                          │
+│           └──────────┬───────────┘                          │
+│                      │                                      │
+│  ┌──────────────────▼──────────────────┐                   │
+│  │   Application Architecture          │                   │
+│  │                                     │                   │
+│  │ • Application portfolio             │                   │
+│  │ • Integration patterns              │                   │
+│  │ • APIs &amp; interfaces                 │                   │
+│  └──────────────────┬──────────────────┘                   │
+│                     │                                      │
+│  ┌──────────────────▼──────────────────┐                   │
+│  │   Technology Architecture           │                   │
+│  │                                     │                   │
+│  │ • Infrastructure                    │                   │
+│  │ • Platforms &amp; tools                 │                   │
+│  │ • Standards                         │                   │
+│  └─────────────────────────────────────┘                   │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+<h3 data-number="1.3.3" id="stakeholders"><span
+class="header-section-number">1.3.3</span> 1.3 Stakeholders</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 30%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Role</strong></th>
+<th><strong>Concerns</strong></th>
+<th><strong>Primary Artifacts</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Enterprise Architect</strong></td>
+<td>Strategic alignment, standards, portfolio</td>
+<td>EA roadmap, principles, standards catalog</td>
+</tr>
+<tr class="even">
+<td><strong>Data Architect</strong></td>
+<td>Data quality, governance, integration</td>
+<td>Data models, lineage, quality rules</td>
+</tr>
+<tr class="odd">
+<td><strong>Integration Architect</strong></td>
+<td>Connectivity, APIs, message flows</td>
+<td>Integration patterns, API specs, ESB design</td>
+</tr>
+<tr class="even">
+<td><strong>Business Architect</strong></td>
+<td>Value delivery, capabilities, processes</td>
+<td>Value stream maps, capability models</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.4" id="enterprise-architecture"><span
+class="header-section-number">1.4</span> 2. Enterprise Architecture</h2>
+<h3 data-number="1.4.1" id="enterprise-architecture-vision"><span
+class="header-section-number">1.4.1</span> 2.1 Enterprise Architecture
+Vision</h3>
+<p><strong>Mission:</strong> Establish a scalable, secure, and
+maintainable robotics automation platform that enables digital
+transformation in manufacturing operations.</p>
+<p><strong>Strategic Objectives:</strong> 1.
+<strong>Standardization:</strong> Common platforms, tools, and patterns
+across all robotic systems 2. <strong>Scalability:</strong> Support
+1-100 robot deployments with minimal incremental effort 3.
+<strong>Interoperability:</strong> Seamless integration with existing
+enterprise systems (MES, ERP, SCADA) 4. <strong>Innovation:</strong>
+Enable rapid adoption of new AI/ML models and technologies 5.
+<strong>Security:</strong> Enterprise-grade security, compliance, and
+audit capabilities</p>
+<h3 data-number="1.4.2" id="current-state-architecture-as-is"><span
+class="header-section-number">1.4.2</span> 2.2 Current State
+Architecture (As-Is)</h3>
+<pre><code>CURRENT STATE: Manual Pick-and-Place Operations
+─────────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────┐
+│                    Factory Floor                            │
+│                                                             │
+│  ┌──────────────┐         ┌──────────────┐                 │
+│  │   Human      │  picks  │   Human      │                 │
+│  │   Worker 1   │ ─────▶  │   Worker 2   │                 │
+│  │              │ objects │              │                 │
+│  │  14 picks/   │         │  Inspection  │                 │
+│  │  min         │         │              │                 │
+│  └──────────────┘         └──────────────┘                 │
+│         │                         │                         │
+│         │ Manual                  │ Manual                  │
+│         │ logging                 │ QA check                │
+│         ▼                         ▼                         │
+│  ┌──────────────┐         ┌──────────────┐                 │
+│  │   Paper      │         │   Spreadsheet│                 │
+│  │   Logs       │         │   QA Records │                 │
+│  └──────────────┘         └──────────────┘                 │
+└─────────────────────────────────────────────────────────────┘
+                  │
+                  │ End-of-day
+                  │ data entry
+                  ▼
+          ┌──────────────┐
+          │     MES      │
+          │   (Manual    │
+          │    entry)    │
+          └──────────────┘
+
+LIMITATIONS:
+❌ Low throughput (14 picks/min per worker)
+❌ High error rate (5%)
+❌ No real-time visibility
+❌ Manual data entry (delays, errors)
+❌ High labor costs ($195k/year for 4 FTE)
+❌ Limited scalability</code></pre>
+<h3 data-number="1.4.3" id="target-state-architecture-to-be"><span
+class="header-section-number">1.4.3</span> 2.3 Target State Architecture
+(To-Be)</h3>
+<pre><code>TARGET STATE: Automated Robotic Pick-and-Place
+───────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────┐
+│              EDGE TIER (Factory Floor)                      │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  Vision-Based Pick &amp; Place Robot System            │   │
+│  │                                                     │   │
+│  │  • 30 picks/min (automated)                         │   │
+│  │  • 99%+ accuracy                                    │   │
+│  │  • Real-time monitoring                             │   │
+│  │  • Automatic logging                                │   │
+│  └───────────────┬─────────────────────────────────────┘   │
+│                  │                                          │
+│                  │ Real-time data (MQTT/ROS2)               │
+└──────────────────┼──────────────────────────────────────────┘
+                   │
+                   │ Secure tunnel (TLS)
+                   ▼
+┌─────────────────────────────────────────────────────────────┐
+│              INTEGRATION TIER (On-Premises)                 │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │   API        │  │   Message    │  │   Data       │     │
+│  │   Gateway    │  │   Bus        │  │   Lake       │     │
+│  │   (Kong)     │  │   (Kafka)    │  │   (MinIO)    │     │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘     │
+│         │                 │                  │              │
+└─────────┼─────────────────┼──────────────────┼──────────────┘
+          │                 │                  │
+          │                 │                  │
+┌─────────▼─────────────────▼──────────────────▼──────────────┐
+│           APPLICATION TIER (Enterprise)                     │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │     MES      │  │     ERP      │  │   BI/        │     │
+│  │  (Real-time  │  │  (Inventory, │  │   Analytics  │     │
+│  │   updates)   │  │   finance)   │  │  (PowerBI)   │     │
+│  └──────────────┘  └──────────────┘  └──────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+
+BENEFITS:
+✓ 3× throughput (42,000 picks/day)
+✓ &lt;1% error rate (99%+ accuracy)
+✓ Real-time visibility (dashboards, alerts)
+✓ Automated data integration (zero manual entry)
+✓ Labor savings ($175k/year)
+✓ Scalable to 100+ robots</code></pre>
+<h3 data-number="1.4.4" id="technology-standards-principles"><span
+class="header-section-number">1.4.4</span> 2.4 Technology Standards
+&amp; Principles</h3>
+<h4 data-number="1.4.4.1" id="architecture-principles"><span
+class="header-section-number">1.4.4.1</span> 2.4.1 Architecture
+Principles</h4>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Principle</strong></th>
+<th><strong>Statement</strong></th>
+<th><strong>Rationale</strong></th>
+<th><strong>Implications</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>P1: Cloud-Native</strong></td>
+<td>Use containerized, microservices architecture</td>
+<td>Scalability, portability, rapid deployment</td>
+<td>All services run in Docker/K8s</td>
+</tr>
+<tr class="even">
+<td><strong>P2: API-First</strong></td>
+<td>All integrations via well-defined APIs</td>
+<td>Loose coupling, reusability</td>
+<td>REST/gRPC APIs for all services</td>
+</tr>
+<tr class="odd">
+<td><strong>P3: Data-Driven</strong></td>
+<td>Collect, store, and analyze all operational data</td>
+<td>Continuous improvement, predictive maintenance</td>
+<td>Centralized data lake, ML pipelines</td>
+</tr>
+<tr class="even">
+<td><strong>P4: Security by Design</strong></td>
+<td>Security integrated from the start</td>
+<td>Compliance, risk mitigation</td>
+<td>Zero-trust, encryption, audit logs</td>
+</tr>
+<tr class="odd">
+<td><strong>P5: Open Standards</strong></td>
+<td>Prefer open-source and industry standards</td>
+<td>Vendor independence, community support</td>
+<td>ROS2, MQTT, OPC-UA, REST</td>
+</tr>
+<tr class="even">
+<td><strong>P6: Modularity</strong></td>
+<td>Components are independently deployable</td>
+<td>Flexibility, maintainability</td>
+<td>Microservices, pluggable modules</td>
+</tr>
+<tr class="odd">
+<td><strong>P7: Automation</strong></td>
+<td>Automate deployment, testing, monitoring</td>
+<td>Speed, consistency, reliability</td>
+<td>CI/CD, IaC, automated testing</td>
+</tr>
+</tbody>
+</table>
+<h4 data-number="1.4.4.2" id="technology-standards-catalog"><span
+class="header-section-number">1.4.4.2</span> 2.4.2 Technology Standards
+Catalog</h4>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Category</strong></th>
+<th><strong>Standard</strong></th>
+<th><strong>Rationale</strong></th>
+<th><strong>Alternatives Considered</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Robotics Middleware</strong></td>
+<td>ROS2 Humble</td>
+<td>Industry standard, real-time support, large ecosystem</td>
+<td>ROS1 (legacy), proprietary SDKs</td>
+</tr>
+<tr class="even">
+<td><strong>Containerization</strong></td>
+<td>Docker 24.x</td>
+<td>Portability, reproducibility, ecosystem</td>
+<td>Podman, LXC</td>
+</tr>
+<tr class="odd">
+<td><strong>Orchestration</strong></td>
+<td>Kubernetes 1.28</td>
+<td>Scalability, high availability, declarative</td>
+<td>Docker Swarm, Nomad</td>
+</tr>
+<tr class="even">
+<td><strong>API Gateway</strong></td>
+<td>Kong 3.x</td>
+<td>Performance, plugins, open-source</td>
+<td>Nginx, Traefik, AWS API Gateway</td>
+</tr>
+<tr class="odd">
+<td><strong>Message Broker</strong></td>
+<td>Apache Kafka 3.5</td>
+<td>High throughput, fault tolerance, replay capability</td>
+<td>RabbitMQ, MQTT Broker, Redis Streams</td>
+</tr>
+<tr class="even">
+<td><strong>Time-Series DB</strong></td>
+<td>InfluxDB 2.7</td>
+<td>Optimized for metrics, retention policies</td>
+<td>Prometheus, TimescaleDB</td>
+</tr>
+<tr class="odd">
+<td><strong>Relational DB</strong></td>
+<td>PostgreSQL 15</td>
+<td>ACID, mature, JSON support</td>
+<td>MySQL, SQL Server</td>
+</tr>
+<tr class="even">
+<td><strong>Object Storage</strong></td>
+<td>MinIO (S3-compatible)</td>
+<td>Scalable, S3 API, on-premises</td>
+<td>AWS S3, Azure Blob, Ceph</td>
+</tr>
+<tr class="odd">
+<td><strong>Monitoring</strong></td>
+<td>Prometheus + Grafana</td>
+<td>De facto standard, rich ecosystem</td>
+<td>Datadog, New Relic, Elastic APM</td>
+</tr>
+<tr class="even">
+<td><strong>Logging</strong></td>
+<td>ELK Stack (Elasticsearch, Logstash, Kibana)</td>
+<td>Centralized, searchable, scalable</td>
+<td>Splunk, Graylog, Loki</td>
+</tr>
+<tr class="odd">
+<td><strong>CI/CD</strong></td>
+<td>GitHub Actions</td>
+<td>Native GitHub integration, free for open-source</td>
+<td>Jenkins, GitLab CI, CircleCI</td>
+</tr>
+<tr class="even">
+<td><strong>IaC</strong></td>
+<td>Terraform + Ansible</td>
+<td>Multi-cloud, declarative, mature</td>
+<td>CloudFormation, Pulumi</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.4.5" id="application-portfolio"><span
+class="header-section-number">1.4.5</span> 2.5 Application
+Portfolio</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│              APPLICATION PORTFOLIO MAP                      │
+└─────────────────────────────────────────────────────────────┘
+
+                      STRATEGIC IMPORTANCE
+                           (High)
+                             │
+    ┌────────────────────────┼────────────────────────┐
+    │ INVEST                 │ MAINTAIN               │
+    │                        │                        │
+    │ • Vision AI Platform   │ • ROS2 Control System  │
+    │ • MLOps Pipeline       │ • MES Integration      │
+    │ • Digital Twin         │ • ERP Connector        │
+    │                        │                        │
+────┼────────────────────────┼────────────────────────┼────
+    │                        │                        │
+    │ ELIMINATE              │ TOLERATE               │
+    │                        │                        │
+    │ • Paper Logs (legacy)  │ • Manual Calibration   │
+    │ • Spreadsheet QA       │   (migrate to auto)    │
+    │                        │                        │
+    └────────────────────────┼────────────────────────┘
+                             │
+                          (Low)
+                    BUSINESS VALUE
+                    ←──────────────────────→</code></pre>
+<h3 data-number="1.4.6" id="ea-roadmap-3-year"><span
+class="header-section-number">1.4.6</span> 2.6 EA Roadmap (3-Year)</h3>
+<pre><code>YEAR 1 (2025): Foundation
+──────────────────────────
+Q1-Q2: Single robot system deployment (MVP)
+Q3:    MES/ERP integration
+Q4:    Monitoring &amp; analytics platform
+
+YEAR 2 (2026): Scale
+────────────────────
+Q1:    5-robot deployment (multi-cell)
+Q2:    Digital twin &amp; simulation
+Q3:    Predictive maintenance (ML)
+Q4:    Edge computing optimization
+
+YEAR 3 (2027): Transform
+────────────────────────
+Q1:    20+ robot fleet management
+Q2:    Cross-facility orchestration
+Q3:    Advanced AI (reinforcement learning)
+Q4:    Zero-downtime autonomous operation</code></pre>
+<hr />
+<h2 data-number="1.5" id="data-architecture"><span
+class="header-section-number">1.5</span> 3. Data Architecture</h2>
+<h3 data-number="1.5.1" id="data-architecture-overview"><span
+class="header-section-number">1.5.1</span> 3.1 Data Architecture
+Overview</h3>
+<p><strong>Mission:</strong> Establish a unified, governed, and
+high-quality data foundation to support real-time operations, analytics,
+and AI/ML.</p>
+<h3 data-number="1.5.2" id="conceptual-data-model"><span
+class="header-section-number">1.5.2</span> 3.2 Conceptual Data
+Model</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│              CORE ENTITIES &amp; RELATIONSHIPS                  │
+└─────────────────────────────────────────────────────────────┘
+
+        ┌──────────────┐
+        │    Robot     │
+        │              │
+        │ • robot_id   │
+        │ • model      │
+        │ • location   │
+        └──────┬───────┘
+               │ 1
+               │ operates
+               │ n
+        ┌──────▼───────┐
+        │   Pick Task  │
+        │              │
+        │ • task_id    │
+        │ • timestamp  │
+        │ • status     │
+        └──────┬───────┘
+               │ 1
+               │ picks
+               │ n
+        ┌──────▼───────┐
+        │    Object    │
+        │              │
+        │ • object_id  │
+        │ • class_name │
+        │ • pose       │
+        └──────┬───────┘
+               │ n
+               │ uses
+               │ 1
+        ┌──────▼───────┐
+        │    Grasp     │
+        │              │
+        │ • grasp_id   │
+        │ • pose       │
+        │ • quality    │
+        └──────────────┘</code></pre>
+<h3 data-number="1.5.3" id="logical-data-model-relational"><span
+class="header-section-number">1.5.3</span> 3.3 Logical Data Model
+(Relational)</h3>
+<h4 data-number="1.5.3.1" id="operational-database-postgresql"><span
+class="header-section-number">1.5.3.1</span> 3.3.1 Operational Database
+(PostgreSQL)</h4>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- ROBOTS</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> robots (</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    robot_id <span class="dt">VARCHAR</span>(<span class="dv">50</span>) <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    model <span class="dt">VARCHAR</span>(<span class="dv">100</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    serial_number <span class="dt">VARCHAR</span>(<span class="dv">100</span>) <span class="kw">UNIQUE</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    location <span class="dt">VARCHAR</span>(<span class="dv">100</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    status <span class="dt">VARCHAR</span>(<span class="dv">20</span>) <span class="kw">DEFAULT</span> <span class="st">&#39;offline&#39;</span>,  <span class="co">-- offline, idle, running, error</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    last_heartbeat <span class="dt">TIMESTAMP</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    created_at <span class="dt">TIMESTAMP</span> <span class="kw">DEFAULT</span> NOW(),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    updated_at <span class="dt">TIMESTAMP</span> <span class="kw">DEFAULT</span> NOW()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">-- PICKS (Transactional data)</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> picks (</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    pick_id SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    robot_id <span class="dt">VARCHAR</span>(<span class="dv">50</span>) <span class="kw">REFERENCES</span> robots(robot_id),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timestamp</span> <span class="dt">TIMESTAMP</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> NOW(),</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Object details</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    object_class <span class="dt">VARCHAR</span>(<span class="dv">50</span>),</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    object_pose JSONB,  <span class="co">-- {x, y, z, qx, qy, qz, qw}</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Grasp details</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    grasp_pose JSONB,</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    grasp_quality <span class="dt">FLOAT</span> <span class="kw">CHECK</span> (grasp_quality <span class="kw">BETWEEN</span> <span class="dv">0</span> <span class="kw">AND</span> <span class="dv">1</span>),</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    grasp_force <span class="dt">FLOAT</span>,  <span class="co">-- Newtons</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Place details</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    place_pose JSONB,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    place_accuracy <span class="dt">FLOAT</span>,  <span class="co">-- mm</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Performance metrics</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    cycle_time <span class="dt">FLOAT</span>,  <span class="co">-- seconds</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    vision_latency <span class="dt">FLOAT</span>,  <span class="co">-- ms</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    planning_time <span class="dt">FLOAT</span>,  <span class="co">-- ms</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    execution_time <span class="dt">FLOAT</span>,  <span class="co">-- ms</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Status</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    success <span class="dt">BOOLEAN</span>,</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    error_code <span class="dt">VARCHAR</span>(<span class="dv">50</span>),</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    error_message TEXT,</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">CONSTRAINT</span> valid_timestamp <span class="kw">CHECK</span> (<span class="dt">timestamp</span> <span class="op">&gt;=</span> <span class="st">&#39;2025-01-01&#39;</span>)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_picks_timestamp <span class="kw">ON</span> picks(<span class="dt">timestamp</span> <span class="kw">DESC</span>);</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_picks_robot <span class="kw">ON</span> picks(robot_id);</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_picks_success <span class="kw">ON</span> picks(success);</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_picks_object_class <span class="kw">ON</span> picks(object_class);</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="co">-- CALIBRATIONS</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> calibrations (</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>    calibration_id SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    robot_id <span class="dt">VARCHAR</span>(<span class="dv">50</span>) <span class="kw">REFERENCES</span> robots(robot_id),</span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timestamp</span> <span class="dt">TIMESTAMP</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> NOW(),</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    calibration_type <span class="dt">VARCHAR</span>(<span class="dv">50</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,  <span class="co">-- &#39;hand_eye&#39;, &#39;tcp&#39;, &#39;workspace&#39;</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    <span class="kw">parameters</span> JSONB <span class="kw">NOT</span> <span class="kw">NULL</span>,  <span class="co">-- Calibration-specific parameters</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    reprojection_error <span class="dt">FLOAT</span>,  <span class="co">-- mm (for hand-eye)</span></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>    notes TEXT</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="co">-- SYSTEM_HEALTH</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> system_health (</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    health_id SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    robot_id <span class="dt">VARCHAR</span>(<span class="dv">50</span>) <span class="kw">REFERENCES</span> robots(robot_id),</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timestamp</span> <span class="dt">TIMESTAMP</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> NOW(),</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Compute metrics</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>    cpu_percent <span class="dt">FLOAT</span>,</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>    memory_percent <span class="dt">FLOAT</span>,</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    disk_percent <span class="dt">FLOAT</span>,</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    gpu_percent <span class="dt">FLOAT</span>,</span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>    gpu_memory_mb <span class="dt">FLOAT</span>,</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Temperature</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>    temperature_celsius <span class="dt">FLOAT</span>,</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- Network</span></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>    network_latency_ms <span class="dt">FLOAT</span>,</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>    packet_loss_percent <span class="dt">FLOAT</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_health_timestamp <span class="kw">ON</span> system_health(<span class="dt">timestamp</span> <span class="kw">DESC</span>);</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_health_robot <span class="kw">ON</span> system_health(robot_id);</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a><span class="co">-- ANOMALIES (ML-detected anomalies)</span></span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> anomalies (</span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>    anomaly_id SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>    robot_id <span class="dt">VARCHAR</span>(<span class="dv">50</span>) <span class="kw">REFERENCES</span> robots(robot_id),</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timestamp</span> <span class="dt">TIMESTAMP</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> NOW(),</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>    anomaly_type <span class="dt">VARCHAR</span>(<span class="dv">50</span>),  <span class="co">-- &#39;grasp_failure&#39;, &#39;planning_timeout&#39;, &#39;sensor_drift&#39;</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>    severity <span class="dt">VARCHAR</span>(<span class="dv">20</span>),  <span class="co">-- &#39;low&#39;, &#39;medium&#39;, &#39;high&#39;, &#39;critical&#39;</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>    description TEXT,</span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>    features JSONB,  <span class="co">-- ML features that triggered detection</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>    acknowledged <span class="dt">BOOLEAN</span> <span class="kw">DEFAULT</span> <span class="kw">FALSE</span>,</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>    acknowledged_by <span class="dt">VARCHAR</span>(<span class="dv">100</span>),</span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>    acknowledged_at <span class="dt">TIMESTAMP</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="co">-- USERS (for authentication)</span></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> users (</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>    user_id SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>    username <span class="dt">VARCHAR</span>(<span class="dv">100</span>) <span class="kw">UNIQUE</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>    email <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">UNIQUE</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>    password_hash <span class="dt">VARCHAR</span>(<span class="dv">255</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>    <span class="kw">role</span> <span class="dt">VARCHAR</span>(<span class="dv">50</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,  <span class="co">-- &#39;admin&#39;, &#39;engineer&#39;, &#39;operator&#39;, &#39;viewer&#39;</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>    created_at <span class="dt">TIMESTAMP</span> <span class="kw">DEFAULT</span> NOW(),</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>    last_login <span class="dt">TIMESTAMP</span></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a><span class="co">-- AUDIT_LOGS (immutable, for compliance)</span></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> audit_logs (</span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>    log_id SERIAL <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timestamp</span> <span class="dt">TIMESTAMP</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> NOW(),</span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>    user_id <span class="dt">INT</span> <span class="kw">REFERENCES</span> users(user_id),</span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>    action <span class="dt">VARCHAR</span>(<span class="dv">100</span>) <span class="kw">NOT</span> <span class="kw">NULL</span>,  <span class="co">-- &#39;START_SYSTEM&#39;, &#39;STOP_SYSTEM&#39;, &#39;E_STOP&#39;, &#39;CONFIG_CHANGE&#39;</span></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>    entity_type <span class="dt">VARCHAR</span>(<span class="dv">50</span>),  <span class="co">-- &#39;robot&#39;, &#39;config&#39;, &#39;user&#39;</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>    entity_id <span class="dt">VARCHAR</span>(<span class="dv">100</span>),</span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a>    details JSONB,</span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>    ip_address INET,</span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>    user_agent TEXT</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_audit_timestamp <span class="kw">ON</span> audit_logs(<span class="dt">timestamp</span> <span class="kw">DESC</span>);</span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_audit_user <span class="kw">ON</span> audit_logs(user_id);</span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_audit_action <span class="kw">ON</span> audit_logs(action);</span></code></pre></div>
+<h4 data-number="1.5.3.2" id="time-series-database-influxdb"><span
+class="header-section-number">1.5.3.2</span> 3.3.2 Time-Series Database
+(InfluxDB)</h4>
+<pre><code>// Measurement: cycle_time
+// Tags: robot_id, object_class
+// Fields: duration (float, seconds)
+// Retention: 30 days, downsampled to hourly after 7 days
+
+// Measurement: joint_states
+// Tags: robot_id, joint_name (shoulder_pan, shoulder_lift, ...)
+// Fields: position (float, rad), velocity (float, rad/s), effort (float, Nm)
+// Retention: 7 days (raw), 30 days (1min aggregates)
+
+// Measurement: vision_latency
+// Tags: robot_id, stage (detect, pose_estimate)
+// Fields: latency_ms (float)
+// Retention: 30 days
+
+// Measurement: force_torque
+// Tags: robot_id
+// Fields: fx, fy, fz (float, N), tx, ty, tz (float, Nm)
+// Retention: 7 days (raw), 30 days (10s aggregates)
+
+// Measurement: system_cpu
+// Tags: robot_id, host (nuc, jetson)
+// Fields: cpu_percent (float)
+// Retention: 30 days (1min aggregates)</code></pre>
+<h3 data-number="1.5.4" id="data-flow-architecture"><span
+class="header-section-number">1.5.4</span> 3.4 Data Flow
+Architecture</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                   DATA FLOW MAP                             │
+└─────────────────────────────────────────────────────────────┘
+
+  OPERATIONAL DATA FLOW (Real-Time)
+  ──────────────────────────────────
+
+  Robot Sensors ──▶ ROS2 Topics ──▶ Metrics Collector ─┬─▶ Prometheus
+                                                        │
+                                                        ├─▶ InfluxDB
+                                                        │
+                                                        └─▶ Kafka ──▶ PostgreSQL
+                                                                  │
+                                                                  └─▶ MES (via REST API)
+
+
+  ANALYTICAL DATA FLOW (Batch)
+  ─────────────────────────────
+
+  PostgreSQL ──▶ ETL Pipeline (Airflow) ──▶ Data Warehouse ──▶ BI Dashboards
+                                            (Snowflake/         (PowerBI/
+                                             BigQuery)          Tableau)
+                                                 │
+                                                 └──▶ ML Training (Vertex AI)
+
+
+  ARCHIVAL DATA FLOW (Cold Storage)
+  ──────────────────────────────────
+
+  PostgreSQL ──▶ S3/MinIO (Parquet) ──▶ Glacier
+  (7+ days old)    (Partitioned by date)   (1+ year old)</code></pre>
+<h3 data-number="1.5.5" id="data-quality-framework"><span
+class="header-section-number">1.5.5</span> 3.5 Data Quality
+Framework</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 21%" />
+<col style="width: 23%" />
+<col style="width: 16%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Dimension</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Measurement</strong></th>
+<th><strong>Target</strong></th>
+<th><strong>Actions</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Accuracy</strong></td>
+<td>Correctness of data values</td>
+<td>% of picks with pose error &lt;1mm</td>
+<td>&gt;99%</td>
+<td>Calibration checks, outlier detection</td>
+</tr>
+<tr class="even">
+<td><strong>Completeness</strong></td>
+<td>All required fields populated</td>
+<td>% of picks with non-null critical fields</td>
+<td>100%</td>
+<td>Validation rules, default values</td>
+</tr>
+<tr class="odd">
+<td><strong>Consistency</strong></td>
+<td>Data agrees across systems</td>
+<td>% match between robot logs and MES</td>
+<td>&gt;99.5%</td>
+<td>Reconciliation jobs, checksums</td>
+</tr>
+<tr class="even">
+<td><strong>Timeliness</strong></td>
+<td>Data available when needed</td>
+<td>Latency: sensor → dashboard</td>
+<td>&lt;5 sec</td>
+<td>Stream processing, caching</td>
+</tr>
+<tr class="odd">
+<td><strong>Uniqueness</strong></td>
+<td>No duplicate records</td>
+<td>Duplicate pick_ids</td>
+<td>0</td>
+<td>Primary key constraints, deduplication</td>
+</tr>
+<tr class="even">
+<td><strong>Validity</strong></td>
+<td>Data conforms to rules</td>
+<td>% of values within valid ranges</td>
+<td>100%</td>
+<td>Check constraints, input validation</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.5.6" id="data-governance"><span
+class="header-section-number">1.5.6</span> 3.6 Data Governance</h3>
+<h4 data-number="1.5.6.1" id="data-ownership"><span
+class="header-section-number">1.5.6.1</span> 3.6.1 Data Ownership</h4>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 21%" />
+<col style="width: 24%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Data Domain</strong></th>
+<th><strong>Data Owner</strong></th>
+<th><strong>Data Steward</strong></th>
+<th><strong>Responsibilities</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Robot Operational Data</strong></td>
+<td>Engineering Manager</td>
+<td>Senior Robot Engineer</td>
+<td>Schema design, quality monitoring, access control</td>
+</tr>
+<tr class="even">
+<td><strong>Production Metrics</strong></td>
+<td>Operations Manager</td>
+<td>Production Supervisor</td>
+<td>KPI definitions, reporting requirements</td>
+</tr>
+<tr class="odd">
+<td><strong>Quality Data</strong></td>
+<td>QA Manager</td>
+<td>QA Lead</td>
+<td>Defect tracking, root cause analysis</td>
+</tr>
+<tr class="even">
+<td><strong>Financial Data</strong></td>
+<td>CFO</td>
+<td>Finance Analyst</td>
+<td>Cost tracking, ROI calculations</td>
+</tr>
+</tbody>
+</table>
+<h4 data-number="1.5.6.2" id="data-lineage-example"><span
+class="header-section-number">1.5.6.2</span> 3.6.2 Data Lineage
+Example</h4>
+<pre><code>DATA LINEAGE: picks.cycle_time
+────────────────────────────────
+
+Source:
+  Robot Controller (ros2_control) @ 1000 Hz
+    │
+    ▼
+  ROS2 Topic: /task/status (10 Hz)
+    │ Published by: task_orchestrator_node
+    │ Message type: robot_msgs/TaskStatus
+    │ Field: cycle_time (float32)
+    │
+    ▼
+  Metrics Collector (Python) @ 10 Hz
+    │ Subscribes to: /task/status
+    │ Aggregates: mean, p95, p99 per minute
+    │
+    ├─▶ InfluxDB: cycle_time measurement
+    │   Retention: 30 days
+    │   Downsampling: 1min → 1hour after 7 days
+    │
+    └─▶ PostgreSQL: picks.cycle_time column
+        Persisted per pick
+        Indexed for queries
+        Partition by month
+
+Consumers:
+  • Grafana Dashboard (real-time chart)
+  • PowerBI Report (daily aggregates)
+  • ML Model (anomaly detection)
+  • MES API (production tracking)</code></pre>
+<h3 data-number="1.5.7" id="master-data-management-mdm"><span
+class="header-section-number">1.5.7</span> 3.7 Master Data Management
+(MDM)</h3>
+<h4 data-number="1.5.7.1" id="master-data-entities"><span
+class="header-section-number">1.5.7.1</span> 3.7.1 Master Data
+Entities</h4>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 29%" />
+<col style="width: 29%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Entity</strong></th>
+<th><strong>Source of Truth</strong></th>
+<th><strong>Sync Frequency</strong></th>
+<th><strong>Attributes</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Robot</strong></td>
+<td>Robot Registry DB</td>
+<td>Real-time</td>
+<td>robot_id, model, serial, location, IP</td>
+</tr>
+<tr class="even">
+<td><strong>Object Classes</strong></td>
+<td>Vision ML Registry</td>
+<td>On model update</td>
+<td>class_name, dimensions, weight, image</td>
+</tr>
+<tr class="odd">
+<td><strong>Workspace Zones</strong></td>
+<td>Configuration DB</td>
+<td>On change</td>
+<td>zone_id, type (pick/place), bounds</td>
+</tr>
+<tr class="even">
+<td><strong>Users</strong></td>
+<td>Identity Provider (Keycloak)</td>
+<td>Real-time (SSO)</td>
+<td>user_id, email, role, permissions</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.6" id="integration-architecture"><span
+class="header-section-number">1.6</span> 4. Integration
+Architecture</h2>
+<h3 data-number="1.6.1" id="integration-landscape"><span
+class="header-section-number">1.6.1</span> 4.1 Integration
+Landscape</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│              INTEGRATION ARCHITECTURE                       │
+└─────────────────────────────────────────────────────────────┘
+
+EXTERNAL SYSTEMS                 ROBOT SYSTEM
+─────────────────               ──────────────
+
+┌──────────┐                    ┌──────────────────┐
+│   MES    │◀────REST API──────▶│  Web Backend     │
+│          │    (JSON/HTTPS)    │  (FastAPI)       │
+└──────────┘                    └──────────────────┘
+                                         │
+┌──────────┐                             │ ROS2 Bridge
+│   ERP    │◀────REST API──────▶        │
+│          │    (JSON/HTTPS)             │
+└──────────┘                    ┌────────▼─────────┐
+                                │  ROS2 Middleware │
+┌──────────┐                    │  (DDS)           │
+│  SCADA   │◀────OPC-UA────────▶│                  │
+│          │    (real-time)     └──────────────────┘
+└──────────┘                             │
+                                         │
+┌──────────┐                    ┌────────▼─────────┐
+│  BI/     │◀────JDBC──────────▶│   PostgreSQL     │
+│Analytics │    (SQL queries)   │                  │
+└──────────┘                    └──────────────────┘</code></pre>
+<h3 data-number="1.6.2" id="integration-patterns"><span
+class="header-section-number">1.6.2</span> 4.2 Integration Patterns</h3>
+<h4 data-number="1.6.2.1" id="request-reply-synchronous"><span
+class="header-section-number">1.6.2.1</span> 4.2.1 Request-Reply
+(Synchronous)</h4>
+<p><strong>Use Case:</strong> Configuration changes, manual commands</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Start system via REST API</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Client (MES)</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.post(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;https://robot.factory.com/api/system/start&#39;</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    headers<span class="op">=</span>{<span class="st">&#39;Authorization&#39;</span>: <span class="st">&#39;Bearer &lt;token&gt;&#39;</span>},</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    json<span class="op">=</span>{<span class="st">&#39;robot_id&#39;</span>: <span class="st">&#39;robot_01&#39;</span>}</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> response.status_code <span class="op">==</span> <span class="dv">200</span>:</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;System started: </span><span class="sc">{</span>response<span class="sc">.</span>json()<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f&quot;Error: </span><span class="sc">{</span>response<span class="sc">.</span>json()[<span class="st">&#39;error&#39;</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Server (FastAPI)</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastapi <span class="im">import</span> FastAPI, HTTPException</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="at">@app.post</span>(<span class="st">&quot;/api/system/start&quot;</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> start_system(request: StartRequest):</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Call ROS2 service</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    ros_client <span class="op">=</span> node.create_client(StartSystem, <span class="st">&#39;/system/start&#39;</span>)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    ros_response <span class="op">=</span> <span class="cf">await</span> ros_client.call_async(StartSystem.Request())</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ros_response.success:</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> {<span class="st">&quot;success&quot;</span>: <span class="va">True</span>, <span class="st">&quot;message&quot;</span>: <span class="st">&quot;System started&quot;</span>}</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> HTTPException(status_code<span class="op">=</span><span class="dv">500</span>, detail<span class="op">=</span>ros_response.message)</span></code></pre></div>
+<h4 data-number="1.6.2.2" id="publish-subscribe-asynchronous"><span
+class="header-section-number">1.6.2.2</span> 4.2.2 Publish-Subscribe
+(Asynchronous)</h4>
+<p><strong>Use Case:</strong> Real-time telemetry, events</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Publish pick events to Kafka</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Producer (Metrics Collector)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> kafka <span class="im">import</span> KafkaProducer</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>producer <span class="op">=</span> KafkaProducer(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    bootstrap_servers<span class="op">=</span>[<span class="st">&#39;kafka:9092&#39;</span>],</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    value_serializer<span class="op">=</span><span class="kw">lambda</span> v: json.dumps(v).encode(<span class="st">&#39;utf-8&#39;</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_pick_complete(pick_data):</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    producer.send(<span class="st">&#39;picks&#39;</span>, value<span class="op">=</span>pick_data)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    producer.flush()</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Consumer (MES Integration Service)</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> kafka <span class="im">import</span> KafkaConsumer</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>consumer <span class="op">=</span> KafkaConsumer(</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;picks&#39;</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    bootstrap_servers<span class="op">=</span>[<span class="st">&#39;kafka:9092&#39;</span>],</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    value_deserializer<span class="op">=</span><span class="kw">lambda</span> m: json.loads(m.decode(<span class="st">&#39;utf-8&#39;</span>))</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> message <span class="kw">in</span> consumer:</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    pick <span class="op">=</span> message.value</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    update_mes_production_count(pick[<span class="st">&#39;robot_id&#39;</span>], pick[<span class="st">&#39;success&#39;</span>])</span></code></pre></div>
+<h4 data-number="1.6.2.3" id="event-driven-reactive"><span
+class="header-section-number">1.6.2.3</span> 4.2.3 Event-Driven
+(Reactive)</h4>
+<p><strong>Use Case:</strong> Error handling, alerts</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CloudEvents specification for robot error</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">{</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">&quot;specversion&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;1.0&quot;</span><span class="kw">,</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">&quot;type&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;com.factory.robot.error&quot;</span><span class="kw">,</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">&quot;source&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;/robots/robot_01&quot;</span><span class="kw">,</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">&quot;id&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;e12345-abcdef&quot;</span><span class="kw">,</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">&quot;time&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;2025-10-18T10:23:45.123Z&quot;</span><span class="kw">,</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">&quot;datacontenttype&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;application/json&quot;</span><span class="kw">,</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">&quot;data&quot;</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">&quot;error_code&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;GRASP_FAILURE&quot;</span><span class="kw">,</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">&quot;severity&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;medium&quot;</span><span class="kw">,</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">&quot;message&quot;</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;Object slipped during grasp&quot;</span><span class="kw">,</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">&quot;retry_count&quot;</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">}</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
+<h3 data-number="1.6.3" id="api-specifications"><span
+class="header-section-number">1.6.3</span> 4.3 API Specifications</h3>
+<h4 data-number="1.6.3.1" id="rest-api-external-integration"><span
+class="header-section-number">1.6.3.1</span> 4.3.1 REST API (External
+Integration)</h4>
+<p><strong>Base URL:</strong>
+<code>https://robot.factory.com/api/v1</code>
+<strong>Authentication:</strong> OAuth2 Bearer Token (JWT) <strong>Rate
+Limit:</strong> 1000 requests/hour per API key</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 17%" />
+<col style="width: 24%" />
+<col style="width: 14%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Endpoint</strong></th>
+<th><strong>Method</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Auth</strong></th>
+<th><strong>Rate Limit</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/system/status</code></td>
+<td>GET</td>
+<td>Get system status</td>
+<td>Required</td>
+<td>60/min</td>
+</tr>
+<tr class="even">
+<td><code>/system/start</code></td>
+<td>POST</td>
+<td>Start robot operation</td>
+<td>Admin/Engineer</td>
+<td>10/min</td>
+</tr>
+<tr class="odd">
+<td><code>/system/stop</code></td>
+<td>POST</td>
+<td>Stop robot operation</td>
+<td>Admin/Engineer</td>
+<td>10/min</td>
+</tr>
+<tr class="even">
+<td><code>/picks</code></td>
+<td>GET</td>
+<td>Query pick history</td>
+<td>Required</td>
+<td>60/min</td>
+</tr>
+<tr class="odd">
+<td><code>/picks/{id}</code></td>
+<td>GET</td>
+<td>Get pick details</td>
+<td>Required</td>
+<td>100/min</td>
+</tr>
+<tr class="even">
+<td><code>/metrics</code></td>
+<td>GET</td>
+<td>Get performance metrics</td>
+<td>Required</td>
+<td>60/min</td>
+</tr>
+<tr class="odd">
+<td><code>/config</code></td>
+<td>GET</td>
+<td>Get configuration</td>
+<td>Engineer</td>
+<td>30/min</td>
+</tr>
+<tr class="even">
+<td><code>/config</code></td>
+<td>PUT</td>
+<td>Update configuration</td>
+<td>Admin</td>
+<td>10/min</td>
+</tr>
+<tr class="odd">
+<td><code>/calibration</code></td>
+<td>POST</td>
+<td>Start calibration</td>
+<td>Engineer</td>
+<td>5/min</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example Response:</strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="er">GET</span> <span class="er">/api/v1/system/status</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;robot_id&quot;</span><span class="fu">:</span> <span class="st">&quot;robot_01&quot;</span><span class="fu">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;running&quot;</span><span class="fu">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;uptime_seconds&quot;</span><span class="fu">:</span> <span class="dv">3456789</span><span class="fu">,</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;picks_today&quot;</span><span class="fu">:</span> <span class="dv">28340</span><span class="fu">,</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;success_rate&quot;</span><span class="fu">:</span> <span class="fl">0.984</span><span class="fu">,</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;current_cycle_time&quot;</span><span class="fu">:</span> <span class="fl">1.82</span><span class="fu">,</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;errors_today&quot;</span><span class="fu">:</span> <span class="dv">45</span><span class="fu">,</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;last_error&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;2025-10-18T10:23:45Z&quot;</span><span class="fu">,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;code&quot;</span><span class="fu">:</span> <span class="st">&quot;GRASP_RETRY&quot;</span><span class="fu">,</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;resolved&quot;</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h4 data-number="1.6.3.2" id="grpc-api-internal-high-performance"><span
+class="header-section-number">1.6.3.2</span> 4.3.2 gRPC API (Internal
+High-Performance)</h4>
+<p><strong>Service Definition (Protocol Buffers):</strong></p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode protobuf"><code class="sourceCode protobuf"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>syntax = <span class="st">&quot;proto3&quot;</span>;</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">package</span> robot.control;</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>service RobotController {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  rpc GetJointStates(Empty) returns (JointStates);</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  rpc MoveToJointPositions(JointPositions) returns (MoveResponse);</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  rpc ExecutePickPlace(PickPlaceRequest) returns (PickPlaceResponse);</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  rpc StreamMetrics(Empty) returns (stream Metrics);</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="kw">message</span> JointStates {</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">repeated</span> <span class="dt">double</span> positions = <span class="dv">1</span>;  <span class="co">// radians</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">repeated</span> <span class="dt">double</span> velocities = <span class="dv">2</span>;  <span class="co">// rad/s</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">repeated</span> <span class="dt">double</span> efforts = <span class="dv">3</span>;  <span class="co">// Nm</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int64</span> timestamp = <span class="dv">4</span>;  <span class="co">// Unix timestamp (ns)</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="kw">message</span> PickPlaceRequest {</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  Pose pick_pose = <span class="dv">1</span>;</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  Pose place_pose = <span class="dv">2</span>;</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> approach_distance = <span class="dv">3</span>;  <span class="co">// meters</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> gripper_force = <span class="dv">4</span>;  <span class="co">// Newtons</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a><span class="kw">message</span> PickPlaceResponse {</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bool</span> success = <span class="dv">1</span>;</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  <span class="dt">string</span> <span class="kw">message</span> = <span class="dv">2</span>;</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> execution_time = <span class="dv">3</span>;  <span class="co">// seconds</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="kw">message</span> Pose {</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> x = <span class="dv">1</span>;</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> y = <span class="dv">2</span>;</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> z = <span class="dv">3</span>;</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> qx = <span class="dv">4</span>;  <span class="co">// quaternion</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> qy = <span class="dv">5</span>;</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> qz = <span class="dv">6</span>;</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>  <span class="dt">float</span> qw = <span class="dv">7</span>;</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 data-number="1.6.4" id="message-formats"><span
+class="header-section-number">1.6.4</span> 4.4 Message Formats</h3>
+<h4 data-number="1.6.4.1" id="pick-event-kafkamqtt"><span
+class="header-section-number">1.6.4.1</span> 4.4.1 Pick Event
+(Kafka/MQTT)</h4>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;event_type&quot;</span><span class="fu">:</span> <span class="st">&quot;pick_completed&quot;</span><span class="fu">,</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;2025-10-18T10:23:45.123Z&quot;</span><span class="fu">,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;robot_id&quot;</span><span class="fu">:</span> <span class="st">&quot;robot_01&quot;</span><span class="fu">,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pick_id&quot;</span><span class="fu">:</span> <span class="dv">127</span><span class="fu">,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;object&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;class&quot;</span><span class="fu">:</span> <span class="st">&quot;red_cube&quot;</span><span class="fu">,</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;confidence&quot;</span><span class="fu">:</span> <span class="fl">0.982</span><span class="fu">,</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;pose&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;position&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;x&quot;</span><span class="fu">:</span> <span class="fl">0.452</span><span class="fu">,</span> <span class="dt">&quot;y&quot;</span><span class="fu">:</span> <span class="fl">0.123</span><span class="fu">,</span> <span class="dt">&quot;z&quot;</span><span class="fu">:</span> <span class="fl">0.234</span><span class="fu">},</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;orientation&quot;</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">&quot;qx&quot;</span><span class="fu">:</span> <span class="fl">0.01</span><span class="fu">,</span> <span class="dt">&quot;qy&quot;</span><span class="fu">:</span> <span class="fl">-0.02</span><span class="fu">,</span> <span class="dt">&quot;qz&quot;</span><span class="fu">:</span> <span class="fl">0.03</span><span class="fu">,</span> <span class="dt">&quot;qw&quot;</span><span class="fu">:</span> <span class="fl">0.999</span><span class="fu">}</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;grasp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;quality&quot;</span><span class="fu">:</span> <span class="fl">0.87</span><span class="fu">,</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;force&quot;</span><span class="fu">:</span> <span class="fl">25.3</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;performance&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;cycle_time&quot;</span><span class="fu">:</span> <span class="fl">1.82</span><span class="fu">,</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;vision_latency&quot;</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">,</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;planning_time&quot;</span><span class="fu">:</span> <span class="dv">187</span><span class="fu">,</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;execution_time&quot;</span><span class="fu">:</span> <span class="dv">762</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;success&quot;</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h4 data-number="1.6.4.2" id="system-alert-emailslack"><span
+class="header-section-number">1.6.4.2</span> 4.4.2 System Alert
+(Email/Slack)</h4>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;alert_type&quot;</span><span class="fu">:</span> <span class="st">&quot;system_error&quot;</span><span class="fu">,</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;severity&quot;</span><span class="fu">:</span> <span class="st">&quot;high&quot;</span><span class="fu">,</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;2025-10-18T10:23:45Z&quot;</span><span class="fu">,</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;robot_id&quot;</span><span class="fu">:</span> <span class="st">&quot;robot_01&quot;</span><span class="fu">,</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;title&quot;</span><span class="fu">:</span> <span class="st">&quot;Planning Timeout Threshold Exceeded&quot;</span><span class="fu">,</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;Motion planning took 512ms, exceeding 500ms threshold&quot;</span><span class="fu">,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;impact&quot;</span><span class="fu">:</span> <span class="st">&quot;Potential cycle time increase&quot;</span><span class="fu">,</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;recommended_action&quot;</span><span class="fu">:</span> <span class="st">&quot;Check planner configuration, consider switching to RRTConnect&quot;</span><span class="fu">,</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;affected_picks&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">125</span><span class="ot">,</span> <span class="dv">126</span><span class="ot">,</span> <span class="dv">127</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;dashboard_link&quot;</span><span class="fu">:</span> <span class="st">&quot;https://robot.factory.com/dashboard?robot=robot_01&amp;time=2025-10-18T10:23:45Z&quot;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h3 data-number="1.6.5" id="integration-governance"><span
+class="header-section-number">1.6.5</span> 4.5 Integration
+Governance</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 29%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspect</strong></th>
+<th><strong>Policy</strong></th>
+<th><strong>Enforcement</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Versioning</strong></td>
+<td>Semantic versioning (v1.2.3) for all APIs</td>
+<td>API version in URL path</td>
+</tr>
+<tr class="even">
+<td><strong>Deprecation</strong></td>
+<td>6-month notice, maintain 2 versions concurrently</td>
+<td>Deprecation warnings in responses</td>
+</tr>
+<tr class="odd">
+<td><strong>Documentation</strong></td>
+<td>OpenAPI 3.0 spec for all REST APIs</td>
+<td>Auto-generated Swagger UI</td>
+</tr>
+<tr class="even">
+<td><strong>Testing</strong></td>
+<td>Contract testing for all integrations</td>
+<td>Pact.io, automated in CI/CD</td>
+</tr>
+<tr class="odd">
+<td><strong>Monitoring</strong></td>
+<td>Track latency, error rate, throughput</td>
+<td>Prometheus + Grafana</td>
+</tr>
+<tr class="even">
+<td><strong>Security</strong></td>
+<td>TLS 1.3, OAuth2, API keys</td>
+<td>Kong API Gateway</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.7" id="business-architecture"><span
+class="header-section-number">1.7</span> 5. Business Architecture</h2>
+<h3 data-number="1.7.1" id="value-stream-map"><span
+class="header-section-number">1.7.1</span> 5.1 Value Stream Map</h3>
+<pre><code>VALUE STREAM: Pick-and-Place Manufacturing Operation
+─────────────────────────────────────────────────────
+
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│   Receive    │───▶│   Identify   │───▶│   Pick &amp;     │───▶│   Place &amp;    │
+│   Objects    │    │   Objects    │    │   Grasp      │    │   Release    │
+└──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+     Manual              AI Vision          Robotic           Robotic
+   (Warehouse)         (30 FPS, &lt;50ms)   (99%+ success)    (±0.1mm accuracy)
+                                         (0.8s execution)   (0.3s execution)
+
+  Lead Time            Cycle Time         Cycle Time        Cycle Time
+   Variable            0.05s              0.8s              0.3s
+                                                                │
+                                                                │
+┌──────────────┐    ┌──────────────┐    ┌──────────────────────▼──┐
+│   Quality    │◀───│   Verify     │◀───│   Log Data          │
+│   Inspection │    │   Placement  │    │   (Automated)       │
+└──────────────┘    └──────────────┘    └─────────────────────┘
+   (Optional)           Camera               Real-time to
+   Manual/Auto         (real-time)          PostgreSQL/MES
+
+METRICS:
+────────
+• Total Lead Time: 1.15s (vs 4.2s manual)
+• Process Cycle Efficiency: 95% (value-add time / total time)
+• First-Pass Yield: 98.4% (vs 95% manual)
+• Cost per Pick: $0.003 (vs $0.012 manual)</code></pre>
+<h3 data-number="1.7.2" id="business-capability-model"><span
+class="header-section-number">1.7.2</span> 5.2 Business Capability
+Model</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│              BUSINESS CAPABILITY MODEL                      │
+└─────────────────────────────────────────────────────────────┘
+
+LEVEL 1: Strategic Capabilities
+─────────────────────────────────
+• Production Planning &amp; Scheduling
+• Quality Management
+• Asset Performance Management
+• Workforce Management
+
+LEVEL 2: Core Capabilities (Robot-Enabled)
+───────────────────────────────────────────
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│ Object Detection │  │ Grasp Planning   │  │ Motion Execution │
+│                  │  │                  │  │                  │
+│ • Vision AI      │  │ • Force closure  │  │ • Path planning  │
+│ • Pose estimation│  │ • Collision check│  │ • Trajectory ctrl│
+│ • Classification │  │ • Quality scoring│  │ • Safety monitor │
+└──────────────────┘  └──────────────────┘  └──────────────────┘
+
+LEVEL 3: Supporting Capabilities
+─────────────────────────────────
+• System Monitoring &amp; Alerting
+• Data Collection &amp; Analytics
+• Calibration &amp; Maintenance
+• Security &amp; Access Control
+
+CAPABILITY MATURITY:
+────────────────────
+Level 5: Optimizing    • Object Detection (AI-driven)
+Level 4: Managed       • Grasp Planning, Motion Execution
+Level 3: Defined       • Monitoring, Data Analytics
+Level 2: Repeatable    • Calibration
+Level 1: Initial       • Predictive Maintenance (roadmap)</code></pre>
+<h3 data-number="1.7.3" id="operating-model"><span
+class="header-section-number">1.7.3</span> 5.3 Operating Model</h3>
+<h4 data-number="1.7.3.1" id="organization-structure"><span
+class="header-section-number">1.7.3.1</span> 5.3.1 Organization
+Structure</h4>
+<pre><code>                    ┌────────────────────┐
+                    │   Plant Manager    │
+                    └──────────┬─────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              │                │                │
+       ┌──────▼──────┐  ┌──────▼──────┐  ┌─────▼──────┐
+       │  Production │  │ Engineering │  │  Quality   │
+       │   Manager   │  │   Manager   │  │   Manager  │
+       └──────┬──────┘  └──────┬──────┘  └─────┬──────┘
+              │                │                │
+    ┌─────────┴─────────┐      │                │
+    │                   │      │                │
+┌───▼────┐      ┌───────▼──────▼───┐    ┌───────▼──────┐
+│Operators│      │Robot Engineers  │    │QA Inspectors│
+│(3 shifts)│     │(Software/Mech)  │    │             │
+└─────────┘      └─────────────────┘    └─────────────┘
+                         │
+                  ┌──────┴──────┐
+                  │             │
+          ┌───────▼──────┐  ┌───▼──────────┐
+          │Data Scientist│  │Maintenance   │
+          │(AI/ML)       │  │Technician    │
+          └──────────────┘  └──────────────┘</code></pre>
+<h4 data-number="1.7.3.2" id="raci-matrix"><span
+class="header-section-number">1.7.3.2</span> 5.3.2 RACI Matrix</h4>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 16%" />
+<col style="width: 10%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Activity</strong></th>
+<th><strong>Operator</strong></th>
+<th><strong>Engineer</strong></th>
+<th><strong>Manager</strong></th>
+<th><strong>QA</strong></th>
+<th><strong>Maintenance</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Daily Operations</strong></td>
+<td>R</td>
+<td>C</td>
+<td>I</td>
+<td>I</td>
+<td>I</td>
+</tr>
+<tr class="even">
+<td><strong>System Configuration</strong></td>
+<td>I</td>
+<td>R, A</td>
+<td>C</td>
+<td>I</td>
+<td>I</td>
+</tr>
+<tr class="odd">
+<td><strong>Troubleshooting</strong></td>
+<td>I</td>
+<td>R, A</td>
+<td>C</td>
+<td>I</td>
+<td>C</td>
+</tr>
+<tr class="even">
+<td><strong>Calibration</strong></td>
+<td>I</td>
+<td>R</td>
+<td>A</td>
+<td>C</td>
+<td>C</td>
+</tr>
+<tr class="odd">
+<td><strong>Performance Analysis</strong></td>
+<td>I</td>
+<td>C</td>
+<td>R, A</td>
+<td>I</td>
+<td>I</td>
+</tr>
+<tr class="even">
+<td><strong>AI Model Updates</strong></td>
+<td>I</td>
+<td>R</td>
+<td>A</td>
+<td>I</td>
+<td>I</td>
+</tr>
+<tr class="odd">
+<td><strong>Preventive Maintenance</strong></td>
+<td>I</td>
+<td>C</td>
+<td>I</td>
+<td>I</td>
+<td>R, A</td>
+</tr>
+<tr class="even">
+<td><strong>Quality Audits</strong></td>
+<td>I</td>
+<td>I</td>
+<td>C</td>
+<td>R, A</td>
+<td>I</td>
+</tr>
+</tbody>
+</table>
+<p><em>R=Responsible, A=Accountable, C=Consulted, I=Informed</em></p>
+<h3 data-number="1.7.4" id="business-process-models-bpmn"><span
+class="header-section-number">1.7.4</span> 5.4 Business Process Models
+(BPMN)</h3>
+<h4 data-number="1.7.4.1" id="pick-and-place-process"><span
+class="header-section-number">1.7.4.1</span> 5.4.1 Pick-and-Place
+Process</h4>
+<pre><code>BPMN: Pick-and-Place Workflow
+──────────────────────────────
+
+Start ──▶ [Wait for Trigger] ──▶ &lt;Object Detected?&gt; ──No──▶ [Wait 1s] ──┐
+                                         │                                │
+                                        Yes                               │
+                                         │                                │
+                                         ▼                                │
+                              [Estimate Pose] ──▶ [Plan Grasp]           │
+                                         │                                │
+                                         ▼                                │
+                                 &lt;Grasp Valid?&gt; ──No──▶ [Log Failure] ───┘
+                                         │
+                                        Yes
+                                         │
+                                         ▼
+                              [Execute Pick] ──▶ &lt;Success?&gt; ──No──▶ [Retry] ──┐
+                                         │                              (3×)   │
+                                        Yes                                    │
+                                         │                                     │
+                                         ▼                                     │
+                              [Execute Place] ──▶ &lt;Success?&gt; ──No─────────────┘
+                                         │
+                                        Yes
+                                         │
+                                         ▼
+                                   [Log Success] ──▶ End</code></pre>
+<h3 data-number="1.7.5" id="kpi-dashboard-business-metrics"><span
+class="header-section-number">1.7.5</span> 5.5 KPI Dashboard (Business
+Metrics)</h3>
+<table>
+<thead>
+<tr class="header">
+<th><strong>KPI Category</strong></th>
+<th><strong>Metric</strong></th>
+<th><strong>Target</strong></th>
+<th><strong>Current</strong></th>
+<th><strong>Trend</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Productivity</strong></td>
+<td>Picks per Day</td>
+<td>28,000</td>
+<td>28,340</td>
+<td>▲ +1.2%</td>
+</tr>
+<tr class="even">
+<td><strong>Quality</strong></td>
+<td>Success Rate</td>
+<td>&gt;98%</td>
+<td>98.4%</td>
+<td>▲ +0.6%</td>
+</tr>
+<tr class="odd">
+<td><strong>Efficiency</strong></td>
+<td>Cycle Time</td>
+<td>&lt;2.0s</td>
+<td>1.82s</td>
+<td>▲ +9%</td>
+</tr>
+<tr class="even">
+<td><strong>Reliability</strong></td>
+<td>Uptime</td>
+<td>&gt;99%</td>
+<td>99.7%</td>
+<td>▲ +0.2%</td>
+</tr>
+<tr class="odd">
+<td><strong>Financial</strong></td>
+<td>Cost per Pick</td>
+<td>&lt;$0.005</td>
+<td>$0.003</td>
+<td>▲ +40%</td>
+</tr>
+<tr class="even">
+<td><strong>Safety</strong></td>
+<td>Incidents</td>
+<td>0</td>
+<td>0</td>
+<td>─ Stable</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.8" id="cross-architecture-alignment"><span
+class="header-section-number">1.8</span> 6. Cross-Architecture
+Alignment</h2>
+<h3 data-number="1.8.1" id="architecture-alignment-matrix"><span
+class="header-section-number">1.8.1</span> 6.1 Architecture Alignment
+Matrix</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 20%" />
+<col style="width: 11%" />
+<col style="width: 20%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Business Capability</strong></th>
+<th><strong>Application</strong></th>
+<th><strong>Data</strong></th>
+<th><strong>Integration</strong></th>
+<th><strong>Technology</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Object Detection</strong></td>
+<td>Vision Pipeline (YOLOv8)</td>
+<td>object_classes (MDM), detections (event)</td>
+<td>ROS2 topic, Kafka event</td>
+<td>Python, PyTorch, TensorRT, Jetson Xavier</td>
+</tr>
+<tr class="even">
+<td><strong>Grasp Planning</strong></td>
+<td>Grasp Synthesizer</td>
+<td>grasp candidates (transient)</td>
+<td>ROS2 service</td>
+<td>Python, NumPy, Open3D</td>
+</tr>
+<tr class="odd">
+<td><strong>Motion Execution</strong></td>
+<td>MoveIt2, ros2_control</td>
+<td>joint trajectories (transient)</td>
+<td>ROS2 action</td>
+<td>C++, OMPL, RT-Linux</td>
+</tr>
+<tr class="even">
+<td><strong>Data Analytics</strong></td>
+<td>Grafana, PowerBI</td>
+<td>picks (PostgreSQL), metrics (InfluxDB)</td>
+<td>REST API, JDBC</td>
+<td>PostgreSQL, InfluxDB, Grafana</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.8.2" id="architecture-decision-alignment"><span
+class="header-section-number">1.8.2</span> 6.2 Architecture Decision
+Alignment</h3>
+<p>Every architecture decision is validated against all four
+perspectives:</p>
+<p><strong>Example: Choice of ROS2 Humble</strong></p>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 35%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Perspective</strong></th>
+<th><strong>Validation</strong></th>
+<th><strong>Status</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Enterprise</strong></td>
+<td>Aligns with open-standards principle, large ecosystem</td>
+<td>✅ Approved</td>
+</tr>
+<tr class="even">
+<td><strong>Data</strong></td>
+<td>Supports efficient message serialization (CDR), DDS discovery</td>
+<td>✅ Approved</td>
+</tr>
+<tr class="odd">
+<td><strong>Integration</strong></td>
+<td>Native pub/sub, service, action patterns for interoperability</td>
+<td>✅ Approved</td>
+</tr>
+<tr class="even">
+<td><strong>Business</strong></td>
+<td>Enables rapid development (shorter time-to-market),
+cost-effective</td>
+<td>✅ Approved</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.9" id="governance-standards"><span
+class="header-section-number">1.9</span> 7. Governance &amp;
+Standards</h2>
+<h3 data-number="1.9.1" id="architecture-review-board-arb"><span
+class="header-section-number">1.9.1</span> 7.1 Architecture Review Board
+(ARB)</h3>
+<p><strong>Purpose:</strong> Ensure architectural consistency, quality,
+and alignment with strategy.</p>
+<p><strong>Members:</strong> - Enterprise Architect (Chair) - Data
+Architect - Integration Architect - Business Architect - CTO
+(Observer)</p>
+<p><strong>Responsibilities:</strong> - Review architecture decision
+records (ADRs) - Approve deviations from standards - Maintain
+architecture roadmap - Conduct quarterly architecture health checks</p>
+<h3 data-number="1.9.2" id="architecture-health-metrics"><span
+class="header-section-number">1.9.2</span> 7.2 Architecture Health
+Metrics</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 30%" />
+<col style="width: 22%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Metric</strong></th>
+<th><strong>Definition</strong></th>
+<th><strong>Target</strong></th>
+<th><strong>Current</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Standard Compliance</strong></td>
+<td>% of systems following EA standards</td>
+<td>&gt;95%</td>
+<td>98%</td>
+</tr>
+<tr class="even">
+<td><strong>Technical Debt</strong></td>
+<td>Effort to remediate non-standard implementations</td>
+<td>&lt;5% of total dev effort</td>
+<td>3.2%</td>
+</tr>
+<tr class="odd">
+<td><strong>Integration Complexity</strong></td>
+<td># of point-to-point integrations / total integrations</td>
+<td>&lt;20%</td>
+<td>12%</td>
+</tr>
+<tr class="even">
+<td><strong>Data Quality Score</strong></td>
+<td>Composite score (accuracy, completeness, timeliness)</td>
+<td>&gt;95%</td>
+<td>97.3%</td>
+</tr>
+<tr class="odd">
+<td><strong>API SLA Adherence</strong></td>
+<td>% of API calls meeting latency SLA (&lt;100ms)</td>
+<td>&gt;99%</td>
+<td>99.6%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.10" id="summary"><span
+class="header-section-number">1.10</span> Summary</h2>
+<h3 data-number="1.10.1" id="multi-architecture-coverage"><span
+class="header-section-number">1.10.1</span> Multi-Architecture
+Coverage</h3>
+<p>✅ <strong>Enterprise Architecture:</strong> Strategic alignment,
+standards, roadmap (3-year) ✅ <strong>Data Architecture:</strong>
+Logical/physical models, governance, quality, lineage ✅
+<strong>Integration Architecture:</strong> Patterns, APIs (REST/gRPC),
+message formats ✅ <strong>Business Architecture:</strong> Value
+streams, capabilities, operating model, KPIs</p>
+<h3 data-number="1.10.2" id="key-deliverables"><span
+class="header-section-number">1.10.2</span> Key Deliverables</h3>
+<table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 30%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Architecture</strong></th>
+<th><strong>Artifacts</strong></th>
+<th><strong>Governance</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Enterprise</strong></td>
+<td>EA principles, technology standards, application portfolio,
+roadmap</td>
+<td>ARB review, quarterly health checks</td>
+</tr>
+<tr class="even">
+<td><strong>Data</strong></td>
+<td>Conceptual/logical/physical models, data lineage, quality rules,
+MDM</td>
+<td>Data governance council, monthly audits</td>
+</tr>
+<tr class="odd">
+<td><strong>Integration</strong></td>
+<td>API specs (OpenAPI), message schemas (Protobuf/JSON), integration
+patterns</td>
+<td>API review process, contract testing</td>
+</tr>
+<tr class="even">
+<td><strong>Business</strong></td>
+<td>Value stream maps, capability model, BPMN processes, KPI
+dashboard</td>
+<td>Business review, monthly KPI tracking</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Document Status:</strong> ✅ v1.0 Complete <strong>Related
+Documents:</strong> Technical Stack (05), HLD (08), LLD (14)
+<strong>Framework:</strong> TOGAF 9.2, ArchiMate 3.1</p>
+<hr />
+</div></body>
+</html>

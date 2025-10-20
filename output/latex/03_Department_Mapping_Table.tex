@@ -1,0 +1,894 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={03 Department Mapping Table},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{03 Department Mapping Table}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{department-mapping-table---vision-based-pick-and-place-system}{%
+\section{Department Mapping Table - Vision-Based Pick and Place
+System}\label{department-mapping-table---vision-based-pick-and-place-system}}
+
+\hypertarget{overview}{%
+\subsection{Overview}\label{overview}}
+
+This document provides a \textbf{comprehensive cross-departmental
+mapping} of concepts, modules, specifications, testing, observability,
+and logging for the vision-based pick-and-place robotic system.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{core-concepts-by-department}{%
+\subsection{1. Core Concepts by
+Department}\label{core-concepts-by-department}}
+
+\hypertarget{mechanical-department}{%
+\subsubsection{1.1 Mechanical Department}\label{mechanical-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2479}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4463}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3058}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Concept}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Robot Kinematics & D-H parameters, link geometry & Workspace analysis,
+URDF modeling \\
+Rigid Body Dynamics & M(q)q̈ + C(q,q̇)q̇ + G(q) = τ & Motion simulation,
+control design \\
+End-Effector Design & Gripper mechanisms (parallel jaw, suction) & Grasp
+force, object handling \\
+Transmission Systems & Gears, harmonic drives, belts & Torque
+amplification, backlash \\
+Structural Analysis & FEA, vibration modes, stiffness & Minimize
+oscillations, ensure safety \\
+Material Selection & Aluminum, steel, composites & Weight vs strength
+trade-offs \\
+CAD Modeling & SolidWorks, CATIA, Fusion 360 & 3D design, assembly
+validation \\
+\end{longtable}
+
+\hypertarget{electrical-department}{%
+\subsubsection{1.2 Electrical Department}\label{electrical-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2479}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4463}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3058}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Concept}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Power Distribution & AC-DC conversion, DC bus architecture & 48V DC bus
+for motors, 12V for logic \\
+Motor Control & Servo drives, current/velocity/position loops & Joint
+actuation, precision control \\
+Power Budget & Calculate total power consumption & Size power supply,
+thermal mgmt \\
+EMI/EMC Compliance & Electromagnetic interference/compatibility & CE
+marking, industrial standards \\
+Grounding \& Safety & Protective earth, isolation & Electrical safety,
+noise reduction \\
+Circuit Protection & Fuses, circuit breakers, overcurrent & Prevent
+damage, safety shutdown \\
+Wiring \& Cabling & Cable sizing, shielding, routing & Minimize voltage
+drop, interference \\
+\end{longtable}
+
+\hypertarget{electronics-department}{%
+\subsubsection{1.3 Electronics
+Department}\label{electronics-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2479}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4463}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3058}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Concept}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Vision Sensors & RGB-D cameras, stereo, industrial cameras & Object
+detection, pose estimation \\
+Force/Torque Sensing & 6-axis F/T sensors, strain gauges & Grasp
+control, collision detection \\
+Proximity Sensors & Inductive, capacitive, photoelectric & Object
+presence, safety zones \\
+Encoder Systems & Rotary (incremental/absolute), linear & Joint position
+feedback \\
+Signal Conditioning & Amplification, filtering, ADC & Noise reduction,
+accurate sensing \\
+Embedded Controllers & MCU (STM32), SBC (Jetson, RPi) & Low-level I/O,
+vision processing \\
+Communication Interfaces & USB, UART, SPI, I2C, EtherCAT, CAN & Sensor
+data transfer, motor control \\
+\end{longtable}
+
+\hypertarget{software-department}{%
+\subsubsection{1.4 Software Department}\label{software-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2479}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4463}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3058}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Concept}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ROS2 Architecture & Nodes, topics, services, actions & System
+integration, modularity \\
+MoveIt Motion Planning & OMPL, collision checking, IK & Path planning,
+trajectory generation \\
+Computer Vision Pipeline & Image processing, object detection (YOLO,
+OpenCV) & Perception, localization \\
+State Machines / Behavior Trees & Task sequencing, error handling &
+High-level control, autonomy \\
+Real-Time Control & RT-Preempt Linux, deterministic loops & Low-latency
+motor control \\
+Data Management & Databases (PostgreSQL), time-series (InfluxDB) &
+Logging, analytics \\
+API Design & RESTful APIs, gRPC, ROS services & External integration \\
+\end{longtable}
+
+\hypertarget{ai-department}{%
+\subsubsection{1.5 AI Department}\label{ai-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2479}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4463}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3058}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Concept}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Object Detection & Deep learning (YOLO, SSD, Faster R-CNN) & Identify
+objects in images \\
+Pose Estimation & 6DoF pose from RGB-D (PVNet, DenseFusion) & Grasp
+planning, alignment \\
+Grasp Synthesis & Learning-based (GraspNet, Dex-Net) & Optimal grasp
+selection \\
+Reinforcement Learning & Policy learning for adaptive grasping & Improve
+performance over time \\
+Point Cloud Processing & Segmentation, clustering (PCL, Open3D) & 3D
+scene understanding \\
+Model Training & Training pipelines, data augmentation & Custom
+datasets, fine-tuning \\
+Inference Optimization & TensorRT, ONNX Runtime, quantization &
+Real-time performance on edge \\
+\end{longtable}
+
+\hypertarget{security-department}{%
+\subsubsection{1.6 Security Department}\label{security-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2479}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4463}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3058}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Concept}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Network Security & Firewalls, VLANs, secure communication & Protect
+control network \\
+Authentication \& Authorization & User roles, access control (RBAC) &
+Restrict system access \\
+Data Encryption & TLS for communication, encrypted storage & Protect
+sensitive data \\
+Secure Boot & Firmware integrity verification & Prevent unauthorized
+code \\
+Vulnerability Management & Regular security audits, patch management &
+Minimize attack surface \\
+Safety Interlocks & Emergency stop, safety-rated controllers & Physical
+safety enforcement \\
+Logging \& Audit Trails & Immutable logs, intrusion detection &
+Forensics, compliance \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{module-mapping-by-department}{%
+\subsection{2. Module Mapping by
+Department}\label{module-mapping-by-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1091}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2364}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2242}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2182}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2121}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Module/Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Inputs}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Outputs}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Technology Stack}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Mechanical} & Robot Manipulator (6-DOF Arm) & Motor torques &
+Joint motion, end-effector pose & Aluminum links, harmonic drives \\
+& Gripper Assembly & Gripper command (open/close) & Grasp force, jaw
+position & Parallel jaw, pneumatic actuator \\
+& Mounting Frame & Static loads & Structural support & Steel frame,
+vibration dampers \\
+\textbf{Electrical} & Power Supply Unit (48V DC) & 230V AC mains & 48V
+DC, 20A & AC-DC converter, EMI filter \\
+& Servo Drive (EtherCAT) & Position/velocity commands & Motor current
+(3-phase AC) & Beckhoff, Kollmorgen drives \\
+& Power Distribution Board & 48V DC bus & 12V, 5V, 3.3V rails & Buck
+converters, fuses \\
+\textbf{Electronics} & RGB-D Camera (RealSense D435) & USB 3.0 power,
+triggers & RGB image, depth map, point cloud & Intel RealSense SDK \\
+& Force/Torque Sensor (ATI Mini45) & Robot motion, contact forces & Fx,
+Fy, Fz, Tx, Ty, Tz & ATI DAQ, ROS driver \\
+& Absolute Encoders (17-bit) & Motor shaft rotation & Absolute position
+& BiSS-C, EnDat protocol \\
+& Embedded Controller (Jetson Xavier) & Vision data, control commands &
+Object poses, grasp plans & NVIDIA Jetson, Ubuntu 22.04 \\
+\textbf{Software} & Vision Pipeline Node & RGB-D frames & Object
+bounding boxes, poses & ROS2, OpenCV, YOLO \\
+& MoveIt Planning Node & Target pose, scene & Joint trajectory &
+MoveIt2, OMPL \\
+& Grasp Planner Node & Object pose, point cloud & Gripper pose, approach
+vector & PCL, custom algorithms \\
+& Task Orchestrator (State Machine) & System state, sensor events &
+High-level commands & BehaviorTree.CPP, SMACH \\
+& ros2\_control Controller Manager & Joint trajectories & Motor commands
+(EtherCAT) & ros2\_control, RT-Preempt \\
+\textbf{AI} & Object Detection Model (YOLOv8) & RGB image (640x640) &
+Bounding boxes, class labels & PyTorch, TensorRT \\
+& Pose Estimation Model (PVNet) & RGB-D, object mask & 6DoF pose
+(x,y,z,roll,pitch,yaw) & PyTorch, CUDA \\
+& Grasp Network (GraspNet) & Point cloud, object segmentation & Grasp
+poses, quality scores & TensorFlow, Python \\
+\textbf{Security} & Firewall \& Network Segmentation & Network traffic &
+Filtered traffic & iptables, VLANs \\
+& Authentication Service & User credentials & Access tokens (JWT) &
+OAuth2, Keycloak \\
+& Audit Logger & System events & Immutable log entries & Syslog, ELK
+stack \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ui-visualization-specifications-by-department}{%
+\subsection{3. UI, Visualization, Specifications by
+Department}\label{ui-visualization-specifications-by-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1216}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2635}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3716}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2432}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{UI/Visualization}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Specifications}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tools}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Mechanical} & CAD 3D viewer, assembly animations & - Workspace:
+800mm radius- Payload: 5kg- Repeatability: ±0.1mm & SolidWorks, Fusion
+360, FreeCAD \\
+& FEA stress/strain visualization & - Max deflection: \textless0.5mm-
+Safety factor: \textgreater3 & ANSYS, Abaqus \\
+\textbf{Electrical} & Power flow diagram, load distribution & - Input:
+230V AC, 50Hz- DC Bus: 48V, 20A- Efficiency: \textgreater90\% & AutoCAD
+Electrical, EPLAN \\
+& Circuit schematics, PCB layout & - Overcurrent protection: 25A
+breaker- Grounding: \textless1Ω & KiCAD, Altium Designer \\
+\textbf{Electronics} & Sensor data dashboards (Grafana) & - Camera:
+1920x1080 @ 30fps- F/T range: ±100N, ±10Nm- Encoder: 17-bit & Grafana,
+Plotly, RViz2 \\
+& Signal waveforms (oscilloscope) & - ADC: 16-bit, 1kHz sampling- Noise:
+\textless0.1\% FSR & LTSpice, oscilloscope tools \\
+\textbf{Software} & RViz2 (robot state, TF, point clouds) & - Control
+loop: 1kHz- Latency: \textless10ms- ROS2: Humble & RViz2, Foxglove
+Studio \\
+& Dashboards (system status, metrics) & - API: RESTful, gRPC- Database:
+PostgreSQL & Grafana, Prometheus, Kibana \\
+\textbf{AI} & Model performance plots (precision-recall) & - Detection
+mAP: \textgreater0.95- Pose error: \textless5mm, \textless5°- Inference:
+\textless50ms & TensorBoard, Weights \& Biases \\
+& Live inference visualization & - GPU utilization: \textgreater80\%-
+Batch size: 1 (real-time) & Custom dashboards, Jupyter \\
+\textbf{Security} & Security monitoring dashboard & - Access logs
+retention: 1 year- Encryption: TLS 1.3- Audit: ISO 27001 & Splunk, ELK,
+Grafana \\
+& Network topology map & - Segmentation: 3 VLANs (control, data, mgmt) &
+Nmap, Wireshark \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{testing-by-department}{%
+\subsection{4. Testing by Department}\label{testing-by-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0984}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2131}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3005}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1967}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1913}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Test Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Test Cases}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pass Criteria}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tools}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Mechanical} & Static Load Testing & Apply 5kg payload, measure
+deflection & Deflection \textless0.5mm & Load cell, dial indicator \\
+& Vibration Testing & Excite at natural frequencies, measure amplitude &
+Amplitude \textless1mm & Accelerometer, FFT analyzer \\
+& Endurance Testing & 10,000 pick-place cycles & No mechanical
+wear/failure & Automated test rig \\
+\textbf{Electrical} & Power Quality Testing & Measure voltage ripple,
+efficiency & Ripple \textless5\%, Efficiency \textgreater90\% &
+Oscilloscope, power meter \\
+& EMC Testing & Radiated/conducted emissions & Comply with EN 61000-6-2
+& EMC chamber, spectrum analyzer \\
+& Short-Circuit Testing & Intentional short, verify protection triggers
+& Breaker trips \textless10ms & Current probe, oscilloscope \\
+\textbf{Electronics} & Sensor Calibration & Compare sensor output with
+known reference & Error \textless1\% FSR & Calibration weights,
+fixtures \\
+& Signal Integrity Testing & Measure noise, crosstalk on high-speed
+buses & SNR \textgreater40dB & Oscilloscope, logic analyzer \\
+& Environmental Testing & Temperature (-10°C to 50°C), humidity (10-90\%
+RH) & Functional within range & Climate chamber \\
+\textbf{Software} & Unit Testing & Test individual ROS nodes, functions
+& Code coverage \textgreater80\% & pytest, gtest \\
+& Integration Testing & Test node communication, end-to-end workflow &
+All tests pass & ROS launch tests, pytest \\
+& Real-Time Performance Testing & Measure control loop jitter, latency &
+Jitter \textless1ms, Latency \textless10ms & cyclictest, ROS
+diagnostics \\
+& Load Testing & Simulate 100 concurrent vision requests & Response time
+\textless100ms & JMeter, Locust \\
+\textbf{AI} & Model Validation & Test on holdout dataset & mAP
+\textgreater0.95, Pose error \textless5mm & Python scripts,
+TensorBoard \\
+& Edge Case Testing & Occluded objects, varying lighting & Detection
+rate \textgreater90\% & Custom test datasets \\
+& Performance Benchmarking & Measure inference time on target hardware &
+\textless50ms per frame & NVIDIA Nsight, TensorRT profiler \\
+\textbf{Security} & Penetration Testing & Simulate cyberattacks on
+control network & No unauthorized access & Metasploit, Nmap, Burp
+Suite \\
+& Access Control Testing & Verify role-based permissions & Users
+restricted per role & Manual testing, automated scripts \\
+& Encryption Validation & Verify TLS handshake, data encryption & TLS
+1.3, AES-256 & Wireshark, OpenSSL tools \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{observability-by-department}{%
+\subsection{5. Observability by
+Department}\label{observability-by-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0984}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2131}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3005}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1967}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1913}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Metrics Monitored}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Thresholds/Alerts}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Visualization}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tools}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Mechanical} & Joint positions, velocities & Position error
+\textgreater5mm → alert & RViz2, Grafana time-series & ROS diagnostics,
+Prometheus \\
+& Gripper force, jaw opening & Force \textgreater100N → alert (overload)
+& Grafana dashboard & ros2\_control, InfluxDB \\
+\textbf{Electrical} & Bus voltage, current draw & Voltage \textless45V
+or \textgreater50V → alertCurrent \textgreater20A → alert & Grafana,
+SCADA HMI & Modbus monitors, Grafana \\
+& Motor temperatures & Temp \textgreater70°C → warning, \textgreater80°C
+→ shutdown & Thermal camera, Grafana & Thermistors, Prometheus \\
+\textbf{Electronics} & Camera frame rate, data rate & FPS \textless25 →
+warning & Grafana, RViz2 diagnostics & ROS image\_transport,
+Prometheus \\
+& F/T sensor readings & Force spike \textgreater150N → collision alert &
+Real-time plot, Grafana & ROS topic monitor \\
+& CPU/GPU utilization (Jetson) & GPU \textgreater95\% → thermal
+throttling risk & NVIDIA Jetson stats, Grafana & tegrastats, Prometheus
+exporter \\
+\textbf{Software} & Node alive status, topic Hz & Node down → critical
+alertHz \textless10 → warning & ROS2 diagnostics, Grafana & ros2 topic
+hz, diagnostics agg \\
+& Control loop latency, jitter & Latency \textgreater10ms → warning &
+Grafana time-series & ROS diagnostics, Prometheus \\
+& Database query time & Query \textgreater100ms → slow query log &
+Grafana, pgAdmin & PostgreSQL logs, Prometheus \\
+\textbf{AI} & Inference time, GPU memory & Inference \textgreater50ms →
+warningMemory \textgreater90\% → alert & Grafana, TensorBoard &
+NVIDIA-SMI, Prometheus \\
+& Detection confidence scores & Confidence \textless0.7 → low confidence
+alert & Custom dashboard & ROS topic, Grafana \\
+\textbf{Security} & Failed login attempts & \textgreater5 failures in
+5min → lockout + alert & Security dashboard, SIEM & Fail2ban, ELK
+stack \\
+& Network anomalies & Unexpected traffic → alert & Network topology,
+Grafana & Intrusion detection (Snort), ELK \\
+& Certificate expiry & \textless30 days → warning & Security dashboard &
+Certbot, Prometheus \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{logging-tracing-by-department}{%
+\subsection{6. Logging \& Tracing by
+Department}\label{logging-tracing-by-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1098}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2378}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3354}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0976}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2195}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Logs Captured}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Log Format}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Retention}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tools}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Mechanical} & Joint positions, trajectories & CSV, ROS bag & 30
+days & rosbag2, custom logger \\
+& Collision events, emergency stops & JSON, syslog & 1 year & syslog-ng,
+ELK \\
+\textbf{Electrical} & Power on/off events, faults & Syslog, Modbus logs
+& 1 year & syslog, Modbus logger \\
+& Motor drive errors, alarms & Proprietary drive logs, CSV & 1 year &
+Drive software, custom parser \\
+\textbf{Electronics} & Sensor data streams (raw + processed) & HDF5, ROS
+bag & 7 days (raw) & rosbag2, HDF5 \\
+& Calibration parameters, changes & JSON, version-controlled files &
+Indefinite & Git, config management \\
+\textbf{Software} & ROS node logs (INFO, WARN, ERROR) & ROS logging
+(console, file) & 30 days & ros2 launch, syslog \\
+& API requests/responses & JSON, structured logs & 90 days & FastAPI
+logging, ELK \\
+& Control loop timings & CSV, InfluxDB time-series & 30 days & InfluxDB,
+Grafana \\
+\textbf{AI} & Model version, hyperparameters & MLflow tracking, YAML
+configs & Indefinite & MLflow, DVC \\
+& Inference results (detections, poses) & JSON, ROS bag & 30 days &
+rosbag2, custom JSON logger \\
+& Training metrics (loss, accuracy) & TensorBoard logs & Indefinite &
+TensorBoard, Weights \& Biases \\
+\textbf{Security} & Authentication attempts (success/fail) & Syslog,
+JSON & 1 year & Syslog, ELK \\
+& System access audit trail & Immutable logs (blockchain/append-only) &
+5 years & Audit logging service, ELK \\
+& Network traffic logs & Pcap, NetFlow & 30 days & tcpdump, Wireshark,
+ELK \\
+\end{longtable}
+
+\textbf{Distributed Tracing:} - \textbf{Tool:} Jaeger, Zipkin -
+\textbf{Purpose:} Trace requests across ROS nodes, services, actions -
+\textbf{Retention:} 7 days - \textbf{Instrumentation:} OpenTelemetry in
+ROS2 nodes
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{cross-department-integration-matrix}{%
+\subsection{7. Cross-Department Integration
+Matrix}\label{cross-department-integration-matrix}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2426}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2574}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Integration Point}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Departments Involved}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Interface}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Critical Requirements}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Camera to Vision Pipeline & Electronics ↔ Software & USB 3.0, ROS
+image\_transport & \textless30ms latency, 30fps \\
+Vision to Motion Planning & Software (AI) ↔ Software (MoveIt) & ROS
+service/action & Pose accuracy \textless5mm \\
+Motion Planning to Motor Control & Software ↔ Electrical & EtherCAT,
+ros2\_control & 1kHz control loop, \textless1ms jitter \\
+F/T Sensor to Control & Electronics ↔ Software & Analog/Digital, ROS
+topic & 1kHz sampling, \textless0.1N noise \\
+Emergency Stop & Electrical ↔ Security & Hardwired, Safety PLC &
+\textless10ms response time \\
+Power Supply to Motors & Electrical ↔ Mechanical & 48V DC bus & Voltage
+ripple \textless5\% \\
+CAD to Simulation & Mechanical ↔ Software & URDF export & Accurate
+inertia, collision mesh \\
+Security Auth to API & Security ↔ Software & JWT tokens, TLS &
+\textless100ms auth latency \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{dimensional-consistency-table}{%
+\subsection{8. Dimensional Consistency
+Table}\label{dimensional-consistency-table}}
+
+\hypertarget{units-standardization}{%
+\subsubsection{8.1 Units Standardization}\label{units-standardization}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2353}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1412}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4235}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Unit}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Symbol}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Notes}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Length & Meter & m & SI base unit \\
+Mass & Kilogram & kg & SI base unit \\
+Time & Second & s & SI base unit \\
+Force & Newton & N & 1 N = 1 kg·m/s² \\
+Torque & Newton-meter & N·m & Also moment of force \\
+Angle & Radian & rad & Preferred over degrees in code \\
+Angular Velocity & Rad per second & rad/s & - \\
+Voltage & Volt & V & Electrical potential \\
+Current & Ampere & A & Electrical current \\
+Power & Watt & W & 1 W = 1 J/s \\
+Frequency & Hertz & Hz & 1 Hz = 1/s \\
+\end{longtable}
+
+\hypertarget{coordinate-frame-conventions}{%
+\subsubsection{8.2 Coordinate Frame
+Conventions}\label{coordinate-frame-conventions}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2778}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Frame}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Origin}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Orientation (Right-Hand Rule)}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+World & Floor center & X: forward, Y: left, Z: up \\
+Robot Base & Robot mounting point & X: forward, Y: left, Z: up \\
+Camera & Optical center & X: right, Y: down, Z: forward (OpenCV) \\
+End-Effector & Flange center & X: approach, Y: closing, Z: normal \\
+Object & Object centroid & X, Y, Z: aligned with object principal
+axes \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{database-design-by-department}{%
+\subsection{9. Database Design by
+Department}\label{database-design-by-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1098}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0976}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2866}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2866}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2195}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Database}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tables/Collections}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Schema}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Access Pattern}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Mechanical} & PostgreSQL & \texttt{parts}, \texttt{assemblies},
+\texttt{bom} & part\_id, name, material, weight, CAD\_file\_url &
+Infrequent writes, periodic reads \\
+\textbf{Electrical} & PostgreSQL & \texttt{power\_logs},
+\texttt{motor\_status} & timestamp, bus\_voltage, current, temp &
+High-frequency inserts (1Hz) \\
+\textbf{Electronics} & InfluxDB & \texttt{sensor\_data} (time-series) &
+time, sensor\_id, value, unit & High-frequency writes (1kHz) \\
+\textbf{Software} & PostgreSQL & \texttt{tasks}, \texttt{logs},
+\texttt{configs} & task\_id, status, start\_time, end\_time & Frequent
+reads/writes \\
+& Redis & Session cache, real-time state & key-value (JSON) & Sub-ms
+latency \\
+\textbf{AI} & MongoDB & \texttt{datasets}, \texttt{models},
+\texttt{inferences} & model\_id, version, accuracy, inference\_results &
+Append-heavy (inference logs) \\
+& MLflow Backend & Experiment tracking & Managed by MLflow & Experiment
+analysis, model registry \\
+\textbf{Security} & PostgreSQL & \texttt{users}, \texttt{roles},
+\texttt{audit\_trail} & user\_id, role, action, timestamp, IP &
+Append-only audit logs \\
+& ELK (Elasticsearch) & Security logs (indexed) & timestamp,
+event\_type, severity, details & Full-text search, real-time alerts \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{api-design-by-department}{%
+\subsection{10. API Design by
+Department}\label{api-design-by-department}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1406}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1250}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.3672}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1016}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1328}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1328}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{API Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Endpoints}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Methods}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Auth}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Rate Limit}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Software} & REST & \texttt{/api/v1/tasks},
+\texttt{/api/v1/status} & GET, POST & JWT & 100 req/min \\
+& gRPC & \texttt{PlanMotion}, \texttt{ExecuteTrajectory} & RPC & mTLS &
+No limit (internal) \\
+\textbf{AI} & REST & \texttt{/api/v1/detect},
+\texttt{/api/v1/pose\_estimate} & POST & API Key & 60 req/min \\
+& WebSocket & \texttt{/ws/live\_inference} & Stream & JWT & 1
+conn/user \\
+\textbf{Security} & REST & \texttt{/api/v1/auth/login},
+\texttt{/api/v1/auth/logout} & POST & Username/Pass & 10 req/min \\
+& REST & \texttt{/api/v1/audit/logs} & GET & Admin JWT & 10 req/min \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{final-summary-table-department-overview}{%
+\subsection{11. Final Summary Table: Department
+Overview}\label{final-summary-table-department-overview}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1200}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2533}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3133}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3133}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Primary Responsibility}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Key Deliverables}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Critical Metrics}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Mechanical} & Robot structure, kinematics, gripper & CAD models,
+URDF, FEA reports & Repeatability ±0.1mm, Payload 5kg \\
+\textbf{Electrical} & Power, motor control, wiring & Circuit schematics,
+power budget, motor specs & Efficiency \textgreater90\%, Voltage
+regulation ±2\% \\
+\textbf{Electronics} & Sensors, embedded systems, I/O & Sensor specs,
+calibration procedures, drivers & Sensor accuracy \textless1\%, Sampling
+rate \textgreater1kHz \\
+\textbf{Software} & ROS2, control, planning, integration & ROS packages,
+APIs, state machines, tests & Control loop 1kHz, Latency
+\textless10ms \\
+\textbf{AI} & Perception, learning, optimization & Trained models,
+datasets, inference pipeline & Detection mAP \textgreater0.95, Inference
+\textless50ms \\
+\textbf{Security} & Cybersecurity, access control, audits & Security
+policies, audit logs, encryption & Zero breaches, 100\% audit
+coverage \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Author:} Cross-Functional Team \textbf{Review Status:} Pending
+Multi-Department Review
+
+\end{document}

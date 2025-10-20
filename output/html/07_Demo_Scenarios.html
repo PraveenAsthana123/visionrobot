@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>07 Demo Scenarios</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">07 Demo Scenarios</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#demo-scenarios---vision-based-pick-and-place-system"
+id="toc-demo-scenarios---vision-based-pick-and-place-system"><span
+class="toc-section-number">1</span> Demo Scenarios - Vision-Based Pick
+and Place System</a>
+<ul>
+<li><a href="#overview" id="toc-overview"><span
+class="toc-section-number">1.1</span> Overview</a></li>
+<li><a href="#must-have-demo-scenarios"
+id="toc-must-have-demo-scenarios"><span
+class="toc-section-number">1.2</span> 1. Must Have Demo Scenarios</a>
+<ul>
+<li><a href="#scenario-m1-basic-pick-and-place-single-object"
+id="toc-scenario-m1-basic-pick-and-place-single-object"><span
+class="toc-section-number">1.2.1</span> Scenario M1: Basic Pick and
+Place (Single Object)</a></li>
+<li><a href="#scenario-m2-multiple-objects-sequential-picking"
+id="toc-scenario-m2-multiple-objects-sequential-picking"><span
+class="toc-section-number">1.2.2</span> Scenario M2: Multiple Objects
+(Sequential Picking)</a></li>
+<li><a href="#scenario-m3-error-recovery-grasp-failure"
+id="toc-scenario-m3-error-recovery-grasp-failure"><span
+class="toc-section-number">1.2.3</span> Scenario M3: Error Recovery
+(Grasp Failure)</a></li>
+<li><a href="#scenario-m4-calibration-wizard"
+id="toc-scenario-m4-calibration-wizard"><span
+class="toc-section-number">1.2.4</span> Scenario M4: Calibration
+Wizard</a></li>
+<li><a href="#scenario-m5-safety-e-stop"
+id="toc-scenario-m5-safety-e-stop"><span
+class="toc-section-number">1.2.5</span> Scenario M5: Safety
+E-Stop</a></li>
+</ul></li>
+<li><a href="#should-have-demo-scenarios"
+id="toc-should-have-demo-scenarios"><span
+class="toc-section-number">1.3</span> 2. Should Have Demo Scenarios</a>
+<ul>
+<li><a href="#scenario-s1-pose-variation-handling"
+id="toc-scenario-s1-pose-variation-handling"><span
+class="toc-section-number">1.3.1</span> Scenario S1: Pose Variation
+Handling</a></li>
+<li><a href="#scenario-s2-dynamic-conveyor-picking"
+id="toc-scenario-s2-dynamic-conveyor-picking"><span
+class="toc-section-number">1.3.2</span> Scenario S2: Dynamic Conveyor
+Picking</a></li>
+<li><a href="#scenario-s3-workspace-customization"
+id="toc-scenario-s3-workspace-customization"><span
+class="toc-section-number">1.3.3</span> Scenario S3: Workspace
+Customization</a></li>
+<li><a href="#scenario-s4-multi-gripper-support"
+id="toc-scenario-s4-multi-gripper-support"><span
+class="toc-section-number">1.3.4</span> Scenario S4: Multi-Gripper
+Support</a></li>
+<li><a href="#scenario-s5-performance-dashboard"
+id="toc-scenario-s5-performance-dashboard"><span
+class="toc-section-number">1.3.5</span> Scenario S5: Performance
+Dashboard</a></li>
+<li><a href="#scenario-s6-simulation-validation"
+id="toc-scenario-s6-simulation-validation"><span
+class="toc-section-number">1.3.6</span> Scenario S6: Simulation
+Validation</a></li>
+</ul></li>
+<li><a href="#may-have-demo-scenarios-advanced"
+id="toc-may-have-demo-scenarios-advanced"><span
+class="toc-section-number">1.4</span> 3. May Have Demo Scenarios
+(Advanced)</a>
+<ul>
+<li><a href="#scenario-a1-bin-picking-with-pile-segmentation"
+id="toc-scenario-a1-bin-picking-with-pile-segmentation"><span
+class="toc-section-number">1.4.1</span> Scenario A1: Bin Picking with
+Pile Segmentation</a></li>
+<li><a href="#scenario-a2-collaborative-operation-human-in-loop"
+id="toc-scenario-a2-collaborative-operation-human-in-loop"><span
+class="toc-section-number">1.4.2</span> Scenario A2: Collaborative
+Operation (Human-in-Loop)</a></li>
+<li><a href="#scenario-a3-ai-model-retraining-loop"
+id="toc-scenario-a3-ai-model-retraining-loop"><span
+class="toc-section-number">1.4.3</span> Scenario A3: AI Model Retraining
+Loop</a></li>
+<li><a href="#scenario-a4-multi-robot-coordination"
+id="toc-scenario-a4-multi-robot-coordination"><span
+class="toc-section-number">1.4.4</span> Scenario A4: Multi-Robot
+Coordination</a></li>
+<li><a href="#scenario-a5-predictive-maintenance"
+id="toc-scenario-a5-predictive-maintenance"><span
+class="toc-section-number">1.4.5</span> Scenario A5: Predictive
+Maintenance</a></li>
+</ul></li>
+<li><a href="#demo-scenario-summary-table"
+id="toc-demo-scenario-summary-table"><span
+class="toc-section-number">1.5</span> 4. Demo Scenario Summary
+Table</a></li>
+<li><a href="#demo-event-planning" id="toc-demo-event-planning"><span
+class="toc-section-number">1.6</span> 5. Demo Event Planning</a>
+<ul>
+<li><a href="#suggested-demo-flow-30-minute-presentation"
+id="toc-suggested-demo-flow-30-minute-presentation"><span
+class="toc-section-number">1.6.1</span> 5.1 Suggested Demo Flow
+(30-minute presentation)</a></li>
+<li><a href="#demo-checklist" id="toc-demo-checklist"><span
+class="toc-section-number">1.6.2</span> 5.2 Demo Checklist</a></li>
+</ul></li>
+<li><a href="#demo-risk-mitigation" id="toc-demo-risk-mitigation"><span
+class="toc-section-number">1.7</span> 6. Demo Risk Mitigation</a></li>
+<li><a href="#demo-metrics-to-collect"
+id="toc-demo-metrics-to-collect"><span
+class="toc-section-number">1.8</span> 7. Demo Metrics to
+Collect</a></li>
+<li><a href="#audience-specific-demo-variants"
+id="toc-audience-specific-demo-variants"><span
+class="toc-section-number">1.9</span> 8. Audience-Specific Demo
+Variants</a>
+<ul>
+<li><a href="#for-technical-audience-engineers-researchers"
+id="toc-for-technical-audience-engineers-researchers"><span
+class="toc-section-number">1.9.1</span> For Technical Audience
+(Engineers, Researchers)</a></li>
+<li><a href="#for-business-audience-managers-executives"
+id="toc-for-business-audience-managers-executives"><span
+class="toc-section-number">1.9.2</span> For Business Audience (Managers,
+Executives)</a></li>
+<li><a href="#for-safety-officers-regulators"
+id="toc-for-safety-officers-regulators"><span
+class="toc-section-number">1.9.3</span> For Safety Officers /
+Regulators</a></li>
+<li><a href="#for-customers-end-users"
+id="toc-for-customers-end-users"><span
+class="toc-section-number">1.9.4</span> For Customers / End
+Users</a></li>
+</ul></li>
+<li><a href="#demo-video-production-guidelines"
+id="toc-demo-video-production-guidelines"><span
+class="toc-section-number">1.10</span> 9. Demo Video Production
+Guidelines</a></li>
+<li><a href="#conclusion" id="toc-conclusion"><span
+class="toc-section-number">1.11</span> 10. Conclusion</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="demo-scenarios---vision-based-pick-and-place-system"><span
+class="header-section-number">1</span> Demo Scenarios - Vision-Based
+Pick and Place System</h1>
+<h2 data-number="1.1" id="overview"><span
+class="header-section-number">1.1</span> Overview</h2>
+<p>This document outlines demonstration scenarios organized by priority
+using the <strong>MoSCoW method</strong>: - <strong>Must Have:</strong>
+Essential scenarios for MVP validation - <strong>Should Have:</strong>
+Important scenarios for production-readiness - <strong>May
+Have:</strong> Advanced scenarios showcasing full capabilities</p>
+<p>Each scenario includes: setup, execution steps, success criteria, and
+robotics concepts demonstrated.</p>
+<hr />
+<h2 data-number="1.2" id="must-have-demo-scenarios"><span
+class="header-section-number">1.2</span> 1. Must Have Demo
+Scenarios</h2>
+<h3 data-number="1.2.1"
+id="scenario-m1-basic-pick-and-place-single-object"><span
+class="header-section-number">1.2.1</span> Scenario M1: Basic Pick and
+Place (Single Object)</h3>
+<p><strong>Objective:</strong> Demonstrate end-to-end workflow with a
+single known object</p>
+<p><strong>Setup:</strong> - Robot: UR5e with Robotiq 2F-85 gripper -
+Object: Red cube (50mm × 50mm × 50mm) on white table - Camera: RealSense
+D435i mounted eye-to-hand (above workspace) - Lighting: Uniform LED
+lighting (5000K, 2000 lumen) - Target: Marked drop zone (300mm from pick
+zone)</p>
+<p><strong>Execution Steps:</strong> 1. Start system: Press “Start”
+button on HMI 2. <strong>Scan:</strong> Camera captures RGB-D image,
+displays in RViz2 3. <strong>Detect:</strong> YOLO detects cube,
+bounding box overlays on image 4. <strong>Localize:</strong> Pose
+estimation outputs (x,y,z) = (0.4m, 0.2m, 0.05m) 5. <strong>Plan
+Grasp:</strong> Compute top-down grasp, gripper opens to 80mm 6.
+<strong>Plan Pick:</strong> MoveIt plans trajectory (home → pre-grasp →
+grasp) 7. <strong>Execute Pick:</strong> Robot moves, gripper closes,
+F/T sensor confirms grasp (20N) 8. <strong>Plan Place:</strong> Plan
+trajectory (pick → pre-place → place) 9. <strong>Execute Place:</strong>
+Robot moves to target, gripper opens, object released 10.
+<strong>Return:</strong> Robot returns to home position</p>
+<p><strong>Success Criteria:</strong> - ✅ Cycle time: &lt;10 seconds
+(total time step 1-10) - ✅ Grasp success: Object lifted without
+slipping - ✅ Placement accuracy: &lt;10mm from target center - ✅ No
+collisions detected</p>
+<p><strong>Concepts Demonstrated:</strong> - Computer vision (detection,
+pose estimation) - Inverse kinematics - Motion planning (collision-free
+trajectory) - Grasp planning (force closure) - State machine (task
+sequencing) - Coordinate transforms (camera → robot frame)</p>
+<p><strong>Demo Video Deliverable:</strong> 60-second video with screen
+capture (RViz) + real robot</p>
+<hr />
+<h3 data-number="1.2.2"
+id="scenario-m2-multiple-objects-sequential-picking"><span
+class="header-section-number">1.2.2</span> Scenario M2: Multiple Objects
+(Sequential Picking)</h3>
+<p><strong>Objective:</strong> Pick 5 objects sequentially from
+cluttered workspace</p>
+<p><strong>Setup:</strong> - Objects: 5 colored cubes (red, blue, green,
+yellow, black) randomly placed - Workspace: 600mm × 400mm area - Objects
+may partially occlude each other</p>
+<p><strong>Execution Steps:</strong> 1. Start system 2. For each object
+(repeat 5 times): - Scan workspace - Detect all visible objects - Select
+highest-confidence detection - Pick object - Place in designated zone
+(indexed by color) 3. Report total time and success rate</p>
+<p><strong>Success Criteria:</strong> - ✅ All 5 objects picked and
+placed - ✅ Total cycle time: &lt;60 seconds - ✅ No “object not found”
+errors - ✅ Objects placed in correct color-coded zones</p>
+<p><strong>Concepts Demonstrated:</strong> - Multi-object detection -
+Scene understanding (occlusion handling) - Task planning (object
+prioritization) - Real-time replanning (workspace changes after each
+pick)</p>
+<p><strong>Demo Video Deliverable:</strong> 90-second time-lapse with
+analytics overlay (objects remaining, cycle time)</p>
+<hr />
+<h3 data-number="1.2.3"
+id="scenario-m3-error-recovery-grasp-failure"><span
+class="header-section-number">1.2.3</span> Scenario M3: Error Recovery
+(Grasp Failure)</h3>
+<p><strong>Objective:</strong> Demonstrate graceful error recovery when
+grasp fails</p>
+<p><strong>Setup:</strong> - Object: Slippery cylinder (low friction,
+challenging grasp) - Intentionally weak grasp force (50% of optimal)</p>
+<p><strong>Execution Steps:</strong> 1. Start pick sequence 2. Gripper
+grasps cylinder with insufficient force 3. During lift, F/T sensor
+detects drop (force spike → 0N) 4. System detects grasp failure 5. Robot
+returns to pre-grasp position 6. System displays error: “Grasp failed -
+Retrying with increased force” 7. Retry grasp with 100% force 8.
+Successfully lift and place object 9. Log failure event</p>
+<p><strong>Success Criteria:</strong> - ✅ Grasp failure detected within
+500ms - ✅ Retry succeeds on 2nd attempt - ✅ No objects damaged - ✅
+Error logged with timestamp and cause</p>
+<p><strong>Concepts Demonstrated:</strong> - Force/torque sensing (grasp
+verification) - Error detection (sensor-based) - Adaptive control
+(adjust grasp force) - State machine (error state → recovery state)</p>
+<p><strong>Demo Video Deliverable:</strong> Split-screen (RViz + real
+robot) showing failure and recovery</p>
+<hr />
+<h3 data-number="1.2.4" id="scenario-m4-calibration-wizard"><span
+class="header-section-number">1.2.4</span> Scenario M4: Calibration
+Wizard</h3>
+<p><strong>Objective:</strong> Demonstrate ease of camera-robot
+calibration</p>
+<p><strong>Setup:</strong> - Checkerboard pattern (8×6, 25mm squares) on
+table - Camera uncalibrated (no prior hand-eye transform)</p>
+<p><strong>Execution Steps:</strong> 1. Launch calibration wizard 2.
+Wizard prompts: “Move robot to Position 1” (pre-defined joint angles) 3.
+Operator confirms, wizard captures image 4. Repeat for Positions 2-5
+(different robot poses) 5. Wizard computes hand-eye transformation
+matrix 6. Validation: Place known object, system predicts position 7.
+Wizard displays error: “Calibration error: 2.3mm (PASS)” 8. Save
+calibration to <code>/config/camera_robot_tf.yaml</code></p>
+<p><strong>Success Criteria:</strong> - ✅ Calibration completes in
+&lt;5 minutes - ✅ Reprojection error &lt;5mm - ✅ Validation test
+passes (object detected at correct position) - ✅ Calibration persists
+across restarts</p>
+<p><strong>Concepts Demonstrated:</strong> - Hand-eye calibration
+(eye-to-hand configuration) - Coordinate frame transformations -
+Usability (guided wizard for non-experts)</p>
+<p><strong>Demo Video Deliverable:</strong> Screen capture of wizard UI,
+narrated walkthrough</p>
+<hr />
+<h3 data-number="1.2.5" id="scenario-m5-safety-e-stop"><span
+class="header-section-number">1.2.5</span> Scenario M5: Safety
+E-Stop</h3>
+<p><strong>Objective:</strong> Demonstrate emergency stop
+functionality</p>
+<p><strong>Setup:</strong> - Robot executing pick sequence (mid-motion)
+- E-stop button accessible</p>
+<p><strong>Execution Steps:</strong> 1. Start pick sequence 2. Robot
+moving toward object (50% into trajectory) 3. Operator presses E-stop
+button 4. Robot halts immediately, motors de-energized 5. System
+displays: “EMERGENCY STOP - Press Reset to Continue” 6. Operator
+releases E-stop, presses “Reset” 7. System prompts: “Return to Home?
+(Y/N)” 8. Operator selects “Y”, robot returns to home position 9. System
+ready for next pick</p>
+<p><strong>Success Criteria:</strong> - ✅ Robot stops &lt;100ms after
+E-stop pressed - ✅ No drift after stop (brakes engaged) - ✅ Cannot
+restart without deliberate reset action - ✅ Event logged with
+timestamp</p>
+<p><strong>Concepts Demonstrated:</strong> - Safety-rated E-stop (SIL 2)
+- Real-time control loop (fast response) - State machine (emergency
+state)</p>
+<p><strong>Demo Video Deliverable:</strong> Real-time video showing
+E-stop activation and recovery</p>
+<hr />
+<h2 data-number="1.3" id="should-have-demo-scenarios"><span
+class="header-section-number">1.3</span> 2. Should Have Demo
+Scenarios</h2>
+<h3 data-number="1.3.1" id="scenario-s1-pose-variation-handling"><span
+class="header-section-number">1.3.1</span> Scenario S1: Pose Variation
+Handling</h3>
+<p><strong>Objective:</strong> Pick objects in arbitrary
+orientations</p>
+<p><strong>Setup:</strong> - Objects: 3 rectangular boxes (100mm × 50mm
+× 30mm) placed at different angles - Orientations: 0°, 45°, 90° around
+vertical axis</p>
+<p><strong>Execution Steps:</strong> 1. For each object: - Detect
+object, estimate 6DoF pose (x,y,z,roll,pitch,yaw) - Compute aligned
+grasp (gripper oriented to object’s longest axis) - Pick and place 2.
+Display pose estimates in RViz (TF frames)</p>
+<p><strong>Success Criteria:</strong> - ✅ All 3 objects picked
+regardless of orientation - ✅ Pose estimation error: &lt;5° rotation,
+&lt;5mm position - ✅ Grasp aligned to object geometry</p>
+<p><strong>Concepts Demonstrated:</strong> - 6DoF pose estimation (not
+just centroid) - Grasp planning (orientation-aware) - TF
+visualization</p>
+<p><strong>Demo Video Deliverable:</strong> RViz visualization showing
+estimated object frames overlaid on point cloud</p>
+<hr />
+<h3 data-number="1.3.2" id="scenario-s2-dynamic-conveyor-picking"><span
+class="header-section-number">1.3.2</span> Scenario S2: Dynamic Conveyor
+Picking</h3>
+<p><strong>Objective:</strong> Pick objects from a moving conveyor
+belt</p>
+<p><strong>Setup:</strong> - Conveyor belt moving at 0.1 m/s (constant
+speed) - Objects: 4 cubes placed at 200mm intervals - Camera: Mounted
+above belt, tracking motion</p>
+<p><strong>Execution Steps:</strong> 1. Vision system tracks objects on
+belt (optical flow / multi-frame tracking) 2. Predict object position at
+time of grasp (t_grasp = t_detect + t_plan + t_move) 3. For each object:
+- Estimate arrival time at pick zone - Pre-position robot (anticipatory
+motion) - Pick object in motion (dynamic grasping) - Place in static
+zone 4. Repeat until all objects picked</p>
+<p><strong>Success Criteria:</strong> - ✅ All 4 objects picked without
+stopping conveyor - ✅ Grasp success rate &gt;90% - ✅ No collisions
+with conveyor</p>
+<p><strong>Concepts Demonstrated:</strong> - Motion prediction (object
+tracking) - Real-time planning (replanning during execution) -
+Trajectory execution (moving target)</p>
+<p><strong>Demo Video Deliverable:</strong> Side view + top view
+(camera) showing synchronized pick</p>
+<hr />
+<h3 data-number="1.3.3" id="scenario-s3-workspace-customization"><span
+class="header-section-number">1.3.3</span> Scenario S3: Workspace
+Customization</h3>
+<p><strong>Objective:</strong> Demonstrate GUI for defining pick/place
+zones</p>
+<p><strong>Setup:</strong> - Blank workspace (table only) - RViz2 with
+interactive markers</p>
+<p><strong>Execution Steps:</strong> 1. Operator opens zone definition
+tool in RViz 2. Draws pick zone (polygon tool, defines 2D boundary +
+height range) - Pick zone: 400mm × 400mm, height: 0-200mm 3. Draws place
+zone (300mm × 300mm, height: 50mm) 4. Draws exclusion zone (obstacle,
+100mm × 100mm) 5. Save configuration to <code>zones.yaml</code> 6. Run
+pick-place with new zones 7. System only picks from pick zone, places in
+place zone, avoids exclusion</p>
+<p><strong>Success Criteria:</strong> - ✅ Zones defined in &lt;2
+minutes (intuitive UI) - ✅ Configuration saved and reloaded correctly -
+✅ Robot respects zone boundaries (no picks outside pick zone)</p>
+<p><strong>Concepts Demonstrated:</strong> - Planning scene management -
+Collision objects (exclusion zones) - User-friendly configuration</p>
+<p><strong>Demo Video Deliverable:</strong> Screen capture of zone
+definition + robot respecting zones</p>
+<hr />
+<h3 data-number="1.3.4" id="scenario-s4-multi-gripper-support"><span
+class="header-section-number">1.3.4</span> Scenario S4: Multi-Gripper
+Support</h3>
+<p><strong>Objective:</strong> Swap gripper types and adapt grasp
+strategy</p>
+<p><strong>Setup:</strong> - Test with 2 gripper types: - Parallel jaw
+(for cubes, boxes) - Suction (for flat, smooth objects like PCBs)</p>
+<p><strong>Execution Steps:</strong> 1. <strong>Test 1: Parallel
+Jaw</strong> - Object: Cube - Grasp: Pinch grasp from sides - Success:
+Lifted with 20N force 2. Swap gripper (manual or auto-tool-changer) 3.
+System detects gripper change, loads suction gripper config 4.
+<strong>Test 2: Suction</strong> - Object: Flat PCB (100mm × 100mm) -
+Grasp: Top-down suction - Success: Vacuum pressure confirms seal
+(&gt;0.5 bar)</p>
+<p><strong>Success Criteria:</strong> - ✅ Grasp planner adapts strategy
+per gripper type - ✅ Both gripper types successfully pick objects - ✅
+Gripper swap detected automatically (if using tool changer)</p>
+<p><strong>Concepts Demonstrated:</strong> - End-effector modularity -
+Grasp planning (type-specific algorithms) - Hardware abstraction</p>
+<p><strong>Demo Video Deliverable:</strong> Side-by-side comparison of
+parallel jaw vs suction grasps</p>
+<hr />
+<h3 data-number="1.3.5" id="scenario-s5-performance-dashboard"><span
+class="header-section-number">1.3.5</span> Scenario S5: Performance
+Dashboard</h3>
+<p><strong>Objective:</strong> Display real-time KPIs during
+operation</p>
+<p><strong>Setup:</strong> - Grafana dashboard open on separate monitor
+- System running continuous pick-place loop (10 objects)</p>
+<p><strong>Execution Steps:</strong> 1. Start pick-place loop 2.
+Dashboard displays (real-time updates): - Current state (SCAN, PICK,
+PLACE) - Objects processed (counter) - Cycle time (current, average,
+p95) - Success rate (%) - Error log (scrolling list) - CPU/GPU
+utilization graphs 3. Operator observes dashboard while robot works</p>
+<p><strong>Success Criteria:</strong> - ✅ Dashboard updates with &lt;1
+second latency - ✅ Metrics accurate (verified against ground truth) -
+✅ Graphs show historical trends (last 10 minutes)</p>
+<p><strong>Concepts Demonstrated:</strong> - Monitoring &amp;
+observability - Prometheus + Grafana integration - Real-time data
+visualization</p>
+<p><strong>Demo Video Deliverable:</strong> Split-screen (robot +
+dashboard) for 60 seconds</p>
+<hr />
+<h3 data-number="1.3.6" id="scenario-s6-simulation-validation"><span
+class="header-section-number">1.3.6</span> Scenario S6: Simulation
+Validation</h3>
+<p><strong>Objective:</strong> Run same workflow in simulation and real
+hardware</p>
+<p><strong>Setup:</strong> - Gazebo simulation with UR5e model, virtual
+camera, physics engine - Identical object (cube) spawned in sim
+workspace</p>
+<p><strong>Execution Steps:</strong> 1. <strong>In Simulation:</strong>
+- Launch: <code>ros2 launch vision_pickplace gazebo.launch.py</code> -
+Run pick-place workflow - Record: cycle time, trajectory, grasp success
+2. <strong>On Real Hardware:</strong> - Launch:
+<code>ros2 launch vision_pickplace real_robot.launch.py</code> - Run
+identical workflow - Record same metrics 3. Compare results (sim vs
+real)</p>
+<p><strong>Success Criteria:</strong> - ✅ Simulation runs without
+errors - ✅ Cycle time difference &lt;20% (sim vs real) - ✅ Trajectory
+similar (verified via joint plots) - ✅ Grasp success in both
+environments</p>
+<p><strong>Concepts Demonstrated:</strong> - Simulation fidelity
+(Gazebo) - Sim-to-real transfer - Testing without hardware risk</p>
+<p><strong>Demo Video Deliverable:</strong> Side-by-side video (Gazebo +
+real robot) synchronized</p>
+<hr />
+<h2 data-number="1.4" id="may-have-demo-scenarios-advanced"><span
+class="header-section-number">1.4</span> 3. May Have Demo Scenarios
+(Advanced)</h2>
+<h3 data-number="1.4.1"
+id="scenario-a1-bin-picking-with-pile-segmentation"><span
+class="header-section-number">1.4.1</span> Scenario A1: Bin Picking with
+Pile Segmentation</h3>
+<p><strong>Objective:</strong> Pick objects from a cluttered bin (random
+pile)</p>
+<p><strong>Setup:</strong> - Bin: 400mm × 400mm × 200mm deep - Objects:
+20 cubes randomly dumped (overlapping, various orientations)</p>
+<p><strong>Execution Steps:</strong> 1. Capture point cloud of bin 2.
+Segment individual objects (clustering, region growing) 3. Identify
+graspable objects (top layer, unoccluded) 4. Pick top object 5. Repeat
+until bin empty (re-scan after each pick)</p>
+<p><strong>Success Criteria:</strong> - ✅ All 20 objects picked (may
+take multiple scans) - ✅ No collisions with bin walls - ✅ Success rate
+&gt;85% (some failures expected with occlusions)</p>
+<p><strong>Concepts Demonstrated:</strong> - 3D point cloud processing
+(PCL) - Segmentation (clustering) - Iterative scene understanding</p>
+<p><strong>Demo Video Deliverable:</strong> Time-lapse (accelerated 5x)
+showing bin emptying</p>
+<hr />
+<h3 data-number="1.4.2"
+id="scenario-a2-collaborative-operation-human-in-loop"><span
+class="header-section-number">1.4.2</span> Scenario A2: Collaborative
+Operation (Human-in-Loop)</h3>
+<p><strong>Objective:</strong> Safely operate with human present in
+workspace</p>
+<p><strong>Setup:</strong> - Human (volunteer) standing near workspace -
+Vision-based human detection (YOLO person class) - Safety zones defined
+(inner: stop zone, outer: slow zone)</p>
+<p><strong>Execution Steps:</strong> 1. Robot executing pick-place at
+normal speed (100%) 2. Human approaches workspace (enters outer zone) 3.
+System detects human, robot slows to 50% speed 4. Human enters inner
+zone 5. Robot stops immediately (&lt;100ms) 6. System displays: “Human
+detected - Waiting” 7. Human exits zone 8. After 2-second timeout, robot
+resumes</p>
+<p><strong>Success Criteria:</strong> - ✅ Human detected within 500ms -
+✅ Robot stops before human contact - ✅ Speed reduction smooth (no
+jerks) - ✅ System resumes automatically when safe</p>
+<p><strong>Concepts Demonstrated:</strong> - Human-robot collaboration
+(ISO/TS 15066) - Vision-based safety (redundant to laser scanners) -
+Adaptive speed control</p>
+<p><strong>Demo Video Deliverable:</strong> Wide-angle video showing
+human and robot interaction</p>
+<hr />
+<h3 data-number="1.4.3" id="scenario-a3-ai-model-retraining-loop"><span
+class="header-section-number">1.4.3</span> Scenario A3: AI Model
+Retraining Loop</h3>
+<p><strong>Objective:</strong> Demonstrate model improvement from
+production data</p>
+<p><strong>Setup:</strong> - System collects 1000 pick images over 1
+week (auto-logged) - Data scientist uses collected data to retrain
+YOLO</p>
+<p><strong>Execution Steps:</strong> 1. <strong>Data
+Collection:</strong> - System logs all RGB-D images + labels (bounding
+boxes) - Store in <code>/data/production_logs/</code> 2.
+<strong>Retraining:</strong> - Load data into Label Studio (review
+annotations) - Train YOLOv8 with fine-tuning (10 epochs) - Export to
+ONNX 3. <strong>Deployment:</strong> - Upload new model to robot - A/B
+test: 50% traffic to old model, 50% to new - Compare accuracy (new
+model: 96% mAP, old: 92%) 4. <strong>Rollout:</strong> - New model
+promoted to 100% traffic</p>
+<p><strong>Success Criteria:</strong> - ✅ Data collection pipeline
+works autonomously - ✅ Retraining improves accuracy (&gt;2% mAP gain) -
+✅ A/B test infrastructure functional - ✅ Deployment seamless (no
+downtime)</p>
+<p><strong>Concepts Demonstrated:</strong> - ML Ops (training pipeline,
+model registry) - Continuous improvement - A/B testing</p>
+<p><strong>Demo Video Deliverable:</strong> Screencast of MLflow
+experiments + before/after accuracy comparison</p>
+<hr />
+<h3 data-number="1.4.4" id="scenario-a4-multi-robot-coordination"><span
+class="header-section-number">1.4.4</span> Scenario A4: Multi-Robot
+Coordination</h3>
+<p><strong>Objective:</strong> Two robots working collaboratively in
+shared workspace</p>
+<p><strong>Setup:</strong> - 2× UR5e robots with shared workspace
+(overlapping reach) - 10 objects to be sorted (5 per robot)</p>
+<p><strong>Execution Steps:</strong> 1. Task allocator assigns objects
+to robots based on proximity 2. Both robots execute pick-place
+concurrently 3. Collision avoidance ensures no robot-robot collision 4.
+If paths conflict, lower-priority robot yields (waits)</p>
+<p><strong>Success Criteria:</strong> - ✅ All 10 objects sorted in
+&lt;30 seconds (faster than single robot) - ✅ No collisions between
+robots - ✅ Load balanced (5 objects per robot)</p>
+<p><strong>Concepts Demonstrated:</strong> - Multi-robot planning -
+Conflict resolution - Distributed task allocation</p>
+<p><strong>Demo Video Deliverable:</strong> Overhead view showing both
+robots working</p>
+<hr />
+<h3 data-number="1.4.5" id="scenario-a5-predictive-maintenance"><span
+class="header-section-number">1.4.5</span> Scenario A5: Predictive
+Maintenance</h3>
+<p><strong>Objective:</strong> Predict motor failure before it
+happens</p>
+<p><strong>Setup:</strong> - Logged data: motor temperatures, vibration,
+cycle counts (simulated 6 months) - Trained ML model (LSTM) predicts
+remaining useful life (RUL)</p>
+<p><strong>Execution Steps:</strong> 1. System monitors motor health in
+real-time 2. Model predicts: “Joint 3 RUL: 14 days” (based on
+temperature trend) 3. Alert triggered: “Maintenance recommended for
+Joint 3” 4. Maintenance scheduled (proactive, before failure) 5.
+Post-maintenance: RUL resets to nominal</p>
+<p><strong>Success Criteria:</strong> - ✅ Prediction accuracy &gt;80%
+(validated on historical data) - ✅ Alert triggers 2 weeks before
+predicted failure - ✅ No unexpected downtime</p>
+<p><strong>Concepts Demonstrated:</strong> - Predictive analytics (ML
+for maintenance) - Time-series forecasting (LSTM) - Proactive
+maintenance</p>
+<p><strong>Demo Video Deliverable:</strong> Grafana dashboard showing
+RUL trends + alert</p>
+<hr />
+<h2 data-number="1.5" id="demo-scenario-summary-table"><span
+class="header-section-number">1.5</span> 4. Demo Scenario Summary
+Table</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 14%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Scenario</strong></th>
+<th><strong>Category</strong></th>
+<th><strong>Duration</strong></th>
+<th><strong>Complexity</strong></th>
+<th><strong>Key Concepts</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>M1</td>
+<td>Must Have</td>
+<td>60 sec</td>
+<td>Low</td>
+<td>Vision, IK, motion planning, grasp planning</td>
+</tr>
+<tr class="even">
+<td>M2</td>
+<td>Must Have</td>
+<td>90 sec</td>
+<td>Medium</td>
+<td>Multi-object detection, task planning</td>
+</tr>
+<tr class="odd">
+<td>M3</td>
+<td>Must Have</td>
+<td>90 sec</td>
+<td>Medium</td>
+<td>Error recovery, adaptive control, F/T sensing</td>
+</tr>
+<tr class="even">
+<td>M4</td>
+<td>Must Have</td>
+<td>5 min</td>
+<td>Medium</td>
+<td>Hand-eye calibration, transforms</td>
+</tr>
+<tr class="odd">
+<td>M5</td>
+<td>Must Have</td>
+<td>30 sec</td>
+<td>Low</td>
+<td>Safety, E-stop, state machine</td>
+</tr>
+<tr class="even">
+<td>S1</td>
+<td>Should Have</td>
+<td>60 sec</td>
+<td>Medium</td>
+<td>6DoF pose estimation, oriented grasping</td>
+</tr>
+<tr class="odd">
+<td>S2</td>
+<td>Should Have</td>
+<td>120 sec</td>
+<td>High</td>
+<td>Dynamic picking, motion prediction</td>
+</tr>
+<tr class="even">
+<td>S3</td>
+<td>Should Have</td>
+<td>5 min</td>
+<td>Low</td>
+<td>Workspace customization, planning scene</td>
+</tr>
+<tr class="odd">
+<td>S4</td>
+<td>Should Have</td>
+<td>90 sec</td>
+<td>Medium</td>
+<td>Multi-gripper support, hardware abstraction</td>
+</tr>
+<tr class="even">
+<td>S5</td>
+<td>Should Have</td>
+<td>60 sec</td>
+<td>Low</td>
+<td>Monitoring, Grafana, observability</td>
+</tr>
+<tr class="odd">
+<td>S6</td>
+<td>Should Have</td>
+<td>90 sec</td>
+<td>Medium</td>
+<td>Simulation, Gazebo, sim-to-real</td>
+</tr>
+<tr class="even">
+<td>A1</td>
+<td>May Have</td>
+<td>5 min</td>
+<td>High</td>
+<td>Bin picking, point cloud segmentation</td>
+</tr>
+<tr class="odd">
+<td>A2</td>
+<td>May Have</td>
+<td>90 sec</td>
+<td>High</td>
+<td>Human-robot collaboration, safety zones</td>
+</tr>
+<tr class="even">
+<td>A3</td>
+<td>May Have</td>
+<td>10 min</td>
+<td>High</td>
+<td>ML Ops, model retraining, A/B testing</td>
+</tr>
+<tr class="odd">
+<td>A4</td>
+<td>May Have</td>
+<td>60 sec</td>
+<td>Very High</td>
+<td>Multi-robot coordination, conflict resolution</td>
+</tr>
+<tr class="even">
+<td>A5</td>
+<td>May Have</td>
+<td>5 min</td>
+<td>High</td>
+<td>Predictive maintenance, time-series forecasting</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total Demo Time:</strong> ~40 minutes (all scenarios)</p>
+<hr />
+<h2 data-number="1.6" id="demo-event-planning"><span
+class="header-section-number">1.6</span> 5. Demo Event Planning</h2>
+<h3 data-number="1.6.1"
+id="suggested-demo-flow-30-minute-presentation"><span
+class="header-section-number">1.6.1</span> 5.1 Suggested Demo Flow
+(30-minute presentation)</h3>
+<p><strong>Segment 1: Introduction (5 min)</strong> - System overview
+(slide deck) - Problem statement and value proposition - Live system
+walkthrough (components: robot, camera, control PC)</p>
+<p><strong>Segment 2: Core Functionality (15 min)</strong> -
+<strong>M1:</strong> Basic pick-place (2 min live + narration) -
+<strong>M2:</strong> Multiple objects (2 min) - <strong>M3:</strong>
+Error recovery (2 min) - <strong>M4:</strong> Calibration wizard (5 min,
+interactive) - <strong>M5:</strong> E-stop (1 min)</p>
+<p><strong>Segment 3: Advanced Features (8 min)</strong> -
+<strong>S1:</strong> Pose variation (video, 1 min) -
+<strong>S2:</strong> Conveyor picking (video, 2 min) -
+<strong>S5:</strong> Dashboard (live, 2 min) - <strong>A2:</strong>
+Collaborative operation (video, 3 min)</p>
+<p><strong>Segment 4: Q&amp;A (2 min)</strong></p>
+<hr />
+<h3 data-number="1.6.2" id="demo-checklist"><span
+class="header-section-number">1.6.2</span> 5.2 Demo Checklist</h3>
+<p><strong>Pre-Demo (1 hour before):</strong> - [ ] Power on robot,
+camera, control PC - [ ] Verify network connectivity (ROS2 topics
+visible) - [ ] Run health check (all sensors green) - [ ] Load demo
+objects in workspace - [ ] Open dashboards (RViz, Grafana) on
+presentation display - [ ] Test E-stop button</p>
+<p><strong>During Demo:</strong> - [ ] Narrate each step clearly
+(explain what system is doing) - [ ] Pause for questions between
+scenarios - [ ] If failure occurs: explain error, show recovery (don’t
+hide issues) - [ ] Point out key visualizations (bounding boxes,
+trajectories, TF frames)</p>
+<p><strong>Post-Demo:</strong> - [ ] Collect feedback (what impressed?
+what needs improvement?) - [ ] Record demo metrics (cycle times,
+accuracy, uptime) - [ ] Update demo scenarios based on feedback</p>
+<hr />
+<h2 data-number="1.7" id="demo-risk-mitigation"><span
+class="header-section-number">1.7</span> 6. Demo Risk Mitigation</h2>
+<table>
+<colgroup>
+<col style="width: 36%" />
+<col style="width: 63%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Risk</strong></th>
+<th><strong>Mitigation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Network failure (ROS2 comms)</td>
+<td>Pre-check network, have backup recordings</td>
+</tr>
+<tr class="even">
+<td>Camera not detecting object</td>
+<td>Backup objects (high-contrast, known-good)</td>
+</tr>
+<tr class="odd">
+<td>Grasp failure during demo</td>
+<td>Tune gripper force beforehand, test 10× pre-demo</td>
+</tr>
+<tr class="even">
+<td>Robot E-stop during demo</td>
+<td>Test E-stop recovery procedure beforehand</td>
+</tr>
+<tr class="odd">
+<td>Laptop/display issues</td>
+<td>Backup laptop with pre-loaded software</td>
+</tr>
+<tr class="even">
+<td>Power outage</td>
+<td>UPS for critical systems</td>
+</tr>
+<tr class="odd">
+<td>Software crash</td>
+<td>Restart procedure documented, &lt;2 min recovery</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.8" id="demo-metrics-to-collect"><span
+class="header-section-number">1.8</span> 7. Demo Metrics to Collect</h2>
+<table>
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 21%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Metric</strong></th>
+<th><strong>Target</strong></th>
+<th><strong>Measurement Method</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cycle time (M1)</td>
+<td>&lt;10 sec</td>
+<td>Timestamp start to finish</td>
+</tr>
+<tr class="even">
+<td>Multi-object throughput (M2)</td>
+<td>&gt;5 picks/min</td>
+<td>Total time / objects picked</td>
+</tr>
+<tr class="odd">
+<td>Grasp success rate</td>
+<td>&gt;95%</td>
+<td>Successful picks / total attempts</td>
+</tr>
+<tr class="even">
+<td>Calibration time (M4)</td>
+<td>&lt;5 min</td>
+<td>Stopwatch</td>
+</tr>
+<tr class="odd">
+<td>E-stop response time (M5)</td>
+<td>&lt;100 ms</td>
+<td>Oscilloscope (button press → stop)</td>
+</tr>
+<tr class="even">
+<td>Detection accuracy</td>
+<td>&gt;95% mAP</td>
+<td>Test on labeled dataset</td>
+</tr>
+<tr class="odd">
+<td>Pose estimation error</td>
+<td>&lt;5mm, &lt;5°</td>
+<td>Ground truth from CMM</td>
+</tr>
+<tr class="even">
+<td>Dashboard update latency</td>
+<td>&lt;1 sec</td>
+<td>Wall clock vs dashboard timestamp</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.9" id="audience-specific-demo-variants"><span
+class="header-section-number">1.9</span> 8. Audience-Specific Demo
+Variants</h2>
+<h3 data-number="1.9.1"
+id="for-technical-audience-engineers-researchers"><span
+class="header-section-number">1.9.1</span> For Technical Audience
+(Engineers, Researchers)</h3>
+<p><strong>Emphasize:</strong> - Architecture (show ROS2 node graph) -
+Algorithms (explain YOLO, IK solver, RRT*) - Code walkthrough (brief,
+show key modules) - Performance benchmarks (latency, throughput)</p>
+<p><strong>Recommended Scenarios:</strong> M1, M2, M3, S1, S6, A3</p>
+<hr />
+<h3 data-number="1.9.2"
+id="for-business-audience-managers-executives"><span
+class="header-section-number">1.9.2</span> For Business Audience
+(Managers, Executives)</h3>
+<p><strong>Emphasize:</strong> - ROI (cycle time improvement, labor
+savings) - Ease of use (M4 calibration wizard) - Reliability (M3 error
+recovery, uptime metrics) - Dashboard (S5 KPI visualization)</p>
+<p><strong>Recommended Scenarios:</strong> M1, M2, M3, M4, S5</p>
+<hr />
+<h3 data-number="1.9.3" id="for-safety-officers-regulators"><span
+class="header-section-number">1.9.3</span> For Safety Officers /
+Regulators</h3>
+<p><strong>Emphasize:</strong> - Safety compliance (ISO 10218, ISO/TS
+15066) - E-stop functionality (M5) - Human detection (A2) - Audit logs
+(immutable logs, retention)</p>
+<p><strong>Recommended Scenarios:</strong> M5, A2, plus walk through
+safety documentation</p>
+<hr />
+<h3 data-number="1.9.4" id="for-customers-end-users"><span
+class="header-section-number">1.9.4</span> For Customers / End
+Users</h3>
+<p><strong>Emphasize:</strong> - Ease of deployment (M4 calibration) -
+Reliability (M3 error recovery) - Performance (M2 throughput) - Support
+(mention 24/7 support SLA)</p>
+<p><strong>Recommended Scenarios:</strong> M1, M2, M3, M4, S3, S5</p>
+<hr />
+<h2 data-number="1.10" id="demo-video-production-guidelines"><span
+class="header-section-number">1.10</span> 9. Demo Video Production
+Guidelines</h2>
+<p><strong>For Each Scenario:</strong> 1. <strong>Introduction Slide (5
+sec):</strong> Scenario name, objective 2. <strong>Setup Overview (5
+sec):</strong> Wide shot of workspace, label objects 3.
+<strong>Execution (variable):</strong> Multiple camera angles: - Robot
+close-up (gripper action) - Workspace overhead (full scene) - Screen
+capture (RViz, dashboard) 4. <strong>Results (5 sec):</strong>
+Success/fail indicators, metrics overlay 5. <strong>Conclusion Slide (3
+sec):</strong> Key takeaway</p>
+<p><strong>Technical Specs:</strong> - Resolution: 1080p (1920×1080) -
+Frame rate: 30 fps - Format: MP4 (H.264 codec) - Audio: Narration (clear
+voice, background music optional) - Graphics: Lower-third text overlay
+with scenario name</p>
+<hr />
+<h2 data-number="1.11" id="conclusion"><span
+class="header-section-number">1.11</span> 10. Conclusion</h2>
+<p>This demo scenario collection provides: - <strong>5 Must Have
+scenarios:</strong> Core functionality validation - <strong>6 Should
+Have scenarios:</strong> Production-readiness features - <strong>5 May
+Have scenarios:</strong> Advanced capabilities showcase - <strong>Total
+demo time:</strong> 40 minutes (all scenarios) -
+<strong>Audience-specific variants:</strong> Tailored for technical,
+business, safety, customer audiences - <strong>Risk mitigation:</strong>
+Backup plans for common failures - <strong>Metrics to collect:</strong>
+Quantitative validation data</p>
+<p><strong>Next Steps:</strong> 1. Implement Must Have scenarios first
+(MVP) 2. Record high-quality demo videos for remote presentations 3.
+Create interactive demo for trade shows (allow audience participation)
+4. Gather feedback and refine scenarios iteratively</p>
+<hr />
+<p><strong>Document Status:</strong> ✅ Complete <strong>Last
+Updated:</strong> 2025-10-18 <strong>Author:</strong> Product &amp; Demo
+Team <strong>Review Status:</strong> Pending Review</p>
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionBot - Interactive Demo UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f1419;
+            color: #e2e8f0;
+            overflow: hidden;
+        }
+
+        /* Left Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px 0;
+            border-bottom: 2px solid #334155;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.8em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85em;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .nav-section {
+            margin-bottom: 30px;
+        }
+
+        .nav-section-title {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s;
+            margin-bottom: 6px;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: rgba(102, 126, 234, 0.15);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background: white;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .badge {
+            margin-left: auto;
+            background: #10b981;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 700;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 280px;
+            height: 100vh;
+            overflow-y: auto;
+            background: #0f1419;
+        }
+
+        /* Top Bar */
+        .topbar {
+            background: #1e293b;
+            padding: 20px 40px;
+            border-bottom: 2px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topbar h2 {
+            font-size: 1.8em;
+            color: #fff;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .card-icon {
+            font-size: 2em;
+            color: #667eea;
+        }
+
+        .card-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .card-label {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        /* 3D Workspace Viewer */
+        .workspace-viewer {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workspace-canvas {
+            width: 100%;
+            height: 450px;
+            background: radial-gradient(circle at center, #1e3a5f 0%, #0f1419 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Robot Arm Visualization */
+        .robot-arm {
+            position: relative;
+            width: 400px;
+            height: 350px;
+        }
+
+        .robot-base {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 40px;
+            background: linear-gradient(135deg, #475569, #334155);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .robot-joint {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #667eea, #3b82f6);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        .robot-link {
+            position: absolute;
+            background: linear-gradient(90deg, #475569, #64748b);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-radius: 5px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(102, 126, 234, 0.8); }
+            50% { box-shadow: 0 0 25px rgba(102, 126, 234, 1); }
+        }
+
+        /* Objects in Workspace */
+        .workspace-object {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .object-cube {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            top: 40%;
+            left: 20%;
+        }
+
+        .object-cylinder {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            top: 35%;
+            right: 25%;
+            border-radius: 50%;
+        }
+
+        .object-sphere {
+            background: linear-gradient(135deg, #10b981, #059669);
+            top: 60%;
+            left: 35%;
+            border-radius: 50%;
+        }
+
+        /* Status Indicators */
+        .status-grid {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .status-item {
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .status-item.online {
+            border-left-color: #10b981;
+        }
+
+        .status-item.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .status-item.error {
+            border-left-color: #ef4444;
+        }
+
+        .status-item:hover {
+            background: #334155;
+        }
+
+        .status-title {
+            font-size: 0.85em;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #e2e8f0;
+        }
+
+        /* Console/Logs */
+        .console {
+            grid-column: 1 / -1;
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .console-line {
+            padding: 5px 0;
+            color: #94a3b8;
+        }
+
+        .console-line.success {
+            color: #10b981;
+        }
+
+        .console-line.warning {
+            color: #f59e0b;
+        }
+
+        .console-line.error {
+            color: #ef4444;
+        }
+
+        .timestamp {
+            color: #64748b;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-robot"></i> VisionBot</h1>
+            <p>Multi-Domain Simulation Platform</p>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <div class="nav-section-title">Main</div>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="demo_ui.html" class="nav-item active">
+                    <i class="fas fa-desktop"></i>
+                    <span>Demo UI</span>
+                    <span class="badge">LIVE</span>
+                </a>
+            <a href="simulation_phases.html" class="nav-item">
+                <i class="fas fa-play-circle"></i>
+                <span>End-to-End Simulation</span>
+            </a>
+            <a href="engineering_workflow.html" class="nav-item">
+                <i class="fas fa-project-diagram"></i>
+                <span>Engineering Workflow</span>
+            </a>
+            <a href="robot_showcase.html" class="nav-item">
+                <i class="fas fa-th-large"></i>
+                <span>Robot Showcase</span>
+            </a>
+            <a href="robot_scenario_testing.html" class="nav-item">
+                <i class="fas fa-vial"></i>
+                <span>Scenario Testing</span>
+            </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Documentation</div>
+                <a href="html_styled/28_multi_domain_simulation_testing_platform.html" class="nav-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>Doc 28: Simulation</span>
+                </a>
+                <a href="html_styled/29_demo_guide_complete_flow.html" class="nav-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>Doc 29: Demo Guide</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Monitoring</div>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Grafana Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-search"></i>
+                    <span>Jaeger Tracing</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Kibana Logs</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">System</div>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Configuration</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-vial"></i>
+                    <span>Test Runner</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-download"></i>
+                    <span>Export Data</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <h2>Interactive Demo - Live Simulation</h2>
+            <div class="controls">
+                <button class="btn btn-primary" onclick="startSystem()">
+                    <i class="fas fa-play"></i> Start System
+                </button>
+                <button class="btn btn-danger" onclick="stopSystem()">
+                    <i class="fas fa-stop"></i> Emergency Stop
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <!-- Stats Cards -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">System State</div>
+                    <i class="fas fa-power-off card-icon"></i>
+                </div>
+                <div class="card-value" id="system-state">READY</div>
+                <div class="card-label">All systems nominal</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Objects Detected</div>
+                    <i class="fas fa-cube card-icon"></i>
+                </div>
+                <div class="card-value" id="objects-count">6</div>
+                <div class="card-label">3 cubes, 2 cylinders, 1 sphere</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Cycle Time</div>
+                    <i class="fas fa-clock card-icon"></i>
+                </div>
+                <div class="card-value" id="cycle-time">8.4s</div>
+                <div class="card-label">Average pick-place cycle</div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Success Rate</div>
+                    <i class="fas fa-check-circle card-icon"></i>
+                </div>
+                <div class="card-value" id="success-rate">100%</div>
+                <div class="card-label">6/6 cycles successful</div>
+            </div>
+
+            <!-- 3D Workspace Viewer -->
+            <div class="workspace-viewer">
+                <div class="card-header">
+                    <div class="card-title">Live 3D Workspace</div>
+                    <i class="fas fa-cube card-icon"></i>
+                </div>
+                <div class="workspace-canvas">
+                    <div class="robot-arm">
+                        <!-- Robot Base -->
+                        <div class="robot-base"></div>
+
+                        <!-- Robot Joints -->
+                        <div class="robot-joint" style="bottom: 40px; left: 190px;"></div>
+                        <div class="robot-joint" style="bottom: 120px; left: 240px;"></div>
+                        <div class="robot-joint" style="bottom: 200px; left: 260px;"></div>
+                        <div class="robot-joint" style="bottom: 260px; left: 240px;"></div>
+
+                        <!-- Robot Links -->
+                        <div class="robot-link" style="bottom: 40px; left: 200px; width: 6px; height: 80px;"></div>
+                        <div class="robot-link" style="bottom: 120px; left: 210px; width: 50px; height: 6px;"></div>
+                        <div class="robot-link" style="bottom: 126px; left: 254px; width: 6px; height: 80px;"></div>
+                        <div class="robot-link" style="bottom: 206px; left: 244px; width: 20px; height: 6px;"></div>
+
+                        <!-- Gripper -->
+                        <div class="robot-joint" style="bottom: 270px; left: 235px; width: 30px; background: linear-gradient(135deg, #f59e0b, #d97706);"></div>
+                    </div>
+
+                    <!-- Workspace Objects -->
+                    <div class="workspace-object object-cube">■</div>
+                    <div class="workspace-object object-cylinder" style="animation-delay: 0.5s;">●</div>
+                    <div class="workspace-object object-sphere" style="animation-delay: 1s;">●</div>
+                </div>
+            </div>
+
+            <!-- Status Grid -->
+            <div class="status-grid">
+                <div class="status-item online">
+                    <div class="status-title">Mechanical Domain</div>
+                    <div class="status-value">ONLINE</div>
+                </div>
+                <div class="status-item online">
+                    <div class="status-title">Electrical Domain</div>
+                    <div class="status-value">ONLINE</div>
+                </div>
+                <div class="status-item online">
+                    <div class="status-title">Electronics Domain</div>
+                    <div class="status-value">ONLINE</div>
+                </div>
+                <div class="status-item online">
+                    <div class="status-title">Software Domain</div>
+                    <div class="status-value">ONLINE</div>
+                </div>
+                <div class="status-item online">
+                    <div class="status-title">AI/ML Domain</div>
+                    <div class="status-value">ONLINE</div>
+                </div>
+                <div class="status-item online">
+                    <div class="status-title">Real-Time Factor</div>
+                    <div class="status-value">1.2x</div>
+                </div>
+            </div>
+
+            <!-- Console Log -->
+            <div class="console" id="console">
+                <div class="console-line success"><span class="timestamp">[10:00:00]</span> ✓ System initialized successfully</div>
+                <div class="console-line"><span class="timestamp">[10:00:02]</span> → Camera captured workspace (1920x1080)</div>
+                <div class="console-line success"><span class="timestamp">[10:00:02]</span> ✓ Detected 6 objects (inference: 42ms)</div>
+                <div class="console-line"><span class="timestamp">[10:00:03]</span> → Planning pick trajectory for cube #1</div>
+                <div class="console-line success"><span class="timestamp">[10:00:04]</span> ✓ Trajectory planned (47 waypoints, 1.5s)</div>
+                <div class="console-line"><span class="timestamp">[10:00:05]</span> → Executing pick operation...</div>
+                <div class="console-line success"><span class="timestamp">[10:00:08]</span> ✓ Grasp verified (force: 44.8N)</div>
+                <div class="console-line success"><span class="timestamp">[10:00:11]</span> ✓ Cycle 1 complete (8.4s)</div>
+                <div class="console-line"><span class="timestamp">[10:00:12]</span> → Ready for next cycle</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive functions
+        function startSystem() {
+            const stateEl = document.getElementById('system-state');
+            stateEl.textContent = 'RUNNING';
+            stateEl.style.color = '#10b981';
+
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            console.innerHTML += `<div class="console-line success"><span class="timestamp">[${timestamp}]</span> ✓ System started by operator</div>`;
+            console.scrollTop = console.scrollHeight;
+        }
+
+        function stopSystem() {
+            const stateEl = document.getElementById('system-state');
+            stateEl.textContent = 'STOPPED';
+            stateEl.style.color = '#ef4444';
+
+            const console = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            console.innerHTML += `<div class="console-line error"><span class="timestamp">[${timestamp}]</span> ⚠ Emergency stop activated</div>`;
+            console.scrollTop = console.scrollHeight;
+        }
+
+        // Auto-update simulation stats
+        setInterval(() => {
+            const cycleTime = (8.0 + Math.random() * 1.0).toFixed(1);
+            document.getElementById('cycle-time').textContent = cycleTime + 's';
+        }, 3000);
+    </script>
+</body>
+</html>

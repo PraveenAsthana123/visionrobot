@@ -1,0 +1,1377 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={02 Mechatronics Concepts},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{02 Mechatronics Concepts}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{mechatronics-concepts---vision-based-pick-and-place-system}{%
+\section{Mechatronics Concepts - Vision-Based Pick and Place
+System}\label{mechatronics-concepts---vision-based-pick-and-place-system}}
+
+\hypertarget{overview}{%
+\subsection{Overview}\label{overview}}
+
+Mechatronics integrates \textbf{Mechanical Engineering},
+\textbf{Electrical Engineering}, \textbf{Electronics}, and
+\textbf{Computer Science} to create intelligent systems. This document
+outlines all mechatronics concepts applied in the vision-based
+pick-and-place robotic system.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{mechanical-systems}{%
+\subsection{1. Mechanical Systems}\label{mechanical-systems}}
+
+\hypertarget{robot-manipulator-mechanics}{%
+\subsubsection{1.1 Robot Manipulator
+Mechanics}\label{robot-manipulator-mechanics}}
+
+\hypertarget{kinematic-chain}{%
+\paragraph{1.1.1 Kinematic Chain}\label{kinematic-chain}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Serial/parallel linkage configuration
+\item
+  \textbf{Types:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Serial manipulator (6-DOF arm: UR5, ABB, KUKA)
+  \item
+    SCARA (Selective Compliance Assembly Robot Arm)
+  \item
+    Delta robot (parallel kinematics)
+  \end{itemize}
+\item
+  \textbf{Application:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Workspace coverage analysis
+  \item
+    Reachability studies
+  \item
+    Joint limit constraints
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{degrees-of-freedom-dof}{%
+\paragraph{1.1.2 Degrees of Freedom
+(DOF)}\label{degrees-of-freedom-dof}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Minimum DOF:} 3 for positioning + 3 for orientation = 6 DOF
+\item
+  \textbf{Redundancy:} \textgreater6 DOF for obstacle avoidance and
+  singularity handling
+\item
+  \textbf{Application:} Task-specific DOF selection
+\end{itemize}
+
+\hypertarget{link-geometry-d-h-parameters}{%
+\paragraph{1.1.3 Link Geometry \& D-H
+Parameters}\label{link-geometry-d-h-parameters}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Denavit-Hartenberg Convention:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Link length (a)
+  \item
+    Link twist (α)
+  \item
+    Link offset (d)
+  \item
+    Joint angle (θ)
+  \end{itemize}
+\item
+  \textbf{Application:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Forward kinematics modeling
+  \item
+    URDF generation
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{end-effector-gripper-mechanisms}{%
+\subsubsection{1.2 End-Effector (Gripper)
+Mechanisms}\label{end-effector-gripper-mechanisms}}
+
+\hypertarget{gripper-types}{%
+\paragraph{1.2.1 Gripper Types}\label{gripper-types}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Parallel Jaw Gripper:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Two-finger, symmetric closure
+  \item
+    Force transmission through linear actuation
+  \end{itemize}
+\item
+  \textbf{Suction Gripper:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Vacuum-based (for flat, non-porous objects)
+  \item
+    Venturi effect or vacuum pump
+  \end{itemize}
+\item
+  \textbf{Adaptive Gripper:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Soft robotics, compliant fingers
+  \item
+    Underactuated mechanisms
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{gripper-kinematics-force-analysis}{%
+\paragraph{1.2.2 Gripper Kinematics \& Force
+Analysis}\label{gripper-kinematics-force-analysis}}
+
+\begin{itemize}
+\item
+  \textbf{Grasp Force Calculation:}
+
+\begin{verbatim}
+F_grasp = μ * N (friction force)
+Object weight: W = m * g
+Minimum normal force: N = W / (2 * μ)
+\end{verbatim}
+\item
+  \textbf{Gripper Opening Range:} Adjustable for object size variation
+\item
+  \textbf{Compliance:} Spring-loaded fingers for delicate objects
+\end{itemize}
+
+\hypertarget{structural-dynamics}{%
+\subsubsection{1.3 Structural Dynamics}\label{structural-dynamics}}
+
+\hypertarget{rigid-body-dynamics}{%
+\paragraph{1.3.1 Rigid Body Dynamics}\label{rigid-body-dynamics}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Equations of Motion:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Lagrangian mechanics
+  \item
+    Newton-Euler recursive formulation
+  \end{itemize}
+\item
+  \textbf{Inertia Matrix:} M(q)
+\item
+  \textbf{Coriolis/Centrifugal Forces:} C(q, q̇)
+\item
+  \textbf{Gravity Vector:} G(q)
+\item
+  \textbf{Equation:} M(q)q̈ + C(q,q̇)q̇ + G(q) = τ
+\end{itemize}
+
+\hypertarget{vibration-analysis}{%
+\paragraph{1.3.2 Vibration Analysis}\label{vibration-analysis}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Natural Frequencies:} Avoid resonance
+\item
+  \textbf{Damping:} Minimize oscillations during motion
+\item
+  \textbf{Application:} Trajectory planning to reduce vibrations
+\end{itemize}
+
+\hypertarget{transmission-mechanisms}{%
+\subsubsection{1.4 Transmission
+Mechanisms}\label{transmission-mechanisms}}
+
+\hypertarget{gears-reducers}{%
+\paragraph{1.4.1 Gears \& Reducers}\label{gears-reducers}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Harmonic Drive:} High reduction ratio, zero backlash
+\item
+  \textbf{Planetary Gearbox:} Compact, high torque
+\item
+  \textbf{Application:} Joint actuation with torque amplification
+\end{itemize}
+
+\hypertarget{belts-pulleys}{%
+\paragraph{1.4.2 Belts \& Pulleys}\label{belts-pulleys}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Timing Belts:} Synchronous motion
+\item
+  \textbf{Application:} Gripper actuation, linear motion stages
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{electrical-systems}{%
+\subsection{2. Electrical Systems}\label{electrical-systems}}
+
+\hypertarget{power-systems}{%
+\subsubsection{2.1 Power Systems}\label{power-systems}}
+
+\hypertarget{power-distribution-architecture}{%
+\paragraph{2.1.1 Power Distribution
+Architecture}\label{power-distribution-architecture}}
+
+\begin{itemize}
+\item
+  \textbf{Input:} AC mains (110-240V) or DC supply (24V/48V industrial)
+\item
+  \textbf{Power Tree:}
+
+\begin{verbatim}
+Mains AC → AC-DC Converter → DC Bus (24V/48V)
+  ├→ Motor Drivers (servo/stepper)
+  ├→ Embedded Controllers (5V/12V regulators)
+  ├→ Sensors (3.3V/5V)
+  └→ Vision System (12V)
+\end{verbatim}
+\end{itemize}
+
+\hypertarget{power-budget}{%
+\paragraph{2.1.2 Power Budget}\label{power-budget}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Component & Voltage & Current & Power \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+6x Servo Motors & 48V & 10A & 480W \\
+Controller (Jetson) & 12V & 5A & 60W \\
+Camera System & 12V & 2A & 24W \\
+Gripper Actuator & 24V & 3A & 72W \\
+\textbf{Total} & - & - & \textbf{636W} \\
+\end{longtable}
+
+\hypertarget{protection-circuits}{%
+\paragraph{2.1.3 Protection Circuits}\label{protection-circuits}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Overcurrent Protection:} Fuses, circuit breakers
+\item
+  \textbf{EMI/EMC Filtering:} Noise suppression
+\item
+  \textbf{Grounding:} Safety earth, signal ground isolation
+\end{itemize}
+
+\hypertarget{actuation-systems}{%
+\subsubsection{2.2 Actuation Systems}\label{actuation-systems}}
+
+\hypertarget{servo-motors}{%
+\paragraph{2.2.1 Servo Motors}\label{servo-motors}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Type:} Brushless DC (BLDC) or AC servo
+\item
+  \textbf{Control:} Position, velocity, torque modes
+\item
+  \textbf{Feedback:} Encoders (incremental/absolute)
+\item
+  \textbf{Specifications:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Rated torque: 5-20 Nm
+  \item
+    Speed: 3000 RPM
+  \item
+    Resolution: 17-20 bit encoders
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{stepper-motors}{%
+\paragraph{2.2.2 Stepper Motors}\label{stepper-motors}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Type:} Hybrid stepper (1.8° or 0.9° step)
+\item
+  \textbf{Advantages:} Open-loop positioning, no feedback required
+\item
+  \textbf{Disadvantages:} Torque drops at high speed, step loss
+\item
+  \textbf{Application:} Gripper actuation (if cost-sensitive)
+\end{itemize}
+
+\hypertarget{linear-actuators}{%
+\paragraph{2.2.3 Linear Actuators}\label{linear-actuators}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Types:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Electric: Ball screw, lead screw
+  \item
+    Pneumatic: Air cylinders
+  \end{itemize}
+\item
+  \textbf{Application:} Z-axis (vertical) motion, gripper open/close
+\end{itemize}
+
+\hypertarget{motor-drives-controllers}{%
+\subsubsection{2.3 Motor Drives \&
+Controllers}\label{motor-drives-controllers}}
+
+\hypertarget{servo-drives}{%
+\paragraph{2.3.1 Servo Drives}\label{servo-drives}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Function:} Commutate motor phases, close position/velocity
+  loops
+\item
+  \textbf{Control Modes:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Position mode (PID)
+  \item
+    Velocity mode
+  \item
+    Torque mode
+  \end{itemize}
+\item
+  \textbf{Communication:} EtherCAT, CANopen, Modbus, RS-485
+\end{itemize}
+
+\hypertarget{drive-tuning}{%
+\paragraph{2.3.2 Drive Tuning}\label{drive-tuning}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{PID Parameters:} Proportional, Integral, Derivative gains
+\item
+  \textbf{Auto-tuning:} Some drives support automatic PID calibration
+\item
+  \textbf{Application:} Minimize overshoot, settling time
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{electronics-sensors}{%
+\subsection{3. Electronics \& Sensors}\label{electronics-sensors}}
+
+\hypertarget{vision-sensors}{%
+\subsubsection{3.1 Vision Sensors}\label{vision-sensors}}
+
+\hypertarget{rgb-d-cameras}{%
+\paragraph{3.1.1 RGB-D Cameras}\label{rgb-d-cameras}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Models:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Intel RealSense D435/D455
+  \item
+    Microsoft Azure Kinect
+  \item
+    Orbbec Astra
+  \end{itemize}
+\item
+  \textbf{Outputs:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    RGB image (1920x1080 @ 30fps)
+  \item
+    Depth map (aligned to RGB)
+  \item
+    Point cloud (XYZ + RGB)
+  \end{itemize}
+\item
+  \textbf{Interface:} USB 3.0, USB-C
+\item
+  \textbf{Application:} Object detection, pose estimation
+\end{itemize}
+
+\hypertarget{stereo-cameras}{%
+\paragraph{3.1.2 Stereo Cameras}\label{stereo-cameras}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Principle:} Triangulation from two camera views
+\item
+  \textbf{Calibration:} Stereo calibration for disparity-to-depth
+\item
+  \textbf{Advantages:} Passive, works in all lighting
+\end{itemize}
+
+\hypertarget{industrial-cameras}{%
+\paragraph{3.1.3 Industrial Cameras}\label{industrial-cameras}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Type:} GigE Vision, USB3 Vision
+\item
+  \textbf{Features:} Global shutter, high frame rate (60-120 fps)
+\item
+  \textbf{Application:} High-speed pick-and-place
+\end{itemize}
+
+\hypertarget{forcetorque-sensors}{%
+\subsubsection{3.2 Force/Torque Sensors}\label{forcetorque-sensors}}
+
+\hypertarget{axis-ft-sensor}{%
+\paragraph{3.2.1 6-Axis F/T Sensor}\label{axis-ft-sensor}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mounting:} Between robot flange and gripper
+\item
+  \textbf{Measurements:} Fx, Fy, Fz, Tx, Ty, Tz
+\item
+  \textbf{Resolution:} 0.1-1 N force, 0.01-0.1 Nm torque
+\item
+  \textbf{Application:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Grasp force control
+  \item
+    Collision detection
+  \item
+    Contact detection (surface touch)
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{signal-conditioning}{%
+\paragraph{3.2.2 Signal Conditioning}\label{signal-conditioning}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Amplification:} Low-noise amplifiers
+\item
+  \textbf{Filtering:} Low-pass filter (remove high-freq noise)
+\item
+  \textbf{Calibration:} Zero-offset calibration, load compensation
+\end{itemize}
+
+\hypertarget{proximity-limit-sensors}{%
+\subsubsection{3.3 Proximity \& Limit
+Sensors}\label{proximity-limit-sensors}}
+
+\hypertarget{inductive-proximity-sensors}{%
+\paragraph{3.3.1 Inductive Proximity
+Sensors}\label{inductive-proximity-sensors}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Detection:} Metal objects (non-contact)
+\item
+  \textbf{Application:} Detect gripper jaw position, home position
+\end{itemize}
+
+\hypertarget{photoelectric-sensors}{%
+\paragraph{3.3.2 Photoelectric Sensors}\label{photoelectric-sensors}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Types:} Through-beam, retro-reflective, diffuse
+\item
+  \textbf{Application:} Object presence detection on conveyor
+\end{itemize}
+
+\hypertarget{limit-switches}{%
+\paragraph{3.3.3 Limit Switches}\label{limit-switches}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Type:} Mechanical, magnetic (hall-effect)
+\item
+  \textbf{Application:} End-of-travel detection, safety interlocks
+\end{itemize}
+
+\hypertarget{encoder-systems}{%
+\subsubsection{3.4 Encoder Systems}\label{encoder-systems}}
+
+\hypertarget{rotary-encoders}{%
+\paragraph{3.4.1 Rotary Encoders}\label{rotary-encoders}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Types:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Incremental (A/B quadrature, index)
+  \item
+    Absolute (multi-turn)
+  \end{itemize}
+\item
+  \textbf{Resolution:} 1000-10000 CPR (counts per revolution)
+\item
+  \textbf{Application:} Joint position feedback
+\end{itemize}
+
+\hypertarget{linear-encoders}{%
+\paragraph{3.4.2 Linear Encoders}\label{linear-encoders}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Principle:} Optical/magnetic scale reading
+\item
+  \textbf{Application:} Linear stage position measurement
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{control-systems}{%
+\subsection{4. Control Systems}\label{control-systems}}
+
+\hypertarget{control-theory-fundamentals}{%
+\subsubsection{4.1 Control Theory
+Fundamentals}\label{control-theory-fundamentals}}
+
+\hypertarget{pid-control}{%
+\paragraph{4.1.1 PID Control}\label{pid-control}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Equation:} u(t) = Kp·e(t) + Ki·∫e(t)dt + Kd·de(t)/dt
+\item
+  \textbf{Tuning Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Ziegler-Nichols
+  \item
+    Manual tuning
+  \item
+    Auto-tuning algorithms
+  \end{itemize}
+\item
+  \textbf{Application:} Joint position/velocity control
+\end{itemize}
+
+\hypertarget{feedforward-control}{%
+\paragraph{4.1.2 Feedforward Control}\label{feedforward-control}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Compensate known disturbances (gravity, friction)
+\item
+  \textbf{Equation:} τ\_ff = G(q) + friction\_model(q̇)
+\item
+  \textbf{Application:} Improve trajectory tracking
+\end{itemize}
+
+\hypertarget{state-space-control}{%
+\paragraph{4.1.3 State-Space Control}\label{state-space-control}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Representation:} ẋ = Ax + Bu, y = Cx
+\item
+  \textbf{Controllers:} LQR (Linear Quadratic Regulator)
+\item
+  \textbf{Application:} Advanced multi-variable control
+\end{itemize}
+
+\hypertarget{motion-control-architectures}{%
+\subsubsection{4.2 Motion Control
+Architectures}\label{motion-control-architectures}}
+
+\hypertarget{cascaded-control-loops}{%
+\paragraph{4.2.1 Cascaded Control Loops}\label{cascaded-control-loops}}
+
+\begin{verbatim}
+Position Loop (outer) → Velocity Loop (middle) → Current Loop (inner)
+  10-100 Hz                 1 kHz                   10 kHz
+\end{verbatim}
+
+\hypertarget{trajectory-interpolation}{%
+\paragraph{4.2.2 Trajectory
+Interpolation}\label{trajectory-interpolation}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Point-to-Point:} Trapezoidal, S-curve velocity profiles
+\item
+  \textbf{Continuous Path:} Spline interpolation
+\item
+  \textbf{Real-Time:} Update setpoints at control frequency
+\end{itemize}
+
+\hypertarget{force-control}{%
+\subsubsection{4.3 Force Control}\label{force-control}}
+
+\hypertarget{impedance-control}{%
+\paragraph{4.3.1 Impedance Control}\label{impedance-control}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Equation:} F = M·ẍ + D·ẋ + K·x
+\item
+  \textbf{Application:} Compliant contact, assembly tasks
+\end{itemize}
+
+\hypertarget{admittance-control}{%
+\paragraph{4.3.2 Admittance Control}\label{admittance-control}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Inverse of Impedance:} Compute desired motion from measured
+  force
+\item
+  \textbf{Application:} Human-robot collaboration, delicate grasping
+\end{itemize}
+
+\hypertarget{real-time-control-systems}{%
+\subsubsection{4.4 Real-Time Control
+Systems}\label{real-time-control-systems}}
+
+\hypertarget{real-time-operating-systems-rtos}{%
+\paragraph{4.4.1 Real-Time Operating Systems
+(RTOS)}\label{real-time-operating-systems-rtos}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Examples:} RT-Preempt Linux, FreeRTOS, QNX
+\item
+  \textbf{Requirements:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Deterministic latency (\textless1 ms jitter)
+  \item
+    Priority-based scheduling
+  \end{itemize}
+\item
+  \textbf{Application:} Hard real-time control loops
+\end{itemize}
+
+\hypertarget{control-frequency-requirements}{%
+\paragraph{4.4.2 Control Frequency
+Requirements}\label{control-frequency-requirements}}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+Control Level & Frequency & Latency Req. \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Current Control & 10-20 kHz & \textless100 µs \\
+Velocity Control & 1-5 kHz & \textless1 ms \\
+Position Control & 100-1000 Hz & \textless10 ms \\
+Task Planning & 1-10 Hz & \textless100 ms \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{embedded-systems-microcontrollers}{%
+\subsection{5. Embedded Systems \&
+Microcontrollers}\label{embedded-systems-microcontrollers}}
+
+\hypertarget{microcontroller-units-mcu}{%
+\subsubsection{5.1 Microcontroller Units
+(MCU)}\label{microcontroller-units-mcu}}
+
+\hypertarget{mcu-selection}{%
+\paragraph{5.1.1 MCU Selection}\label{mcu-selection}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Low-Level Control:} STM32, Arduino (gripper, simple I/O)
+\item
+  \textbf{Application:} PWM generation, encoder reading, I/O interfacing
+\end{itemize}
+
+\hypertarget{communication-interfaces}{%
+\paragraph{5.1.2 Communication
+Interfaces}\label{communication-interfaces}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{UART/Serial:} Legacy motor controllers
+\item
+  \textbf{SPI/I2C:} Sensor interfaces
+\item
+  \textbf{CAN Bus:} Industrial communication
+\item
+  \textbf{EtherCAT:} High-speed distributed I/O
+\end{itemize}
+
+\hypertarget{single-board-computers-sbc}{%
+\subsubsection{5.2 Single-Board Computers
+(SBC)}\label{single-board-computers-sbc}}
+
+\hypertarget{sbc-options}{%
+\paragraph{5.2.1 SBC Options}\label{sbc-options}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{NVIDIA Jetson (Nano/Xavier/Orin):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    GPU for AI inference
+  \item
+    Application: Vision processing, deep learning
+  \end{itemize}
+\item
+  \textbf{Raspberry Pi:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Low cost, general-purpose
+  \item
+    Application: Lightweight tasks, prototyping
+  \end{itemize}
+\item
+  \textbf{Industrial PC (x86):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    High compute, ROS2 master
+  \item
+    Application: MoveIt planning, system orchestration
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{signal-processing-filtering}{%
+\subsection{6. Signal Processing \&
+Filtering}\label{signal-processing-filtering}}
+
+\hypertarget{sensor-data-filtering}{%
+\subsubsection{6.1 Sensor Data Filtering}\label{sensor-data-filtering}}
+
+\hypertarget{low-pass-filter}{%
+\paragraph{6.1.1 Low-Pass Filter}\label{low-pass-filter}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Purpose:} Remove high-frequency noise
+\item
+  \textbf{Types:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Moving average
+  \item
+    Exponential smoothing
+  \item
+    Butterworth filter
+  \end{itemize}
+\item
+  \textbf{Application:} Smooth encoder readings, force sensor data
+\end{itemize}
+
+\hypertarget{kalman-filter}{%
+\paragraph{6.1.2 Kalman Filter}\label{kalman-filter}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Purpose:} Optimal state estimation with noisy measurements
+\item
+  \textbf{Application:} Fuse multiple sensors (vision + encoder)
+\end{itemize}
+
+\hypertarget{median-filter}{%
+\paragraph{6.1.3 Median Filter}\label{median-filter}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Purpose:} Remove outliers/spikes
+\item
+  \textbf{Application:} Depth image denoising
+\end{itemize}
+
+\hypertarget{signal-conditioning-circuits}{%
+\subsubsection{6.2 Signal Conditioning
+Circuits}\label{signal-conditioning-circuits}}
+
+\hypertarget{amplification}{%
+\paragraph{6.2.1 Amplification}\label{amplification}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Instrumentation Amplifiers:} High CMRR for differential
+  signals
+\item
+  \textbf{Application:} Strain gauge, load cell amplification
+\end{itemize}
+
+\hypertarget{analog-to-digital-conversion-adc}{%
+\paragraph{6.2.2 Analog-to-Digital Conversion
+(ADC)}\label{analog-to-digital-conversion-adc}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Resolution:} 12-16 bit
+\item
+  \textbf{Sampling Rate:} 1-100 kHz
+\item
+  \textbf{Application:} Force sensor, analog encoder readout
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{power-electronics}{%
+\subsection{7. Power Electronics}\label{power-electronics}}
+
+\hypertarget{motor-drivers}{%
+\subsubsection{7.1 Motor Drivers}\label{motor-drivers}}
+
+\hypertarget{h-bridge}{%
+\paragraph{7.1.1 H-Bridge}\label{h-bridge}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Function:} Bidirectional current control for DC motors
+\item
+  \textbf{Components:} MOSFETs, gate drivers
+\item
+  \textbf{Application:} DC motor speed/direction control
+\end{itemize}
+
+\hypertarget{three-phase-inverter}{%
+\paragraph{7.1.2 Three-Phase Inverter}\label{three-phase-inverter}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Function:} Drive BLDC/AC servo motors
+\item
+  \textbf{Modulation:} PWM (Space Vector Modulation, Sinusoidal PWM)
+\item
+  \textbf{Application:} High-performance servo drives
+\end{itemize}
+
+\hypertarget{dc-dc-converters}{%
+\subsubsection{7.2 DC-DC Converters}\label{dc-dc-converters}}
+
+\hypertarget{buck-converter-step-down}{%
+\paragraph{7.2.1 Buck Converter
+(Step-Down)}\label{buck-converter-step-down}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Input:} 48V → Output: 12V/5V
+\item
+  \textbf{Efficiency:} 85-95\%
+\item
+  \textbf{Application:} Power embedded systems from main DC bus
+\end{itemize}
+
+\hypertarget{boost-converter-step-up}{%
+\paragraph{7.2.2 Boost Converter
+(Step-Up)}\label{boost-converter-step-up}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Application:} Battery-powered systems
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{system-integration-interfacing}{%
+\subsection{8. System Integration \&
+Interfacing}\label{system-integration-interfacing}}
+
+\hypertarget{communication-protocols}{%
+\subsubsection{8.1 Communication
+Protocols}\label{communication-protocols}}
+
+\hypertarget{industrial-ethernet}{%
+\paragraph{8.1.1 Industrial Ethernet}\label{industrial-ethernet}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{EtherCAT:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Real-time, deterministic
+  \item
+    Cycle time: \textless1 ms
+  \item
+    Application: Servo drive network
+  \end{itemize}
+\item
+  \textbf{PROFINET, Ethernet/IP:} Alternatives
+\end{itemize}
+
+\hypertarget{fieldbus}{%
+\paragraph{8.1.2 Fieldbus}\label{fieldbus}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{CAN Bus:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Multi-master, robust
+  \item
+    Application: Distributed sensors/actuators
+  \end{itemize}
+\item
+  \textbf{Modbus RTU/TCP:} Legacy industrial devices
+\end{itemize}
+
+\hypertarget{usb}{%
+\paragraph{8.1.3 USB}\label{usb}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{USB 3.0/3.1:} Camera data transfer
+\item
+  \textbf{USB-Serial:} MCU communication
+\end{itemize}
+
+\hypertarget{hardware-abstraction-layer-hal}{%
+\subsubsection{8.2 Hardware Abstraction Layer
+(HAL)}\label{hardware-abstraction-layer-hal}}
+
+\hypertarget{ros2_control-framework}{%
+\paragraph{8.2.1 ROS2\_Control Framework}\label{ros2_control-framework}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Standardized interface between controllers and
+  hardware
+\item
+  \textbf{Components:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Hardware Interface (read/write joint states)
+  \item
+    Controller Manager
+  \item
+    Controllers (position, velocity, effort)
+  \end{itemize}
+\item
+  \textbf{Application:} Portable control code across robot platforms
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{safety-fault-tolerance}{%
+\subsection{9. Safety \& Fault Tolerance}\label{safety-fault-tolerance}}
+
+\hypertarget{safety-rated-systems}{%
+\subsubsection{9.1 Safety-Rated Systems}\label{safety-rated-systems}}
+
+\hypertarget{emergency-stop-e-stop}{%
+\paragraph{9.1.1 Emergency Stop (E-Stop)}\label{emergency-stop-e-stop}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Category:} SIL 2 / PLd (ISO 13849)
+\item
+  \textbf{Implementation:} Dual-channel, monitored E-stop button
+\item
+  \textbf{Action:} Power cut to motors, safe state
+\end{itemize}
+
+\hypertarget{safety-plcs}{%
+\paragraph{9.1.2 Safety PLCs}\label{safety-plcs}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Function:} Monitor safety zones, light curtains, door
+  interlocks
+\item
+  \textbf{Communication:} Safe EtherCAT (FSoE)
+\end{itemize}
+
+\hypertarget{fault-detection-diagnosis}{%
+\subsubsection{9.2 Fault Detection \&
+Diagnosis}\label{fault-detection-diagnosis}}
+
+\hypertarget{sensor-fault-detection}{%
+\paragraph{9.2.1 Sensor Fault Detection}\label{sensor-fault-detection}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Range checks (out-of-bounds values)
+  \item
+    Redundancy (compare dual sensors)
+  \item
+    Plausibility checks
+  \end{itemize}
+\item
+  \textbf{Action:} Switch to fallback mode, alert operator
+\end{itemize}
+
+\hypertarget{actuator-fault-detection}{%
+\paragraph{9.2.2 Actuator Fault
+Detection}\label{actuator-fault-detection}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Following Error Monitoring:} Commanded vs actual position
+  deviation
+\item
+  \textbf{Overcurrent Detection:} Motor overload
+\item
+  \textbf{Action:} Stop motion, trigger alarm
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{mechatronics-system-integration-map}{%
+\subsection{10. Mechatronics System Integration
+Map}\label{mechatronics-system-integration-map}}
+
+\hypertarget{subsystem-dependencies}{%
+\subsubsection{10.1 Subsystem
+Dependencies}\label{subsystem-dependencies}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│                    CONTROL SYSTEM (Software)                │
+│         ROS2 / MoveIt / Vision AI / Task Planner            │
+└────────────┬────────────────────────────────┬───────────────┘
+             │                                │
+             ▼                                ▼
+  ┌──────────────────────┐        ┌──────────────────────┐
+  │   ELECTRICAL POWER   │        │   ELECTRONICS        │
+  │  - Power Supply      │        │  - Sensors (Camera,  │
+  │  - Motor Drivers     │        │    F/T, Proximity)   │
+  │  - Distribution      │        │  - Signal Cond.      │
+  └──────────┬───────────┘        │  - ADC/DAC           │
+             │                    └──────────┬───────────┘
+             │                               │
+             ▼                               ▼
+  ┌─────────────────────────────────────────────────┐
+  │            ACTUATION (Mechanical)               │
+  │  - Servo Motors → Gearbox → Joints              │
+  │  - Gripper Actuator                             │
+  │  - Linkages, Kinematics                         │
+  └─────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{signal-flow}{%
+\subsubsection{10.2 Signal Flow}\label{signal-flow}}
+
+\begin{verbatim}
+Vision Sensor (RGB-D) → USB 3.0 → Jetson (AI Processing)
+                                       ↓
+                            Object Pose (x,y,z,roll,pitch,yaw)
+                                       ↓
+                         IK Solver → Joint Angles (θ1..θ6)
+                                       ↓
+                         Trajectory Planner → Waypoints
+                                       ↓
+                         Controller Manager → Motor Commands
+                                       ↓
+               Servo Drives (EtherCAT) → Motors → Joint Motion
+                                       ↓
+                         Encoders → Position Feedback → Controller
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{mechatronics-concept-to-module-mapping}{%
+\subsection{11. Mechatronics Concept to Module
+Mapping}\label{mechatronics-concept-to-module-mapping}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3478}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4565}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1957}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mechatronics Concept}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Module/Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Department}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Link Dynamics (M, C, G) & Robot URDF, Dynamics Engine & Mechanical \\
+Gripper Mechanism & Parallel Jaw Gripper, Pneumatic/Electric &
+Mechanical \\
+Power Distribution & 48V DC Bus, Regulators & Electrical \\
+Servo Motor Control & Servo Drives (EtherCAT) & Electrical \\
+Motor Drive (H-Bridge/Inverter) & Motor Driver Boards & Electrical \\
+RGB-D Camera & RealSense D435, Vision Pipeline & Electronics \\
+Force/Torque Sensor & ATI F/T Sensor, Data Acquisition & Electronics \\
+Encoder Feedback & Absolute Encoders, Quadrature Interface &
+Electronics \\
+PID Control & ros2\_control Controllers & Software/Control \\
+Impedance Control & Admittance Controller Node & Software/Control \\
+Real-Time Control Loop & RT-Preempt Kernel, RTOS & Software \\
+EtherCAT Communication & IgH EtherCAT Master, Driver Nodes & Software \\
+Emergency Stop & Safety PLC, E-Stop Circuit & Safety/Elect. \\
+Sensor Filtering & Kalman Filter, Moving Avg Node & Software \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{design-considerations-trade-offs}{%
+\subsection{12. Design Considerations \&
+Trade-offs}\label{design-considerations-trade-offs}}
+
+\hypertarget{mechanical}{%
+\subsubsection{12.1 Mechanical}\label{mechanical}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Stiffness vs Weight:} High stiffness → heavy → slower motion
+\item
+  \textbf{Backlash:} Harmonic drives (zero backlash) vs gearboxes
+  (cheaper, backlash)
+\end{itemize}
+
+\hypertarget{electrical}{%
+\subsubsection{12.2 Electrical}\label{electrical}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Voltage Selection:} Higher voltage → lower current → less
+  heating, but safety concerns
+\item
+  \textbf{Motor Sizing:} Continuous vs peak torque requirements
+\end{itemize}
+
+\hypertarget{electronics}{%
+\subsubsection{12.3 Electronics}\label{electronics}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Camera Resolution vs Frame Rate:} Higher res → lower FPS
+\item
+  \textbf{Sensor Accuracy vs Cost:} High-res encoders expensive
+\end{itemize}
+
+\hypertarget{control}{%
+\subsubsection{12.4 Control}\label{control}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Sampling Frequency:} Higher → better performance, but more
+  compute load
+\item
+  \textbf{Model-Based vs Learning-Based:} Analytical control (robust) vs
+  RL (adaptive, data-hungry)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{summary}{%
+\subsection{Summary}\label{summary}}
+
+This vision-based pick-and-place system is a \textbf{comprehensive
+mechatronics integration} spanning:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Mechanical:} 6-DOF manipulator, gripper mechanisms,
+  transmission systems
+\item
+  \textbf{Electrical:} Power distribution (48V DC bus), servo drives,
+  motor control
+\item
+  \textbf{Electronics:} RGB-D camera, F/T sensors, encoders, signal
+  conditioning
+\item
+  \textbf{Control:} PID, impedance control, real-time loops (10 kHz
+  current, 1 kHz velocity)
+\item
+  \textbf{Embedded:} Jetson for vision, MCU for low-level I/O, EtherCAT
+  for real-time comms
+\end{itemize}
+
+Each subsystem is tightly coupled, requiring \textbf{cross-disciplinary
+design and validation}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Next Steps:} 1. Create detailed CAD models (mechanical) 2.
+Design electrical schematics and PCBs 3. Select and procure
+sensors/actuators 4. Develop control firmware and ROS2 drivers 5.
+Integrate and test subsystems incrementally
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Author:} Mechatronics Team \textbf{Review Status:} Pending
+Review
+
+\end{document}

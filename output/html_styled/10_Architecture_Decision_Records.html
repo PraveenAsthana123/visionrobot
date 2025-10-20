@@ -1,0 +1,2602 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>10 Architecture Decision Records</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {  background-color: #f8f8f8; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ef2929; } /* Alert */
+    code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #204a87; } /* Attribute */
+    code span.bn { color: #0000cf; } /* BaseN */
+    code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4e9a06; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #8f5902; font-style: italic; } /* Comment */
+    code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+    code span.dt { color: #204a87; } /* DataType */
+    code span.dv { color: #0000cf; } /* DecVal */
+    code span.er { color: #a40000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #0000cf; } /* Float */
+    code span.fu { color: #204a87; font-weight: bold; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+    code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+    code span.ot { color: #8f5902; } /* Other */
+    code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+    code span.sc { color: #ce5c00; font-weight: bold; } /* SpecialChar */
+    code span.ss { color: #4e9a06; } /* SpecialString */
+    code span.st { color: #4e9a06; } /* String */
+    code span.va { color: #000000; } /* Variable */
+    code span.vs { color: #4e9a06; } /* VerbatimString */
+    code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../styles/beautiful.css" />
+
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        #TOC {
+            background: var(--dark);
+            color: white;
+            padding: 30px;
+            position: sticky;
+            top: 0;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        #TOC ul {
+            list-style: none;
+        }
+
+        #TOC a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        #TOC a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        main {
+            padding: 60px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin: 1.5em 0 0.5em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 0;
+            padding-bottom: 20px;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            margin-top: 1.5em;
+            padding-left: 20px;
+            border-left: 5px solid var(--primary);
+        }
+
+        h3 {
+            font-size: 1.6em;
+        }
+
+        p {
+            margin: 1em 0;
+            font-size: 1.05em;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--secondary);
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        blockquote {
+            border-left: 5px solid var(--primary);
+            background: #f8fafc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        a:hover {
+            border-bottom-color: var(--primary);
+        }
+
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 0.5em 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            #TOC {
+                display: none;
+            }
+        }
+        </style>
+        </head>
+<body><div class="container">
+<header id="title-block-header">
+<h1 class="title">10 Architecture Decision Records</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#architecture-decision-records-adr"
+id="toc-architecture-decision-records-adr"><span
+class="toc-section-number">1</span> Architecture Decision Records
+(ADR)</a>
+<ul>
+<li><a href="#vision-based-pick-and-place-robotic-system"
+id="toc-vision-based-pick-and-place-robotic-system"><span
+class="toc-section-number">1.1</span> Vision-Based Pick and Place
+Robotic System</a></li>
+<li><a href="#adr-index" id="toc-adr-index"><span
+class="toc-section-number">1.2</span> ADR Index</a></li>
+<li><a href="#adr-template" id="toc-adr-template"><span
+class="toc-section-number">1.3</span> ADR Template</a></li>
+<li><a href="#adr-001-use-ros2-humble-as-middleware"
+id="toc-adr-001-use-ros2-humble-as-middleware"><span
+class="toc-section-number">1.4</span> ADR-001: Use ROS2 Humble as
+Middleware</a>
+<ul>
+<li><a href="#status" id="toc-status"><span
+class="toc-section-number">1.4.1</span> Status</a></li>
+<li><a href="#context" id="toc-context"><span
+class="toc-section-number">1.4.2</span> Context</a></li>
+<li><a href="#decision" id="toc-decision"><span
+class="toc-section-number">1.4.3</span> Decision</a></li>
+<li><a href="#consequences" id="toc-consequences"><span
+class="toc-section-number">1.4.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered"
+id="toc-alternatives-considered"><span
+class="toc-section-number">1.4.5</span> Alternatives Considered</a></li>
+<li><a href="#references" id="toc-references"><span
+class="toc-section-number">1.4.6</span> References</a></li>
+<li><a href="#metadata" id="toc-metadata"><span
+class="toc-section-number">1.4.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-002-select-cyclonedds-over-fastdds"
+id="toc-adr-002-select-cyclonedds-over-fastdds"><span
+class="toc-section-number">1.5</span> ADR-002: Select CycloneDDS over
+FastDDS</a>
+<ul>
+<li><a href="#status-1" id="toc-status-1"><span
+class="toc-section-number">1.5.1</span> Status</a></li>
+<li><a href="#context-1" id="toc-context-1"><span
+class="toc-section-number">1.5.2</span> Context</a></li>
+<li><a href="#decision-1" id="toc-decision-1"><span
+class="toc-section-number">1.5.3</span> Decision</a></li>
+<li><a href="#consequences-1" id="toc-consequences-1"><span
+class="toc-section-number">1.5.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-1"
+id="toc-alternatives-considered-1"><span
+class="toc-section-number">1.5.5</span> Alternatives Considered</a></li>
+<li><a href="#references-1" id="toc-references-1"><span
+class="toc-section-number">1.5.6</span> References</a></li>
+<li><a href="#metadata-1" id="toc-metadata-1"><span
+class="toc-section-number">1.5.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-003-choose-pytorch-over-tensorflow-for-ai-models"
+id="toc-adr-003-choose-pytorch-over-tensorflow-for-ai-models"><span
+class="toc-section-number">1.6</span> ADR-003: Choose PyTorch over
+TensorFlow for AI Models</a>
+<ul>
+<li><a href="#status-2" id="toc-status-2"><span
+class="toc-section-number">1.6.1</span> Status</a></li>
+<li><a href="#context-2" id="toc-context-2"><span
+class="toc-section-number">1.6.2</span> Context</a></li>
+<li><a href="#decision-2" id="toc-decision-2"><span
+class="toc-section-number">1.6.3</span> Decision</a></li>
+<li><a href="#consequences-2" id="toc-consequences-2"><span
+class="toc-section-number">1.6.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-2"
+id="toc-alternatives-considered-2"><span
+class="toc-section-number">1.6.5</span> Alternatives Considered</a></li>
+<li><a href="#references-2" id="toc-references-2"><span
+class="toc-section-number">1.6.6</span> References</a></li>
+<li><a href="#metadata-2" id="toc-metadata-2"><span
+class="toc-section-number">1.6.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-004-use-moveit2-for-motion-planning"
+id="toc-adr-004-use-moveit2-for-motion-planning"><span
+class="toc-section-number">1.7</span> ADR-004: Use MoveIt2 for Motion
+Planning</a>
+<ul>
+<li><a href="#status-3" id="toc-status-3"><span
+class="toc-section-number">1.7.1</span> Status</a></li>
+<li><a href="#context-3" id="toc-context-3"><span
+class="toc-section-number">1.7.2</span> Context</a></li>
+<li><a href="#decision-3" id="toc-decision-3"><span
+class="toc-section-number">1.7.3</span> Decision</a></li>
+<li><a href="#consequences-3" id="toc-consequences-3"><span
+class="toc-section-number">1.7.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-3"
+id="toc-alternatives-considered-3"><span
+class="toc-section-number">1.7.5</span> Alternatives Considered</a></li>
+<li><a href="#references-3" id="toc-references-3"><span
+class="toc-section-number">1.7.6</span> References</a></li>
+<li><a href="#metadata-3" id="toc-metadata-3"><span
+class="toc-section-number">1.7.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-005-adopt-ros2_control-for-real-time-control"
+id="toc-adr-005-adopt-ros2_control-for-real-time-control"><span
+class="toc-section-number">1.8</span> ADR-005: Adopt ros2_control for
+Real-Time Control</a>
+<ul>
+<li><a href="#status-4" id="toc-status-4"><span
+class="toc-section-number">1.8.1</span> Status</a></li>
+<li><a href="#context-4" id="toc-context-4"><span
+class="toc-section-number">1.8.2</span> Context</a></li>
+<li><a href="#decision-4" id="toc-decision-4"><span
+class="toc-section-number">1.8.3</span> Decision</a></li>
+<li><a href="#consequences-4" id="toc-consequences-4"><span
+class="toc-section-number">1.8.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-4"
+id="toc-alternatives-considered-4"><span
+class="toc-section-number">1.8.5</span> Alternatives Considered</a></li>
+<li><a href="#references-4" id="toc-references-4"><span
+class="toc-section-number">1.8.6</span> References</a></li>
+<li><a href="#metadata-4" id="toc-metadata-4"><span
+class="toc-section-number">1.8.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-006-use-postgresql-as-primary-database"
+id="toc-adr-006-use-postgresql-as-primary-database"><span
+class="toc-section-number">1.9</span> ADR-006: Use PostgreSQL as Primary
+Database</a>
+<ul>
+<li><a href="#status-5" id="toc-status-5"><span
+class="toc-section-number">1.9.1</span> Status</a></li>
+<li><a href="#context-5" id="toc-context-5"><span
+class="toc-section-number">1.9.2</span> Context</a></li>
+<li><a href="#decision-5" id="toc-decision-5"><span
+class="toc-section-number">1.9.3</span> Decision</a></li>
+<li><a href="#consequences-5" id="toc-consequences-5"><span
+class="toc-section-number">1.9.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-5"
+id="toc-alternatives-considered-5"><span
+class="toc-section-number">1.9.5</span> Alternatives Considered</a></li>
+<li><a href="#references-5" id="toc-references-5"><span
+class="toc-section-number">1.9.6</span> References</a></li>
+<li><a href="#metadata-5" id="toc-metadata-5"><span
+class="toc-section-number">1.9.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-007-implement-state-machine-with-behaviortree.cpp"
+id="toc-adr-007-implement-state-machine-with-behaviortree.cpp"><span
+class="toc-section-number">1.10</span> ADR-007: Implement State Machine
+with BehaviorTree.CPP</a>
+<ul>
+<li><a href="#status-6" id="toc-status-6"><span
+class="toc-section-number">1.10.1</span> Status</a></li>
+<li><a href="#context-6" id="toc-context-6"><span
+class="toc-section-number">1.10.2</span> Context</a></li>
+<li><a href="#decision-6" id="toc-decision-6"><span
+class="toc-section-number">1.10.3</span> Decision</a></li>
+<li><a href="#consequences-6" id="toc-consequences-6"><span
+class="toc-section-number">1.10.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-6"
+id="toc-alternatives-considered-6"><span
+class="toc-section-number">1.10.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-6" id="toc-references-6"><span
+class="toc-section-number">1.10.6</span> References</a></li>
+<li><a href="#metadata-6" id="toc-metadata-6"><span
+class="toc-section-number">1.10.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-008-deploy-yolov8-for-object-detection"
+id="toc-adr-008-deploy-yolov8-for-object-detection"><span
+class="toc-section-number">1.11</span> ADR-008: Deploy YOLOv8 for Object
+Detection</a>
+<ul>
+<li><a href="#status-7" id="toc-status-7"><span
+class="toc-section-number">1.11.1</span> Status</a></li>
+<li><a href="#context-7" id="toc-context-7"><span
+class="toc-section-number">1.11.2</span> Context</a></li>
+<li><a href="#decision-7" id="toc-decision-7"><span
+class="toc-section-number">1.11.3</span> Decision</a></li>
+<li><a href="#consequences-7" id="toc-consequences-7"><span
+class="toc-section-number">1.11.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-7"
+id="toc-alternatives-considered-7"><span
+class="toc-section-number">1.11.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-7" id="toc-references-7"><span
+class="toc-section-number">1.11.6</span> References</a></li>
+<li><a href="#metadata-7" id="toc-metadata-7"><span
+class="toc-section-number">1.11.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-009-use-docker-for-deployment"
+id="toc-adr-009-use-docker-for-deployment"><span
+class="toc-section-number">1.12</span> ADR-009: Use Docker for
+Deployment</a>
+<ul>
+<li><a href="#status-8" id="toc-status-8"><span
+class="toc-section-number">1.12.1</span> Status</a></li>
+<li><a href="#context-8" id="toc-context-8"><span
+class="toc-section-number">1.12.2</span> Context</a></li>
+<li><a href="#decision-8" id="toc-decision-8"><span
+class="toc-section-number">1.12.3</span> Decision</a></li>
+<li><a href="#consequences-8" id="toc-consequences-8"><span
+class="toc-section-number">1.12.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-8"
+id="toc-alternatives-considered-8"><span
+class="toc-section-number">1.12.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-8" id="toc-references-8"><span
+class="toc-section-number">1.12.6</span> References</a></li>
+<li><a href="#metadata-8" id="toc-metadata-8"><span
+class="toc-section-number">1.12.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-010-adopt-elk-stack-for-centralized-logging"
+id="toc-adr-010-adopt-elk-stack-for-centralized-logging"><span
+class="toc-section-number">1.13</span> ADR-010: Adopt ELK Stack for
+Centralized Logging</a>
+<ul>
+<li><a href="#status-9" id="toc-status-9"><span
+class="toc-section-number">1.13.1</span> Status</a></li>
+<li><a href="#context-9" id="toc-context-9"><span
+class="toc-section-number">1.13.2</span> Context</a></li>
+<li><a href="#decision-9" id="toc-decision-9"><span
+class="toc-section-number">1.13.3</span> Decision</a></li>
+<li><a href="#consequences-9" id="toc-consequences-9"><span
+class="toc-section-number">1.13.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-9"
+id="toc-alternatives-considered-9"><span
+class="toc-section-number">1.13.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-9" id="toc-references-9"><span
+class="toc-section-number">1.13.6</span> References</a></li>
+<li><a href="#metadata-9" id="toc-metadata-9"><span
+class="toc-section-number">1.13.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-011-use-grafana-prometheus-for-monitoring"
+id="toc-adr-011-use-grafana-prometheus-for-monitoring"><span
+class="toc-section-number">1.14</span> ADR-011: Use Grafana + Prometheus
+for Monitoring</a>
+<ul>
+<li><a href="#status-10" id="toc-status-10"><span
+class="toc-section-number">1.14.1</span> Status</a></li>
+<li><a href="#context-10" id="toc-context-10"><span
+class="toc-section-number">1.14.2</span> Context</a></li>
+<li><a href="#decision-10" id="toc-decision-10"><span
+class="toc-section-number">1.14.3</span> Decision</a></li>
+<li><a href="#consequences-10" id="toc-consequences-10"><span
+class="toc-section-number">1.14.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-10"
+id="toc-alternatives-considered-10"><span
+class="toc-section-number">1.14.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-10" id="toc-references-10"><span
+class="toc-section-number">1.14.6</span> References</a></li>
+<li><a href="#metadata-10" id="toc-metadata-10"><span
+class="toc-section-number">1.14.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-012-implement-oauth2-jwt-for-authentication"
+id="toc-adr-012-implement-oauth2-jwt-for-authentication"><span
+class="toc-section-number">1.15</span> ADR-012: Implement OAuth2 + JWT
+for Authentication</a>
+<ul>
+<li><a href="#status-11" id="toc-status-11"><span
+class="toc-section-number">1.15.1</span> Status</a></li>
+<li><a href="#context-11" id="toc-context-11"><span
+class="toc-section-number">1.15.2</span> Context</a></li>
+<li><a href="#decision-11" id="toc-decision-11"><span
+class="toc-section-number">1.15.3</span> Decision</a></li>
+<li><a href="#consequences-11" id="toc-consequences-11"><span
+class="toc-section-number">1.15.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-11"
+id="toc-alternatives-considered-11"><span
+class="toc-section-number">1.15.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-11" id="toc-references-11"><span
+class="toc-section-number">1.15.6</span> References</a></li>
+<li><a href="#metadata-11" id="toc-metadata-11"><span
+class="toc-section-number">1.15.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-013-choose-intel-realsense-d435i-camera"
+id="toc-adr-013-choose-intel-realsense-d435i-camera"><span
+class="toc-section-number">1.16</span> ADR-013: Choose Intel RealSense
+D435i Camera</a>
+<ul>
+<li><a href="#status-12" id="toc-status-12"><span
+class="toc-section-number">1.16.1</span> Status</a></li>
+<li><a href="#context-12" id="toc-context-12"><span
+class="toc-section-number">1.16.2</span> Context</a></li>
+<li><a href="#decision-12" id="toc-decision-12"><span
+class="toc-section-number">1.16.3</span> Decision</a></li>
+<li><a href="#consequences-12" id="toc-consequences-12"><span
+class="toc-section-number">1.16.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-12"
+id="toc-alternatives-considered-12"><span
+class="toc-section-number">1.16.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-12" id="toc-references-12"><span
+class="toc-section-number">1.16.6</span> References</a></li>
+<li><a href="#metadata-12" id="toc-metadata-12"><span
+class="toc-section-number">1.16.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-014-select-ur5e-robot-arm"
+id="toc-adr-014-select-ur5e-robot-arm"><span
+class="toc-section-number">1.17</span> ADR-014: Select UR5e Robot
+Arm</a>
+<ul>
+<li><a href="#status-13" id="toc-status-13"><span
+class="toc-section-number">1.17.1</span> Status</a></li>
+<li><a href="#context-13" id="toc-context-13"><span
+class="toc-section-number">1.17.2</span> Context</a></li>
+<li><a href="#decision-13" id="toc-decision-13"><span
+class="toc-section-number">1.17.3</span> Decision</a></li>
+<li><a href="#consequences-13" id="toc-consequences-13"><span
+class="toc-section-number">1.17.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-13"
+id="toc-alternatives-considered-13"><span
+class="toc-section-number">1.17.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-13" id="toc-references-13"><span
+class="toc-section-number">1.17.6</span> References</a></li>
+<li><a href="#metadata-13" id="toc-metadata-13"><span
+class="toc-section-number">1.17.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#adr-015-use-nvidia-jetson-xavier-for-vision-processing"
+id="toc-adr-015-use-nvidia-jetson-xavier-for-vision-processing"><span
+class="toc-section-number">1.18</span> ADR-015: Use NVIDIA Jetson Xavier
+for Vision Processing</a>
+<ul>
+<li><a href="#status-14" id="toc-status-14"><span
+class="toc-section-number">1.18.1</span> Status</a></li>
+<li><a href="#context-14" id="toc-context-14"><span
+class="toc-section-number">1.18.2</span> Context</a></li>
+<li><a href="#decision-14" id="toc-decision-14"><span
+class="toc-section-number">1.18.3</span> Decision</a></li>
+<li><a href="#consequences-14" id="toc-consequences-14"><span
+class="toc-section-number">1.18.4</span> Consequences</a></li>
+<li><a href="#alternatives-considered-14"
+id="toc-alternatives-considered-14"><span
+class="toc-section-number">1.18.5</span> Alternatives
+Considered</a></li>
+<li><a href="#references-14" id="toc-references-14"><span
+class="toc-section-number">1.18.6</span> References</a></li>
+<li><a href="#metadata-14" id="toc-metadata-14"><span
+class="toc-section-number">1.18.7</span> Metadata</a></li>
+</ul></li>
+<li><a href="#summary-table-all-adrs"
+id="toc-summary-table-all-adrs"><span
+class="toc-section-number">1.19</span> Summary Table: All ADRs</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1" id="architecture-decision-records-adr"><span
+class="header-section-number">1</span> Architecture Decision Records
+(ADR)</h1>
+<h2 data-number="1.1"
+id="vision-based-pick-and-place-robotic-system"><span
+class="header-section-number">1.1</span> Vision-Based Pick and Place
+Robotic System</h2>
+<hr />
+<h2 data-number="1.2" id="adr-index"><span
+class="header-section-number">1.2</span> ADR Index</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 27%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>ADR #</strong></th>
+<th><strong>Title</strong></th>
+<th><strong>Status</strong></th>
+<th><strong>Date</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ADR-001</td>
+<td>Use ROS2 Humble as Middleware</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="even">
+<td>ADR-002</td>
+<td>Select CycloneDDS over FastDDS</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="odd">
+<td>ADR-003</td>
+<td>Choose PyTorch over TensorFlow for AI Models</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="even">
+<td>ADR-004</td>
+<td>Use MoveIt2 for Motion Planning</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="odd">
+<td>ADR-005</td>
+<td>Adopt ros2_control for Real-Time Control</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="even">
+<td>ADR-006</td>
+<td>Use PostgreSQL as Primary Database</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="odd">
+<td>ADR-007</td>
+<td>Implement State Machine with BehaviorTree.CPP</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="even">
+<td>ADR-008</td>
+<td>Deploy YOLOv8 for Object Detection</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="odd">
+<td>ADR-009</td>
+<td>Use Docker for Deployment</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="even">
+<td>ADR-010</td>
+<td>Adopt ELK Stack for Centralized Logging</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="odd">
+<td>ADR-011</td>
+<td>Use Grafana + Prometheus for Monitoring</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="even">
+<td>ADR-012</td>
+<td>Implement OAuth2 + JWT for Authentication</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="odd">
+<td>ADR-013</td>
+<td>Choose Intel RealSense D435i Camera</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="even">
+<td>ADR-014</td>
+<td>Select UR5e Robot Arm</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+<tr class="odd">
+<td>ADR-015</td>
+<td>Use NVIDIA Jetson Xavier for Vision Processing</td>
+<td>Accepted</td>
+<td>2025-10-18</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.3" id="adr-template"><span
+class="header-section-number">1.3</span> ADR Template</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># ADR-XXX: [Title]</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Status</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Proposed | Accepted | Rejected | Deprecated | Superseded by ADR-YYY</span><span class="co">]</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Context</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Description of the problem and why a decision is needed</span><span class="co">]</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## Decision</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">The decision that was made</span><span class="co">]</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">## Consequences</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Positive</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Benefit 1</span><span class="co">]</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Benefit 2</span><span class="co">]</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">### Negative</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Drawback 1</span><span class="co">]</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Drawback 2</span><span class="co">]</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Risks</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Risk 1 + mitigation</span><span class="co">]</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Alternatives Considered</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**[Alternative 1]:** <span class="co">[</span><span class="ot">Brief description</span><span class="co">]</span> - Rejected because <span class="co">[</span><span class="ot">reason</span><span class="co">]</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**[Alternative 2]:** <span class="co">[</span><span class="ot">Brief description</span><span class="co">]</span> - Rejected because <span class="co">[</span><span class="ot">reason</span><span class="co">]</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## References</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Link to documentation, discussion, or research</span><span class="co">]</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Metadata</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Author:** <span class="co">[</span><span class="ot">Name</span><span class="co">]</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Date:** <span class="co">[</span><span class="ot">YYYY-MM-DD</span><span class="co">]</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Reviewers:** <span class="co">[</span><span class="ot">Names</span><span class="co">]</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Related ADRs:** <span class="co">[</span><span class="ot">ADR-XXX, ADR-YYY</span><span class="co">]</span></span></code></pre></div>
+<hr />
+<h2 data-number="1.4" id="adr-001-use-ros2-humble-as-middleware"><span
+class="header-section-number">1.4</span> ADR-001: Use ROS2 Humble as
+Middleware</h2>
+<h3 data-number="1.4.1" id="status"><span
+class="header-section-number">1.4.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.4.2" id="context"><span
+class="header-section-number">1.4.2</span> Context</h3>
+<p>The system requires a middleware framework to enable communication
+between distributed modules (vision, planning, control, monitoring).
+Options include ROS2, ROS1, YARP, OROCOS, and custom middleware.</p>
+<p><strong>Requirements:</strong> - Real-time support for 1 kHz control
+loops - Mature ecosystem (motion planning, drivers) - Long-term support
+(LTS) - Security features (authentication, encryption) - Cross-platform
+(Linux, Windows)</p>
+<h3 data-number="1.4.3" id="decision"><span
+class="header-section-number">1.4.3</span> Decision</h3>
+<p><strong>Adopt ROS2 Humble Hawksbill (LTS release)</strong> as the
+primary middleware.</p>
+<h3 data-number="1.4.4" id="consequences"><span
+class="header-section-number">1.4.4</span> Consequences</h3>
+<h4 data-number="1.4.4.1" id="positive"><span
+class="header-section-number">1.4.4.1</span> Positive</h4>
+<ul>
+<li><strong>LTS Support:</strong> Maintained until May 2027 (5 years
+from release)</li>
+<li><strong>Real-Time:</strong> Supports RT-Preempt Linux, DDS for
+low-latency communication</li>
+<li><strong>Ecosystem:</strong> MoveIt2, ros2_control, image_transport,
+tf2 all available</li>
+<li><strong>Security:</strong> Built-in DDS security (SROS2), vs ROS1’s
+insecure TCPROS</li>
+<li><strong>Active Development:</strong> Strong community, frequent
+updates</li>
+</ul>
+<h4 data-number="1.4.4.2" id="negative"><span
+class="header-section-number">1.4.4.2</span> Negative</h4>
+<ul>
+<li><strong>Learning Curve:</strong> Team must learn ROS2 (vs ROS1
+familiarity)</li>
+<li><strong>Tooling Maturity:</strong> Some ROS1 tools (rqt plugins)
+still being ported</li>
+<li><strong>Breaking Changes:</strong> API changes between ROS2
+distributions (mitigated by LTS)</li>
+</ul>
+<h4 data-number="1.4.4.3" id="risks"><span
+class="header-section-number">1.4.4.3</span> Risks</h4>
+<ul>
+<li><strong>Vendor Lock-In:</strong> ROS2-specific code not portable to
+non-ROS systems
+<ul>
+<li><em>Mitigation:</em> Abstract core logic into ROS-agnostic
+libraries, use ROS2 as thin wrapper</li>
+</ul></li>
+</ul>
+<h3 data-number="1.4.5" id="alternatives-considered"><span
+class="header-section-number">1.4.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ROS1 (Noetic)</strong></td>
+<td>Mature, familiar</td>
+<td>EOL 2025, no real-time, insecure</td>
+<td>Rejected: No future</td>
+</tr>
+<tr class="even">
+<td><strong>YARP</strong></td>
+<td>Good real-time</td>
+<td>Small community, fewer packages</td>
+<td>Rejected: Ecosystem gap</td>
+</tr>
+<tr class="odd">
+<td><strong>OROCOS</strong></td>
+<td>Excellent real-time</td>
+<td>Steep learning curve, niche</td>
+<td>Rejected: Overkill</td>
+</tr>
+<tr class="even">
+<td><strong>Custom</strong></td>
+<td>Full control</td>
+<td>High development cost, reinvent wheel</td>
+<td>Rejected: Not cost-effective</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.4.6" id="references"><span
+class="header-section-number">1.4.6</span> References</h3>
+<ul>
+<li><a href="https://docs.ros.org/en/humble/">ROS2 Humble
+Documentation</a></li>
+<li><a href="https://design.ros2.org/articles/why_ros2.html">ROS2 vs
+ROS1 Comparison</a></li>
+</ul>
+<h3 data-number="1.4.7" id="metadata"><span
+class="header-section-number">1.4.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> System Architect</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead, CTO</li>
+<li><strong>Related ADRs:</strong> ADR-002 (DDS choice), ADR-004
+(MoveIt2), ADR-005 (ros2_control)</li>
+</ul>
+<hr />
+<h2 data-number="1.5" id="adr-002-select-cyclonedds-over-fastdds"><span
+class="header-section-number">1.5</span> ADR-002: Select CycloneDDS over
+FastDDS</h2>
+<h3 data-number="1.5.1" id="status-1"><span
+class="header-section-number">1.5.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.5.2" id="context-1"><span
+class="header-section-number">1.5.2</span> Context</h3>
+<p>ROS2 supports multiple DDS implementations (rmw): CycloneDDS,
+FastDDS, RTI Connext, etc. The choice affects network performance,
+latency, and throughput.</p>
+<p><strong>Requirements:</strong> - Low latency (&lt;10ms for control
+messages) - High throughput (camera images @ 30fps) - Small network (1-3
+machines), not WAN - Open-source (no licensing fees)</p>
+<h3 data-number="1.5.3" id="decision-1"><span
+class="header-section-number">1.5.3</span> Decision</h3>
+<p><strong>Use CycloneDDS</strong> as the ROS2 middleware
+(rmw_cyclonedds_cpp).</p>
+<h3 data-number="1.5.4" id="consequences-1"><span
+class="header-section-number">1.5.4</span> Consequences</h3>
+<h4 data-number="1.5.4.1" id="positive-1"><span
+class="header-section-number">1.5.4.1</span> Positive</h4>
+<ul>
+<li><strong>Performance:</strong> Benchmarks show 20-30% lower latency
+than FastDDS on small networks</li>
+<li><strong>Simplicity:</strong> Easier configuration (fewer tuning
+parameters)</li>
+<li><strong>Reliability:</strong> Stable, fewer known bugs</li>
+<li><strong>License:</strong> Eclipse Public License (EPL) –
+permissive</li>
+</ul>
+<h4 data-number="1.5.4.2" id="negative-1"><span
+class="header-section-number">1.5.4.2</span> Negative</h4>
+<ul>
+<li><strong>Features:</strong> Lacks some advanced FastDDS features
+(discovery server, DDS-Router)
+<ul>
+<li><em>Not critical for single-site deployment</em></li>
+</ul></li>
+<li><strong>Ecosystem:</strong> Smaller community vs FastDDS (ROS2
+default)</li>
+</ul>
+<h4 data-number="1.5.4.3" id="risks-1"><span
+class="header-section-number">1.5.4.3</span> Risks</h4>
+<ul>
+<li><strong>Compatibility:</strong> Future ROS2 packages might optimize
+for FastDDS
+<ul>
+<li><em>Mitigation:</em> Easy to switch rmw via environment variable,
+test both</li>
+</ul></li>
+</ul>
+<h3 data-number="1.5.5" id="alternatives-considered-1"><span
+class="header-section-number">1.5.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>FastDDS</strong></td>
+<td>ROS2 default, most tested</td>
+<td>Higher latency, complex config</td>
+<td>Rejected: Performance gap</td>
+</tr>
+<tr class="even">
+<td><strong>RTI Connext</strong></td>
+<td>Enterprise-grade, best performance</td>
+<td>Commercial license ($$$)</td>
+<td>Rejected: Cost prohibitive</td>
+</tr>
+<tr class="odd">
+<td><strong>Custom DDS</strong></td>
+<td>Tailored to needs</td>
+<td>Massive development effort</td>
+<td>Rejected: Not feasible</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.5.6" id="references-1"><span
+class="header-section-number">1.5.6</span> References</h3>
+<ul>
+<li><a
+href="https://discourse.ros.org/t/ros2-middleware-benchmark/12345">ROS2
+DDS Benchmark</a></li>
+<li><a
+href="https://github.com/eclipse-cyclonedds/cyclonedds">CycloneDDS
+GitHub</a></li>
+</ul>
+<h3 data-number="1.5.7" id="metadata-1"><span
+class="header-section-number">1.5.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Network Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead</li>
+<li><strong>Related ADRs:</strong> ADR-001 (ROS2 choice)</li>
+</ul>
+<hr />
+<h2 data-number="1.6"
+id="adr-003-choose-pytorch-over-tensorflow-for-ai-models"><span
+class="header-section-number">1.6</span> ADR-003: Choose PyTorch over
+TensorFlow for AI Models</h2>
+<h3 data-number="1.6.1" id="status-2"><span
+class="header-section-number">1.6.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.6.2" id="context-2"><span
+class="header-section-number">1.6.2</span> Context</h3>
+<p>The vision pipeline requires deep learning models for object
+detection and pose estimation. Major frameworks: PyTorch, TensorFlow,
+JAX.</p>
+<p><strong>Requirements:</strong> - Research-friendly (iterate on
+models) - Good ONNX export (for TensorRT deployment) - Strong community
+in robotics/vision - Python-first API</p>
+<h3 data-number="1.6.3" id="decision-2"><span
+class="header-section-number">1.6.3</span> Decision</h3>
+<p><strong>Use PyTorch 2.0+</strong> for model development and
+training.</p>
+<h3 data-number="1.6.4" id="consequences-2"><span
+class="header-section-number">1.6.4</span> Consequences</h3>
+<h4 data-number="1.6.4.1" id="positive-2"><span
+class="header-section-number">1.6.4.1</span> Positive</h4>
+<ul>
+<li><strong>Dynamic Graphs:</strong> Easier debugging, more
+Pythonic</li>
+<li><strong>Research Adoption:</strong> Most recent papers use PyTorch
+(YOLOv8, PVNet)</li>
+<li><strong>ONNX Export:</strong> Excellent support via
+<code>torch.onnx</code></li>
+<li><strong>TensorRT:</strong> Smooth PyTorch → ONNX → TensorRT
+pipeline</li>
+<li><strong>Community:</strong> Large robotics community (ROS + PyTorch
+common)</li>
+</ul>
+<h4 data-number="1.6.4.2" id="negative-2"><span
+class="header-section-number">1.6.4.2</span> Negative</h4>
+<ul>
+<li><strong>Production Deployment:</strong> TensorFlow Lite slightly
+more mature for embedded
+<ul>
+<li><em>Mitigated by TensorRT path</em></li>
+</ul></li>
+<li><strong>Google Ecosystem:</strong> Less integration with TensorBoard
+(but supported)</li>
+</ul>
+<h4 data-number="1.6.4.3" id="risks-2"><span
+class="header-section-number">1.6.4.3</span> Risks</h4>
+<ul>
+<li><strong>Model Compatibility:</strong> Some TensorFlow models hard to
+port to PyTorch
+<ul>
+<li><em>Mitigation:</em> Use ONNX as intermediate format</li>
+</ul></li>
+</ul>
+<h3 data-number="1.6.5" id="alternatives-considered-2"><span
+class="header-section-number">1.6.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>TensorFlow</strong></td>
+<td>Production-ready, TF Lite</td>
+<td>Static graphs, less research-friendly</td>
+<td>Rejected: Harder to iterate</td>
+</tr>
+<tr class="even">
+<td><strong>JAX</strong></td>
+<td>Functional, fast</td>
+<td>Smaller ecosystem, steep curve</td>
+<td>Rejected: Too niche</td>
+</tr>
+<tr class="odd">
+<td><strong>ONNX Only</strong></td>
+<td>Framework-agnostic</td>
+<td>No training, only inference</td>
+<td>Rejected: Need training pipeline</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.6.6" id="references-2"><span
+class="header-section-number">1.6.6</span> References</h3>
+<ul>
+<li><a href="https://pytorch.org/">PyTorch Official</a></li>
+<li><a
+href="https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#pytorch-workflow">TensorRT
+PyTorch Workflow</a></li>
+</ul>
+<h3 data-number="1.6.7" id="metadata-2"><span
+class="header-section-number">1.6.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> AI/ML Lead</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead, Data Scientist</li>
+<li><strong>Related ADRs:</strong> ADR-008 (YOLOv8 choice), ADR-015
+(Jetson Xavier)</li>
+</ul>
+<hr />
+<h2 data-number="1.7" id="adr-004-use-moveit2-for-motion-planning"><span
+class="header-section-number">1.7</span> ADR-004: Use MoveIt2 for Motion
+Planning</h2>
+<h3 data-number="1.7.1" id="status-3"><span
+class="header-section-number">1.7.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.7.2" id="context-3"><span
+class="header-section-number">1.7.2</span> Context</h3>
+<p>Motion planning requires computing collision-free trajectories from
+current to goal configuration. Options: MoveIt2, OMPL standalone, Pilz,
+custom planner.</p>
+<p><strong>Requirements:</strong> - Collision checking with environment
+- Inverse kinematics (IK) solvers - Integration with ROS2 - Support for
+UR5e robot</p>
+<h3 data-number="1.7.3" id="decision-3"><span
+class="header-section-number">1.7.3</span> Decision</h3>
+<p><strong>Adopt MoveIt2</strong> as the motion planning framework.</p>
+<h3 data-number="1.7.4" id="consequences-3"><span
+class="header-section-number">1.7.4</span> Consequences</h3>
+<h4 data-number="1.7.4.1" id="positive-3"><span
+class="header-section-number">1.7.4.1</span> Positive</h4>
+<ul>
+<li><strong>Comprehensive:</strong> IK, planning, collision checking,
+scene management in one package</li>
+<li><strong>OMPL Integration:</strong> Access to RRT*, PRM, etc.</li>
+<li><strong>URDF Support:</strong> Load robot model easily</li>
+<li><strong>ROS2 Native:</strong> Full integration with ros2_control,
+TF2</li>
+<li><strong>Active Development:</strong> Continuous improvements, bug
+fixes</li>
+</ul>
+<h4 data-number="1.7.4.2" id="negative-3"><span
+class="header-section-number">1.7.4.2</span> Negative</h4>
+<ul>
+<li><strong>Complexity:</strong> Large codebase, steep learning
+curve</li>
+<li><strong>Performance:</strong> Can be slow for complex scenes
+(&gt;500 obstacles)
+<ul>
+<li><em>Mitigated by scene simplification, octomaps</em></li>
+</ul></li>
+<li><strong>Overhead:</strong> Heavy for simple point-to-point moves
+<ul>
+<li><em>Mitigated by direct IK for simple cases</em></li>
+</ul></li>
+</ul>
+<h4 data-number="1.7.4.3" id="risks-3"><span
+class="header-section-number">1.7.4.3</span> Risks</h4>
+<ul>
+<li><strong>Breaking Changes:</strong> MoveIt2 API still evolving
+(Humble → Jazzy)
+<ul>
+<li><em>Mitigation:</em> Stick with Humble LTS, test upgrades
+carefully</li>
+</ul></li>
+</ul>
+<h3 data-number="1.7.5" id="alternatives-considered-3"><span
+class="header-section-number">1.7.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>OMPL Standalone</strong></td>
+<td>Lightweight, fast</td>
+<td>No IK, no ROS integration</td>
+<td>Rejected: Missing features</td>
+</tr>
+<tr class="even">
+<td><strong>Pilz Industrial</strong></td>
+<td>Deterministic, real-time</td>
+<td>Limited to simple motions (PTP, LIN)</td>
+<td>Rejected: Not flexible enough</td>
+</tr>
+<tr class="odd">
+<td><strong>Custom Planner</strong></td>
+<td>Tailored to task</td>
+<td>High development cost</td>
+<td>Rejected: Reinventing wheel</td>
+</tr>
+<tr class="even">
+<td><strong>Descartes</strong></td>
+<td>Cartesian planning</td>
+<td>Trajectory-only, no collision</td>
+<td>Rejected: Narrow use case</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.7.6" id="references-3"><span
+class="header-section-number">1.7.6</span> References</h3>
+<ul>
+<li><a href="https://moveit.picknik.ai/humble/index.html">MoveIt2
+Documentation</a></li>
+<li><a href="https://ompl.kavrakilab.org/">OMPL Documentation</a></li>
+</ul>
+<h3 data-number="1.7.7" id="metadata-3"><span
+class="header-section-number">1.7.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Robotics Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead</li>
+<li><strong>Related ADRs:</strong> ADR-001 (ROS2), ADR-005
+(ros2_control)</li>
+</ul>
+<hr />
+<h2 data-number="1.8"
+id="adr-005-adopt-ros2_control-for-real-time-control"><span
+class="header-section-number">1.8</span> ADR-005: Adopt ros2_control for
+Real-Time Control</h2>
+<h3 data-number="1.8.1" id="status-4"><span
+class="header-section-number">1.8.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.8.2" id="context-4"><span
+class="header-section-number">1.8.2</span> Context</h3>
+<p>Real-time motor control requires deterministic communication with
+drives at 1 kHz. Options: ros2_control, custom control loop,
+vendor-specific SDK.</p>
+<p><strong>Requirements:</strong> - 1 kHz control loop - Hardware
+abstraction (portable across robots) - Support for PID, trajectory,
+admittance controllers - Integration with MoveIt2</p>
+<h3 data-number="1.8.3" id="decision-4"><span
+class="header-section-number">1.8.3</span> Decision</h3>
+<p><strong>Use ros2_control framework</strong> with custom hardware
+interface for UR5e (or EtherCAT drives).</p>
+<h3 data-number="1.8.4" id="consequences-4"><span
+class="header-section-number">1.8.4</span> Consequences</h3>
+<h4 data-number="1.8.4.1" id="positive-4"><span
+class="header-section-number">1.8.4.1</span> Positive</h4>
+<ul>
+<li><strong>Standardization:</strong> Controller plugins (PID,
+trajectory) reusable across robots</li>
+<li><strong>Hardware Abstraction:</strong> Swap robot without changing
+high-level code</li>
+<li><strong>MoveIt2 Integration:</strong> Seamless via
+FollowJointTrajectory action</li>
+<li><strong>Real-Time:</strong> Designed for RT-Preempt Linux</li>
+<li><strong>Community Controllers:</strong> Pre-built controllers
+(joint, Cartesian, admittance)</li>
+</ul>
+<h4 data-number="1.8.4.2" id="negative-4"><span
+class="header-section-number">1.8.4.2</span> Negative</h4>
+<ul>
+<li><strong>Complexity:</strong> Requires implementing
+<code>HardwareInterface</code> for custom robots</li>
+<li><strong>Debugging:</strong> Harder to debug than simple control
+loop</li>
+<li><strong>Overhead:</strong> Slight latency vs direct motor driver
+access (~1-2ms)</li>
+</ul>
+<h4 data-number="1.8.4.3" id="risks-4"><span
+class="header-section-number">1.8.4.3</span> Risks</h4>
+<ul>
+<li><strong>RT Performance:</strong> Non-RT code in hardware interface
+can break real-time
+<ul>
+<li><em>Mitigation:</em> Careful profiling, isolate RT-critical
+code</li>
+</ul></li>
+</ul>
+<h3 data-number="1.8.5" id="alternatives-considered-4"><span
+class="header-section-number">1.8.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Custom Loop</strong></td>
+<td>Full control, minimal overhead</td>
+<td>No standardization, hard to maintain</td>
+<td>Rejected: Not scalable</td>
+</tr>
+<tr class="even">
+<td><strong>Vendor SDK (UR API)</strong></td>
+<td>Optimized for UR5e</td>
+<td>Vendor lock-in, no ROS integration</td>
+<td>Rejected: Not portable</td>
+</tr>
+<tr class="odd">
+<td><strong>Orocos RTT</strong></td>
+<td>Best real-time performance</td>
+<td>Steep learning curve, small community</td>
+<td>Rejected: Overkill</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.8.6" id="references-4"><span
+class="header-section-number">1.8.6</span> References</h3>
+<ul>
+<li><a href="https://control.ros.org/humble/index.html">ros2_control
+Documentation</a></li>
+<li><a
+href="https://control.ros.org/humble/doc/getting_started/getting_started.html#writing-a-hardware-component">Hardware
+Interface Tutorial</a></li>
+</ul>
+<h3 data-number="1.8.7" id="metadata-4"><span
+class="header-section-number">1.8.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Controls Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead, Robotics Engineer</li>
+<li><strong>Related ADRs:</strong> ADR-001 (ROS2), ADR-004
+(MoveIt2)</li>
+</ul>
+<hr />
+<h2 data-number="1.9"
+id="adr-006-use-postgresql-as-primary-database"><span
+class="header-section-number">1.9</span> ADR-006: Use PostgreSQL as
+Primary Database</h2>
+<h3 data-number="1.9.1" id="status-5"><span
+class="header-section-number">1.9.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.9.2" id="context-5"><span
+class="header-section-number">1.9.2</span> Context</h3>
+<p>Need a relational database for persistent storage (tasks, users,
+configs). Options: PostgreSQL, MySQL, SQLite.</p>
+<p><strong>Requirements:</strong> - ACID compliance - JSON support (for
+flexible schemas) - Open-source, mature - Good performance (&lt;100ms
+query)</p>
+<h3 data-number="1.9.3" id="decision-5"><span
+class="header-section-number">1.9.3</span> Decision</h3>
+<p><strong>Use PostgreSQL 15</strong> as the primary relational
+database.</p>
+<h3 data-number="1.9.4" id="consequences-5"><span
+class="header-section-number">1.9.4</span> Consequences</h3>
+<h4 data-number="1.9.4.1" id="positive-5"><span
+class="header-section-number">1.9.4.1</span> Positive</h4>
+<ul>
+<li><strong>JSONB Support:</strong> Native JSON column type (fast
+indexing)</li>
+<li><strong>Extensibility:</strong> PostGIS (geospatial), pg_trgm
+(full-text search)</li>
+<li><strong>Performance:</strong> Better than MySQL for complex
+queries</li>
+<li><strong>Community:</strong> Large, active community</li>
+<li><strong>License:</strong> PostgreSQL License (permissive)</li>
+</ul>
+<h4 data-number="1.9.4.2" id="negative-5"><span
+class="header-section-number">1.9.4.2</span> Negative</h4>
+<ul>
+<li><strong>Complexity:</strong> More config options vs SQLite</li>
+<li><strong>Resource Usage:</strong> Heavier than SQLite (~50MB RAM
+baseline)</li>
+</ul>
+<h4 data-number="1.9.4.3" id="risks-5"><span
+class="header-section-number">1.9.4.3</span> Risks</h4>
+<ul>
+<li><strong>Scaling:</strong> Single-master write bottleneck (not a
+concern for this project)</li>
+</ul>
+<h3 data-number="1.9.5" id="alternatives-considered-5"><span
+class="header-section-number">1.9.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>MySQL</strong></td>
+<td>Ubiquitous, familiar</td>
+<td>Weaker JSON support</td>
+<td>Rejected: JSONB advantage</td>
+</tr>
+<tr class="even">
+<td><strong>SQLite</strong></td>
+<td>Lightweight, serverless</td>
+<td>No concurrent writes, no network</td>
+<td>Rejected: Multi-user needs</td>
+</tr>
+<tr class="odd">
+<td><strong>MongoDB</strong></td>
+<td>Native JSON, schemaless</td>
+<td>No ACID, harder to join</td>
+<td>Rejected: Need relational integrity</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.9.6" id="references-5"><span
+class="header-section-number">1.9.6</span> References</h3>
+<ul>
+<li><a href="https://www.postgresql.org/docs/15/">PostgreSQL
+Documentation</a></li>
+<li><a
+href="https://www.2ndquadrant.com/en/postgresql/postgresql-vs-mysql/">PostgreSQL
+vs MySQL</a></li>
+</ul>
+<h3 data-number="1.9.7" id="metadata-5"><span
+class="header-section-number">1.9.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Backend Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead</li>
+<li><strong>Related ADRs:</strong> None</li>
+</ul>
+<hr />
+<h2 data-number="1.10"
+id="adr-007-implement-state-machine-with-behaviortree.cpp"><span
+class="header-section-number">1.10</span> ADR-007: Implement State
+Machine with BehaviorTree.CPP</h2>
+<h3 data-number="1.10.1" id="status-6"><span
+class="header-section-number">1.10.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.10.2" id="context-6"><span
+class="header-section-number">1.10.2</span> Context</h3>
+<p>Task orchestration requires high-level state management (IDLE → SCAN
+→ DETECT → PICK → PLACE). Options: FSM (SMACH), Behavior Trees, custom
+code.</p>
+<p><strong>Requirements:</strong> - Modular (reusable behaviors) -
+Reactive (respond to events) - Human-readable (visualize logic) - Easy
+error handling</p>
+<h3 data-number="1.10.3" id="decision-6"><span
+class="header-section-number">1.10.3</span> Decision</h3>
+<p><strong>Use BehaviorTree.CPP</strong> for task orchestration.</p>
+<h3 data-number="1.10.4" id="consequences-6"><span
+class="header-section-number">1.10.4</span> Consequences</h3>
+<h4 data-number="1.10.4.1" id="positive-6"><span
+class="header-section-number">1.10.4.1</span> Positive</h4>
+<ul>
+<li><strong>Modularity:</strong> Behaviors are reusable nodes (action,
+condition, decorator)</li>
+<li><strong>Composability:</strong> Build complex trees from simple
+nodes</li>
+<li><strong>Visualization:</strong> Groot tool for real-time tree
+visualization</li>
+<li><strong>Error Handling:</strong> Built-in fallback, retry nodes</li>
+<li><strong>Performance:</strong> C++ implementation, fast</li>
+<li><strong>Industry Adoption:</strong> Used in industrial robotics
+(Nvidia Isaac, ROS2)</li>
+</ul>
+<h4 data-number="1.10.4.2" id="negative-6"><span
+class="header-section-number">1.10.4.2</span> Negative</h4>
+<ul>
+<li><strong>Learning Curve:</strong> BT paradigm different from FSM</li>
+<li><strong>Debugging:</strong> Tree execution harder to trace vs linear
+FSM</li>
+</ul>
+<h4 data-number="1.10.4.3" id="risks-6"><span
+class="header-section-number">1.10.4.3</span> Risks</h4>
+<ul>
+<li><strong>Complexity:</strong> Overly complex trees hard to understand
+<ul>
+<li><em>Mitigation:</em> Keep trees shallow (&lt;5 levels), document
+well</li>
+</ul></li>
+</ul>
+<h3 data-number="1.10.5" id="alternatives-considered-6"><span
+class="header-section-number">1.10.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>SMACH (ROS1)</strong></td>
+<td>Familiar, simple FSM</td>
+<td>Not ported to ROS2, linear flow only</td>
+<td>Rejected: No ROS2 support</td>
+</tr>
+<tr class="even">
+<td><strong>FlexBE</strong></td>
+<td>GUI editor</td>
+<td>Heavy, overkill for simple tasks</td>
+<td>Rejected: Too complex</td>
+</tr>
+<tr class="odd">
+<td><strong>Custom FSM</strong></td>
+<td>Simple, clear</td>
+<td>Not reusable, hard to extend</td>
+<td>Rejected: Reinventing wheel</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.10.6" id="references-6"><span
+class="header-section-number">1.10.6</span> References</h3>
+<ul>
+<li><a href="https://www.behaviortree.dev/">BehaviorTree.CPP</a></li>
+<li><a href="https://github.com/BehaviorTree/Groot">Groot
+Visualization</a></li>
+</ul>
+<h3 data-number="1.10.7" id="metadata-6"><span
+class="header-section-number">1.10.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Software Architect</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead, Robotics Engineer</li>
+<li><strong>Related ADRs:</strong> ADR-001 (ROS2)</li>
+</ul>
+<hr />
+<h2 data-number="1.11"
+id="adr-008-deploy-yolov8-for-object-detection"><span
+class="header-section-number">1.11</span> ADR-008: Deploy YOLOv8 for
+Object Detection</h2>
+<h3 data-number="1.11.1" id="status-7"><span
+class="header-section-number">1.11.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.11.2" id="context-7"><span
+class="header-section-number">1.11.2</span> Context</h3>
+<p>Vision pipeline requires real-time object detection. Options:
+YOLOv5/v8, Faster R-CNN, SSD, EfficientDet.</p>
+<p><strong>Requirements:</strong> - Real-time inference (&lt;50ms on
+Jetson Xavier) - High accuracy (mAP &gt;90%) - Easy to train on custom
+datasets - ONNX export support</p>
+<h3 data-number="1.11.3" id="decision-7"><span
+class="header-section-number">1.11.3</span> Decision</h3>
+<p><strong>Use YOLOv8</strong> (Ultralytics) for object detection.</p>
+<h3 data-number="1.11.4" id="consequences-7"><span
+class="header-section-number">1.11.4</span> Consequences</h3>
+<h4 data-number="1.11.4.1" id="positive-7"><span
+class="header-section-number">1.11.4.1</span> Positive</h4>
+<ul>
+<li><strong>Speed:</strong> 30+ FPS on Jetson Xavier (TensorRT)</li>
+<li><strong>Accuracy:</strong> State-of-the-art mAP (95%+ on COCO)</li>
+<li><strong>Ease of Use:</strong> Simple Python API
+(<code>ultralytics</code> package)</li>
+<li><strong>Custom Training:</strong> One command to fine-tune on custom
+data</li>
+<li><strong>Export:</strong> Native ONNX/TensorRT export</li>
+<li><strong>Active Development:</strong> Frequent updates from
+Ultralytics</li>
+</ul>
+<h4 data-number="1.11.4.2" id="negative-7"><span
+class="header-section-number">1.11.4.2</span> Negative</h4>
+<ul>
+<li><strong>Model Size:</strong> YOLOv8-large is 80MB (vs 20MB for
+YOLOv5-small)
+<ul>
+<li><em>Mitigated by YOLOv8-nano variant (6MB)</em></li>
+</ul></li>
+<li><strong>Dependency:</strong> Relies on Ultralytics library (could
+change API)</li>
+</ul>
+<h4 data-number="1.11.4.3" id="risks-7"><span
+class="header-section-number">1.11.4.3</span> Risks</h4>
+<ul>
+<li><strong>License:</strong> AGPL-3.0 (must open-source modifications)
+<ul>
+<li><em>Mitigation:</em> Use as black box, no modifications (or buy
+enterprise license)</li>
+</ul></li>
+</ul>
+<h3 data-number="1.11.5" id="alternatives-considered-7"><span
+class="header-section-number">1.11.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Faster R-CNN</strong></td>
+<td>High accuracy</td>
+<td>Slow (200ms), complex</td>
+<td>Rejected: Too slow</td>
+</tr>
+<tr class="even">
+<td><strong>SSD</strong></td>
+<td>Balanced speed/accuracy</td>
+<td>Lower mAP than YOLO</td>
+<td>Rejected: Accuracy gap</td>
+</tr>
+<tr class="odd">
+<td><strong>EfficientDet</strong></td>
+<td>Good efficiency</td>
+<td>Harder to deploy</td>
+<td>Rejected: YOLO easier</td>
+</tr>
+<tr class="even">
+<td><strong>YOLOv5</strong></td>
+<td>Stable, proven</td>
+<td>Slightly slower than v8</td>
+<td>Rejected: v8 improvements</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.11.6" id="references-7"><span
+class="header-section-number">1.11.6</span> References</h3>
+<ul>
+<li><a href="https://docs.ultralytics.com/">YOLOv8
+Documentation</a></li>
+<li><a
+href="https://github.com/ultralytics/ultralytics#benchmarks">YOLOv8
+Benchmarks</a></li>
+</ul>
+<h3 data-number="1.11.7" id="metadata-7"><span
+class="header-section-number">1.11.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Computer Vision Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> AI/ML Lead, Tech Lead</li>
+<li><strong>Related ADRs:</strong> ADR-003 (PyTorch), ADR-015 (Jetson
+Xavier)</li>
+</ul>
+<hr />
+<h2 data-number="1.12" id="adr-009-use-docker-for-deployment"><span
+class="header-section-number">1.12</span> ADR-009: Use Docker for
+Deployment</h2>
+<h3 data-number="1.12.1" id="status-8"><span
+class="header-section-number">1.12.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.12.2" id="context-8"><span
+class="header-section-number">1.12.2</span> Context</h3>
+<p>Deployment requires reproducible environments across dev, test,
+production machines. Options: Docker, conda, bare metal.</p>
+<p><strong>Requirements:</strong> - Reproducibility (same environment
+everywhere) - Isolation (dependencies don’t conflict) - Easy rollback
+(version control) - CI/CD integration</p>
+<h3 data-number="1.12.3" id="decision-8"><span
+class="header-section-number">1.12.3</span> Decision</h3>
+<p><strong>Use Docker</strong> for containerized deployment with Docker
+Compose for multi-container orchestration.</p>
+<h3 data-number="1.12.4" id="consequences-8"><span
+class="header-section-number">1.12.4</span> Consequences</h3>
+<h4 data-number="1.12.4.1" id="positive-8"><span
+class="header-section-number">1.12.4.1</span> Positive</h4>
+<ul>
+<li><strong>Reproducibility:</strong> Dockerfile specifies exact
+environment</li>
+<li><strong>Isolation:</strong> Each container has own dependencies</li>
+<li><strong>Portability:</strong> Runs on any Docker-compatible
+host</li>
+<li><strong>CI/CD:</strong> Easy to build, test, deploy in
+pipelines</li>
+<li><strong>Rollback:</strong> Tag images, revert to previous
+version</li>
+<li><strong>Multi-Container:</strong> Docker Compose for ROS2 + DB +
+monitoring</li>
+</ul>
+<h4 data-number="1.12.4.2" id="negative-8"><span
+class="header-section-number">1.12.4.2</span> Negative</h4>
+<ul>
+<li><strong>Overhead:</strong> ~100MB per container, slight performance
+cost</li>
+<li><strong>Complexity:</strong> Requires understanding Docker
+networking, volumes</li>
+<li><strong>GPU Access:</strong> Requires nvidia-docker for GPU
+containers</li>
+</ul>
+<h4 data-number="1.12.4.3" id="risks-8"><span
+class="header-section-number">1.12.4.3</span> Risks</h4>
+<ul>
+<li><strong>Debugging:</strong> Harder to debug inside containers
+<ul>
+<li><em>Mitigation:</em> Remote debugging, VS Code devcontainers</li>
+</ul></li>
+</ul>
+<h3 data-number="1.12.5" id="alternatives-considered-8"><span
+class="header-section-number">1.12.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Conda</strong></td>
+<td>Good for Python</td>
+<td>No isolation for system libs</td>
+<td>Rejected: Not comprehensive</td>
+</tr>
+<tr class="even">
+<td><strong>Snap/Flatpak</strong></td>
+<td>OS-level packages</td>
+<td>Complex for multi-service apps</td>
+<td>Rejected: Overkill</td>
+</tr>
+<tr class="odd">
+<td><strong>Bare Metal</strong></td>
+<td>No overhead</td>
+<td>Hard to reproduce</td>
+<td>Rejected: Ops nightmare</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.12.6" id="references-8"><span
+class="header-section-number">1.12.6</span> References</h3>
+<ul>
+<li><a href="https://docs.docker.com/">Docker Documentation</a></li>
+<li><a href="https://github.com/NVIDIA/nvidia-docker">NVIDIA Container
+Toolkit</a></li>
+</ul>
+<h3 data-number="1.12.7" id="metadata-8"><span
+class="header-section-number">1.12.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> DevOps Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead</li>
+<li><strong>Related ADRs:</strong> None</li>
+</ul>
+<hr />
+<h2 data-number="1.13"
+id="adr-010-adopt-elk-stack-for-centralized-logging"><span
+class="header-section-number">1.13</span> ADR-010: Adopt ELK Stack for
+Centralized Logging</h2>
+<h3 data-number="1.13.1" id="status-9"><span
+class="header-section-number">1.13.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.13.2" id="context-9"><span
+class="header-section-number">1.13.2</span> Context</h3>
+<p>System generates logs from multiple nodes (vision, planning,
+control). Need centralized logging for search, analysis, debugging.</p>
+<p><strong>Requirements:</strong> - Full-text search (find logs by
+keyword) - Real-time ingestion (logs appear &lt;1 sec) - Visualization
+(dashboards, charts) - Scalable (handle 10k logs/min)</p>
+<h3 data-number="1.13.3" id="decision-9"><span
+class="header-section-number">1.13.3</span> Decision</h3>
+<p><strong>Use ELK Stack</strong> (Elasticsearch, Logstash, Kibana) +
+Filebeat for log shipping.</p>
+<h3 data-number="1.13.4" id="consequences-9"><span
+class="header-section-number">1.13.4</span> Consequences</h3>
+<h4 data-number="1.13.4.1" id="positive-9"><span
+class="header-section-number">1.13.4.1</span> Positive</h4>
+<ul>
+<li><strong>Search:</strong> Elasticsearch provides powerful full-text
+search</li>
+<li><strong>Visualization:</strong> Kibana dashboards for log
+analysis</li>
+<li><strong>Scalability:</strong> Elasticsearch scales horizontally</li>
+<li><strong>Flexibility:</strong> Logstash filters/transforms logs</li>
+<li><strong>Community:</strong> Large ecosystem, many integrations</li>
+</ul>
+<h4 data-number="1.13.4.2" id="negative-9"><span
+class="header-section-number">1.13.4.2</span> Negative</h4>
+<ul>
+<li><strong>Resource Usage:</strong> Elasticsearch requires 2GB+
+RAM</li>
+<li><strong>Complexity:</strong> 4-component stack (ES, Logstash,
+Kibana, Filebeat)</li>
+<li><strong>Cost:</strong> If using Elastic Cloud (mitigated by
+self-hosting)</li>
+</ul>
+<h4 data-number="1.13.4.3" id="risks-9"><span
+class="header-section-number">1.13.4.3</span> Risks</h4>
+<ul>
+<li><strong>Performance:</strong> Slow queries on large log volumes
+<ul>
+<li><em>Mitigation:</em> Index retention policies (delete logs &gt;30
+days)</li>
+</ul></li>
+</ul>
+<h3 data-number="1.13.5" id="alternatives-considered-9"><span
+class="header-section-number">1.13.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Splunk</strong></td>
+<td>Enterprise-grade</td>
+<td>Expensive ($$$)</td>
+<td>Rejected: Cost prohibitive</td>
+</tr>
+<tr class="even">
+<td><strong>Graylog</strong></td>
+<td>Simpler than ELK</td>
+<td>Smaller community</td>
+<td>Rejected: Prefer ELK ecosystem</td>
+</tr>
+<tr class="odd">
+<td><strong>Loki (Grafana)</strong></td>
+<td>Lightweight, integrates with Grafana</td>
+<td>Less mature</td>
+<td>Considered, but ELK more proven</td>
+</tr>
+<tr class="even">
+<td><strong>CloudWatch</strong></td>
+<td>Managed service</td>
+<td>Vendor lock-in, cost</td>
+<td>Rejected: On-prem requirement</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.13.6" id="references-9"><span
+class="header-section-number">1.13.6</span> References</h3>
+<ul>
+<li><a href="https://www.elastic.co/elastic-stack">Elastic
+Stack</a></li>
+<li><a href="https://www.elastic.co/beats/filebeat">Filebeat</a></li>
+</ul>
+<h3 data-number="1.13.7" id="metadata-9"><span
+class="header-section-number">1.13.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Site Reliability Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead, DevOps</li>
+<li><strong>Related ADRs:</strong> ADR-011 (Grafana monitoring)</li>
+</ul>
+<hr />
+<h2 data-number="1.14"
+id="adr-011-use-grafana-prometheus-for-monitoring"><span
+class="header-section-number">1.14</span> ADR-011: Use Grafana +
+Prometheus for Monitoring</h2>
+<h3 data-number="1.14.1" id="status-10"><span
+class="header-section-number">1.14.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.14.2" id="context-10"><span
+class="header-section-number">1.14.2</span> Context</h3>
+<p>Need real-time monitoring of system metrics (CPU, RAM, cycle time,
+error rate). Options: Grafana, Datadog, New Relic.</p>
+<p><strong>Requirements:</strong> - Real-time dashboards (&lt;1 sec
+latency) - Time-series data storage - Alerting (threshold-based) -
+Open-source</p>
+<h3 data-number="1.14.3" id="decision-10"><span
+class="header-section-number">1.14.3</span> Decision</h3>
+<p><strong>Use Grafana</strong> for visualization +
+<strong>Prometheus</strong> for metrics collection.</p>
+<h3 data-number="1.14.4" id="consequences-10"><span
+class="header-section-number">1.14.4</span> Consequences</h3>
+<h4 data-number="1.14.4.1" id="positive-10"><span
+class="header-section-number">1.14.4.1</span> Positive</h4>
+<ul>
+<li><strong>Open-Source:</strong> No licensing costs</li>
+<li><strong>Flexibility:</strong> Highly customizable dashboards</li>
+<li><strong>Alerting:</strong> Built-in alert manager</li>
+<li><strong>Ecosystem:</strong> 100+ data sources (Prometheus, InfluxDB,
+PostgreSQL)</li>
+<li><strong>Community:</strong> Large user base, many plugins</li>
+</ul>
+<h4 data-number="1.14.4.2" id="negative-10"><span
+class="header-section-number">1.14.4.2</span> Negative</h4>
+<ul>
+<li><strong>Setup:</strong> Requires configuring exporters
+(node_exporter, custom)</li>
+<li><strong>Retention:</strong> Prometheus default 15 days (need
+long-term storage for InfluxDB)</li>
+</ul>
+<h4 data-number="1.14.4.3" id="risks-10"><span
+class="header-section-number">1.14.4.3</span> Risks</h4>
+<ul>
+<li><strong>Scalability:</strong> Prometheus single-node (not
+distributed)
+<ul>
+<li><em>Mitigation:</em> Federation or Thanos for multi-cluster</li>
+</ul></li>
+</ul>
+<h3 data-number="1.14.5" id="alternatives-considered-10"><span
+class="header-section-number">1.14.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Datadog</strong></td>
+<td>All-in-one, easy setup</td>
+<td>$15/host/month</td>
+<td>Rejected: Cost for small deployment</td>
+</tr>
+<tr class="even">
+<td><strong>New Relic</strong></td>
+<td>APM + monitoring</td>
+<td>Expensive, vendor lock-in</td>
+<td>Rejected: Overkill</td>
+</tr>
+<tr class="odd">
+<td><strong>CloudWatch</strong></td>
+<td>AWS-native</td>
+<td>Only works with AWS</td>
+<td>Rejected: On-prem deployment</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.14.6" id="references-10"><span
+class="header-section-number">1.14.6</span> References</h3>
+<ul>
+<li><a href="https://grafana.com/docs/">Grafana Documentation</a></li>
+<li><a href="https://prometheus.io/docs/">Prometheus
+Documentation</a></li>
+</ul>
+<h3 data-number="1.14.7" id="metadata-10"><span
+class="header-section-number">1.14.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Site Reliability Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead</li>
+<li><strong>Related ADRs:</strong> ADR-010 (ELK logging)</li>
+</ul>
+<hr />
+<h2 data-number="1.15"
+id="adr-012-implement-oauth2-jwt-for-authentication"><span
+class="header-section-number">1.15</span> ADR-012: Implement OAuth2 +
+JWT for Authentication</h2>
+<h3 data-number="1.15.1" id="status-11"><span
+class="header-section-number">1.15.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.15.2" id="context-11"><span
+class="header-section-number">1.15.2</span> Context</h3>
+<p>Web dashboard and API require user authentication. Options: Basic
+Auth, OAuth2, SAML, API keys.</p>
+<p><strong>Requirements:</strong> - Secure (encrypted tokens) -
+Stateless (no server-side sessions) - Role-based access control (RBAC) -
+Token expiry/refresh</p>
+<h3 data-number="1.15.3" id="decision-11"><span
+class="header-section-number">1.15.3</span> Decision</h3>
+<p><strong>Use OAuth2</strong> with <strong>JWT (JSON Web
+Tokens)</strong> for authentication and authorization.</p>
+<h3 data-number="1.15.4" id="consequences-11"><span
+class="header-section-number">1.15.4</span> Consequences</h3>
+<h4 data-number="1.15.4.1" id="positive-11"><span
+class="header-section-number">1.15.4.1</span> Positive</h4>
+<ul>
+<li><strong>Stateless:</strong> JWT contains all user info (no DB lookup
+per request)</li>
+<li><strong>Scalable:</strong> No session storage required</li>
+<li><strong>Standard:</strong> OAuth2 widely adopted, many
+libraries</li>
+<li><strong>RBAC:</strong> JWT claims include user roles</li>
+<li><strong>Security:</strong> Tokens expire, refresh tokens for
+re-auth</li>
+</ul>
+<h4 data-number="1.15.4.2" id="negative-11"><span
+class="header-section-number">1.15.4.2</span> Negative</h4>
+<ul>
+<li><strong>Token Size:</strong> JWT larger than session ID (~200
+bytes)</li>
+<li><strong>Revocation:</strong> Hard to revoke JWT before expiry
+<ul>
+<li><em>Mitigated by short TTL (15 min) + refresh tokens</em></li>
+</ul></li>
+</ul>
+<h4 data-number="1.15.4.3" id="risks-11"><span
+class="header-section-number">1.15.4.3</span> Risks</h4>
+<ul>
+<li><strong>Secret Leakage:</strong> If JWT secret exposed, all tokens
+compromised
+<ul>
+<li><em>Mitigation:</em> Rotate secrets regularly, store in secret
+manager</li>
+</ul></li>
+</ul>
+<h3 data-number="1.15.5" id="alternatives-considered-11"><span
+class="header-section-number">1.15.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Basic Auth</strong></td>
+<td>Simple</td>
+<td>Send password every request (insecure)</td>
+<td>Rejected: Not secure</td>
+</tr>
+<tr class="even">
+<td><strong>Session Cookies</strong></td>
+<td>Familiar</td>
+<td>Requires server-side storage</td>
+<td>Rejected: Not stateless</td>
+</tr>
+<tr class="odd">
+<td><strong>API Keys</strong></td>
+<td>Simple for bots</td>
+<td>No user identity, hard to rotate</td>
+<td>Rejected: Need user auth</td>
+</tr>
+<tr class="even">
+<td><strong>SAML</strong></td>
+<td>Enterprise SSO</td>
+<td>Complex, overkill for small system</td>
+<td>Rejected: Too complex</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.15.6" id="references-11"><span
+class="header-section-number">1.15.6</span> References</h3>
+<ul>
+<li><a href="https://oauth.net/2/">OAuth2 Specification</a></li>
+<li><a href="https://jwt.io/">JWT.io</a></li>
+</ul>
+<h3 data-number="1.15.7" id="metadata-11"><span
+class="header-section-number">1.15.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Security Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Tech Lead, Backend Engineer</li>
+<li><strong>Related ADRs:</strong> None</li>
+</ul>
+<hr />
+<h2 data-number="1.16"
+id="adr-013-choose-intel-realsense-d435i-camera"><span
+class="header-section-number">1.16</span> ADR-013: Choose Intel
+RealSense D435i Camera</h2>
+<h3 data-number="1.16.1" id="status-12"><span
+class="header-section-number">1.16.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.16.2" id="context-12"><span
+class="header-section-number">1.16.2</span> Context</h3>
+<p>Vision system requires RGB-D camera for object detection and pose
+estimation. Options: RealSense D435i, Azure Kinect, Orbbec Astra.</p>
+<p><strong>Requirements:</strong> - RGB: 1920×1080 @ 30fps - Depth:
+Range 0.3-3m, accuracy ±2% - USB 3.0 interface - ROS2 driver available -
+&lt;$500 cost</p>
+<h3 data-number="1.16.3" id="decision-12"><span
+class="header-section-number">1.16.3</span> Decision</h3>
+<p><strong>Use Intel RealSense D435i</strong> RGB-D camera.</p>
+<h3 data-number="1.16.4" id="consequences-12"><span
+class="header-section-number">1.16.4</span> Consequences</h3>
+<h4 data-number="1.16.4.1" id="positive-12"><span
+class="header-section-number">1.16.4.1</span> Positive</h4>
+<ul>
+<li><strong>Performance:</strong> 1920×1080 RGB @ 30fps, 1280×720 depth
+@ 30fps</li>
+<li><strong>Accuracy:</strong> Depth error &lt;2% at 1m</li>
+<li><strong>SDK:</strong> librealsense2 library, ROS2 wrapper
+(realsense2_camera)</li>
+<li><strong>IMU:</strong> Built-in IMU (accelerometer, gyroscope) for
+odometry</li>
+<li><strong>Cost:</strong> $350 (vs $400 for Kinect)</li>
+<li><strong>Compact:</strong> 90mm × 25mm × 25mm</li>
+</ul>
+<h4 data-number="1.16.4.2" id="negative-12"><span
+class="header-section-number">1.16.4.2</span> Negative</h4>
+<ul>
+<li><strong>Indoor Only:</strong> Struggles with sunlight (active IR
+stereo)</li>
+<li><strong>Range:</strong> 3m max (vs 5m for Kinect)</li>
+<li><strong>Support:</strong> Intel discontinued RealSense division (but
+SDK still maintained)</li>
+</ul>
+<h4 data-number="1.16.4.3" id="risks-12"><span
+class="header-section-number">1.16.4.3</span> Risks</h4>
+<ul>
+<li><strong>Availability:</strong> Potential supply chain issues
+(mitigated by stocking spares)</li>
+</ul>
+<h3 data-number="1.16.5" id="alternatives-considered-12"><span
+class="header-section-number">1.16.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Azure Kinect</strong></td>
+<td>Better depth accuracy, 5m range</td>
+<td>$400, larger (103mm), no ROS2 driver</td>
+<td>Rejected: Cost, no ROS2 support</td>
+</tr>
+<tr class="even">
+<td><strong>Orbbec Astra</strong></td>
+<td>Cheap ($150), similar specs</td>
+<td>Lower quality, less support</td>
+<td>Rejected: Quality concerns</td>
+</tr>
+<tr class="odd">
+<td><strong>Stereo Camera</strong></td>
+<td>Passive (works outdoors)</td>
+<td>Requires calibration, slower</td>
+<td>Rejected: Active IR easier</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.16.6" id="references-12"><span
+class="header-section-number">1.16.6</span> References</h3>
+<ul>
+<li><a
+href="https://www.intelrealsense.com/depth-camera-d435i/">RealSense
+D435i Datasheet</a></li>
+<li><a
+href="https://github.com/IntelRealSense/realsense-ros">realsense2_camera
+ROS2 Wrapper</a></li>
+</ul>
+<h3 data-number="1.16.7" id="metadata-12"><span
+class="header-section-number">1.16.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Hardware Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Computer Vision Engineer, Tech Lead</li>
+<li><strong>Related ADRs:</strong> ADR-015 (Jetson Xavier for
+processing)</li>
+</ul>
+<hr />
+<h2 data-number="1.17" id="adr-014-select-ur5e-robot-arm"><span
+class="header-section-number">1.17</span> ADR-014: Select UR5e Robot
+Arm</h2>
+<h3 data-number="1.17.1" id="status-13"><span
+class="header-section-number">1.17.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.17.2" id="context-13"><span
+class="header-section-number">1.17.2</span> Context</h3>
+<p>Need 6-DOF robot arm for pick-and-place. Options: UR5e, ABB IRB 1200,
+KUKA iiwa, Fanuc CRX.</p>
+<p><strong>Requirements:</strong> - Payload: ≥5kg - Reach: ≥850mm -
+Repeatability: ±0.1mm - Collaborative (safe near humans) - ROS2 driver
+available - &lt;$40k cost</p>
+<h3 data-number="1.17.3" id="decision-13"><span
+class="header-section-number">1.17.3</span> Decision</h3>
+<p><strong>Use Universal Robots UR5e</strong> (collaborative robot).</p>
+<h3 data-number="1.17.4" id="consequences-13"><span
+class="header-section-number">1.17.4</span> Consequences</h3>
+<h4 data-number="1.17.4.1" id="positive-13"><span
+class="header-section-number">1.17.4.1</span> Positive</h4>
+<ul>
+<li><strong>Specifications:</strong> 5kg payload, 850mm reach, ±0.03mm
+repeatability</li>
+<li><strong>Collaborative:</strong> ISO/TS 15066 compliant
+(force-limited)</li>
+<li><strong>ROS2 Support:</strong> Excellent ROS2 driver
+(ur_robot_driver)</li>
+<li><strong>Ease of Use:</strong> PolyScope pendant for manual
+teach</li>
+<li><strong>Ecosystem:</strong> Large community, many
+grippers/accessories compatible</li>
+<li><strong>Reliability:</strong> Proven in industry (10,000+
+deployed)</li>
+</ul>
+<h4 data-number="1.17.4.2" id="negative-13"><span
+class="header-section-number">1.17.4.2</span> Negative</h4>
+<ul>
+<li><strong>Cost:</strong> $35,000 (vs $25k for ABB IRB 1200)
+<ul>
+<li><em>Justified by collaborative safety, better support</em></li>
+</ul></li>
+<li><strong>Speed:</strong> Max 1 m/s (vs 1.5 m/s for ABB)
+<ul>
+<li><em>Acceptable for 30 picks/min target</em></li>
+</ul></li>
+</ul>
+<h4 data-number="1.17.4.3" id="risks-13"><span
+class="header-section-number">1.17.4.3</span> Risks</h4>
+<ul>
+<li><strong>Vendor Dependence:</strong> Locked into UR ecosystem for
+accessories
+<ul>
+<li><em>Mitigation:</em> Use standard ISO flange, avoid proprietary
+interfaces</li>
+</ul></li>
+</ul>
+<h3 data-number="1.17.5" id="alternatives-considered-13"><span
+class="header-section-number">1.17.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ABB IRB 1200</strong></td>
+<td>Cheaper ($25k), faster</td>
+<td>Not collaborative, complex ROS2 setup</td>
+<td>Rejected: Safety gap</td>
+</tr>
+<tr class="even">
+<td><strong>KUKA iiwa</strong></td>
+<td>Best force sensing</td>
+<td>$80k, overkill for task</td>
+<td>Rejected: Cost</td>
+</tr>
+<tr class="odd">
+<td><strong>Fanuc CRX</strong></td>
+<td>Good specs, reliable</td>
+<td>Weaker ROS2 support</td>
+<td>Rejected: ROS2 ecosystem</td>
+</tr>
+<tr class="even">
+<td><strong>Dobot Magician</strong></td>
+<td>Cheap ($1k), beginner-friendly</td>
+<td>Low payload (0.5kg), poor accuracy</td>
+<td>Rejected: Not industrial-grade</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.17.6" id="references-13"><span
+class="header-section-number">1.17.6</span> References</h3>
+<ul>
+<li><a href="https://www.universal-robots.com/products/ur5-robot/">UR5e
+Specifications</a></li>
+<li><a
+href="https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver">ur_robot_driver
+(ROS2)</a></li>
+</ul>
+<h3 data-number="1.17.7" id="metadata-13"><span
+class="header-section-number">1.17.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Robotics Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Mechanical Engineer, Tech Lead</li>
+<li><strong>Related ADRs:</strong> None</li>
+</ul>
+<hr />
+<h2 data-number="1.18"
+id="adr-015-use-nvidia-jetson-xavier-for-vision-processing"><span
+class="header-section-number">1.18</span> ADR-015: Use NVIDIA Jetson
+Xavier for Vision Processing</h2>
+<h3 data-number="1.18.1" id="status-14"><span
+class="header-section-number">1.18.1</span> Status</h3>
+<p><strong>Accepted</strong></p>
+<h3 data-number="1.18.2" id="context-14"><span
+class="header-section-number">1.18.2</span> Context</h3>
+<p>Vision pipeline (YOLO, pose estimation) requires GPU for real-time
+inference. Options: Jetson Xavier, Jetson Orin, Cloud GPU, x86 + NVIDIA
+GPU.</p>
+<p><strong>Requirements:</strong> - GPU inference (&lt;50ms for YOLOv8)
+- TensorRT support - &lt;$1000 cost - Low power (&lt;30W) - Compact form
+factor</p>
+<h3 data-number="1.18.3" id="decision-14"><span
+class="header-section-number">1.18.3</span> Decision</h3>
+<p><strong>Use NVIDIA Jetson Xavier NX</strong> (16GB variant).</p>
+<h3 data-number="1.18.4" id="consequences-14"><span
+class="header-section-number">1.18.4</span> Consequences</h3>
+<h4 data-number="1.18.4.1" id="positive-14"><span
+class="header-section-number">1.18.4.1</span> Positive</h4>
+<ul>
+<li><strong>GPU:</strong> 512 CUDA cores, 21 TOPS AI performance</li>
+<li><strong>TensorRT:</strong> Native support, 3× speedup vs
+PyTorch</li>
+<li><strong>Memory:</strong> 16GB shared RAM/GPU (enough for models +
+buffers)</li>
+<li><strong>Power:</strong> 15W typical (vs 300W for desktop GPU)</li>
+<li><strong>Size:</strong> 70mm × 45mm (credit card size)</li>
+<li><strong>Cost:</strong> $500 (vs $1500 for Orin, $2000 for RTX
+4060)</li>
+<li><strong>SDK:</strong> JetPack (Ubuntu 20.04 + CUDA + TensorRT +
+ROS2)</li>
+</ul>
+<h4 data-number="1.18.4.2" id="negative-14"><span
+class="header-section-number">1.18.4.2</span> Negative</h4>
+<ul>
+<li><strong>Performance:</strong> Slower than desktop RTX (but
+sufficient for 30fps)</li>
+<li><strong>Cooling:</strong> Passive cooling only, can throttle under
+load
+<ul>
+<li><em>Mitigation:</em> Add active fan ($10)*</li>
+</ul></li>
+<li><strong>Ubuntu 20.04:</strong> Older than 22.04 (but ROS2 Humble can
+run on 20.04)</li>
+</ul>
+<h4 data-number="1.18.4.3" id="risks-14"><span
+class="header-section-number">1.18.4.3</span> Risks</h4>
+<ul>
+<li><strong>Supply:</strong> Jetson supply constrained (COVID, chip
+shortage)
+<ul>
+<li><em>Mitigation:</em> Order early, stock spares</li>
+</ul></li>
+</ul>
+<h3 data-number="1.18.5" id="alternatives-considered-14"><span
+class="header-section-number">1.18.5</span> Alternatives Considered</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Alternative</strong></th>
+<th><strong>Pros</strong></th>
+<th><strong>Cons</strong></th>
+<th><strong>Decision</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Jetson Orin</strong></td>
+<td>2× faster (40 TOPS)</td>
+<td>$1500, overkill</td>
+<td>Rejected: Cost, not needed</td>
+</tr>
+<tr class="even">
+<td><strong>x86 + RTX 4060</strong></td>
+<td>Powerful, upgradable</td>
+<td>$2000, 300W, bulky</td>
+<td>Rejected: Power/size</td>
+</tr>
+<tr class="odd">
+<td><strong>Cloud GPU (AWS)</strong></td>
+<td>Scalable</td>
+<td>Latency (50-100ms), recurring cost</td>
+<td>Rejected: Latency</td>
+</tr>
+<tr class="even">
+<td><strong>Jetson Nano</strong></td>
+<td>Cheap ($100)</td>
+<td>Too slow (128 CUDA cores)</td>
+<td>Rejected: Performance</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.18.6" id="references-14"><span
+class="header-section-number">1.18.6</span> References</h3>
+<ul>
+<li><a
+href="https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-xavier-nx/">Jetson
+Xavier NX</a></li>
+<li><a href="https://developer.nvidia.com/tensorrt">TensorRT
+Benchmarks</a></li>
+</ul>
+<h3 data-number="1.18.7" id="metadata-14"><span
+class="header-section-number">1.18.7</span> Metadata</h3>
+<ul>
+<li><strong>Author:</strong> Embedded Systems Engineer</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Reviewers:</strong> Computer Vision Engineer, Tech Lead</li>
+<li><strong>Related ADRs:</strong> ADR-003 (PyTorch), ADR-008
+(YOLOv8)</li>
+</ul>
+<hr />
+<h2 data-number="1.19" id="summary-table-all-adrs"><span
+class="header-section-number">1.19</span> Summary Table: All ADRs</h2>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 25%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>ADR</strong></th>
+<th><strong>Category</strong></th>
+<th><strong>Decision</strong></th>
+<th><strong>Key Benefit</strong></th>
+<th><strong>Key Risk</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ADR-001</td>
+<td>Middleware</td>
+<td>ROS2 Humble</td>
+<td>Real-time, LTS, security</td>
+<td>Learning curve</td>
+</tr>
+<tr class="even">
+<td>ADR-002</td>
+<td>Middleware</td>
+<td>CycloneDDS</td>
+<td>Low latency</td>
+<td>Smaller community</td>
+</tr>
+<tr class="odd">
+<td>ADR-003</td>
+<td>AI/ML</td>
+<td>PyTorch</td>
+<td>Research-friendly, ONNX export</td>
+<td>TF Lite more mature</td>
+</tr>
+<tr class="even">
+<td>ADR-004</td>
+<td>Planning</td>
+<td>MoveIt2</td>
+<td>Comprehensive, OMPL</td>
+<td>Complexity</td>
+</tr>
+<tr class="odd">
+<td>ADR-005</td>
+<td>Control</td>
+<td>ros2_control</td>
+<td>Standardization, portability</td>
+<td>Debugging</td>
+</tr>
+<tr class="even">
+<td>ADR-006</td>
+<td>Database</td>
+<td>PostgreSQL</td>
+<td>JSONB support, extensibility</td>
+<td>Heavier than SQLite</td>
+</tr>
+<tr class="odd">
+<td>ADR-007</td>
+<td>Orchestration</td>
+<td>BehaviorTree.CPP</td>
+<td>Modularity, reactivity</td>
+<td>Learning curve</td>
+</tr>
+<tr class="even">
+<td>ADR-008</td>
+<td>Vision</td>
+<td>YOLOv8</td>
+<td>Speed, accuracy</td>
+<td>AGPL license</td>
+</tr>
+<tr class="odd">
+<td>ADR-009</td>
+<td>Deployment</td>
+<td>Docker</td>
+<td>Reproducibility, isolation</td>
+<td>Debugging</td>
+</tr>
+<tr class="even">
+<td>ADR-010</td>
+<td>Logging</td>
+<td>ELK Stack</td>
+<td>Search, visualization</td>
+<td>Resource usage</td>
+</tr>
+<tr class="odd">
+<td>ADR-011</td>
+<td>Monitoring</td>
+<td>Grafana + Prometheus</td>
+<td>Open-source, flexible</td>
+<td>Setup complexity</td>
+</tr>
+<tr class="even">
+<td>ADR-012</td>
+<td>Security</td>
+<td>OAuth2 + JWT</td>
+<td>Stateless, scalable</td>
+<td>Token revocation</td>
+</tr>
+<tr class="odd">
+<td>ADR-013</td>
+<td>Hardware</td>
+<td>RealSense D435i</td>
+<td>Cost, ROS2 support</td>
+<td>Indoor only</td>
+</tr>
+<tr class="even">
+<td>ADR-014</td>
+<td>Hardware</td>
+<td>UR5e Robot</td>
+<td>Collaborative, ROS2 driver</td>
+<td>Cost</td>
+</tr>
+<tr class="odd">
+<td>ADR-015</td>
+<td>Hardware</td>
+<td>Jetson Xavier NX</td>
+<td>GPU, TensorRT, compact</td>
+<td>Supply chain</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Document Status:</strong> ✅ Complete <strong>Last
+Updated:</strong> 2025-10-18 <strong>Review Cycle:</strong> Quarterly
+(update as decisions change) <strong>Version Control:</strong> Git
+(track changes via commits)</p>
+</div></body>
+</html>

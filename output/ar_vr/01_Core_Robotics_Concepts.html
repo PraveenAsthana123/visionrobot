@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01 Core Robotics Concepts - AR/VR Documentation</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        #overlay h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        #overlay h2 {
+            color: #764ba2;
+            margin-top: 30px;
+            font-size: 1.8em;
+        }
+
+        #overlay code {
+            background: rgba(102, 126, 234, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #a5b4fc;
+        }
+
+        #overlay pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border-left: 4px solid #667eea;
+        }
+
+        #overlay pre code {
+            background: transparent;
+        }
+
+        #overlay table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        #overlay th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 12px;
+            text-align: left;
+        }
+
+        #overlay td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1001;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .info-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            max-width: 300px;
+        }
+
+        .info-panel h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .info-panel p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay" style="display: none;">
+        <div id="content"></div>
+    </div>
+
+    <div class="info-panel">
+        <h3>🥽 VR Documentation</h3>
+        <p><strong>01 Core Robotics Concepts</strong></p>
+        <p>Use WASD to move</p>
+        <p>Mouse to look around</p>
+        <p>Click 'Toggle Doc' to read</p>
+    </div>
+
+    <div id="controls">
+        <button class="control-btn" onclick="toggleOverlay()">📄 Toggle Doc</button>
+        <button class="control-btn" onclick="enterVR()">🥽 Enter VR</button>
+        <button class="control-btn" onclick="resetView()">🔄 Reset View</button>
+    </div>
+
+    <a-scene background="color: #000">
+        <!-- Sky with gradient -->
+        <a-sky color="#1a1a2e"></a-sky>
+
+        <!-- Ambient lighting -->
+        <a-light type="ambient" color="#667eea" intensity="0.5"></a-light>
+        <a-light type="directional" color="#FFF" intensity="0.8" position="2 4 -3"></a-light>
+        <a-light type="point" color="#764ba2" intensity="1" position="0 3 0"></a-light>
+
+        <!-- Floor grid -->
+        <a-plane position="0 0 0" rotation="-90 0 0" width="20" height="20"
+                 color="#0f0f23" roughness="0.8" metalness="0.2"
+                 shader="flat" repeat="10 10"></a-plane>
+
+        <!-- Documentation panels floating in 3D space -->
+        <a-entity id="doc-environment" position="0 1.6 -3">
+            <!-- Main title panel -->
+            <a-plane position="0 2 0" rotation="0 0 0" width="8" height="1.5"
+                     color="#667eea" opacity="0.9">
+                <a-text value="01 Core Robotics Concepts" align="center" color="#FFF"
+                        position="0 0 0.01" width="8" font="roboto"></a-text>
+            </a-plane>
+
+            <!-- Floating data panels in circular arrangement -->
+            <a-entity id="panel-1" position="-3 0 0">
+                <a-box color="#667eea" opacity="0.7" width="1.5" height="2" depth="0.1"
+                       roughness="0.3" metalness="0.6"
+                       animation="property: rotation; to: 0 360 0; loop: true; dur: 20000">
+                    <a-text value="PDF\nFormat" align="center" color="#FFF"
+                            position="0 0.5 0.06" width="2"></a-text>
+                    <a-text value="Complete\nDocumentation" align="center" color="#CCC"
+                            position="0 -0.3 0.06" width="1.5"></a-text>
+                </a-box>
+            </a-entity>
+
+            <a-entity id="panel-2" position="3 0 0">
+                <a-box color="#764ba2" opacity="0.7" width="1.5" height="2" depth="0.1"
+                       roughness="0.3" metalness="0.6"
+                       animation="property: rotation; to: 0 360 0; loop: true; dur: 20000; dir: reverse">
+                    <a-text value="Interactive\n3D View" align="center" color="#FFF"
+                            position="0 0.5 0.06" width="2"></a-text>
+                    <a-text value="Immersive\nExperience" align="center" color="#CCC"
+                            position="0 -0.3 0.06" width="1.5"></a-text>
+                </a-box>
+            </a-entity>
+
+            <a-entity id="panel-3" position="0 0 -2">
+                <a-cylinder color="#f093fb" opacity="0.7" radius="0.75" height="2"
+                           roughness="0.3" metalness="0.6"
+                           animation="property: position; to: 0 0.5 -2; loop: true; dur: 3000; dir: alternate; easing: easeInOutSine">
+                    <a-text value="VisionBot\nProject" align="center" color="#FFF"
+                            position="0 0.5 0.76" width="2"></a-text>
+                </a-cylinder>
+            </a-entity>
+
+            <!-- Floating stats spheres -->
+            <a-sphere position="-1.5 1.5 -1" radius="0.3" color="#10b981" opacity="0.8"
+                     animation="property: position; to: -1.5 2 -1; loop: true; dur: 2000; dir: alternate">
+                <a-text value="99.2%\nSuccess" align="center" color="#FFF"
+                        position="0 0 0.31" width="1.2"></a-text>
+            </a-sphere>
+
+            <a-sphere position="1.5 1.5 -1" radius="0.3" color="#f59e0b" opacity="0.8"
+                     animation="property: position; to: 1.5 2 -1; loop: true; dur: 2500; dir: alternate">
+                <a-text value="93.5%\nOEE" align="center" color="#FFF"
+                        position="0 0 0.31" width="1.2"></a-text>
+            </a-sphere>
+        </a-entity>
+
+        <!-- Camera with controls -->
+        <a-entity id="camera-rig" position="0 0 0">
+            <a-camera id="main-camera" wasd-controls look-controls>
+                <a-cursor color="#667eea" fuse="true" fuse-timeout="1500"></a-cursor>
+            </a-camera>
+        </a-entity>
+
+        <!-- Particle effect -->
+        <a-entity position="0 2.5 -5">
+            <a-entity geometry="primitive: sphere; radius: 0.05"
+                     material="color: #667eea; emissive: #667eea; emissiveIntensity: 0.5"
+                     animation="property: position; to: 0 4 -5; loop: true; dur: 4000; easing: linear"></a-entity>
+        </a-entity>
+    </a-scene>
+
+    <script>
+        // Convert markdown to HTML
+        const markdown = `# Core Robotics Concepts - Vision-Based Pick and Place System
+
+## Project Overview
+**Project Name:** Vision-Based Pick and Place Robotics System
+**Domain:** Industrial Automation, Manufacturing, Warehouse Logistics
+**Purpose:** Autonomous object detection, localization, grasping, and placement using vision-guided robotic manipulation
+
+---
+
+## 1. Computer Vision & Perception
+
+### 1.1 Object Detection
+- **Concept:** Identifying and localizing objects in the camera's field of view
+- **Techniques:**
+  - Deep Learning (YOLO, SSD, Faster R-CNN)
+  - Classical CV (template matching, feature detection)
+  - Point cloud processing (PCL)
+- **Application in Project:**
+  - Detect target objects on conveyor/workspace
+  - Classify object types (if multi-object handling)
+  - Extract bounding boxes and centroids
+
+### 1.2 Object Recognition & Classification
+- **Concept:** Identifying specific object types/categories
+- **Techniques:**
+  - CNN-based classifiers (ResNet, MobileNet)
+  - Feature-based matching (SIFT, ORB)
+- **Application in Project:**
+  - Differentiate between multiple object types
+  - Select appropriate grasp strategy per object
+
+### 1.3 Pose Estimation
+- **Concept:** Determining 6DoF (position + orientation) of objects
+- **Techniques:**
+  - PnP (Perspective-n-Point)
+  - ICP (Iterative Closest Point)
+  - Deep learning-based pose estimation
+- **Application in Project:**
+  - Calculate precise 3D pose for accurate grasping
+  - Handle objects in arbitrary orientations
+
+### 1.4 Depth Estimation & 3D Reconstruction
+- **Concept:** Creating 3D representation from 2D images
+- **Sensors:**
+  - RGB-D cameras (RealSense, Kinect)
+  - Stereo cameras
+  - LiDAR
+- **Application in Project:**
+  - Generate point clouds
+  - Calculate object height and volume
+  - Obstacle detection
+
+---
+
+## 2. Robotic Kinematics
+
+### 2.1 Forward Kinematics (FK)
+- **Concept:** Computing end-effector pose from joint angles
+- **Methods:**
+  - Denavit-Hartenberg (D-H) parameters
+  - URDF-based modeling
+- **Application in Project:**
+  - Verify robot configuration
+  - Workspace analysis
+  - Collision checking
+
+### 2.2 Inverse Kinematics (IK)
+- **Concept:** Computing joint angles for desired end-effector pose
+- **Methods:**
+  - Analytical IK
+  - Numerical IK (Jacobian-based, optimization)
+  - IK libraries (KDL, TRAC-IK, MoveIt)
+- **Application in Project:**
+  - Calculate joint angles to reach pick/place positions
+  - Path planning waypoint generation
+
+### 2.3 Jacobian & Differential Kinematics
+- **Concept:** Relating joint velocities to end-effector velocities
+- **Application in Project:**
+  - Velocity control
+  - Singularity avoidance
+  - Compliance control
+
+---
+
+## 3. Motion Planning & Control
+
+### 3.1 Path Planning
+- **Concept:** Finding collision-free paths in configuration space
+- **Algorithms:**
+  - RRT (Rapidly-exploring Random Tree)
+  - RRT*
+  - PRM (Probabilistic Roadmap)
+  - A* in discretized space
+- **Application in Project:**
+  - Plan path from home to pick position
+  - Plan path from pick to place position
+  - Avoid obstacles and self-collision
+
+### 3.2 Trajectory Planning
+- **Concept:** Time-parameterized motion with velocity/acceleration constraints
+- **Methods:**
+  - Polynomial interpolation (cubic, quintic)
+  - Spline-based (B-spline)
+  - Optimal trajectory generation (time-optimal, jerk-limited)
+- **Application in Project:**
+  - Smooth motion execution
+  - Respect joint limits and dynamics
+  - Minimize cycle time
+
+### 3.3 Motion Controllers
+- **Concept:** Executing planned trajectories with feedback
+- **Types:**
+  - Joint-space controllers (PID, feedforward)
+  - Cartesian-space controllers (impedance, admittance)
+  - Hybrid position/force control
+- **Application in Project:**
+  - Accurate position control during pick/place
+  - Force control during contact/grasping
+
+---
+
+## 4. Grasp Planning & Manipulation
+
+### 4.1 Grasp Synthesis
+- **Concept:** Computing optimal gripper configurations for stable grasps
+- **Methods:**
+  - Analytical grasp models (force closure, form closure)
+  - Learning-based (GraspNet, Dex-Net)
+  - Heuristic rules (centroid-based, axis-aligned)
+- **Application in Project:**
+  - Calculate gripper pose and orientation
+  - Handle objects of varying shapes/sizes
+
+### 4.2 Grasp Quality Metrics
+- **Concept:** Evaluating grasp stability and robustness
+- **Metrics:**
+  - Force closure
+  - Grasp wrench space
+  - Epsilon quality
+- **Application in Project:**
+  - Select best grasp from multiple candidates
+  - Predict grasp success probability
+
+### 4.3 End-Effector Control
+- **Concept:** Controlling gripper actuation (parallel jaw, suction, multi-finger)
+- **Application in Project:**
+  - Open/close gripper at appropriate times
+  - Adjust grip force based on object properties
+
+---
+
+## 5. Sensor Fusion & Localization
+
+### 5.1 Camera-Robot Calibration
+- **Concept:** Finding transformation between camera and robot frames
+- **Methods:**
+  - Hand-eye calibration (eye-in-hand, eye-to-hand)
+  - Chessboard/ArUco-based calibration
+- **Application in Project:**
+  - Transform detected object coordinates to robot base frame
+  - Essential for accurate pick operations
+
+### 5.2 Multi-Sensor Fusion
+- **Concept:** Combining data from multiple sensors
+- **Sensors:**
+  - RGB-D camera
+  - Force/torque sensor
+  - Encoders, IMU
+- **Application in Project:**
+  - Improve perception accuracy
+  - Fault tolerance (sensor failure handling)
+
+---
+
+## 6. Coordinate Frame Transformations
+
+### 6.1 Homogeneous Transformations
+- **Concept:** Representing position and orientation in 3D space
+- **Tools:**
+  - TF2 (ROS2 transform library)
+  - Quaternions, rotation matrices, Euler angles
+- **Application in Project:**
+  - Transform between: world → camera → robot base → end-effector → object
+  - Coordinate system consistency across modules
+
+### 6.2 Static & Dynamic TF Broadcasting
+- **Concept:** Publishing transform tree in real-time
+- **Application in Project:**
+  - Maintain global coordinate system
+  - Visualize transforms in RViz
+
+---
+
+## 7. State Machine & Task Planning
+
+### 7.1 Finite State Machines (FSM)
+- **Concept:** Model system behavior as states and transitions
+- **States in Pick-Place:**
+  - IDLE → SCAN → DETECT → PLAN_PICK → EXECUTE_PICK → PLAN_PLACE → EXECUTE_PLACE → RELEASE → RETURN_HOME
+- **Application in Project:**
+  - High-level task sequencing
+  - Error handling and recovery
+
+### 7.2 Behavior Trees
+- **Concept:** Hierarchical task representation with reactive control
+- **Advantages:**
+  - Modularity, reusability
+  - Easy to extend with new behaviors
+- **Application in Project:**
+  - Complex decision-making
+  - Parallel execution of subtasks
+
+---
+
+## 8. Collision Avoidance & Safety
+
+### 8.1 Collision Detection
+- **Concept:** Detecting potential collisions before execution
+- **Methods:**
+  - Bounding box checks
+  - Mesh-based collision checking
+  - Distance fields
+- **Application in Project:**
+  - Prevent robot self-collision
+  - Avoid obstacles in workspace
+  - Protect humans in collaborative settings
+
+### 8.2 Safety Zones & Virtual Fences
+- **Concept:** Defining safe operational boundaries
+- **Application in Project:**
+  - Limit robot workspace
+  - Emergency stop triggers
+  - Human detection zones
+
+---
+
+## 9. ROS2 Communication Paradigms
+
+### 9.1 Topics (Publish-Subscribe)
+- **Use Cases:**
+  - Sensor data streaming (camera images, point clouds)
+  - Robot state (joint states, TF)
+  - Continuous data flow
+
+### 9.2 Services (Request-Response)
+- **Use Cases:**
+  - IK computation
+  - Grasp planning
+  - Configuration changes
+  - One-time queries
+
+### 9.3 Actions (Goal-Based with Feedback)
+- **Use Cases:**
+  - Motion execution (MoveIt actions)
+  - Long-running tasks (pick, place)
+  - Preemptable operations
+
+---
+
+## 10. Simulation & Testing
+
+### 10.1 Physics Simulation
+- **Tools:**
+  - Gazebo (Classic or Ignition)
+  - Isaac Sim
+  - PyBullet
+- **Application in Project:**
+  - Test algorithms before hardware deployment
+  - Generate synthetic training data
+  - Validate safety logic
+
+### 10.2 Visualization
+- **Tools:**
+  - RViz2
+  - Foxglove
+- **Application in Project:**
+  - Monitor robot state
+  - Visualize sensor data and transforms
+  - Debug perception pipeline
+
+---
+
+## 11. Adaptation & Autonomy
+
+### 11.1 Error Detection & Recovery
+- **Concept:** Detecting failures and triggering fallback strategies
+- **Examples:**
+  - Grasp failure → retry with different grasp
+  - Object not found → rescan workspace
+  - Path planning failure → replan with relaxed constraints
+
+### 11.2 Learning & Adaptation
+- **Concept:** Improving performance over time
+- **Methods:**
+  - Reinforcement learning for grasp selection
+  - Online calibration updates
+  - Performance analytics
+
+---
+
+## 12. Performance Optimization
+
+### 12.1 Cycle Time Optimization
+- **Concept:** Minimize time from detection to placement
+- **Techniques:**
+  - Parallel processing (perception while robot moving)
+  - Trajectory time-optimization
+  - Pre-positioning strategies
+
+### 12.2 Real-Time Constraints
+- **Concept:** Meeting timing deadlines for control loops
+- **Requirements:**
+  - Vision processing: ~10-30 Hz
+  - Motion control: 100-1000 Hz
+  - High-level planning: 1-10 Hz
+
+---
+
+## Concept Mapping to System Modules
+
+| **Robotics Concept**              | **System Module/Component**           |
+|-----------------------------------|---------------------------------------|
+| Object Detection                  | Vision Pipeline (YOLO/SSD node)       |
+| Pose Estimation                   | Pose Estimation Node                  |
+| Camera-Robot Calibration          | Calibration Module (hand-eye)         |
+| Inverse Kinematics                | MoveIt / IK Solver Node               |
+| Path Planning                     | MoveIt / OMPL Planner                 |
+| Trajectory Execution              | Controller Manager (ros2_control)     |
+| Grasp Planning                    | Grasp Planner Node                    |
+| State Machine                     | Task Orchestrator Node (FSM/BT)       |
+| Collision Checking                | MoveIt Planning Scene                 |
+| Sensor Fusion                     | Perception Fusion Node                |
+| Transform Management              | TF2 Static/Dynamic Broadcasters       |
+| Force Control                     | FTS Driver + Admittance Controller    |
+| Simulation                        | Gazebo + RViz2                        |
+
+---
+
+## Summary
+
+This vision-based pick-and-place system integrates **13+ core robotics concepts**, spanning:
+- **Perception:** Computer vision, depth sensing, object recognition
+- **Planning:** Kinematics, motion planning, grasp synthesis
+- **Control:** Trajectory execution, force control, state machines
+- **Infrastructure:** ROS2 communication, transforms, simulation
+
+Each concept is essential for building a robust, industrial-grade autonomous manipulation system.
+
+---
+
+**Next Steps:**
+1. Map these concepts to specific ROS2 packages
+2. Define interfaces between modules
+3. Create mathematical models for each concept
+4. Develop test cases validating each concept
+
+---
+
+**Document Status:** ✅ Complete
+**Last Updated:** 2025-10-18
+**Author:** System Architect
+**Review Status:** Pending Review
+`;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentDiv = document.getElementById('content');
+            contentDiv.innerHTML = marked.parse(markdown);
+        });
+
+        function toggleOverlay() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = overlay.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function enterVR() {
+            const scene = document.querySelector('a-scene');
+            if (scene.is('vr-mode')) {
+                scene.exitVR();
+            } else {
+                scene.enterVR();
+            }
+        }
+
+        function resetView() {
+            const cameraRig = document.getElementById('camera-rig');
+            cameraRig.setAttribute('position', '0 0 0');
+            const camera = document.getElementById('main-camera');
+            camera.setAttribute('rotation', '0 0 0');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'd' || e.key === 'D') {
+                toggleOverlay();
+            } else if (e.key === 'r' || e.key === 'R') {
+                resetView();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1314 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={16 Building Block Diagrams},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{16 Building Block Diagrams}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{building-block-diagrams}{%
+\section{Building Block Diagrams}\label{building-block-diagrams}}
+
+\hypertarget{vision-based-pick-and-place-robotic-system}{%
+\subsection{Vision-Based Pick and Place Robotic
+System}\label{vision-based-pick-and-place-robotic-system}}
+
+\textbf{Document Version:} 1.0 \textbf{Last Updated:} 2025-10-18
+\textbf{Status:} ✅ Complete
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{table-of-contents}{%
+\subsection{Table of Contents}\label{table-of-contents}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \protect\hyperlink{1-introduction}{Introduction}
+\item
+  \protect\hyperlink{2-system-level-building-blocks}{System-Level
+  Building Blocks}
+\item
+  \protect\hyperlink{3-vision-subsystem-blocks}{Vision Subsystem Blocks}
+\item
+  \protect\hyperlink{4-grasp-planning-subsystem-blocks}{Grasp Planning
+  Subsystem Blocks}
+\item
+  \protect\hyperlink{5-motion-planning-subsystem-blocks}{Motion Planning
+  Subsystem Blocks}
+\item
+  \protect\hyperlink{6-control-subsystem-blocks}{Control Subsystem
+  Blocks}
+\item
+  \protect\hyperlink{7-task-orchestration-subsystem-blocks}{Task
+  Orchestration Subsystem Blocks}
+\item
+  \protect\hyperlink{8-monitoring--logging-subsystem-blocks}{Monitoring
+  \& Logging Subsystem Blocks}
+\item
+  \protect\hyperlink{9-data-flow-diagrams}{Data Flow Diagrams}
+\item
+  \protect\hyperlink{10-interface-specifications}{Interface
+  Specifications}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{introduction}{%
+\subsection{1. Introduction}\label{introduction}}
+
+\hypertarget{purpose}{%
+\subsubsection{1.1 Purpose}\label{purpose}}
+
+Building Block Diagrams provide a modular view of the system
+architecture, showing how independent functional blocks connect and
+communicate. Each block represents a cohesive unit with well-defined
+inputs, outputs, and responsibilities.
+
+\hypertarget{block-diagram-notation}{%
+\subsubsection{1.2 Block Diagram
+Notation}\label{block-diagram-notation}}
+
+\begin{verbatim}
+┌─────────────────────────┐
+│   Block Name            │  ← Functional module
+│   [Technology]          │
+├─────────────────────────┤
+│ Inputs:                 │  ← Data/signals in
+│ • Input 1               │
+│ • Input 2               │
+├─────────────────────────┤
+│ Processing:             │  ← Core functionality
+│ • Function A            │
+│ • Function B            │
+├─────────────────────────┤
+│ Outputs:                │  ← Data/signals out
+│ • Output 1              │
+│ • Output 2              │
+└─────────────────────────┘
+
+───▶  Data flow (synchronous)
+- -▶  Data flow (asynchronous)
+═══▶  Control signal
+\end{verbatim}
+
+\hypertarget{design-principles}{%
+\subsubsection{1.3 Design Principles}\label{design-principles}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Modularity:} Each block is independently testable and
+  replaceable
+\item
+  \textbf{Loose Coupling:} Minimal dependencies between blocks
+\item
+  \textbf{High Cohesion:} Related functionality grouped within blocks
+\item
+  \textbf{Standard Interfaces:} ROS2 topics/services/actions for
+  communication
+\item
+  \textbf{Fault Isolation:} Errors contained within blocks
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{system-level-building-blocks}{%
+\subsection{2. System-Level Building
+Blocks}\label{system-level-building-blocks}}
+
+\hypertarget{top-level-system-architecture}{%
+\subsubsection{2.1 Top-Level System
+Architecture}\label{top-level-system-architecture}}
+
+\begin{verbatim}
+                          ┌──────────────────────┐
+                          │   User Interface     │
+                          │   [Web Dashboard]    │
+                          └──────────┬───────────┘
+                                     │ HTTPS
+                          ┌──────────▼───────────┐
+                          │   Web Backend API    │
+                          │   [FastAPI/gRPC]     │
+                          └──────────┬───────────┘
+                                     │ ROS2 Bridge
+┌────────────────────────────────────┼────────────────────────────────┐
+│                         ROS2 Middleware Layer                       │
+│                         [DDS - CycloneDDS]                          │
+└─┬──────┬──────┬──────┬─────┬──────┬──────┬──────┬──────────────────┘
+  │      │      │      │     │      │      │      │
+  │      │      │      │     │      │      │      │
+  ▼      ▼      ▼      ▼     ▼      ▼      ▼      ▼
+┌───┐  ┌───┐  ┌───┐  ┌───┐ ┌───┐  ┌───┐  ┌───┐  ┌─────────┐
+│ 1 │  │ 2 │  │ 3 │  │ 4 │ │ 5 │  │ 6 │  │ 7 │  │    8    │
+│   │  │   │  │   │  │   │ │   │  │   │  │   │  │         │
+│ V │  │ G │  │ M │  │ C │ │ T │  │ G │  │ M │  │   DB    │
+│ I │  │ R │  │ O │  │ O │ │ A │  │ R │  │ E │  │         │
+│ S │  │ A │  │ T │  │ N │ │ S │  │ I │  │ T │  │ Postgre │
+│ I │  │ S │  │ I │  │ T │ │ K │  │ P │  │ R │  │ InfluxDB│
+│ O │  │ P │  │ O │  │ R │ │   │  │ P │  │ I │  │         │
+│ N │  │   │  │ N │  │ O │ │ O │  │ E │  │ C │  │         │
+│   │  │   │  │   │  │ L │ │ R │  │ R │  │ S │  │         │
+└─┬─┘  └─┬─┘  └─┬─┘  └─┬─┘ └─┬─┘  └─┬─┘  └─┬─┘  └────┬────┘
+  │      │      │      │     │      │      │         │
+  │      │      │      │     │      │      │         │
+  ▼      ▼      ▼      ▼     ▼      ▼      ▼         ▼
+┌──────────────────────────────────────────────────────────┐
+│              Hardware Abstraction Layer                  │
+│  Camera │ Robot │ Gripper │ F/T Sensor │ Safety PLC     │
+└──────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\textbf{Block Legend:} 1. \textbf{VISION} - Computer vision pipeline 2.
+\textbf{GRASP} - Grasp planning 3. \textbf{MOTION} - Motion planning
+(MoveIt2) 4. \textbf{CONTROL} - Real-time control (ros2\_control) 5.
+\textbf{TASK ORCH} - Task orchestration (Behavior Tree) 6.
+\textbf{GRIPPER} - Gripper control 7. \textbf{METRICS} - Monitoring \&
+metrics collection 8. \textbf{DB} - Data persistence
+
+\hypertarget{system-block-specifications}{%
+\subsubsection{2.2 System Block
+Specifications}\label{system-block-specifications}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1750}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1250}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1625}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1875}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Block ID}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Name}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Inputs}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Outputs}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Technology}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Frequency}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{1} & Vision Pipeline & RGB-D images & Object poses & Python,
+YOLOv8, TensorRT & 30 Hz \\
+\textbf{2} & Grasp Planner & Object poses & Grasp candidates & Python,
+NumPy, Open3D & On demand \\
+\textbf{3} & Motion Planner & Grasp/place poses & Joint trajectories &
+C++, MoveIt2, OMPL & On demand \\
+\textbf{4} & Controller & Joint trajectories & Joint commands & C++,
+ros2\_control & 1000 Hz \\
+\textbf{5} & Task Orchestrator & Triggers, events & Task commands &
+C++/Python, BT.CPP & 10 Hz \\
+\textbf{6} & Gripper Controller & Grasp commands & Gripper position &
+Python, Modbus & 20 Hz \\
+\textbf{7} & Metrics Collector & System telemetry & Metrics
+(Prom/Influx) & Python & 1 Hz \\
+\textbf{8} & Database & CRUD operations & Query results & PostgreSQL,
+InfluxDB & On demand \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{vision-subsystem-blocks}{%
+\subsection{3. Vision Subsystem Blocks}\label{vision-subsystem-blocks}}
+
+\hypertarget{vision-pipeline-detailed-blocks}{%
+\subsubsection{3.1 Vision Pipeline Detailed
+Blocks}\label{vision-pipeline-detailed-blocks}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────────────┐
+│                    Vision Subsystem                              │
+└──────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────┐
+│  Camera Driver Block    │
+│  [RealSense SDK]        │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Trigger (ROS2 topic)  │
+├─────────────────────────┤
+│ Processing:             │
+│ • Initialize camera     │
+│ • Capture RGB stream    │
+│ • Capture depth stream  │
+│ • Align depth to color  │
+│ • Publish camera info   │
+├─────────────────────────┤
+│ Outputs:                │
+│ • RGB image (1280×720)  │
+│ • Depth image (aligned) │
+│ • Camera intrinsics     │
+└───────────┬─────────────┘
+            │
+            │ 30 Hz
+            ▼
+┌─────────────────────────┐
+│ Image Preprocessor      │
+│ [OpenCV]                │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Raw RGB image         │
+├─────────────────────────┤
+│ Processing:             │
+│ • Denoise (bilateral)   │
+│ • Enhance contrast      │
+│ • Color correction      │
+│ • Resize (640×640)      │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Preprocessed image    │
+└───────────┬─────────────┘
+            │
+            │ 30 Hz
+            ▼
+┌─────────────────────────┐
+│ Object Detector         │
+│ [YOLOv8 + TensorRT]     │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Preprocessed image    │
+├─────────────────────────┤
+│ Processing:             │
+│ • Load TensorRT engine  │
+│ • Run inference (GPU)   │
+│ • Post-process (NMS)    │
+│ • Filter by confidence  │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Bounding boxes        │
+│ • Class labels          │
+│ • Confidence scores     │
+└───────────┬─────────────┘
+            │
+            │ 20 Hz
+            ▼
+┌─────────────────────────┐
+│ Pose Estimator          │
+│ [PCA / PVNet]           │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Bounding boxes        │
+│ • Depth image           │
+│ • Camera intrinsics     │
+├─────────────────────────┤
+│ Processing:             │
+│ • Extract point cloud   │
+│ • Segment object cloud  │
+│ • PCA-based orientation │
+│ • Compute 6DoF pose     │
+│ • Publish TF transform  │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Object pose (6DoF)    │
+│ • Object point cloud    │
+│ • TF: camera → object   │
+└───────────┬─────────────┘
+            │
+            ▼
+      [To Grasp Planner]
+\end{verbatim}
+
+\hypertarget{vision-block-data-flow}{%
+\subsubsection{3.2 Vision Block Data
+Flow}\label{vision-block-data-flow}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2078}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2208}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1688}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2597}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Block}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Input Data}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Output Data}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Latency}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Error Handling}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Camera Driver} & USB trigger & RGB (1280×720, 8UC3)Depth
+(1280×720, 16UC1) & \textless10 ms & Retry on USB disconnect \\
+\textbf{Preprocessor} & Raw image & Processed image (640×640) &
+\textless5 ms & Skip frame on error \\
+\textbf{Object Detector} & Image (640×640) & Detection2DArray &
+\textless50 ms & Return empty on timeout \\
+\textbf{Pose Estimator} & Detections + Depth & PoseArray (6DoF) &
+\textless30 ms & Use previous pose on fail \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{grasp-planning-subsystem-blocks}{%
+\subsection{4. Grasp Planning Subsystem
+Blocks}\label{grasp-planning-subsystem-blocks}}
+
+\hypertarget{grasp-planning-blocks}{%
+\subsubsection{4.1 Grasp Planning Blocks}\label{grasp-planning-blocks}}
+
+\begin{verbatim}
+┌─────────────────────────┐
+│  Grasp Synthesizer      │
+│  [Analytical + Sampling]│
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Object pose (6DoF)    │
+│ • Object dimensions     │
+│ • Object shape type     │
+├─────────────────────────┤
+│ Processing:             │
+│ • Generate candidates   │
+│   - Antipodal grasps    │
+│   - Top grasps          │
+│   - Side grasps         │
+│ • Sample approach dirs  │
+│ • Set gripper widths    │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Grasp candidates (20) │
+│ • Pre-grasp poses       │
+│ • Approach vectors      │
+└───────────┬─────────────┘
+            │
+            │ 200 ms
+            ▼
+┌─────────────────────────┐
+│  Grasp Evaluator        │
+│  [Quality Metrics]      │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Grasp candidates      │
+│ • Object geometry       │
+├─────────────────────────┤
+│ Processing:             │
+│ • Compute quality score │
+│   - Ferrari-Canny       │
+│   - Force closure       │
+│   - Wrench space vol.   │
+│ • Rank by quality       │
+│ • Filter by threshold   │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Ranked grasps (top 5) │
+│ • Quality scores        │
+└───────────┬─────────────┘
+            │
+            │ 50 ms
+            ▼
+┌─────────────────────────┐
+│  Collision Checker      │
+│  [MoveIt Planning Scene]│
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Grasp candidates      │
+│ • Planning scene        │
+├─────────────────────────┤
+│ Processing:             │
+│ • Solve IK for grasp    │
+│ • Check self-collision  │
+│ • Check env. collision  │
+│ • Check joint limits    │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Valid grasps (1-3)    │
+│ • IK solutions          │
+└───────────┬─────────────┘
+            │
+            ▼
+      [To Motion Planner]
+\end{verbatim}
+
+\hypertarget{grasp-quality-computation-block}{%
+\subsubsection{4.2 Grasp Quality Computation
+Block}\label{grasp-quality-computation-block}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────┐
+│       Grasp Quality Evaluator            │
+├──────────────────────────────────────────┤
+│ Input: Grasp candidate G                 │
+│   - Contact points: p1, p2               │
+│   - Contact normals: n1, n2              │
+│   - Gripper width: w                     │
+│   - Friction coefficient: μ              │
+├──────────────────────────────────────────┤
+│ Algorithm:                               │
+│   1. Build grasp matrix G (6×n)          │
+│      G = [f1, ..., fn; τ1, ..., τn]      │
+│      where fi = contact force            │
+│            τi = contact torque           │
+│   2. Compute grasp wrench space W        │
+│      W = convexHull(G)                   │
+│   3. Compute quality metric              │
+│      Q = min_wrench / object_weight      │
+│   4. Check force closure                 │
+│      rank(G) == 6 → force closure        │
+├──────────────────────────────────────────┤
+│ Output: Quality score Q ∈ [0, 1]         │
+└──────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{motion-planning-subsystem-blocks}{%
+\subsection{5. Motion Planning Subsystem
+Blocks}\label{motion-planning-subsystem-blocks}}
+
+\hypertarget{motion-planning-pipeline}{%
+\subsubsection{5.1 Motion Planning
+Pipeline}\label{motion-planning-pipeline}}
+
+\begin{verbatim}
+┌─────────────────────────┐
+│  Motion Request         │
+│  [ROS2 Action Client]   │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Target pose (6DoF)    │
+│ • Constraints (optional)│
+│ • Planning group        │
+├─────────────────────────┤
+│ Processing:             │
+│ • Validate request      │
+│ • Set planner timeout   │
+│ • Configure planning    │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Planning request msg  │
+└───────────┬─────────────┘
+            │
+            │
+            ▼
+┌─────────────────────────┐
+│  Inverse Kinematics     │
+│  [KDL / Analytical IK]  │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Target EEF pose       │
+│ • Seed joint state      │
+├─────────────────────────┤
+│ Processing:             │
+│ • Solve IK equation     │
+│ • Find all solutions    │
+│ • Select nearest to seed│
+│ • Validate joint limits │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Joint configuration   │
+│   (6 joint angles)      │
+└───────────┬─────────────┘
+            │
+            │ 5-10 ms
+            ▼
+┌─────────────────────────┐
+│  Path Planner           │
+│  [OMPL - RRTConnect]    │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Start joint config    │
+│ • Goal joint config     │
+│ • Planning scene        │
+├─────────────────────────┤
+│ Processing:             │
+│ • Build state space     │
+│ • Sample random states  │
+│ • Extend trees (bi-dir) │
+│ • Check collisions      │
+│ • Connect trees         │
+│ • Simplify path         │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Joint waypoints       │
+│   (N × 6 matrix)        │
+└───────────┬─────────────┘
+            │
+            │ 100-300 ms
+            ▼
+┌─────────────────────────┐
+│  Trajectory Generator   │
+│  [Time Parameterization]│
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Joint waypoints       │
+│ • Velocity limits       │
+│ • Acceleration limits   │
+├─────────────────────────┤
+│ Processing:             │
+│ • Time-optimal param.   │
+│ • Cubic spline interp.  │
+│ • Velocity profiling    │
+│ • Add timestamps        │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Joint trajectory      │
+│   (positions, vels,     │
+│    accels, times)       │
+└───────────┬─────────────┘
+            │
+            ▼
+      [To Controller]
+\end{verbatim}
+
+\hypertarget{collision-checking-block}{%
+\subsubsection{5.2 Collision Checking
+Block}\label{collision-checking-block}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────┐
+│       Collision Checker                  │
+│       [FCL Library]                      │
+├──────────────────────────────────────────┤
+│ Inputs:                                  │
+│ • Robot state (joint angles)             │
+│ • Planning scene (obstacles)             │
+│ • Allowed collision matrix               │
+├──────────────────────────────────────────┤
+│ Processing:                              │
+│ 1. Update robot kinematics               │
+│    FK: joints → link poses               │
+│ 2. Update collision geometries           │
+│    Bounding volumes (AABB, OBB)          │
+│ 3. Broad-phase collision detection       │
+│    Sweep and prune algorithm             │
+│ 4. Narrow-phase detection                │
+│    GJK algorithm for convex shapes       │
+│ 5. Distance computation                  │
+│    Minimum distance between bodies       │
+│ 6. Check allowed collisions              │
+│    Filter expected contacts              │
+├──────────────────────────────────────────┤
+│ Outputs:                                 │
+│ • Collision: bool                        │
+│ • Collision pairs: [(link1, link2), ...] │
+│ • Min distance: float (meters)           │
+└──────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{control-subsystem-blocks}{%
+\subsection{6. Control Subsystem
+Blocks}\label{control-subsystem-blocks}}
+
+\hypertarget{real-time-control-loop}{%
+\subsubsection{6.1 Real-Time Control
+Loop}\label{real-time-control-loop}}
+
+\begin{verbatim}
+┌─────────────────────────┐
+│  Controller Manager     │
+│  [ros2_control]         │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Trajectory (desired)  │
+│ • Joint states (actual) │
+├─────────────────────────┤
+│ Processing:             │
+│ • Load controllers      │
+│ • Manage lifecycle      │
+│ • Route commands        │
+│ • Monitor health        │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Control updates       │
+│   @ 1000 Hz             │
+└───────────┬─────────────┘
+            │
+            │ 1 kHz
+            ▼
+┌─────────────────────────┐
+│  Joint Trajectory Ctrl  │
+│  [PID + Feedforward]    │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Desired: qd, q̇d, q̈d   │
+│ • Actual: q, q̇           │
+├─────────────────────────┤
+│ Processing:             │
+│ • Interpolate trajectory│
+│ • Compute error e = qd-q│
+│ • PID control:          │
+│   τ = Kp·e + Kd·ė + Ki·∫e│
+│ • Feedforward:          │
+│   τff = M(q)·q̈d + C·q̇d  │
+│ • Sum: τ_total = τ+τff  │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Joint torques τ       │
+│   (6 values)            │
+└───────────┬─────────────┘
+            │
+            │ 1 kHz
+            ▼
+┌─────────────────────────┐
+│  Hardware Interface     │
+│  [EtherCAT Master]      │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • Torque commands       │
+├─────────────────────────┤
+│ Processing:             │
+│ • Pack EtherCAT frame   │
+│ • Send to robot (CAN)   │
+│ • Read joint encoders   │
+│ • Unpack sensor data    │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Joint positions       │
+│ • Joint velocities      │
+│ • Joint efforts         │
+└───────────┬─────────────┘
+            │
+            ▼
+    [UR5e Robot Hardware]
+\end{verbatim}
+
+\hypertarget{safety-monitor-block}{%
+\subsubsection{6.2 Safety Monitor Block}\label{safety-monitor-block}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────┐
+│       Safety Monitor                     │
+├──────────────────────────────────────────┤
+│ Inputs:                                  │
+│ • Joint positions q                      │
+│ • Joint velocities q̇                     │
+│ • Joint efforts τ                        │
+│ • F/T sensor data                        │
+│ • E-stop signal (digital input)          │
+├──────────────────────────────────────────┤
+│ Processing:                              │
+│ 1. Check joint limits                    │
+│    q_min ≤ q ≤ q_max                     │
+│ 2. Check velocity limits                 │
+│    |q̇| ≤ q̇_max                           │
+│ 3. Check effort limits                   │
+│    |τ| ≤ τ_max                           │
+│ 4. Check workspace bounds                │
+│    FK(q) ∈ workspace_volume              │
+│ 5. Check contact forces                  │
+│    |F_contact| ≤ 150N (ISO/TS 15066)     │
+│ 6. Check E-stop signal                   │
+│    estop == LOW → trigger stop           │
+├──────────────────────────────────────────┤
+│ Outputs:                                 │
+│ • Safety status: OK | WARNING | FAULT    │
+│ • Alert messages                         │
+│ • E-stop command (if violation)          │
+├──────────────────────────────────────────┤
+│ Safety Reaction:                         │
+│ • WARNING: Log + notify                  │
+│ • FAULT: Stop robot + alert operator     │
+└──────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{task-orchestration-subsystem-blocks}{%
+\subsection{7. Task Orchestration Subsystem
+Blocks}\label{task-orchestration-subsystem-blocks}}
+
+\hypertarget{behavior-tree-orchestration}{%
+\subsubsection{7.1 Behavior Tree
+Orchestration}\label{behavior-tree-orchestration}}
+
+\begin{verbatim}
+┌─────────────────────────┐
+│  Behavior Tree Engine   │
+│  [BT.CPP]               │
+├─────────────────────────┤
+│ Inputs:                 │
+│ • System triggers       │
+│ • Sensor events         │
+│ • Blackboard state      │
+├─────────────────────────┤
+│ Processing:             │
+│ • Load XML tree def.    │
+│ • Tick root node @ 10Hz │
+│ • Execute action nodes  │
+│ • Evaluate conditions   │
+│ • Update blackboard     │
+│ • Handle node returns   │
+├─────────────────────────┤
+│ Outputs:                │
+│ • Action commands       │
+│ • Task status           │
+│ • Error signals         │
+└───────────┬─────────────┘
+            │
+            │ Ticks @ 10 Hz
+            ▼
+┌─────────────────────────┐
+│  Action Node: Detect    │
+├─────────────────────────┤
+│ Processing:             │
+│ • Call /vision/detect   │
+│ • Wait for response     │
+│ • Store in blackboard   │
+├─────────────────────────┤
+│ Returns:                │
+│ • SUCCESS: Objects found│
+│ • FAILURE: No objects   │
+│ • RUNNING: In progress  │
+└───────────┬─────────────┘
+            │
+┌───────────┴─────────────┐
+│  Action Node: PlanGrasp │
+├─────────────────────────┤
+│ Processing:             │
+│ • Get object from BB    │
+│ • Call /grasp/compute   │
+│ • Select best grasp     │
+│ • Store in blackboard   │
+├─────────────────────────┤
+│ Returns:                │
+│ • SUCCESS: Valid grasp  │
+│ • FAILURE: No valid     │
+└───────────┬─────────────┘
+            │
+┌───────────┴─────────────┐
+│ Action Node: ExecutePick│
+├─────────────────────────┤
+│ Processing:             │
+│ • Get grasp from BB     │
+│ • Call /pick_place      │
+│ • Monitor feedback      │
+│ • Publish progress      │
+├─────────────────────────┤
+│ Returns:                │
+│ • SUCCESS: Pick done    │
+│ • FAILURE: Pick failed  │
+│ • RUNNING: Executing    │
+└─────────────────────────┘
+\end{verbatim}
+
+\hypertarget{error-recovery-block}{%
+\subsubsection{7.2 Error Recovery Block}\label{error-recovery-block}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────┐
+│       Error Recovery Manager             │
+├──────────────────────────────────────────┤
+│ Inputs:                                  │
+│ • Error type (enum)                      │
+│ • Error context (state snapshot)         │
+│ • Retry count                            │
+├──────────────────────────────────────────┤
+│ Processing:                              │
+│ 1. Classify error                        │
+│    • Recoverable (grasp fail, IK fail)   │
+│    • Critical (collision, E-stop)        │
+│ 2. Select recovery strategy              │
+│    • Retry with adjustment               │
+│    • Fallback to alternative             │
+│    • Abort and reset                     │
+│ 3. Execute recovery                      │
+│    • Adjust parameters (force, approach) │
+│    • Re-plan with different config       │
+│    • Request operator intervention       │
+│ 4. Update retry counter                  │
+│ 5. Log recovery attempt                  │
+├──────────────────────────────────────────┤
+│ Outputs:                                 │
+│ • Recovery action                        │
+│ • Updated system state                   │
+│ • Success/failure flag                   │
+├──────────────────────────────────────────┤
+│ Recovery Strategies:                     │
+│ • Grasp failure → Increase force 10%     │
+│ • IK failure → Sample different seed     │
+│ • Planning timeout → Use simpler planner │
+│ • Collision → Replan with more clearance │
+└──────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{monitoring-logging-subsystem-blocks}{%
+\subsection{8. Monitoring \& Logging Subsystem
+Blocks}\label{monitoring-logging-subsystem-blocks}}
+
+\hypertarget{metrics-collection-pipeline}{%
+\subsubsection{8.1 Metrics Collection
+Pipeline}\label{metrics-collection-pipeline}}
+
+\begin{verbatim}
+┌─────────────────────────┐
+│  ROS2 Topic Subscribers │
+├─────────────────────────┤
+│ Subscribed Topics:      │
+│ • /joint_states         │
+│ • /task/status          │
+│ • /vision/object_poses  │
+│ • /pick_place/feedback  │
+└───────────┬─────────────┘
+            │ 10-100 Hz
+            ▼
+┌─────────────────────────┐
+│  Metrics Aggregator     │
+├─────────────────────────┤
+│ Processing:             │
+│ • Compute cycle time    │
+│ • Track success rate    │
+│ • Calculate uptime      │
+│ • Measure latencies     │
+└───────────┬─────────────┘
+            │
+            ├─────────────────┐
+            │                 │
+            ▼                 ▼
+┌─────────────────┐  ┌─────────────────┐
+│ Prometheus      │  │  InfluxDB       │
+│ Exporter        │  │  Writer         │
+├─────────────────┤  ├─────────────────┤
+│ • Counter       │  │ • Time-series   │
+│ • Gauge         │  │ • Retention 30d │
+│ • Histogram     │  │ • Downsampling  │
+└────────┬────────┘  └────────┬────────┘
+         │                    │
+         ▼                    ▼
+┌─────────────────┐  ┌─────────────────┐
+│ Prometheus DB   │  │  InfluxDB       │
+│ (15 day retain) │  │  (30 day retain)│
+└────────┬────────┘  └────────┬────────┘
+         │                    │
+         └──────────┬─────────┘
+                    ▼
+         ┌─────────────────────┐
+         │   Grafana           │
+         │   Dashboards        │
+         └─────────────────────┘
+\end{verbatim}
+
+\hypertarget{logging-architecture-block}{%
+\subsubsection{8.2 Logging Architecture
+Block}\label{logging-architecture-block}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────┐
+│         Application Logs                 │
+│  (rclcpp::Logger, Python logging)        │
+└────────────────┬─────────────────────────┘
+                 │ stdout/stderr
+                 ▼
+┌──────────────────────────────────────────┐
+│       Docker JSON Logging Driver         │
+└────────────────┬─────────────────────────┘
+                 │ /var/lib/docker/containers/
+                 ▼
+┌──────────────────────────────────────────┐
+│            Filebeat                      │
+│  (Log shipper)                           │
+├──────────────────────────────────────────┤
+│ Processing:                              │
+│ • Tail log files                         │
+│ • Parse JSON format                      │
+│ • Add metadata (host, container ID)      │
+│ • Buffer and batch                       │
+└────────────────┬─────────────────────────┘
+                 │ Beats protocol
+                 ▼
+┌──────────────────────────────────────────┐
+│            Logstash                      │
+│  (Log processing)                        │
+├──────────────────────────────────────────┤
+│ Processing:                              │
+│ • Parse log levels                       │
+│ • Extract structured fields              │
+│ • Enrich with context                    │
+│ • Filter sensitive data                  │
+│ • Route by log level                     │
+└────────────────┬─────────────────────────┘
+                 │ HTTP bulk API
+                 ▼
+┌──────────────────────────────────────────┐
+│         Elasticsearch                    │
+│  (Log storage)                           │
+├──────────────────────────────────────────┤
+│ Indices:                                 │
+│ • logs-robot-YYYY.MM.DD                  │
+│ Retention: 30 days                       │
+│ Replica: 1                               │
+└────────────────┬─────────────────────────┘
+                 │ REST API
+                 ▼
+┌──────────────────────────────────────────┐
+│            Kibana                        │
+│  (Log visualization)                     │
+├──────────────────────────────────────────┤
+│ Features:                                │
+│ • Log search & filtering                 │
+│ • Dashboards (error rate, latency)       │
+│ • Alerts (error spike > 10/min)          │
+└──────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{data-flow-diagrams}{%
+\subsection{9. Data Flow Diagrams}\label{data-flow-diagrams}}
+
+\hypertarget{end-to-end-pick-place-data-flow}{%
+\subsubsection{9.1 End-to-End Pick-Place Data
+Flow}\label{end-to-end-pick-place-data-flow}}
+
+\begin{verbatim}
+┌──────┐    ┌────────┐    ┌───────┐    ┌────────┐    ┌─────────┐    ┌────────┐
+│Trigger│───▶│ Vision │───▶│ Grasp │───▶│ Motion │───▶│ Control │───▶│ Robot  │
+│      │    │Pipeline│    │Planner│    │Planner │    │ System  │    │Hardware│
+└──────┘    └────────┘    └───────┘    └────────┘    └─────────┘    └────────┘
+              │              │             │              │              │
+              │ Objects      │ Grasp       │ Trajectory   │ Joint        │ Encoder
+              │ (6DoF)       │ (pose,      │ (q, q̇, t)    │ torques      │ feedback
+              │              │  width,     │              │              │
+              │              │  force)     │              │              │
+              ▼              ▼             ▼              ▼              ▼
+         ┌──────────────────────────────────────────────────────────────────┐
+         │                     Blackboard (Shared State)                    │
+         │  • detections: Detection2DArray                                  │
+         │  • object_poses: PoseArray                                       │
+         │  • selected_grasp: Grasp                                         │
+         │  • planned_trajectory: JointTrajectory                           │
+         │  • execution_status: TaskStatus                                  │
+         └──────────────────────────────────────────────────────────────────┘
+                                        ▲
+                                        │ Read/Write
+                                        │
+                              ┌─────────┴──────────┐
+                              │  Task Orchestrator │
+                              │  (Behavior Tree)   │
+                              └────────────────────┘
+\end{verbatim}
+
+\hypertarget{data-types-and-sizes}{%
+\subsubsection{9.2 Data Types and Sizes}\label{data-types-and-sizes}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1807}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1205}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1807}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2530}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2651}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Data Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Size}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Frequency}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Total Bandwidth}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Storage/Retention}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RGB Image & 2.7 MB (1280×720×3) & 30 Hz & 81 MB/s & Not stored
+(real-time only) \\
+Depth Image & 1.8 MB (1280×720×2) & 30 Hz & 54 MB/s & Not stored \\
+Detections & 2 KB & 20 Hz & 40 KB/s & Stored (PostgreSQL, 30 days) \\
+Object Poses & 1 KB & 20 Hz & 20 KB/s & Stored (PostgreSQL, 30 days) \\
+Joint States & 200 B & 100 Hz & 20 KB/s & Stored (InfluxDB, 30 days) \\
+Joint Commands & 200 B & 1000 Hz & 200 KB/s & Not stored \\
+Task Status & 500 B & 10 Hz & 5 KB/s & Stored (PostgreSQL, 90 days) \\
+Logs & Variable & Continuous & \textasciitilde1 MB/hour & Elasticsearch
+(30 days) \\
+\end{longtable}
+
+\textbf{Total Network Bandwidth:} \textasciitilde135 MB/s (peak),
+\textasciitilde500 KB/s (average) \textbf{Total Storage:}
+\textasciitilde10 GB/month (operational data) + \textasciitilde720
+MB/month (logs)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{interface-specifications}{%
+\subsection{10. Interface
+Specifications}\label{interface-specifications}}
+
+\hypertarget{ros2-topic-interfaces}{%
+\subsubsection{10.1 ROS2 Topic Interfaces}\label{ros2-topic-interfaces}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1839}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2069}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1724}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2184}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1034}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1149}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Topic Name}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Message Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Publisher}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Subscriber(s)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{QoS}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Rate}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{/camera/color/image\_raw} & \texttt{sensor\_msgs/Image} & Camera
+Driver & Image Processor & Best Effort, Volatile & 30 Hz \\
+\texttt{/vision/detections} & \texttt{vision\_msgs/Detection2DArray} &
+Object Detector & Pose Estimator & Reliable, Volatile & 20 Hz \\
+\texttt{/vision/object\_poses} & \texttt{geometry\_msgs/PoseArray} &
+Pose Estimator & Task Orchestrator & Reliable, Transient Local & 20
+Hz \\
+\texttt{/joint\_states} & \texttt{sensor\_msgs/JointState} & Controller
+& Motion Planner, Metrics & Reliable, Volatile & 100 Hz \\
+\texttt{/joint\_trajectory} & \texttt{trajectory\_msgs/JointTrajectory}
+& Motion Planner & Controller & Reliable, Volatile & On demand \\
+\texttt{/task/status} & \texttt{robot\_msgs/TaskStatus} & Orchestrator &
+Web Backend, Metrics & Reliable, Transient Local & 10 Hz \\
+\end{longtable}
+
+\hypertarget{ros2-service-interfaces}{%
+\subsubsection{10.2 ROS2 Service
+Interfaces}\label{ros2-service-interfaces}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2118}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1176}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1412}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1765}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1529}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Service Name}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Server}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Client(s)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Timeout}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{/vision/detect\_objects} &
+\texttt{vision\_interfaces/DetectObjects} & Object Detector &
+Orchestrator & 2 s & Trigger object detection \\
+\texttt{/grasp/compute\_grasps} &
+\texttt{robot\_interfaces/ComputeGrasps} & Grasp Planner & Orchestrator
+& 1 s & Generate grasp candidates \\
+\texttt{/planning\_scene/get\_objects} &
+\texttt{moveit\_msgs/GetPlanningScene} & Planning Scene & Motion Planner
+& 0.5 s & Get current obstacles \\
+\end{longtable}
+
+\hypertarget{ros2-action-interfaces}{%
+\subsubsection{10.3 ROS2 Action
+Interfaces}\label{ros2-action-interfaces}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2099}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1235}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1481}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1852}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1605}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1728}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Action Name}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Type}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Server}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Client(s)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Timeout}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Feedback}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{/pick\_place} & \texttt{robot\_interfaces/PickPlace} & Motion
+Planner & Orchestrator & 30 s & Status, Progress (0-1) \\
+\texttt{/gripper/command} & \texttt{control\_msgs/GripperCommand} &
+Gripper Controller & Motion Planner & 5 s & Position, Effort \\
+\texttt{/follow\_joint\_trajectory} &
+\texttt{control\_msgs/FollowJointTrajectory} & Joint Controller & Motion
+Planner & 20 s & Time from start, Error \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{summary}{%
+\subsection{11. Summary}\label{summary}}
+
+\hypertarget{block-decomposition-summary}{%
+\subsubsection{11.1 Block Decomposition
+Summary}\label{block-decomposition-summary}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2055}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1644}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3014}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3288}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Subsystem}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Blocks}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Key Technologies}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Critical Interfaces}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Vision} & 4 (Camera, Preprocessor, Detector, Pose) & YOLOv8,
+TensorRT, PCA & \texttt{/vision/object\_poses} \\
+\textbf{Grasp Planning} & 3 (Synthesizer, Evaluator, Collision) & NumPy,
+Open3D, MoveIt2 & \texttt{/grasp/compute\_grasps} \\
+\textbf{Motion Planning} & 4 (IK, Path, Trajectory, Collision) &
+MoveIt2, OMPL, KDL & \texttt{/pick\_place} action \\
+\textbf{Control} & 3 (Manager, Traj Ctrl, HW Interface) & ros2\_control,
+EtherCAT & \texttt{/joint\_trajectory} \\
+\textbf{Orchestration} & 2 (BT Engine, Error Recovery) &
+BehaviorTree.CPP & All action clients \\
+\textbf{Monitoring} & 2 (Metrics, Logging) & Prometheus, ELK Stack &
+ROS2 topic subscriptions \\
+\end{longtable}
+
+\hypertarget{system-properties}{%
+\subsubsection{11.2 System Properties}\label{system-properties}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2979}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2340}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4681}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Property}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Value}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Achieved Through}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Modularity} & 18 independent blocks & ROS2 node isolation,
+Docker containers \\
+\textbf{Latency} & \textless2 sec end-to-end & Optimized pipeline, GPU
+acceleration, parallel processing \\
+\textbf{Throughput} & 30 picks/min & 1 kHz control loop, efficient
+planning \\
+\textbf{Reliability} & 99.5\% uptime & Error recovery, health
+monitoring, redundant strategies \\
+\textbf{Scalability} & 1-10 robots & Stateless design, horizontal
+scaling (vision, backend) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ v1.0 Complete \textbf{Next Document:}
+Software Architecture Document (SAD) \textbf{Dependencies:} High-Level
+Design (08), Low-Level Design (14), C4 Model (15)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\end{document}

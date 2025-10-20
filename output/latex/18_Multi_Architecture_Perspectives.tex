@@ -1,0 +1,1682 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={18 Multi Architecture Perspectives},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{18 Multi Architecture Perspectives}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{multi-architecture-perspectives}{%
+\section{Multi-Architecture
+Perspectives}\label{multi-architecture-perspectives}}
+
+\hypertarget{enterprise-data-integration-business-architecture}{%
+\subsection{Enterprise, Data, Integration \& Business
+Architecture}\label{enterprise-data-integration-business-architecture}}
+
+\textbf{Document Version:} 1.0 \textbf{Last Updated:} 2025-10-18
+\textbf{Status:} ✅ Complete
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{table-of-contents}{%
+\subsection{Table of Contents}\label{table-of-contents}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \protect\hyperlink{1-introduction}{Introduction}
+\item
+  \protect\hyperlink{2-enterprise-architecture}{Enterprise Architecture}
+\item
+  \protect\hyperlink{3-data-architecture}{Data Architecture}
+\item
+  \protect\hyperlink{4-integration-architecture}{Integration
+  Architecture}
+\item
+  \protect\hyperlink{5-business-architecture}{Business Architecture}
+\item
+  \protect\hyperlink{6-cross-architecture-alignment}{Cross-Architecture
+  Alignment}
+\item
+  \protect\hyperlink{7-governance--standards}{Governance \& Standards}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{introduction}{%
+\subsection{1. Introduction}\label{introduction}}
+
+\hypertarget{purpose}{%
+\subsubsection{1.1 Purpose}\label{purpose}}
+
+This document provides comprehensive architectural views from four
+critical perspectives: - \textbf{Enterprise Architecture:} Strategic
+technology landscape, standards, principles - \textbf{Data
+Architecture:} Data models, flows, governance, quality -
+\textbf{Integration Architecture:} System interfaces, APIs, message
+patterns - \textbf{Business Architecture:} Value streams, capabilities,
+processes
+
+\hypertarget{architecture-framework}{%
+\subsubsection{1.2 Architecture
+Framework}\label{architecture-framework}}
+
+We use \textbf{TOGAF 9.2} (The Open Group Architecture Framework) as our
+foundation, adapted for robotics and manufacturing domains.
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│                    TOGAF Architecture Domains               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────────────┐  ┌──────────────────┐               │
+│  │   Business       │  │   Data           │               │
+│  │   Architecture   │  │   Architecture   │               │
+│  │                  │  │                  │               │
+│  │ • Value streams  │  │ • Data models    │               │
+│  │ • Capabilities   │  │ • Data flows     │               │
+│  │ • Processes      │  │ • Governance     │               │
+│  └──────────────────┘  └──────────────────┘               │
+│           │                      │                          │
+│           └──────────┬───────────┘                          │
+│                      │                                      │
+│  ┌──────────────────▼──────────────────┐                   │
+│  │   Application Architecture          │                   │
+│  │                                     │                   │
+│  │ • Application portfolio             │                   │
+│  │ • Integration patterns              │                   │
+│  │ • APIs & interfaces                 │                   │
+│  └──────────────────┬──────────────────┘                   │
+│                     │                                      │
+│  ┌──────────────────▼──────────────────┐                   │
+│  │   Technology Architecture           │                   │
+│  │                                     │                   │
+│  │ • Infrastructure                    │                   │
+│  │ • Platforms & tools                 │                   │
+│  │ • Standards                         │                   │
+│  └─────────────────────────────────────┘                   │
+└─────────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{stakeholders}{%
+\subsubsection{1.3 Stakeholders}\label{stakeholders}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2174}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3043}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4783}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Role}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Concerns}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Primary Artifacts}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Enterprise Architect} & Strategic alignment, standards,
+portfolio & EA roadmap, principles, standards catalog \\
+\textbf{Data Architect} & Data quality, governance, integration & Data
+models, lineage, quality rules \\
+\textbf{Integration Architect} & Connectivity, APIs, message flows &
+Integration patterns, API specs, ESB design \\
+\textbf{Business Architect} & Value delivery, capabilities, processes &
+Value stream maps, capability models \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{enterprise-architecture}{%
+\subsection{2. Enterprise Architecture}\label{enterprise-architecture}}
+
+\hypertarget{enterprise-architecture-vision}{%
+\subsubsection{2.1 Enterprise Architecture
+Vision}\label{enterprise-architecture-vision}}
+
+\textbf{Mission:} Establish a scalable, secure, and maintainable
+robotics automation platform that enables digital transformation in
+manufacturing operations.
+
+\textbf{Strategic Objectives:} 1. \textbf{Standardization:} Common
+platforms, tools, and patterns across all robotic systems 2.
+\textbf{Scalability:} Support 1-100 robot deployments with minimal
+incremental effort 3. \textbf{Interoperability:} Seamless integration
+with existing enterprise systems (MES, ERP, SCADA) 4.
+\textbf{Innovation:} Enable rapid adoption of new AI/ML models and
+technologies 5. \textbf{Security:} Enterprise-grade security,
+compliance, and audit capabilities
+
+\hypertarget{current-state-architecture-as-is}{%
+\subsubsection{2.2 Current State Architecture
+(As-Is)}\label{current-state-architecture-as-is}}
+
+\begin{verbatim}
+CURRENT STATE: Manual Pick-and-Place Operations
+─────────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────┐
+│                    Factory Floor                            │
+│                                                             │
+│  ┌──────────────┐         ┌──────────────┐                 │
+│  │   Human      │  picks  │   Human      │                 │
+│  │   Worker 1   │ ─────▶  │   Worker 2   │                 │
+│  │              │ objects │              │                 │
+│  │  14 picks/   │         │  Inspection  │                 │
+│  │  min         │         │              │                 │
+│  └──────────────┘         └──────────────┘                 │
+│         │                         │                         │
+│         │ Manual                  │ Manual                  │
+│         │ logging                 │ QA check                │
+│         ▼                         ▼                         │
+│  ┌──────────────┐         ┌──────────────┐                 │
+│  │   Paper      │         │   Spreadsheet│                 │
+│  │   Logs       │         │   QA Records │                 │
+│  └──────────────┘         └──────────────┘                 │
+└─────────────────────────────────────────────────────────────┘
+                  │
+                  │ End-of-day
+                  │ data entry
+                  ▼
+          ┌──────────────┐
+          │     MES      │
+          │   (Manual    │
+          │    entry)    │
+          └──────────────┘
+
+LIMITATIONS:
+❌ Low throughput (14 picks/min per worker)
+❌ High error rate (5%)
+❌ No real-time visibility
+❌ Manual data entry (delays, errors)
+❌ High labor costs ($195k/year for 4 FTE)
+❌ Limited scalability
+\end{verbatim}
+
+\hypertarget{target-state-architecture-to-be}{%
+\subsubsection{2.3 Target State Architecture
+(To-Be)}\label{target-state-architecture-to-be}}
+
+\begin{verbatim}
+TARGET STATE: Automated Robotic Pick-and-Place
+───────────────────────────────────────────────
+
+┌─────────────────────────────────────────────────────────────┐
+│              EDGE TIER (Factory Floor)                      │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  Vision-Based Pick & Place Robot System            │   │
+│  │                                                     │   │
+│  │  • 30 picks/min (automated)                         │   │
+│  │  • 99%+ accuracy                                    │   │
+│  │  • Real-time monitoring                             │   │
+│  │  • Automatic logging                                │   │
+│  └───────────────┬─────────────────────────────────────┘   │
+│                  │                                          │
+│                  │ Real-time data (MQTT/ROS2)               │
+└──────────────────┼──────────────────────────────────────────┘
+                   │
+                   │ Secure tunnel (TLS)
+                   ▼
+┌─────────────────────────────────────────────────────────────┐
+│              INTEGRATION TIER (On-Premises)                 │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │   API        │  │   Message    │  │   Data       │     │
+│  │   Gateway    │  │   Bus        │  │   Lake       │     │
+│  │   (Kong)     │  │   (Kafka)    │  │   (MinIO)    │     │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘     │
+│         │                 │                  │              │
+└─────────┼─────────────────┼──────────────────┼──────────────┘
+          │                 │                  │
+          │                 │                  │
+┌─────────▼─────────────────▼──────────────────▼──────────────┐
+│           APPLICATION TIER (Enterprise)                     │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │     MES      │  │     ERP      │  │   BI/        │     │
+│  │  (Real-time  │  │  (Inventory, │  │   Analytics  │     │
+│  │   updates)   │  │   finance)   │  │  (PowerBI)   │     │
+│  └──────────────┘  └──────────────┘  └──────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+
+BENEFITS:
+✓ 3× throughput (42,000 picks/day)
+✓ <1% error rate (99%+ accuracy)
+✓ Real-time visibility (dashboards, alerts)
+✓ Automated data integration (zero manual entry)
+✓ Labor savings ($175k/year)
+✓ Scalable to 100+ robots
+\end{verbatim}
+
+\hypertarget{technology-standards-principles}{%
+\subsubsection{2.4 Technology Standards \&
+Principles}\label{technology-standards-principles}}
+
+\hypertarget{architecture-principles}{%
+\paragraph{2.4.1 Architecture
+Principles}\label{architecture-principles}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2381}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2381}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2381}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2857}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Principle}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Statement}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Rationale}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Implications}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{P1: Cloud-Native} & Use containerized, microservices
+architecture & Scalability, portability, rapid deployment & All services
+run in Docker/K8s \\
+\textbf{P2: API-First} & All integrations via well-defined APIs & Loose
+coupling, reusability & REST/gRPC APIs for all services \\
+\textbf{P3: Data-Driven} & Collect, store, and analyze all operational
+data & Continuous improvement, predictive maintenance & Centralized data
+lake, ML pipelines \\
+\textbf{P4: Security by Design} & Security integrated from the start &
+Compliance, risk mitigation & Zero-trust, encryption, audit logs \\
+\textbf{P5: Open Standards} & Prefer open-source and industry standards
+& Vendor independence, community support & ROS2, MQTT, OPC-UA, REST \\
+\textbf{P6: Modularity} & Components are independently deployable &
+Flexibility, maintainability & Microservices, pluggable modules \\
+\textbf{P7: Automation} & Automate deployment, testing, monitoring &
+Speed, consistency, reliability & CI/CD, IaC, automated testing \\
+\end{longtable}
+
+\hypertarget{technology-standards-catalog}{%
+\paragraph{2.4.2 Technology Standards
+Catalog}\label{technology-standards-catalog}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1944}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1944}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2083}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4028}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Category}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Standard}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Rationale}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternatives Considered}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Robotics Middleware} & ROS2 Humble & Industry standard,
+real-time support, large ecosystem & ROS1 (legacy), proprietary SDKs \\
+\textbf{Containerization} & Docker 24.x & Portability, reproducibility,
+ecosystem & Podman, LXC \\
+\textbf{Orchestration} & Kubernetes 1.28 & Scalability, high
+availability, declarative & Docker Swarm, Nomad \\
+\textbf{API Gateway} & Kong 3.x & Performance, plugins, open-source &
+Nginx, Traefik, AWS API Gateway \\
+\textbf{Message Broker} & Apache Kafka 3.5 & High throughput, fault
+tolerance, replay capability & RabbitMQ, MQTT Broker, Redis Streams \\
+\textbf{Time-Series DB} & InfluxDB 2.7 & Optimized for metrics,
+retention policies & Prometheus, TimescaleDB \\
+\textbf{Relational DB} & PostgreSQL 15 & ACID, mature, JSON support &
+MySQL, SQL Server \\
+\textbf{Object Storage} & MinIO (S3-compatible) & Scalable, S3 API,
+on-premises & AWS S3, Azure Blob, Ceph \\
+\textbf{Monitoring} & Prometheus + Grafana & De facto standard, rich
+ecosystem & Datadog, New Relic, Elastic APM \\
+\textbf{Logging} & ELK Stack (Elasticsearch, Logstash, Kibana) &
+Centralized, searchable, scalable & Splunk, Graylog, Loki \\
+\textbf{CI/CD} & GitHub Actions & Native GitHub integration, free for
+open-source & Jenkins, GitLab CI, CircleCI \\
+\textbf{IaC} & Terraform + Ansible & Multi-cloud, declarative, mature &
+CloudFormation, Pulumi \\
+\end{longtable}
+
+\hypertarget{application-portfolio}{%
+\subsubsection{2.5 Application Portfolio}\label{application-portfolio}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│              APPLICATION PORTFOLIO MAP                      │
+└─────────────────────────────────────────────────────────────┘
+
+                      STRATEGIC IMPORTANCE
+                           (High)
+                             │
+    ┌────────────────────────┼────────────────────────┐
+    │ INVEST                 │ MAINTAIN               │
+    │                        │                        │
+    │ • Vision AI Platform   │ • ROS2 Control System  │
+    │ • MLOps Pipeline       │ • MES Integration      │
+    │ • Digital Twin         │ • ERP Connector        │
+    │                        │                        │
+────┼────────────────────────┼────────────────────────┼────
+    │                        │                        │
+    │ ELIMINATE              │ TOLERATE               │
+    │                        │                        │
+    │ • Paper Logs (legacy)  │ • Manual Calibration   │
+    │ • Spreadsheet QA       │   (migrate to auto)    │
+    │                        │                        │
+    └────────────────────────┼────────────────────────┘
+                             │
+                          (Low)
+                    BUSINESS VALUE
+                    ←──────────────────────→
+\end{verbatim}
+
+\hypertarget{ea-roadmap-3-year}{%
+\subsubsection{2.6 EA Roadmap (3-Year)}\label{ea-roadmap-3-year}}
+
+\begin{verbatim}
+YEAR 1 (2025): Foundation
+──────────────────────────
+Q1-Q2: Single robot system deployment (MVP)
+Q3:    MES/ERP integration
+Q4:    Monitoring & analytics platform
+
+YEAR 2 (2026): Scale
+────────────────────
+Q1:    5-robot deployment (multi-cell)
+Q2:    Digital twin & simulation
+Q3:    Predictive maintenance (ML)
+Q4:    Edge computing optimization
+
+YEAR 3 (2027): Transform
+────────────────────────
+Q1:    20+ robot fleet management
+Q2:    Cross-facility orchestration
+Q3:    Advanced AI (reinforcement learning)
+Q4:    Zero-downtime autonomous operation
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{data-architecture}{%
+\subsection{3. Data Architecture}\label{data-architecture}}
+
+\hypertarget{data-architecture-overview}{%
+\subsubsection{3.1 Data Architecture
+Overview}\label{data-architecture-overview}}
+
+\textbf{Mission:} Establish a unified, governed, and high-quality data
+foundation to support real-time operations, analytics, and AI/ML.
+
+\hypertarget{conceptual-data-model}{%
+\subsubsection{3.2 Conceptual Data Model}\label{conceptual-data-model}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│              CORE ENTITIES & RELATIONSHIPS                  │
+└─────────────────────────────────────────────────────────────┘
+
+        ┌──────────────┐
+        │    Robot     │
+        │              │
+        │ • robot_id   │
+        │ • model      │
+        │ • location   │
+        └──────┬───────┘
+               │ 1
+               │ operates
+               │ n
+        ┌──────▼───────┐
+        │   Pick Task  │
+        │              │
+        │ • task_id    │
+        │ • timestamp  │
+        │ • status     │
+        └──────┬───────┘
+               │ 1
+               │ picks
+               │ n
+        ┌──────▼───────┐
+        │    Object    │
+        │              │
+        │ • object_id  │
+        │ • class_name │
+        │ • pose       │
+        └──────┬───────┘
+               │ n
+               │ uses
+               │ 1
+        ┌──────▼───────┐
+        │    Grasp     │
+        │              │
+        │ • grasp_id   │
+        │ • pose       │
+        │ • quality    │
+        └──────────────┘
+\end{verbatim}
+
+\hypertarget{logical-data-model-relational}{%
+\subsubsection{3.3 Logical Data Model
+(Relational)}\label{logical-data-model-relational}}
+
+\hypertarget{operational-database-postgresql}{%
+\paragraph{3.3.1 Operational Database
+(PostgreSQL)}\label{operational-database-postgresql}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{{-}{-} ROBOTS}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ robots (}
+\NormalTok{    robot\_id }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{) }\KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{,}
+\NormalTok{    model }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{100}\NormalTok{) }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+\NormalTok{    serial\_number }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{100}\NormalTok{) }\KeywordTok{UNIQUE} \KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+\NormalTok{    location }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{100}\NormalTok{),}
+\NormalTok{    status }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{20}\NormalTok{) }\KeywordTok{DEFAULT} \StringTok{\textquotesingle{}offline\textquotesingle{}}\NormalTok{,  }\CommentTok{{-}{-} offline, idle, running, error}
+\NormalTok{    last\_heartbeat }\DataTypeTok{TIMESTAMP}\NormalTok{,}
+\NormalTok{    created\_at }\DataTypeTok{TIMESTAMP} \KeywordTok{DEFAULT}\NormalTok{ NOW(),}
+\NormalTok{    updated\_at }\DataTypeTok{TIMESTAMP} \KeywordTok{DEFAULT}\NormalTok{ NOW()}
+\NormalTok{);}
+
+\CommentTok{{-}{-} PICKS (Transactional data)}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ picks (}
+\NormalTok{    pick\_id SERIAL }\KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{,}
+\NormalTok{    robot\_id }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{) }\KeywordTok{REFERENCES}\NormalTok{ robots(robot\_id),}
+    \DataTypeTok{timestamp} \DataTypeTok{TIMESTAMP} \KeywordTok{NOT} \KeywordTok{NULL} \KeywordTok{DEFAULT}\NormalTok{ NOW(),}
+
+    \CommentTok{{-}{-} Object details}
+\NormalTok{    object\_class }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{),}
+\NormalTok{    object\_pose JSONB,  }\CommentTok{{-}{-} \{x, y, z, qx, qy, qz, qw\}}
+
+    \CommentTok{{-}{-} Grasp details}
+\NormalTok{    grasp\_pose JSONB,}
+\NormalTok{    grasp\_quality }\DataTypeTok{FLOAT} \KeywordTok{CHECK}\NormalTok{ (grasp\_quality }\KeywordTok{BETWEEN} \DecValTok{0} \KeywordTok{AND} \DecValTok{1}\NormalTok{),}
+\NormalTok{    grasp\_force }\DataTypeTok{FLOAT}\NormalTok{,  }\CommentTok{{-}{-} Newtons}
+
+    \CommentTok{{-}{-} Place details}
+\NormalTok{    place\_pose JSONB,}
+\NormalTok{    place\_accuracy }\DataTypeTok{FLOAT}\NormalTok{,  }\CommentTok{{-}{-} mm}
+
+    \CommentTok{{-}{-} Performance metrics}
+\NormalTok{    cycle\_time }\DataTypeTok{FLOAT}\NormalTok{,  }\CommentTok{{-}{-} seconds}
+\NormalTok{    vision\_latency }\DataTypeTok{FLOAT}\NormalTok{,  }\CommentTok{{-}{-} ms}
+\NormalTok{    planning\_time }\DataTypeTok{FLOAT}\NormalTok{,  }\CommentTok{{-}{-} ms}
+\NormalTok{    execution\_time }\DataTypeTok{FLOAT}\NormalTok{,  }\CommentTok{{-}{-} ms}
+
+    \CommentTok{{-}{-} Status}
+\NormalTok{    success }\DataTypeTok{BOOLEAN}\NormalTok{,}
+\NormalTok{    error\_code }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{),}
+\NormalTok{    error\_message TEXT,}
+
+    \KeywordTok{CONSTRAINT}\NormalTok{ valid\_timestamp }\KeywordTok{CHECK}\NormalTok{ (}\DataTypeTok{timestamp} \OperatorTok{\textgreater{}=} \StringTok{\textquotesingle{}2025{-}01{-}01\textquotesingle{}}\NormalTok{)}
+\NormalTok{);}
+
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_picks\_timestamp }\KeywordTok{ON}\NormalTok{ picks(}\DataTypeTok{timestamp} \KeywordTok{DESC}\NormalTok{);}
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_picks\_robot }\KeywordTok{ON}\NormalTok{ picks(robot\_id);}
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_picks\_success }\KeywordTok{ON}\NormalTok{ picks(success);}
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_picks\_object\_class }\KeywordTok{ON}\NormalTok{ picks(object\_class);}
+
+\CommentTok{{-}{-} CALIBRATIONS}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ calibrations (}
+\NormalTok{    calibration\_id SERIAL }\KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{,}
+\NormalTok{    robot\_id }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{) }\KeywordTok{REFERENCES}\NormalTok{ robots(robot\_id),}
+    \DataTypeTok{timestamp} \DataTypeTok{TIMESTAMP} \KeywordTok{NOT} \KeywordTok{NULL} \KeywordTok{DEFAULT}\NormalTok{ NOW(),}
+\NormalTok{    calibration\_type }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{) }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,  }\CommentTok{{-}{-} \textquotesingle{}hand\_eye\textquotesingle{}, \textquotesingle{}tcp\textquotesingle{}, \textquotesingle{}workspace\textquotesingle{}}
+    \KeywordTok{parameters}\NormalTok{ JSONB }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,  }\CommentTok{{-}{-} Calibration{-}specific parameters}
+\NormalTok{    reprojection\_error }\DataTypeTok{FLOAT}\NormalTok{,  }\CommentTok{{-}{-} mm (for hand{-}eye)}
+\NormalTok{    notes TEXT}
+\NormalTok{);}
+
+\CommentTok{{-}{-} SYSTEM\_HEALTH}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ system\_health (}
+\NormalTok{    health\_id SERIAL }\KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{,}
+\NormalTok{    robot\_id }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{) }\KeywordTok{REFERENCES}\NormalTok{ robots(robot\_id),}
+    \DataTypeTok{timestamp} \DataTypeTok{TIMESTAMP} \KeywordTok{NOT} \KeywordTok{NULL} \KeywordTok{DEFAULT}\NormalTok{ NOW(),}
+
+    \CommentTok{{-}{-} Compute metrics}
+\NormalTok{    cpu\_percent }\DataTypeTok{FLOAT}\NormalTok{,}
+\NormalTok{    memory\_percent }\DataTypeTok{FLOAT}\NormalTok{,}
+\NormalTok{    disk\_percent }\DataTypeTok{FLOAT}\NormalTok{,}
+\NormalTok{    gpu\_percent }\DataTypeTok{FLOAT}\NormalTok{,}
+\NormalTok{    gpu\_memory\_mb }\DataTypeTok{FLOAT}\NormalTok{,}
+
+    \CommentTok{{-}{-} Temperature}
+\NormalTok{    temperature\_celsius }\DataTypeTok{FLOAT}\NormalTok{,}
+
+    \CommentTok{{-}{-} Network}
+\NormalTok{    network\_latency\_ms }\DataTypeTok{FLOAT}\NormalTok{,}
+\NormalTok{    packet\_loss\_percent }\DataTypeTok{FLOAT}
+\NormalTok{);}
+
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_health\_timestamp }\KeywordTok{ON}\NormalTok{ system\_health(}\DataTypeTok{timestamp} \KeywordTok{DESC}\NormalTok{);}
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_health\_robot }\KeywordTok{ON}\NormalTok{ system\_health(robot\_id);}
+
+\CommentTok{{-}{-} ANOMALIES (ML{-}detected anomalies)}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ anomalies (}
+\NormalTok{    anomaly\_id SERIAL }\KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{,}
+\NormalTok{    robot\_id }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{) }\KeywordTok{REFERENCES}\NormalTok{ robots(robot\_id),}
+    \DataTypeTok{timestamp} \DataTypeTok{TIMESTAMP} \KeywordTok{NOT} \KeywordTok{NULL} \KeywordTok{DEFAULT}\NormalTok{ NOW(),}
+\NormalTok{    anomaly\_type }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{),  }\CommentTok{{-}{-} \textquotesingle{}grasp\_failure\textquotesingle{}, \textquotesingle{}planning\_timeout\textquotesingle{}, \textquotesingle{}sensor\_drift\textquotesingle{}}
+\NormalTok{    severity }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{20}\NormalTok{),  }\CommentTok{{-}{-} \textquotesingle{}low\textquotesingle{}, \textquotesingle{}medium\textquotesingle{}, \textquotesingle{}high\textquotesingle{}, \textquotesingle{}critical\textquotesingle{}}
+\NormalTok{    description TEXT,}
+\NormalTok{    features JSONB,  }\CommentTok{{-}{-} ML features that triggered detection}
+\NormalTok{    acknowledged }\DataTypeTok{BOOLEAN} \KeywordTok{DEFAULT} \KeywordTok{FALSE}\NormalTok{,}
+\NormalTok{    acknowledged\_by }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{100}\NormalTok{),}
+\NormalTok{    acknowledged\_at }\DataTypeTok{TIMESTAMP}
+\NormalTok{);}
+
+\CommentTok{{-}{-} USERS (for authentication)}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ users (}
+\NormalTok{    user\_id SERIAL }\KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{,}
+\NormalTok{    username }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{100}\NormalTok{) }\KeywordTok{UNIQUE} \KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+\NormalTok{    email }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{255}\NormalTok{) }\KeywordTok{UNIQUE} \KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+\NormalTok{    password\_hash }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{255}\NormalTok{) }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+    \KeywordTok{role} \DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{) }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,  }\CommentTok{{-}{-} \textquotesingle{}admin\textquotesingle{}, \textquotesingle{}engineer\textquotesingle{}, \textquotesingle{}operator\textquotesingle{}, \textquotesingle{}viewer\textquotesingle{}}
+\NormalTok{    created\_at }\DataTypeTok{TIMESTAMP} \KeywordTok{DEFAULT}\NormalTok{ NOW(),}
+\NormalTok{    last\_login }\DataTypeTok{TIMESTAMP}
+\NormalTok{);}
+
+\CommentTok{{-}{-} AUDIT\_LOGS (immutable, for compliance)}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ audit\_logs (}
+\NormalTok{    log\_id SERIAL }\KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{,}
+    \DataTypeTok{timestamp} \DataTypeTok{TIMESTAMP} \KeywordTok{NOT} \KeywordTok{NULL} \KeywordTok{DEFAULT}\NormalTok{ NOW(),}
+\NormalTok{    user\_id }\DataTypeTok{INT} \KeywordTok{REFERENCES}\NormalTok{ users(user\_id),}
+\NormalTok{    action }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{100}\NormalTok{) }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,  }\CommentTok{{-}{-} \textquotesingle{}START\_SYSTEM\textquotesingle{}, \textquotesingle{}STOP\_SYSTEM\textquotesingle{}, \textquotesingle{}E\_STOP\textquotesingle{}, \textquotesingle{}CONFIG\_CHANGE\textquotesingle{}}
+\NormalTok{    entity\_type }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{50}\NormalTok{),  }\CommentTok{{-}{-} \textquotesingle{}robot\textquotesingle{}, \textquotesingle{}config\textquotesingle{}, \textquotesingle{}user\textquotesingle{}}
+\NormalTok{    entity\_id }\DataTypeTok{VARCHAR}\NormalTok{(}\DecValTok{100}\NormalTok{),}
+\NormalTok{    details JSONB,}
+\NormalTok{    ip\_address INET,}
+\NormalTok{    user\_agent TEXT}
+\NormalTok{);}
+
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_audit\_timestamp }\KeywordTok{ON}\NormalTok{ audit\_logs(}\DataTypeTok{timestamp} \KeywordTok{DESC}\NormalTok{);}
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_audit\_user }\KeywordTok{ON}\NormalTok{ audit\_logs(user\_id);}
+\KeywordTok{CREATE} \KeywordTok{INDEX}\NormalTok{ idx\_audit\_action }\KeywordTok{ON}\NormalTok{ audit\_logs(action);}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{time-series-database-influxdb}{%
+\paragraph{3.3.2 Time-Series Database
+(InfluxDB)}\label{time-series-database-influxdb}}
+
+\begin{verbatim}
+// Measurement: cycle_time
+// Tags: robot_id, object_class
+// Fields: duration (float, seconds)
+// Retention: 30 days, downsampled to hourly after 7 days
+
+// Measurement: joint_states
+// Tags: robot_id, joint_name (shoulder_pan, shoulder_lift, ...)
+// Fields: position (float, rad), velocity (float, rad/s), effort (float, Nm)
+// Retention: 7 days (raw), 30 days (1min aggregates)
+
+// Measurement: vision_latency
+// Tags: robot_id, stage (detect, pose_estimate)
+// Fields: latency_ms (float)
+// Retention: 30 days
+
+// Measurement: force_torque
+// Tags: robot_id
+// Fields: fx, fy, fz (float, N), tx, ty, tz (float, Nm)
+// Retention: 7 days (raw), 30 days (10s aggregates)
+
+// Measurement: system_cpu
+// Tags: robot_id, host (nuc, jetson)
+// Fields: cpu_percent (float)
+// Retention: 30 days (1min aggregates)
+\end{verbatim}
+
+\hypertarget{data-flow-architecture}{%
+\subsubsection{3.4 Data Flow
+Architecture}\label{data-flow-architecture}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│                   DATA FLOW MAP                             │
+└─────────────────────────────────────────────────────────────┘
+
+  OPERATIONAL DATA FLOW (Real-Time)
+  ──────────────────────────────────
+
+  Robot Sensors ──▶ ROS2 Topics ──▶ Metrics Collector ─┬─▶ Prometheus
+                                                        │
+                                                        ├─▶ InfluxDB
+                                                        │
+                                                        └─▶ Kafka ──▶ PostgreSQL
+                                                                  │
+                                                                  └─▶ MES (via REST API)
+
+
+  ANALYTICAL DATA FLOW (Batch)
+  ─────────────────────────────
+
+  PostgreSQL ──▶ ETL Pipeline (Airflow) ──▶ Data Warehouse ──▶ BI Dashboards
+                                            (Snowflake/         (PowerBI/
+                                             BigQuery)          Tableau)
+                                                 │
+                                                 └──▶ ML Training (Vertex AI)
+
+
+  ARCHIVAL DATA FLOW (Cold Storage)
+  ──────────────────────────────────
+
+  PostgreSQL ──▶ S3/MinIO (Parquet) ──▶ Glacier
+  (7+ days old)    (Partitioned by date)   (1+ year old)
+\end{verbatim}
+
+\hypertarget{data-quality-framework}{%
+\subsubsection{3.5 Data Quality
+Framework}\label{data-quality-framework}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2055}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2192}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2329}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1644}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1781}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Dimension}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Definition}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Measurement}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Target}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Actions}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Accuracy} & Correctness of data values & \% of picks with pose
+error \textless1mm & \textgreater99\% & Calibration checks, outlier
+detection \\
+\textbf{Completeness} & All required fields populated & \% of picks with
+non-null critical fields & 100\% & Validation rules, default values \\
+\textbf{Consistency} & Data agrees across systems & \% match between
+robot logs and MES & \textgreater99.5\% & Reconciliation jobs,
+checksums \\
+\textbf{Timeliness} & Data available when needed & Latency: sensor →
+dashboard & \textless5 sec & Stream processing, caching \\
+\textbf{Uniqueness} & No duplicate records & Duplicate pick\_ids & 0 &
+Primary key constraints, deduplication \\
+\textbf{Validity} & Data conforms to rules & \% of values within valid
+ranges & 100\% & Check constraints, input validation \\
+\end{longtable}
+
+\hypertarget{data-governance}{%
+\subsubsection{3.6 Data Governance}\label{data-governance}}
+
+\hypertarget{data-ownership}{%
+\paragraph{3.6.1 Data Ownership}\label{data-ownership}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2329}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2192}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2466}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3014}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Data Domain}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Data Owner}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Data Steward}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Responsibilities}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Robot Operational Data} & Engineering Manager & Senior Robot
+Engineer & Schema design, quality monitoring, access control \\
+\textbf{Production Metrics} & Operations Manager & Production Supervisor
+& KPI definitions, reporting requirements \\
+\textbf{Quality Data} & QA Manager & QA Lead & Defect tracking, root
+cause analysis \\
+\textbf{Financial Data} & CFO & Finance Analyst & Cost tracking, ROI
+calculations \\
+\end{longtable}
+
+\hypertarget{data-lineage-example}{%
+\paragraph{3.6.2 Data Lineage Example}\label{data-lineage-example}}
+
+\begin{verbatim}
+DATA LINEAGE: picks.cycle_time
+────────────────────────────────
+
+Source:
+  Robot Controller (ros2_control) @ 1000 Hz
+    │
+    ▼
+  ROS2 Topic: /task/status (10 Hz)
+    │ Published by: task_orchestrator_node
+    │ Message type: robot_msgs/TaskStatus
+    │ Field: cycle_time (float32)
+    │
+    ▼
+  Metrics Collector (Python) @ 10 Hz
+    │ Subscribes to: /task/status
+    │ Aggregates: mean, p95, p99 per minute
+    │
+    ├─▶ InfluxDB: cycle_time measurement
+    │   Retention: 30 days
+    │   Downsampling: 1min → 1hour after 7 days
+    │
+    └─▶ PostgreSQL: picks.cycle_time column
+        Persisted per pick
+        Indexed for queries
+        Partition by month
+
+Consumers:
+  • Grafana Dashboard (real-time chart)
+  • PowerBI Report (daily aggregates)
+  • ML Model (anomaly detection)
+  • MES API (production tracking)
+\end{verbatim}
+
+\hypertarget{master-data-management-mdm}{%
+\subsubsection{3.7 Master Data Management
+(MDM)}\label{master-data-management-mdm}}
+
+\hypertarget{master-data-entities}{%
+\paragraph{3.7.1 Master Data Entities}\label{master-data-entities}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1765}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2941}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2941}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2353}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Entity}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Source of Truth}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Sync Frequency}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attributes}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Robot} & Robot Registry DB & Real-time & robot\_id, model,
+serial, location, IP \\
+\textbf{Object Classes} & Vision ML Registry & On model update &
+class\_name, dimensions, weight, image \\
+\textbf{Workspace Zones} & Configuration DB & On change & zone\_id, type
+(pick/place), bounds \\
+\textbf{Users} & Identity Provider (Keycloak) & Real-time (SSO) &
+user\_id, email, role, permissions \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{integration-architecture}{%
+\subsection{4. Integration
+Architecture}\label{integration-architecture}}
+
+\hypertarget{integration-landscape}{%
+\subsubsection{4.1 Integration Landscape}\label{integration-landscape}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│              INTEGRATION ARCHITECTURE                       │
+└─────────────────────────────────────────────────────────────┘
+
+EXTERNAL SYSTEMS                 ROBOT SYSTEM
+─────────────────               ──────────────
+
+┌──────────┐                    ┌──────────────────┐
+│   MES    │◀────REST API──────▶│  Web Backend     │
+│          │    (JSON/HTTPS)    │  (FastAPI)       │
+└──────────┘                    └──────────────────┘
+                                         │
+┌──────────┐                             │ ROS2 Bridge
+│   ERP    │◀────REST API──────▶        │
+│          │    (JSON/HTTPS)             │
+└──────────┘                    ┌────────▼─────────┐
+                                │  ROS2 Middleware │
+┌──────────┐                    │  (DDS)           │
+│  SCADA   │◀────OPC-UA────────▶│                  │
+│          │    (real-time)     └──────────────────┘
+└──────────┘                             │
+                                         │
+┌──────────┐                    ┌────────▼─────────┐
+│  BI/     │◀────JDBC──────────▶│   PostgreSQL     │
+│Analytics │    (SQL queries)   │                  │
+└──────────┘                    └──────────────────┘
+\end{verbatim}
+
+\hypertarget{integration-patterns}{%
+\subsubsection{4.2 Integration Patterns}\label{integration-patterns}}
+
+\hypertarget{request-reply-synchronous}{%
+\paragraph{4.2.1 Request-Reply
+(Synchronous)}\label{request-reply-synchronous}}
+
+\textbf{Use Case:} Configuration changes, manual commands
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Example: Start system via REST API}
+
+\CommentTok{\# Client (MES)}
+\ImportTok{import}\NormalTok{ requests}
+
+\NormalTok{response }\OperatorTok{=}\NormalTok{ requests.post(}
+    \StringTok{\textquotesingle{}https://robot.factory.com/api/system/start\textquotesingle{}}\NormalTok{,}
+\NormalTok{    headers}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}Authorization\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}Bearer \textless{}token\textgreater{}\textquotesingle{}}\NormalTok{\},}
+\NormalTok{    json}\OperatorTok{=}\NormalTok{\{}\StringTok{\textquotesingle{}robot\_id\textquotesingle{}}\NormalTok{: }\StringTok{\textquotesingle{}robot\_01\textquotesingle{}}\NormalTok{\}}
+\NormalTok{)}
+
+\ControlFlowTok{if}\NormalTok{ response.status\_code }\OperatorTok{==} \DecValTok{200}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"System started: }\SpecialCharTok{\{}\NormalTok{response}\SpecialCharTok{.}\NormalTok{json()}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\ControlFlowTok{else}\NormalTok{:}
+    \BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"Error: }\SpecialCharTok{\{}\NormalTok{response}\SpecialCharTok{.}\NormalTok{json()[}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{]}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+
+\CommentTok{\# Server (FastAPI)}
+\ImportTok{from}\NormalTok{ fastapi }\ImportTok{import}\NormalTok{ FastAPI, HTTPException}
+
+\AttributeTok{@app.post}\NormalTok{(}\StringTok{"/api/system/start"}\NormalTok{)}
+\ControlFlowTok{async} \KeywordTok{def}\NormalTok{ start\_system(request: StartRequest):}
+    \CommentTok{\# Call ROS2 service}
+\NormalTok{    ros\_client }\OperatorTok{=}\NormalTok{ node.create\_client(StartSystem, }\StringTok{\textquotesingle{}/system/start\textquotesingle{}}\NormalTok{)}
+\NormalTok{    ros\_response }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ ros\_client.call\_async(StartSystem.Request())}
+
+    \ControlFlowTok{if}\NormalTok{ ros\_response.success:}
+        \ControlFlowTok{return}\NormalTok{ \{}\StringTok{"success"}\NormalTok{: }\VariableTok{True}\NormalTok{, }\StringTok{"message"}\NormalTok{: }\StringTok{"System started"}\NormalTok{\}}
+    \ControlFlowTok{else}\NormalTok{:}
+        \ControlFlowTok{raise}\NormalTok{ HTTPException(status\_code}\OperatorTok{=}\DecValTok{500}\NormalTok{, detail}\OperatorTok{=}\NormalTok{ros\_response.message)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{publish-subscribe-asynchronous}{%
+\paragraph{4.2.2 Publish-Subscribe
+(Asynchronous)}\label{publish-subscribe-asynchronous}}
+
+\textbf{Use Case:} Real-time telemetry, events
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Example: Publish pick events to Kafka}
+
+\CommentTok{\# Producer (Metrics Collector)}
+\ImportTok{from}\NormalTok{ kafka }\ImportTok{import}\NormalTok{ KafkaProducer}
+\ImportTok{import}\NormalTok{ json}
+
+\NormalTok{producer }\OperatorTok{=}\NormalTok{ KafkaProducer(}
+\NormalTok{    bootstrap\_servers}\OperatorTok{=}\NormalTok{[}\StringTok{\textquotesingle{}kafka:9092\textquotesingle{}}\NormalTok{],}
+\NormalTok{    value\_serializer}\OperatorTok{=}\KeywordTok{lambda}\NormalTok{ v: json.dumps(v).encode(}\StringTok{\textquotesingle{}utf{-}8\textquotesingle{}}\NormalTok{)}
+\NormalTok{)}
+
+\KeywordTok{def}\NormalTok{ on\_pick\_complete(pick\_data):}
+\NormalTok{    producer.send(}\StringTok{\textquotesingle{}picks\textquotesingle{}}\NormalTok{, value}\OperatorTok{=}\NormalTok{pick\_data)}
+\NormalTok{    producer.flush()}
+
+\CommentTok{\# Consumer (MES Integration Service)}
+\ImportTok{from}\NormalTok{ kafka }\ImportTok{import}\NormalTok{ KafkaConsumer}
+
+\NormalTok{consumer }\OperatorTok{=}\NormalTok{ KafkaConsumer(}
+    \StringTok{\textquotesingle{}picks\textquotesingle{}}\NormalTok{,}
+\NormalTok{    bootstrap\_servers}\OperatorTok{=}\NormalTok{[}\StringTok{\textquotesingle{}kafka:9092\textquotesingle{}}\NormalTok{],}
+\NormalTok{    value\_deserializer}\OperatorTok{=}\KeywordTok{lambda}\NormalTok{ m: json.loads(m.decode(}\StringTok{\textquotesingle{}utf{-}8\textquotesingle{}}\NormalTok{))}
+\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ message }\KeywordTok{in}\NormalTok{ consumer:}
+\NormalTok{    pick }\OperatorTok{=}\NormalTok{ message.value}
+\NormalTok{    update\_mes\_production\_count(pick[}\StringTok{\textquotesingle{}robot\_id\textquotesingle{}}\NormalTok{], pick[}\StringTok{\textquotesingle{}success\textquotesingle{}}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{event-driven-reactive}{%
+\paragraph{4.2.3 Event-Driven (Reactive)}\label{event-driven-reactive}}
+
+\textbf{Use Case:} Error handling, alerts
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# CloudEvents specification for robot error}
+
+\KeywordTok{\{}
+\AttributeTok{  }\FunctionTok{"specversion"}\KeywordTok{:}\AttributeTok{ }\StringTok{"1.0"}\KeywordTok{,}
+\AttributeTok{  }\FunctionTok{"type"}\KeywordTok{:}\AttributeTok{ }\StringTok{"com.factory.robot.error"}\KeywordTok{,}
+\AttributeTok{  }\FunctionTok{"source"}\KeywordTok{:}\AttributeTok{ }\StringTok{"/robots/robot\_01"}\KeywordTok{,}
+\AttributeTok{  }\FunctionTok{"id"}\KeywordTok{:}\AttributeTok{ }\StringTok{"e12345{-}abcdef"}\KeywordTok{,}
+\AttributeTok{  }\FunctionTok{"time"}\KeywordTok{:}\AttributeTok{ }\StringTok{"2025{-}10{-}18T10:23:45.123Z"}\KeywordTok{,}
+\AttributeTok{  }\FunctionTok{"datacontenttype"}\KeywordTok{:}\AttributeTok{ }\StringTok{"application/json"}\KeywordTok{,}
+\AttributeTok{  }\FunctionTok{"data"}\KeywordTok{:}\AttributeTok{ }\KeywordTok{\{}
+\AttributeTok{    }\FunctionTok{"error\_code"}\KeywordTok{:}\AttributeTok{ }\StringTok{"GRASP\_FAILURE"}\KeywordTok{,}
+\AttributeTok{    }\FunctionTok{"severity"}\KeywordTok{:}\AttributeTok{ }\StringTok{"medium"}\KeywordTok{,}
+\AttributeTok{    }\FunctionTok{"message"}\KeywordTok{:}\AttributeTok{ }\StringTok{"Object slipped during grasp"}\KeywordTok{,}
+\AttributeTok{    }\FunctionTok{"retry\_count"}\KeywordTok{:}\AttributeTok{ }\DecValTok{2}
+\AttributeTok{  }\KeywordTok{\}}
+\KeywordTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{api-specifications}{%
+\subsubsection{4.3 API Specifications}\label{api-specifications}}
+
+\hypertarget{rest-api-external-integration}{%
+\paragraph{4.3.1 REST API (External
+Integration)}\label{rest-api-external-integration}}
+
+\textbf{Base URL:} \texttt{https://robot.factory.com/api/v1}
+\textbf{Authentication:} OAuth2 Bearer Token (JWT) \textbf{Rate Limit:}
+1000 requests/hour per API key
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2029}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1739}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2464}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1449}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2319}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Endpoint}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Method}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Auth}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Rate Limit}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{/system/status} & GET & Get system status & Required & 60/min \\
+\texttt{/system/start} & POST & Start robot operation & Admin/Engineer &
+10/min \\
+\texttt{/system/stop} & POST & Stop robot operation & Admin/Engineer &
+10/min \\
+\texttt{/picks} & GET & Query pick history & Required & 60/min \\
+\texttt{/picks/\{id\}} & GET & Get pick details & Required & 100/min \\
+\texttt{/metrics} & GET & Get performance metrics & Required & 60/min \\
+\texttt{/config} & GET & Get configuration & Engineer & 30/min \\
+\texttt{/config} & PUT & Update configuration & Admin & 10/min \\
+\texttt{/calibration} & POST & Start calibration & Engineer & 5/min \\
+\end{longtable}
+
+\textbf{Example Response:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ErrorTok{GET} \ErrorTok{/api/v1/system/status}
+
+\FunctionTok{\{}
+  \DataTypeTok{"robot\_id"}\FunctionTok{:} \StringTok{"robot\_01"}\FunctionTok{,}
+  \DataTypeTok{"status"}\FunctionTok{:} \StringTok{"running"}\FunctionTok{,}
+  \DataTypeTok{"uptime\_seconds"}\FunctionTok{:} \DecValTok{3456789}\FunctionTok{,}
+  \DataTypeTok{"picks\_today"}\FunctionTok{:} \DecValTok{28340}\FunctionTok{,}
+  \DataTypeTok{"success\_rate"}\FunctionTok{:} \FloatTok{0.984}\FunctionTok{,}
+  \DataTypeTok{"current\_cycle\_time"}\FunctionTok{:} \FloatTok{1.82}\FunctionTok{,}
+  \DataTypeTok{"errors\_today"}\FunctionTok{:} \DecValTok{45}\FunctionTok{,}
+  \DataTypeTok{"last\_error"}\FunctionTok{:} \FunctionTok{\{}
+    \DataTypeTok{"timestamp"}\FunctionTok{:} \StringTok{"2025{-}10{-}18T10:23:45Z"}\FunctionTok{,}
+    \DataTypeTok{"code"}\FunctionTok{:} \StringTok{"GRASP\_RETRY"}\FunctionTok{,}
+    \DataTypeTok{"resolved"}\FunctionTok{:} \KeywordTok{true}
+  \FunctionTok{\}}
+\FunctionTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{grpc-api-internal-high-performance}{%
+\paragraph{4.3.2 gRPC API (Internal
+High-Performance)}\label{grpc-api-internal-high-performance}}
+
+\textbf{Service Definition (Protocol Buffers):}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{syntax = }\StringTok{"proto3"}\NormalTok{;}
+
+\KeywordTok{package}\NormalTok{ robot.control;}
+
+\NormalTok{service RobotController \{}
+\NormalTok{  rpc GetJointStates(Empty) returns (JointStates);}
+\NormalTok{  rpc MoveToJointPositions(JointPositions) returns (MoveResponse);}
+\NormalTok{  rpc ExecutePickPlace(PickPlaceRequest) returns (PickPlaceResponse);}
+\NormalTok{  rpc StreamMetrics(Empty) returns (stream Metrics);}
+\NormalTok{\}}
+
+\KeywordTok{message}\NormalTok{ JointStates \{}
+  \KeywordTok{repeated} \DataTypeTok{double}\NormalTok{ positions = }\DecValTok{1}\NormalTok{;  }\CommentTok{// radians}
+  \KeywordTok{repeated} \DataTypeTok{double}\NormalTok{ velocities = }\DecValTok{2}\NormalTok{;  }\CommentTok{// rad/s}
+  \KeywordTok{repeated} \DataTypeTok{double}\NormalTok{ efforts = }\DecValTok{3}\NormalTok{;  }\CommentTok{// Nm}
+  \DataTypeTok{int64}\NormalTok{ timestamp = }\DecValTok{4}\NormalTok{;  }\CommentTok{// Unix timestamp (ns)}
+\NormalTok{\}}
+
+\KeywordTok{message}\NormalTok{ PickPlaceRequest \{}
+\NormalTok{  Pose pick\_pose = }\DecValTok{1}\NormalTok{;}
+\NormalTok{  Pose place\_pose = }\DecValTok{2}\NormalTok{;}
+  \DataTypeTok{float}\NormalTok{ approach\_distance = }\DecValTok{3}\NormalTok{;  }\CommentTok{// meters}
+  \DataTypeTok{float}\NormalTok{ gripper\_force = }\DecValTok{4}\NormalTok{;  }\CommentTok{// Newtons}
+\NormalTok{\}}
+
+\KeywordTok{message}\NormalTok{ PickPlaceResponse \{}
+  \DataTypeTok{bool}\NormalTok{ success = }\DecValTok{1}\NormalTok{;}
+  \DataTypeTok{string} \KeywordTok{message}\NormalTok{ = }\DecValTok{2}\NormalTok{;}
+  \DataTypeTok{float}\NormalTok{ execution\_time = }\DecValTok{3}\NormalTok{;  }\CommentTok{// seconds}
+\NormalTok{\}}
+
+\KeywordTok{message}\NormalTok{ Pose \{}
+  \DataTypeTok{float}\NormalTok{ x = }\DecValTok{1}\NormalTok{;}
+  \DataTypeTok{float}\NormalTok{ y = }\DecValTok{2}\NormalTok{;}
+  \DataTypeTok{float}\NormalTok{ z = }\DecValTok{3}\NormalTok{;}
+  \DataTypeTok{float}\NormalTok{ qx = }\DecValTok{4}\NormalTok{;  }\CommentTok{// quaternion}
+  \DataTypeTok{float}\NormalTok{ qy = }\DecValTok{5}\NormalTok{;}
+  \DataTypeTok{float}\NormalTok{ qz = }\DecValTok{6}\NormalTok{;}
+  \DataTypeTok{float}\NormalTok{ qw = }\DecValTok{7}\NormalTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{message-formats}{%
+\subsubsection{4.4 Message Formats}\label{message-formats}}
+
+\hypertarget{pick-event-kafkamqtt}{%
+\paragraph{4.4.1 Pick Event (Kafka/MQTT)}\label{pick-event-kafkamqtt}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{\{}
+  \DataTypeTok{"event\_type"}\FunctionTok{:} \StringTok{"pick\_completed"}\FunctionTok{,}
+  \DataTypeTok{"timestamp"}\FunctionTok{:} \StringTok{"2025{-}10{-}18T10:23:45.123Z"}\FunctionTok{,}
+  \DataTypeTok{"robot\_id"}\FunctionTok{:} \StringTok{"robot\_01"}\FunctionTok{,}
+  \DataTypeTok{"pick\_id"}\FunctionTok{:} \DecValTok{127}\FunctionTok{,}
+  \DataTypeTok{"object"}\FunctionTok{:} \FunctionTok{\{}
+    \DataTypeTok{"class"}\FunctionTok{:} \StringTok{"red\_cube"}\FunctionTok{,}
+    \DataTypeTok{"confidence"}\FunctionTok{:} \FloatTok{0.982}\FunctionTok{,}
+    \DataTypeTok{"pose"}\FunctionTok{:} \FunctionTok{\{}
+      \DataTypeTok{"position"}\FunctionTok{:} \FunctionTok{\{}\DataTypeTok{"x"}\FunctionTok{:} \FloatTok{0.452}\FunctionTok{,} \DataTypeTok{"y"}\FunctionTok{:} \FloatTok{0.123}\FunctionTok{,} \DataTypeTok{"z"}\FunctionTok{:} \FloatTok{0.234}\FunctionTok{\},}
+      \DataTypeTok{"orientation"}\FunctionTok{:} \FunctionTok{\{}\DataTypeTok{"qx"}\FunctionTok{:} \FloatTok{0.01}\FunctionTok{,} \DataTypeTok{"qy"}\FunctionTok{:} \FloatTok{{-}0.02}\FunctionTok{,} \DataTypeTok{"qz"}\FunctionTok{:} \FloatTok{0.03}\FunctionTok{,} \DataTypeTok{"qw"}\FunctionTok{:} \FloatTok{0.999}\FunctionTok{\}}
+    \FunctionTok{\}}
+  \FunctionTok{\},}
+  \DataTypeTok{"grasp"}\FunctionTok{:} \FunctionTok{\{}
+    \DataTypeTok{"quality"}\FunctionTok{:} \FloatTok{0.87}\FunctionTok{,}
+    \DataTypeTok{"force"}\FunctionTok{:} \FloatTok{25.3}
+  \FunctionTok{\},}
+  \DataTypeTok{"performance"}\FunctionTok{:} \FunctionTok{\{}
+    \DataTypeTok{"cycle\_time"}\FunctionTok{:} \FloatTok{1.82}\FunctionTok{,}
+    \DataTypeTok{"vision\_latency"}\FunctionTok{:} \DecValTok{42}\FunctionTok{,}
+    \DataTypeTok{"planning\_time"}\FunctionTok{:} \DecValTok{187}\FunctionTok{,}
+    \DataTypeTok{"execution\_time"}\FunctionTok{:} \DecValTok{762}
+  \FunctionTok{\},}
+  \DataTypeTok{"success"}\FunctionTok{:} \KeywordTok{true}
+\FunctionTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{system-alert-emailslack}{%
+\paragraph{4.4.2 System Alert
+(Email/Slack)}\label{system-alert-emailslack}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{\{}
+  \DataTypeTok{"alert\_type"}\FunctionTok{:} \StringTok{"system\_error"}\FunctionTok{,}
+  \DataTypeTok{"severity"}\FunctionTok{:} \StringTok{"high"}\FunctionTok{,}
+  \DataTypeTok{"timestamp"}\FunctionTok{:} \StringTok{"2025{-}10{-}18T10:23:45Z"}\FunctionTok{,}
+  \DataTypeTok{"robot\_id"}\FunctionTok{:} \StringTok{"robot\_01"}\FunctionTok{,}
+  \DataTypeTok{"title"}\FunctionTok{:} \StringTok{"Planning Timeout Threshold Exceeded"}\FunctionTok{,}
+  \DataTypeTok{"description"}\FunctionTok{:} \StringTok{"Motion planning took 512ms, exceeding 500ms threshold"}\FunctionTok{,}
+  \DataTypeTok{"impact"}\FunctionTok{:} \StringTok{"Potential cycle time increase"}\FunctionTok{,}
+  \DataTypeTok{"recommended\_action"}\FunctionTok{:} \StringTok{"Check planner configuration, consider switching to RRTConnect"}\FunctionTok{,}
+  \DataTypeTok{"affected\_picks"}\FunctionTok{:} \OtherTok{[}\DecValTok{125}\OtherTok{,} \DecValTok{126}\OtherTok{,} \DecValTok{127}\OtherTok{]}\FunctionTok{,}
+  \DataTypeTok{"dashboard\_link"}\FunctionTok{:} \StringTok{"https://robot.factory.com/dashboard?robot=robot\_01\&time=2025{-}10{-}18T10:23:45Z"}
+\FunctionTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{integration-governance}{%
+\subsubsection{4.5 Integration
+Governance}\label{integration-governance}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2927}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2927}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4146}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Aspect}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Policy}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Enforcement}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Versioning} & Semantic versioning (v1.2.3) for all APIs & API
+version in URL path \\
+\textbf{Deprecation} & 6-month notice, maintain 2 versions concurrently
+& Deprecation warnings in responses \\
+\textbf{Documentation} & OpenAPI 3.0 spec for all REST APIs &
+Auto-generated Swagger UI \\
+\textbf{Testing} & Contract testing for all integrations & Pact.io,
+automated in CI/CD \\
+\textbf{Monitoring} & Track latency, error rate, throughput & Prometheus
++ Grafana \\
+\textbf{Security} & TLS 1.3, OAuth2, API keys & Kong API Gateway \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{business-architecture}{%
+\subsection{5. Business Architecture}\label{business-architecture}}
+
+\hypertarget{value-stream-map}{%
+\subsubsection{5.1 Value Stream Map}\label{value-stream-map}}
+
+\begin{verbatim}
+VALUE STREAM: Pick-and-Place Manufacturing Operation
+─────────────────────────────────────────────────────
+
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│   Receive    │───▶│   Identify   │───▶│   Pick &     │───▶│   Place &    │
+│   Objects    │    │   Objects    │    │   Grasp      │    │   Release    │
+└──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+     Manual              AI Vision          Robotic           Robotic
+   (Warehouse)         (30 FPS, <50ms)   (99%+ success)    (±0.1mm accuracy)
+                                         (0.8s execution)   (0.3s execution)
+
+  Lead Time            Cycle Time         Cycle Time        Cycle Time
+   Variable            0.05s              0.8s              0.3s
+                                                                │
+                                                                │
+┌──────────────┐    ┌──────────────┐    ┌──────────────────────▼──┐
+│   Quality    │◀───│   Verify     │◀───│   Log Data          │
+│   Inspection │    │   Placement  │    │   (Automated)       │
+└──────────────┘    └──────────────┘    └─────────────────────┘
+   (Optional)           Camera               Real-time to
+   Manual/Auto         (real-time)          PostgreSQL/MES
+
+METRICS:
+────────
+• Total Lead Time: 1.15s (vs 4.2s manual)
+• Process Cycle Efficiency: 95% (value-add time / total time)
+• First-Pass Yield: 98.4% (vs 95% manual)
+• Cost per Pick: $0.003 (vs $0.012 manual)
+\end{verbatim}
+
+\hypertarget{business-capability-model}{%
+\subsubsection{5.2 Business Capability
+Model}\label{business-capability-model}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│              BUSINESS CAPABILITY MODEL                      │
+└─────────────────────────────────────────────────────────────┘
+
+LEVEL 1: Strategic Capabilities
+─────────────────────────────────
+• Production Planning & Scheduling
+• Quality Management
+• Asset Performance Management
+• Workforce Management
+
+LEVEL 2: Core Capabilities (Robot-Enabled)
+───────────────────────────────────────────
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│ Object Detection │  │ Grasp Planning   │  │ Motion Execution │
+│                  │  │                  │  │                  │
+│ • Vision AI      │  │ • Force closure  │  │ • Path planning  │
+│ • Pose estimation│  │ • Collision check│  │ • Trajectory ctrl│
+│ • Classification │  │ • Quality scoring│  │ • Safety monitor │
+└──────────────────┘  └──────────────────┘  └──────────────────┘
+
+LEVEL 3: Supporting Capabilities
+─────────────────────────────────
+• System Monitoring & Alerting
+• Data Collection & Analytics
+• Calibration & Maintenance
+• Security & Access Control
+
+CAPABILITY MATURITY:
+────────────────────
+Level 5: Optimizing    • Object Detection (AI-driven)
+Level 4: Managed       • Grasp Planning, Motion Execution
+Level 3: Defined       • Monitoring, Data Analytics
+Level 2: Repeatable    • Calibration
+Level 1: Initial       • Predictive Maintenance (roadmap)
+\end{verbatim}
+
+\hypertarget{operating-model}{%
+\subsubsection{5.3 Operating Model}\label{operating-model}}
+
+\hypertarget{organization-structure}{%
+\paragraph{5.3.1 Organization Structure}\label{organization-structure}}
+
+\begin{verbatim}
+                    ┌────────────────────┐
+                    │   Plant Manager    │
+                    └──────────┬─────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              │                │                │
+       ┌──────▼──────┐  ┌──────▼──────┐  ┌─────▼──────┐
+       │  Production │  │ Engineering │  │  Quality   │
+       │   Manager   │  │   Manager   │  │   Manager  │
+       └──────┬──────┘  └──────┬──────┘  └─────┬──────┘
+              │                │                │
+    ┌─────────┴─────────┐      │                │
+    │                   │      │                │
+┌───▼────┐      ┌───────▼──────▼───┐    ┌───────▼──────┐
+│Operators│      │Robot Engineers  │    │QA Inspectors│
+│(3 shifts)│     │(Software/Mech)  │    │             │
+└─────────┘      └─────────────────┘    └─────────────┘
+                         │
+                  ┌──────┴──────┐
+                  │             │
+          ┌───────▼──────┐  ┌───▼──────────┐
+          │Data Scientist│  │Maintenance   │
+          │(AI/ML)       │  │Technician    │
+          └──────────────┘  └──────────────┘
+\end{verbatim}
+
+\hypertarget{raci-matrix}{%
+\paragraph{5.3.2 RACI Matrix}\label{raci-matrix}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1750}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1750}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1750}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1625}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2125}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Activity}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Operator}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Engineer}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Manager}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{QA}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Maintenance}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Daily Operations} & R & C & I & I & I \\
+\textbf{System Configuration} & I & R, A & C & I & I \\
+\textbf{Troubleshooting} & I & R, A & C & I & C \\
+\textbf{Calibration} & I & R & A & C & C \\
+\textbf{Performance Analysis} & I & C & R, A & I & I \\
+\textbf{AI Model Updates} & I & R & A & I & I \\
+\textbf{Preventive Maintenance} & I & C & I & I & R, A \\
+\textbf{Quality Audits} & I & I & C & R, A & I \\
+\end{longtable}
+
+\emph{R=Responsible, A=Accountable, C=Consulted, I=Informed}
+
+\hypertarget{business-process-models-bpmn}{%
+\subsubsection{5.4 Business Process Models
+(BPMN)}\label{business-process-models-bpmn}}
+
+\hypertarget{pick-and-place-process}{%
+\paragraph{5.4.1 Pick-and-Place Process}\label{pick-and-place-process}}
+
+\begin{verbatim}
+BPMN: Pick-and-Place Workflow
+──────────────────────────────
+
+Start ──▶ [Wait for Trigger] ──▶ <Object Detected?> ──No──▶ [Wait 1s] ──┐
+                                         │                                │
+                                        Yes                               │
+                                         │                                │
+                                         ▼                                │
+                              [Estimate Pose] ──▶ [Plan Grasp]           │
+                                         │                                │
+                                         ▼                                │
+                                 <Grasp Valid?> ──No──▶ [Log Failure] ───┘
+                                         │
+                                        Yes
+                                         │
+                                         ▼
+                              [Execute Pick] ──▶ <Success?> ──No──▶ [Retry] ──┐
+                                         │                              (3×)   │
+                                        Yes                                    │
+                                         │                                     │
+                                         ▼                                     │
+                              [Execute Place] ──▶ <Success?> ──No─────────────┘
+                                         │
+                                        Yes
+                                         │
+                                         ▼
+                                   [Log Success] ──▶ End
+\end{verbatim}
+
+\hypertarget{kpi-dashboard-business-metrics}{%
+\subsubsection{5.5 KPI Dashboard (Business
+Metrics)}\label{kpi-dashboard-business-metrics}}
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+\textbf{KPI Category} & \textbf{Metric} & \textbf{Target} &
+\textbf{Current} & \textbf{Trend} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Productivity} & Picks per Day & 28,000 & 28,340 & ▲ +1.2\% \\
+\textbf{Quality} & Success Rate & \textgreater98\% & 98.4\% & ▲
++0.6\% \\
+\textbf{Efficiency} & Cycle Time & \textless2.0s & 1.82s & ▲ +9\% \\
+\textbf{Reliability} & Uptime & \textgreater99\% & 99.7\% & ▲ +0.2\% \\
+\textbf{Financial} & Cost per Pick & \textless\$0.005 & \$0.003 & ▲
++40\% \\
+\textbf{Safety} & Incidents & 0 & 0 & ─ Stable \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{cross-architecture-alignment}{%
+\subsection{6. Cross-Architecture
+Alignment}\label{cross-architecture-alignment}}
+
+\hypertarget{architecture-alignment-matrix}{%
+\subsubsection{6.1 Architecture Alignment
+Matrix}\label{architecture-alignment-matrix}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2941}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1176}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1882}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Business Capability}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Data}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Integration}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Technology}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Object Detection} & Vision Pipeline (YOLOv8) & object\_classes
+(MDM), detections (event) & ROS2 topic, Kafka event & Python, PyTorch,
+TensorRT, Jetson Xavier \\
+\textbf{Grasp Planning} & Grasp Synthesizer & grasp candidates
+(transient) & ROS2 service & Python, NumPy, Open3D \\
+\textbf{Motion Execution} & MoveIt2, ros2\_control & joint trajectories
+(transient) & ROS2 action & C++, OMPL, RT-Linux \\
+\textbf{Data Analytics} & Grafana, PowerBI & picks (PostgreSQL), metrics
+(InfluxDB) & REST API, JDBC & PostgreSQL, InfluxDB, Grafana \\
+\end{longtable}
+
+\hypertarget{architecture-decision-alignment}{%
+\subsubsection{6.2 Architecture Decision
+Alignment}\label{architecture-decision-alignment}}
+
+Every architecture decision is validated against all four perspectives:
+
+\textbf{Example: Choice of ROS2 Humble}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3778}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3556}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2667}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Perspective}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Validation}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Status}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Enterprise} & Aligns with open-standards principle, large
+ecosystem & ✅ Approved \\
+\textbf{Data} & Supports efficient message serialization (CDR), DDS
+discovery & ✅ Approved \\
+\textbf{Integration} & Native pub/sub, service, action patterns for
+interoperability & ✅ Approved \\
+\textbf{Business} & Enables rapid development (shorter time-to-market),
+cost-effective & ✅ Approved \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{governance-standards}{%
+\subsection{7. Governance \& Standards}\label{governance-standards}}
+
+\hypertarget{architecture-review-board-arb}{%
+\subsubsection{7.1 Architecture Review Board
+(ARB)}\label{architecture-review-board-arb}}
+
+\textbf{Purpose:} Ensure architectural consistency, quality, and
+alignment with strategy.
+
+\textbf{Members:} - Enterprise Architect (Chair) - Data Architect -
+Integration Architect - Business Architect - CTO (Observer)
+
+\textbf{Responsibilities:} - Review architecture decision records (ADRs)
+- Approve deviations from standards - Maintain architecture roadmap -
+Conduct quarterly architecture health checks
+
+\hypertarget{architecture-health-metrics}{%
+\subsubsection{7.2 Architecture Health
+Metrics}\label{architecture-health-metrics}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2264}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3019}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2264}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2453}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Metric}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Definition}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Target}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Current}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Standard Compliance} & \% of systems following EA standards &
+\textgreater95\% & 98\% \\
+\textbf{Technical Debt} & Effort to remediate non-standard
+implementations & \textless5\% of total dev effort & 3.2\% \\
+\textbf{Integration Complexity} & \# of point-to-point integrations /
+total integrations & \textless20\% & 12\% \\
+\textbf{Data Quality Score} & Composite score (accuracy, completeness,
+timeliness) & \textgreater95\% & 97.3\% \\
+\textbf{API SLA Adherence} & \% of API calls meeting latency SLA
+(\textless100ms) & \textgreater99\% & 99.6\% \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{summary}{%
+\subsection{Summary}\label{summary}}
+
+\hypertarget{multi-architecture-coverage}{%
+\subsubsection{Multi-Architecture
+Coverage}\label{multi-architecture-coverage}}
+
+✅ \textbf{Enterprise Architecture:} Strategic alignment, standards,
+roadmap (3-year) ✅ \textbf{Data Architecture:} Logical/physical models,
+governance, quality, lineage ✅ \textbf{Integration Architecture:}
+Patterns, APIs (REST/gRPC), message formats ✅ \textbf{Business
+Architecture:} Value streams, capabilities, operating model, KPIs
+
+\hypertarget{key-deliverables}{%
+\subsubsection{Key Deliverables}\label{key-deliverables}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3673}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3061}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3265}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Architecture}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Artifacts}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Governance}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Enterprise} & EA principles, technology standards, application
+portfolio, roadmap & ARB review, quarterly health checks \\
+\textbf{Data} & Conceptual/logical/physical models, data lineage,
+quality rules, MDM & Data governance council, monthly audits \\
+\textbf{Integration} & API specs (OpenAPI), message schemas
+(Protobuf/JSON), integration patterns & API review process, contract
+testing \\
+\textbf{Business} & Value stream maps, capability model, BPMN processes,
+KPI dashboard & Business review, monthly KPI tracking \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ v1.0 Complete \textbf{Related Documents:}
+Technical Stack (05), HLD (08), LLD (14) \textbf{Framework:} TOGAF 9.2,
+ArchiMate 3.1
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\end{document}

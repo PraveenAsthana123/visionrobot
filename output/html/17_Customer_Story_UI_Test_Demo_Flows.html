@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>17 Customer Story UI Test Demo Flows</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">17 Customer Story UI Test Demo Flows</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#customer-story-ui-test-ui-department-demo-flows"
+id="toc-customer-story-ui-test-ui-department-demo-flows"><span
+class="toc-section-number">1</span> Customer Story UI, Test UI &amp;
+Department Demo Flows</a>
+<ul>
+<li><a href="#vision-based-pick-and-place-robotic-system"
+id="toc-vision-based-pick-and-place-robotic-system"><span
+class="toc-section-number">1.1</span> Vision-Based Pick and Place
+Robotic System</a></li>
+<li><a href="#table-of-contents" id="toc-table-of-contents"><span
+class="toc-section-number">1.2</span> Table of Contents</a></li>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1.3</span> 1. Introduction</a>
+<ul>
+<li><a href="#purpose" id="toc-purpose"><span
+class="toc-section-number">1.3.1</span> 1.1 Purpose</a></li>
+<li><a href="#target-personas" id="toc-target-personas"><span
+class="toc-section-number">1.3.2</span> 1.2 Target Personas</a></li>
+<li><a href="#ui-technology-stack" id="toc-ui-technology-stack"><span
+class="toc-section-number">1.3.3</span> 1.3 UI Technology Stack</a></li>
+</ul></li>
+<li><a href="#customer-story-ui-designs"
+id="toc-customer-story-ui-designs"><span
+class="toc-section-number">1.4</span> 2. Customer Story UI Designs</a>
+<ul>
+<li><a href="#operator-dashboard-alexs-view"
+id="toc-operator-dashboard-alexs-view"><span
+class="toc-section-number">1.4.1</span> 2.1 Operator Dashboard (Alex’s
+View)</a></li>
+<li><a href="#engineer-console-sams-view"
+id="toc-engineer-console-sams-view"><span
+class="toc-section-number">1.4.2</span> 2.2 Engineer Console (Sam’s
+View)</a></li>
+<li><a href="#manager-analytics-dashboard-morgans-view"
+id="toc-manager-analytics-dashboard-morgans-view"><span
+class="toc-section-number">1.4.3</span> 2.3 Manager Analytics Dashboard
+(Morgan’s View)</a></li>
+</ul></li>
+<li><a href="#test-ui-testing-dashboards"
+id="toc-test-ui-testing-dashboards"><span
+class="toc-section-number">1.5</span> 3. Test UI &amp; Testing
+Dashboards</a>
+<ul>
+<li><a href="#automated-test-dashboard"
+id="toc-automated-test-dashboard"><span
+class="toc-section-number">1.5.1</span> 3.1 Automated Test
+Dashboard</a></li>
+<li><a href="#manual-test-execution-ui"
+id="toc-manual-test-execution-ui"><span
+class="toc-section-number">1.5.2</span> 3.2 Manual Test Execution
+UI</a></li>
+</ul></li>
+<li><a href="#department-specific-demo-flows"
+id="toc-department-specific-demo-flows"><span
+class="toc-section-number">1.6</span> 4. Department-Specific Demo
+Flows</a>
+<ul>
+<li><a href="#mechanical-department-demo"
+id="toc-mechanical-department-demo"><span
+class="toc-section-number">1.6.1</span> 4.1 Mechanical Department
+Demo</a></li>
+<li><a href="#electrical-department-demo"
+id="toc-electrical-department-demo"><span
+class="toc-section-number">1.6.2</span> 4.2 Electrical Department
+Demo</a></li>
+<li><a href="#electronics-department-demo"
+id="toc-electronics-department-demo"><span
+class="toc-section-number">1.6.3</span> 4.3 Electronics Department
+Demo</a></li>
+<li><a href="#software-department-demo"
+id="toc-software-department-demo"><span
+class="toc-section-number">1.6.4</span> 4.4 Software Department
+Demo</a></li>
+<li><a href="#aiml-department-demo" id="toc-aiml-department-demo"><span
+class="toc-section-number">1.6.5</span> 4.5 AI/ML Department
+Demo</a></li>
+<li><a href="#security-department-demo"
+id="toc-security-department-demo"><span
+class="toc-section-number">1.6.6</span> 4.6 Security Department
+Demo</a></li>
+</ul></li>
+<li><a href="#end-to-end-demo-scenarios"
+id="toc-end-to-end-demo-scenarios"><span
+class="toc-section-number">1.7</span> 5. End-to-End Demo Scenarios</a>
+<ul>
+<li><a href="#executive-demo-c-suite-investors"
+id="toc-executive-demo-c-suite-investors"><span
+class="toc-section-number">1.7.1</span> 5.1 Executive Demo (C-Suite,
+Investors)</a></li>
+<li><a href="#technical-deep-dive-engineers-architects"
+id="toc-technical-deep-dive-engineers-architects"><span
+class="toc-section-number">1.7.2</span> 5.2 Technical Deep-Dive
+(Engineers, Architects)</a></li>
+</ul></li>
+<li><a href="#ui-component-library" id="toc-ui-component-library"><span
+class="toc-section-number">1.8</span> 6. UI Component Library</a>
+<ul>
+<li><a href="#reusable-components" id="toc-reusable-components"><span
+class="toc-section-number">1.8.1</span> 6.1 Reusable Components</a></li>
+</ul></li>
+<li><a href="#interactive-prototypes"
+id="toc-interactive-prototypes"><span
+class="toc-section-number">1.9</span> 7. Interactive Prototypes</a>
+<ul>
+<li><a href="#figma-prototypes" id="toc-figma-prototypes"><span
+class="toc-section-number">1.9.1</span> 7.1 Figma Prototypes</a></li>
+</ul></li>
+<li><a href="#demo-scripts-walkthroughs"
+id="toc-demo-scripts-walkthroughs"><span
+class="toc-section-number">1.10</span> 8. Demo Scripts &amp;
+Walkthroughs</a>
+<ul>
+<li><a href="#quick-start-guide-5-minutes"
+id="toc-quick-start-guide-5-minutes"><span
+class="toc-section-number">1.10.1</span> 8.1 Quick Start Guide (5
+Minutes)</a></li>
+</ul></li>
+<li><a href="#summary" id="toc-summary"><span
+class="toc-section-number">1.11</span> Summary</a>
+<ul>
+<li><a href="#documentation-completeness"
+id="toc-documentation-completeness"><span
+class="toc-section-number">1.11.1</span> Documentation
+Completeness</a></li>
+<li><a href="#key-features" id="toc-key-features"><span
+class="toc-section-number">1.11.2</span> Key Features</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="customer-story-ui-test-ui-department-demo-flows"><span
+class="header-section-number">1</span> Customer Story UI, Test UI &amp;
+Department Demo Flows</h1>
+<h2 data-number="1.1"
+id="vision-based-pick-and-place-robotic-system"><span
+class="header-section-number">1.1</span> Vision-Based Pick and Place
+Robotic System</h2>
+<p><strong>Document Version:</strong> 1.0 <strong>Last Updated:</strong>
+2025-10-18 <strong>Status:</strong> ✅ Complete</p>
+<hr />
+<h2 data-number="1.2" id="table-of-contents"><span
+class="header-section-number">1.2</span> Table of Contents</h2>
+<ol type="1">
+<li><a href="#1-introduction">Introduction</a></li>
+<li><a href="#2-customer-story-ui-designs">Customer Story UI
+Designs</a></li>
+<li><a href="#3-test-ui--testing-dashboards">Test UI &amp; Testing
+Dashboards</a></li>
+<li><a href="#4-department-specific-demo-flows">Department-Specific Demo
+Flows</a></li>
+<li><a href="#5-end-to-end-demo-scenarios">End-to-End Demo
+Scenarios</a></li>
+<li><a href="#6-ui-component-library">UI Component Library</a></li>
+<li><a href="#7-interactive-prototypes">Interactive Prototypes</a></li>
+<li><a href="#8-demo-scripts--walkthroughs">Demo Scripts &amp;
+Walkthroughs</a></li>
+</ol>
+<hr />
+<h2 data-number="1.3" id="introduction"><span
+class="header-section-number">1.3</span> 1. Introduction</h2>
+<h3 data-number="1.3.1" id="purpose"><span
+class="header-section-number">1.3.1</span> 1.1 Purpose</h3>
+<p>This document provides comprehensive UI designs, testing interfaces,
+and department-specific demonstration flows for the Vision-Based Pick
+and Place Robotic System. Each design is tailored to specific personas
+and use cases.</p>
+<h3 data-number="1.3.2" id="target-personas"><span
+class="header-section-number">1.3.2</span> 1.2 Target Personas</h3>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 17%" />
+<col style="width: 33%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Persona</strong></th>
+<th><strong>Role</strong></th>
+<th><strong>Primary Needs</strong></th>
+<th><strong>UI Focus</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Alex (Operator)</strong></td>
+<td>Daily operations</td>
+<td>Start/stop, monitor, troubleshoot</td>
+<td>Operational Dashboard</td>
+</tr>
+<tr class="even">
+<td><strong>Jordan (Integrator)</strong></td>
+<td>Deployment &amp; config</td>
+<td>Calibration, workspace setup</td>
+<td>Configuration UI</td>
+</tr>
+<tr class="odd">
+<td><strong>Sam (Engineer)</strong></td>
+<td>Development &amp; debug</td>
+<td>Logs, metrics, ROS2 tools</td>
+<td>Developer Console</td>
+</tr>
+<tr class="even">
+<td><strong>Morgan (Manager)</strong></td>
+<td>Business oversight</td>
+<td>KPIs, ROI, uptime reports</td>
+<td>Analytics Dashboard</td>
+</tr>
+<tr class="odd">
+<td><strong>Casey (Maintenance)</strong></td>
+<td>Service &amp; repair</td>
+<td>Diagnostics, maintenance schedules</td>
+<td>Maintenance Portal</td>
+</tr>
+<tr class="even">
+<td><strong>Taylor (Data Scientist)</strong></td>
+<td>AI/ML optimization</td>
+<td>Model performance, training data</td>
+<td>ML Dashboard</td>
+</tr>
+<tr class="odd">
+<td><strong>Riley (Safety Officer)</strong></td>
+<td>Safety compliance</td>
+<td>Incident logs, safety metrics</td>
+<td>Safety Monitor</td>
+</tr>
+<tr class="even">
+<td><strong>Chris (Customer)</strong></td>
+<td>End user/buyer</td>
+<td>System capabilities, ROI proof</td>
+<td>Executive Dashboard</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.3.3" id="ui-technology-stack"><span
+class="header-section-number">1.3.3</span> 1.3 UI Technology Stack</h3>
+<ul>
+<li><strong>Frontend:</strong> React 18, Next.js 14, TypeScript</li>
+<li><strong>UI Framework:</strong> Material-UI (MUI) v5, Tailwind
+CSS</li>
+<li><strong>Charts:</strong> Chart.js, Recharts, D3.js</li>
+<li><strong>Real-time:</strong> WebSockets, Socket.io</li>
+<li><strong>3D Visualization:</strong> Three.js, React Three Fiber</li>
+<li><strong>State Management:</strong> Redux Toolkit, React Query</li>
+<li><strong>Testing:</strong> Jest, React Testing Library,
+Playwright</li>
+</ul>
+<hr />
+<h2 data-number="1.4" id="customer-story-ui-designs"><span
+class="header-section-number">1.4</span> 2. Customer Story UI
+Designs</h2>
+<h3 data-number="1.4.1" id="operator-dashboard-alexs-view"><span
+class="header-section-number">1.4.1</span> 2.1 Operator Dashboard
+(Alex’s View)</h3>
+<p><strong>User Story:</strong> <em>“As an operator, I want to
+start/stop the system and monitor its status in real-time, so I can
+ensure smooth daily operations.”</em></p>
+<h4 data-number="1.4.1.1" id="dashboard-layout"><span
+class="header-section-number">1.4.1.1</span> 2.1.1 Dashboard Layout</h4>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│  🤖 Robot Control System            Status: ● RUNNING    [Settings] ⚙  │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌──────────────────────┐  ┌──────────────────────────────────────┐  │
+│  │  SYSTEM CONTROL      │  │  LIVE CAMERA FEED                    │  │
+│  │                      │  │                                      │  │
+│  │  ┌────────────────┐  │  │  ┌────────────────────────────────┐ │  │
+│  │  │ ▶ START SYSTEM │  │  │  │                                │ │  │
+│  │  └────────────────┘  │  │  │   [Live RGB-D Camera View]     │ │  │
+│  │                      │  │  │   with bounding boxes          │ │  │
+│  │  ┌────────────────┐  │  │  │   and detected objects         │ │  │
+│  │  │ ⏸ PAUSE        │  │  │  │                                │ │  │
+│  │  └────────────────┘  │  │  │   FPS: 30 | Latency: 42ms      │ │  │
+│  │                      │  │  └────────────────────────────────┘ │  │
+│  │  ┌────────────────┐  │  │                                      │  │
+│  │  │ ⏹ STOP         │  │  │  Detected: 3 objects                 │  │
+│  │  └────────────────┘  │  │  • Red Cube (98% confidence)         │  │
+│  │                      │  │  • Blue Cylinder (95%)               │  │
+│  │  ┌────────────────┐  │  │  • Green Box (92%)                   │  │
+│  │  │ 🚨 E-STOP      │  │  └──────────────────────────────────────┘  │
+│  │  └────────────────┘  │                                            │
+│  │                      │  ┌──────────────────────────────────────┐  │
+│  │  Current State:      │  │  CURRENT TASK                        │  │
+│  │  ✓ EXECUTING_PICK    │  │                                      │  │
+│  │                      │  │  Step: 4/7 - Moving to place location│  │
+│  │  Cycle: 127/∞        │  │                                      │  │
+│  │  Success: 125        │  │  [████████████░░░░░░] 68%            │  │
+│  │  Failed: 2           │  │                                      │  │
+│  └──────────────────────┘  │  Est. completion: 0.8s               │  │
+│                            └──────────────────────────────────────┘  │
+│                                                                        │
+│  ┌─────────────────────────────────────────────────────────────────┐  │
+│  │  PERFORMANCE METRICS (Last 100 picks)                           │  │
+│  │                                                                  │  │
+│  │  Cycle Time: 1.82s avg  │  Success Rate: 98.4%  │  Uptime: 99.7%│  │
+│  │                                                                  │  │
+│  │  ┌─────────────────────────────────────────────────────────────┐│  │
+│  │  │ [Line chart: Cycle time over last 100 picks]               ││  │
+│  │  │  2.5s ┤                      •                              ││  │
+│  │  │  2.0s ┤     •    •     • •  • •   •                         ││  │
+│  │  │  1.5s ┤  •  • •  • • • • •  • •  • • •  •                   ││  │
+│  │  │  1.0s ┤────────────────────────────────────                ││  │
+│  │  │       └──────────────────────────────────&gt; Pick #           ││  │
+│  │  └─────────────────────────────────────────────────────────────┘│  │
+│  └─────────────────────────────────────────────────────────────────┘  │
+│                                                                        │
+│  ┌─────────────────────────────────────────────────────────────────┐  │
+│  │  RECENT ALERTS                                             [×]  │  │
+│  │                                                                  │  │
+│  │  ⚠ 10:23 AM - Grasp retry needed (Pick #125) - RESOLVED         │  │
+│  │  ℹ 09:45 AM - Camera recalibration recommended in 2 days        │  │
+│  └─────────────────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+<h4 data-number="1.4.1.2" id="react-component-structure"><span
+class="header-section-number">1.4.1.2</span> 2.1.2 React Component
+Structure</h4>
+<pre class="tsx"><code>// OperatorDashboard.tsx
+import React from &#39;react&#39;;
+import { Grid, Card, Button, LinearProgress } from &#39;@mui/material&#39;;
+import { PlayArrow, Pause, Stop } from &#39;@mui/icons-material&#39;;
+import LiveCameraFeed from &#39;./components/LiveCameraFeed&#39;;
+import PerformanceMetrics from &#39;./components/PerformanceMetrics&#39;;
+import TaskProgress from &#39;./components/TaskProgress&#39;;
+import AlertPanel from &#39;./components/AlertPanel&#39;;
+
+const OperatorDashboard: React.FC = () =&gt; {
+  const [systemState, setSystemState] = useState&lt;&#39;RUNNING&#39; | &#39;PAUSED&#39; | &#39;STOPPED&#39;&gt;(&#39;STOPPED&#39;);
+  const [currentTask, setCurrentTask] = useState&lt;TaskStatus | null&gt;(null);
+
+  // WebSocket connection for real-time updates
+  useEffect(() =&gt; {
+    const ws = new WebSocket(&#39;ws://localhost:8080/ws/status&#39;);
+    ws.onmessage = (event) =&gt; {
+      const status = JSON.parse(event.data);
+      setCurrentTask(status);
+    };
+    return () =&gt; ws.close();
+  }, []);
+
+  const handleStart = async () =&gt; {
+    await fetch(&#39;/api/system/start&#39;, { method: &#39;POST&#39; });
+    setSystemState(&#39;RUNNING&#39;);
+  };
+
+  const handleEmergencyStop = async () =&gt; {
+    await fetch(&#39;/api/system/estop&#39;, { method: &#39;POST&#39; });
+    setSystemState(&#39;STOPPED&#39;);
+  };
+
+  return (
+    &lt;Grid container spacing={3}&gt;
+      {/* System Control Panel */}
+      &lt;Grid item xs={12} md={3}&gt;
+        &lt;Card&gt;
+          &lt;CardContent&gt;
+            &lt;Typography variant=&quot;h6&quot;&gt;System Control&lt;/Typography&gt;
+            &lt;Stack spacing={2} mt={2}&gt;
+              &lt;Button
+                variant=&quot;contained&quot;
+                startIcon={&lt;PlayArrow /&gt;}
+                onClick={handleStart}
+                disabled={systemState === &#39;RUNNING&#39;}
+                fullWidth
+              &gt;
+                Start System
+              &lt;/Button&gt;
+              &lt;Button
+                variant=&quot;outlined&quot;
+                startIcon={&lt;Pause /&gt;}
+                disabled={systemState !== &#39;RUNNING&#39;}
+                fullWidth
+              &gt;
+                Pause
+              &lt;/Button&gt;
+              &lt;Button
+                variant=&quot;outlined&quot;
+                startIcon={&lt;Stop /&gt;}
+                fullWidth
+              &gt;
+                Stop
+              &lt;/Button&gt;
+              &lt;Button
+                variant=&quot;contained&quot;
+                color=&quot;error&quot;
+                onClick={handleEmergencyStop}
+                fullWidth
+              &gt;
+                🚨 E-STOP
+              &lt;/Button&gt;
+            &lt;/Stack&gt;
+
+            &lt;Divider sx={{ my: 2 }} /&gt;
+
+            &lt;Typography variant=&quot;body2&quot; color=&quot;text.secondary&quot;&gt;
+              Current State: {systemState}
+            &lt;/Typography&gt;
+            &lt;Typography variant=&quot;body2&quot;&gt;
+              Cycle: {currentTask?.picks_completed || 0}
+            &lt;/Typography&gt;
+          &lt;/CardContent&gt;
+        &lt;/Card&gt;
+      &lt;/Grid&gt;
+
+      {/* Live Camera Feed */}
+      &lt;Grid item xs={12} md={9}&gt;
+        &lt;LiveCameraFeed /&gt;
+      &lt;/Grid&gt;
+
+      {/* Task Progress */}
+      &lt;Grid item xs={12}&gt;
+        &lt;TaskProgress task={currentTask} /&gt;
+      &lt;/Grid&gt;
+
+      {/* Performance Metrics */}
+      &lt;Grid item xs={12}&gt;
+        &lt;PerformanceMetrics /&gt;
+      &lt;/Grid&gt;
+
+      {/* Alerts */}
+      &lt;Grid item xs={12}&gt;
+        &lt;AlertPanel /&gt;
+      &lt;/Grid&gt;
+    &lt;/Grid&gt;
+  );
+};
+
+export default OperatorDashboard;</code></pre>
+<hr />
+<h3 data-number="1.4.2" id="engineer-console-sams-view"><span
+class="header-section-number">1.4.2</span> 2.2 Engineer Console (Sam’s
+View)</h3>
+<p><strong>User Story:</strong> <em>“As an engineer, I want to access
+detailed logs, ROS2 topic data, and debug tools, so I can troubleshoot
+issues quickly.”</em></p>
+<h4 data-number="1.4.2.1" id="developer-console-layout"><span
+class="header-section-number">1.4.2.1</span> 2.2.1 Developer Console
+Layout</h4>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│  🛠 Developer Console                      [Docs] [API] [ROS2 Tools]   │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌─────────────┬─────────────┬─────────────┬─────────────┬──────────┐ │
+│  │ System Logs │ ROS2 Topics │ Metrics     │ Diagnostics │ Profiler │ │
+│  └─────────────┴─────────────┴─────────────┴─────────────┴──────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  SYSTEM LOGS                                 [Filter ▼] [Export] │ │
+│  │                                                                   │ │
+│  │  [DEBUG] [INFO] [WARN] [ERROR] [CRITICAL]   Search: _________    │ │
+│  │                                                                   │ │
+│  │  ┌────────────────────────────────────────────────────────────┐ │ │
+│  │  │ 2025-10-18 10:25:43.234 [INFO] vision_pipeline              │ │ │
+│  │  │   Object detection completed: 3 objects found                │ │ │
+│  │  │                                                              │ │ │
+│  │  │ 2025-10-18 10:25:43.452 [DEBUG] pose_estimator               │ │ │
+│  │  │   PCA-based pose estimation: quality=0.87                    │ │ │
+│  │  │   Pose: x=0.45, y=0.12, z=0.23, qw=0.92, qx=0.01...         │ │ │
+│  │  │                                                              │ │ │
+│  │  │ 2025-10-18 10:25:43.678 [INFO] grasp_planner                 │ │ │
+│  │  │   Generated 15 grasp candidates, top quality: 0.92           │ │ │
+│  │  │                                                              │ │ │
+│  │  │ 2025-10-18 10:25:44.123 [WARN] motion_planner                │ │ │
+│  │  │   Planning took 312ms (approaching timeout threshold)        │ │ │
+│  │  │   &gt; File: moveit_planner.cpp:145                            │ │ │
+│  │  │   &gt; Planner: RRTConnect                                      │ │ │
+│  │  │                                                              │ │ │
+│  │  │ 2025-10-18 10:25:44.567 [INFO] controller                    │ │ │
+│  │  │   Trajectory execution completed successfully                │ │ │
+│  │  │   &gt; Duration: 0.78s                                          │ │ │
+│  │  └────────────────────────────────────────────────────────────┘ │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌────────────────────────┬───────────────────────────────────────┐   │
+│  │  ROS2 TOPIC MONITOR    │  TOPIC: /vision/object_poses          │   │
+│  │                        │                                       │   │
+│  │  Active Topics (23)    │  Rate: 18.7 Hz                        │   │
+│  │                        │  Bandwidth: 23.4 KB/s                 │   │
+│  │  ☑ /camera/color/image │                                       │   │
+│  │  ☑ /vision/detections  │  Latest Message:                      │   │
+│  │  ☑ /vision/object_poses│  {                                    │   │
+│  │  ☑ /joint_states       │    &quot;header&quot;: {                        │   │
+│  │  ☑ /task/status        │      &quot;stamp&quot;: 1729251943.234,         │   │
+│  │  □ /tf                 │      &quot;frame_id&quot;: &quot;camera_link&quot;        │   │
+│  │  □ /tf_static          │    },                                 │   │
+│  │                        │    &quot;poses&quot;: [                         │   │
+│  │  [+ Subscribe]         │      {                                │   │
+│  │  [Echo Selected]       │        &quot;position&quot;: {                  │   │
+│  │  [Record Bag]          │          &quot;x&quot;: 0.452,                  │   │
+│  │                        │          &quot;y&quot;: 0.123,                  │   │
+│  │                        │          &quot;z&quot;: 0.234                   │   │
+│  │                        │        },                             │   │
+│  │                        │        &quot;orientation&quot;: {...}           │   │
+│  │                        │      }                                │   │
+│  │                        │    ]                                  │   │
+│  │                        │  }                                    │   │
+│  └────────────────────────┴───────────────────────────────────────┘   │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  PERFORMANCE PROFILER                                            │ │
+│  │                                                                   │ │
+│  │  Component              Avg Latency    Max      P95      P99     │ │
+│  │  ─────────────────────────────────────────────────────────────── │ │
+│  │  Vision Pipeline        42ms           68ms     54ms     62ms    │ │
+│  │  • Camera Capture       8ms            12ms     10ms     11ms    │ │
+│  │  • Object Detection     28ms           51ms     38ms     45ms    │ │
+│  │  • Pose Estimation      6ms            14ms     9ms      12ms    │ │
+│  │                                                                   │ │
+│  │  Grasp Planning         187ms          412ms    298ms    367ms   │ │
+│  │  Motion Planning        243ms          589ms    421ms    512ms   │ │
+│  │  Trajectory Execution   762ms          1203ms   982ms    1098ms  │ │
+│  │                                                                   │ │
+│  │  ─────────────────────────────────────────────────────────────── │ │
+│  │  Total Cycle Time       1.82s          2.34s    2.12s    2.24s   │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+<h4 data-number="1.4.2.2" id="ros2-topic-visualizer-component"><span
+class="header-section-number">1.4.2.2</span> 2.2.2 ROS2 Topic Visualizer
+Component</h4>
+<pre class="tsx"><code>// ROS2TopicMonitor.tsx
+import React, { useState, useEffect } from &#39;react&#39;;
+import { Card, List, ListItem, Checkbox, Button, Typography } from &#39;@mui/material&#39;;
+import ReactJson from &#39;react-json-view&#39;;
+
+interface Topic {
+  name: string;
+  type: string;
+  rate: number;
+  bandwidth: number;
+}
+
+const ROS2TopicMonitor: React.FC = () =&gt; {
+  const [topics, setTopics] = useState&lt;Topic[]&gt;([]);
+  const [selectedTopic, setSelectedTopic] = useState&lt;string | null&gt;(null);
+  const [latestMessage, setLatestMessage] = useState&lt;any&gt;(null);
+
+  useEffect(() =&gt; {
+    // Fetch available ROS2 topics
+    fetch(&#39;/api/ros2/topics&#39;)
+      .then(res =&gt; res.json())
+      .then(data =&gt; setTopics(data));
+
+    // WebSocket for real-time topic data
+    if (selectedTopic) {
+      const ws = new WebSocket(`ws://localhost:8080/ws/ros2/topic/${selectedTopic}`);
+      ws.onmessage = (event) =&gt; {
+        setLatestMessage(JSON.parse(event.data));
+      };
+      return () =&gt; ws.close();
+    }
+  }, [selectedTopic]);
+
+  return (
+    &lt;Grid container spacing={2}&gt;
+      &lt;Grid item xs={4}&gt;
+        &lt;Card&gt;
+          &lt;CardHeader title=&quot;Active Topics&quot; /&gt;
+          &lt;CardContent&gt;
+            &lt;List&gt;
+              {topics.map(topic =&gt; (
+                &lt;ListItem
+                  key={topic.name}
+                  button
+                  selected={selectedTopic === topic.name}
+                  onClick={() =&gt; setSelectedTopic(topic.name)}
+                &gt;
+                  &lt;Checkbox checked={selectedTopic === topic.name} /&gt;
+                  &lt;ListItemText
+                    primary={topic.name}
+                    secondary={`${topic.rate.toFixed(1)} Hz`}
+                  /&gt;
+                &lt;/ListItem&gt;
+              ))}
+            &lt;/List&gt;
+
+            &lt;Stack direction=&quot;row&quot; spacing={1} mt={2}&gt;
+              &lt;Button variant=&quot;outlined&quot; size=&quot;small&quot;&gt;Subscribe&lt;/Button&gt;
+              &lt;Button variant=&quot;outlined&quot; size=&quot;small&quot;&gt;Echo&lt;/Button&gt;
+              &lt;Button variant=&quot;outlined&quot; size=&quot;small&quot;&gt;Record Bag&lt;/Button&gt;
+            &lt;/Stack&gt;
+          &lt;/CardContent&gt;
+        &lt;/Card&gt;
+      &lt;/Grid&gt;
+
+      &lt;Grid item xs={8}&gt;
+        &lt;Card&gt;
+          &lt;CardHeader
+            title={`Topic: ${selectedTopic || &#39;None&#39;}`}
+            subheader={selectedTopic &amp;&amp; `Rate: ${topics.find(t =&gt; t.name === selectedTopic)?.rate} Hz`}
+          /&gt;
+          &lt;CardContent&gt;
+            {latestMessage ? (
+              &lt;ReactJson
+                src={latestMessage}
+                theme=&quot;monokai&quot;
+                collapsed={2}
+                displayDataTypes={false}
+              /&gt;
+            ) : (
+              &lt;Typography color=&quot;text.secondary&quot;&gt;
+                Select a topic to view messages
+              &lt;/Typography&gt;
+            )}
+          &lt;/CardContent&gt;
+        &lt;/Card&gt;
+      &lt;/Grid&gt;
+    &lt;/Grid&gt;
+  );
+};
+
+export default ROS2TopicMonitor;</code></pre>
+<hr />
+<h3 data-number="1.4.3"
+id="manager-analytics-dashboard-morgans-view"><span
+class="header-section-number">1.4.3</span> 2.3 Manager Analytics
+Dashboard (Morgan’s View)</h3>
+<p><strong>User Story:</strong> <em>“As a manager, I want to see
+high-level KPIs, ROI metrics, and uptime reports, so I can track
+business performance.”</em></p>
+<h4 data-number="1.4.3.1" id="executive-dashboard-layout"><span
+class="header-section-number">1.4.3.1</span> 2.3.1 Executive Dashboard
+Layout</h4>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│  📊 Analytics Dashboard                    Period: [Last 30 Days ▼]    │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌─────────────┬─────────────┬─────────────┬─────────────────────┐   │
+│  │   UPTIME    │  THROUGHPUT │ SUCCESS RATE│   COST SAVINGS      │   │
+│  │             │             │             │                     │   │
+│  │   99.7%     │  28,340     │   98.4%     │   $7,291            │   │
+│  │   ▲ 0.2%    │  picks/day  │   ▲ 0.6%    │   this month        │   │
+│  └─────────────┴─────────────┴─────────────┴─────────────────────┘   │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  PRODUCTION PERFORMANCE (30 Days)                                │ │
+│  │                                                                   │ │
+│  │  35,000 ┤                                    ●                   │ │
+│  │  30,000 ┤              ●        ●       ●    ●    ●              │ │
+│  │  25,000 ┤         ●    ●   ●    ●  ●    ●    ●    ●    ●         │ │
+│  │  20,000 ┤    ●    ●    ●   ●    ●  ●    ●         ●    ●    ●    │ │
+│  │  15,000 ┤    ●    ●                                              │ │
+│  │  10,000 ┤                                                         │ │
+│  │   5,000 ┤                                                         │ │
+│  │       0 └────────────────────────────────────────────────────────│ │
+│  │         Oct 1      Oct 8     Oct 15     Oct 22     Oct 29       │ │
+│  │                                                                   │ │
+│  │  Target: 28,000 picks/day  |  Avg: 28,340  |  Peak: 31,245      │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌─────────────────────────┬──────────────────────────────────────┐   │
+│  │  FINANCIAL IMPACT       │  SYSTEM HEALTH                       │   │
+│  │                         │                                      │   │
+│  │  Labor Cost Saved       │  Component Health:                   │   │
+│  │  $16,250 (this month)   │  ✓ Vision Pipeline      100%        │   │
+│  │                         │  ✓ Motion Planning       98%         │   │
+│  │  Productivity Gain      │  ✓ Robot Controller      100%        │   │
+│  │  +192% vs manual        │  ⚠ Gripper              96% (worn)   │   │
+│  │                         │  ✓ Camera System         99%         │   │
+│  │  Error Reduction        │                                      │   │
+│  │  Rework: -$6,250        │  Next Maintenance: 12 days           │   │
+│  │  (5% → 1.6%)            │  Calibration: 2 days                 │   │
+│  │                         │                                      │   │
+│  │  ─────────────────────  │  ──────────────────────────────────  │   │
+│  │  Total Savings (MTD)    │  Predicted Failure Risk: LOW (2%)    │   │
+│  │  $7,291                 │                                      │   │
+│  └─────────────────────────┴──────────────────────────────────────┘   │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  ROI TRACKER (6-Month Actual vs Projected)                       │ │
+│  │                                                                   │ │
+│  │  Cumulative Savings                                              │ │
+│  │  $50K ┤                                            ╱             │ │
+│  │  $40K ┤                                    ● ─────╱ Projected    │ │
+│  │  $30K ┤                            ● ─────╱                      │ │
+│  │  $20K ┤                    ● ─────╱                              │ │
+│  │  $10K ┤            ● ─────╱                                      │ │
+│  │     0 ┤    ● ─────╱                                              │ │
+│  │ -$50K ┤ ●  Initial Investment                                    │ │
+│  │       └─────────────────────────────────────────────────────     │ │
+│  │       Month 1   Month 2   Month 3   Month 4   Month 5   Month 6 │ │
+│  │                                                                   │ │
+│  │  Payback Period: 1.85 years | Current: Month 4 | 22% complete   │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  [Export Report PDF] [Schedule Email Report] [Configure Alerts]       │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+<hr />
+<h2 data-number="1.5" id="test-ui-testing-dashboards"><span
+class="header-section-number">1.5</span> 3. Test UI &amp; Testing
+Dashboards</h2>
+<h3 data-number="1.5.1" id="automated-test-dashboard"><span
+class="header-section-number">1.5.1</span> 3.1 Automated Test
+Dashboard</h3>
+<p><strong>Purpose:</strong> Real-time monitoring of automated test
+execution (unit, integration, system tests)</p>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│  🧪 Test Dashboard                         Build: #127 | ✓ PASSED      │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌────────────────────────────────────────────────────────────────┐   │
+│  │  TEST SUMMARY                                                   │   │
+│  │                                                                  │   │
+│  │  Total: 847 tests | ✓ Passed: 845 | ✗ Failed: 2 | ⊘ Skipped: 0 │   │
+│  │  Coverage: 87.3% | Duration: 4m 23s                             │   │
+│  │                                                                  │   │
+│  │  ████████████████████████████████████████████░░ 99.8%           │   │
+│  └────────────────────────────────────────────────────────────────┘   │
+│                                                                        │
+│  ┌─────────────────┬──────────┬──────────┬──────────┬──────────────┐ │
+│  │ Test Suite      │  Tests   │  Passed  │  Failed  │  Duration    │ │
+│  ├─────────────────┼──────────┼──────────┼──────────┼──────────────┤ │
+│  │ Unit Tests      │   623    │   623    │    0     │   1m 34s     │ │
+│  │ • Vision        │   147    │   147    │    0     │   28s        │ │
+│  │ • Grasp         │    89    │    89    │    0     │   15s        │ │
+│  │ • Motion        │   234    │   234    │    0     │   42s        │ │
+│  │ • Control       │   153    │   153    │    0     │   9s         │ │
+│  │                                                                  │ │
+│  │ Integration     │   178    │   176    │    2     │   2m 12s     │ │
+│  │ • Vision→Grasp  │    45    │    45    │    0     │   34s        │ │
+│  │ • Grasp→Motion  │    56    │    54    │    2     │   51s  ✗     │ │
+│  │ • Motion→Ctrl   │    77    │    77    │    0     │   47s        │ │
+│  │                                                                  │ │
+│  │ System Tests    │    46    │    46    │    0     │   37s        │ │
+│  │ • Pick-Place    │    15    │    15    │    0     │   12s        │ │
+│  │ • Multi-Object  │    12    │    12    │    0     │   9s         │ │
+│  │ • Error Recov.  │    10    │    10    │    0     │   8s         │ │
+│  │ • Calibration   │     9    │     9    │    0     │   8s         │ │
+│  └─────────────────┴──────────┴──────────┴──────────┴──────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  FAILED TESTS (2)                                                │ │
+│  │                                                                   │ │
+│  │  ✗ test_grasp_motion_integration::test_collision_edge_case       │ │
+│  │    File: tests/integration/test_grasp_motion.cpp:234             │ │
+│  │    Error: Assertion failed: expected collision=false, got true   │ │
+│  │    Stack trace:                                                  │ │
+│  │      at checkCollision() (grasp_planner.cpp:456)                │ │
+│  │      at planGrasp() (grasp_planner.cpp:123)                     │ │
+│  │    [View Details] [Re-run] [Create Issue]                       │ │
+│  │                                                                   │ │
+│  │  ✗ test_grasp_motion_integration::test_ik_timeout                │ │
+│  │    File: tests/integration/test_grasp_motion.cpp:189             │ │
+│  │    Error: IK solver timeout after 50ms                           │ │
+│  │    [View Details] [Re-run] [Create Issue]                       │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  CODE COVERAGE                                                    │ │
+│  │                                                                   │ │
+│  │  Component         Lines Covered    Coverage    Trend            │ │
+│  │  ────────────────────────────────────────────────────────────    │ │
+│  │  vision_pipeline      3,245/3,567      91%      ▲ +2%           │ │
+│  │  grasp_planner        1,892/2,134      89%      ▲ +1%           │ │
+│  │  motion_planner       2,567/3,012      85%      ─ 0%            │ │
+│  │  controller           1,456/1,789      81%      ▼ -1%           │ │
+│  │  orchestrator         2,134/2,456      87%      ▲ +3%           │ │
+│  │                                                                   │ │
+│  │  ────────────────────────────────────────────────────────────    │ │
+│  │  Total               11,294/12,958     87.3%    ▲ +1.2%         │ │
+│  │                                                                   │ │
+│  │  [View Coverage Report] [Uncovered Lines] [Complexity Analysis]  │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  TEST HISTORY (Last 10 Builds)                                   │ │
+│  │                                                                   │ │
+│  │  Pass Rate                                                        │ │
+│  │  100% ┤  ✓    ✓    ✓    ✗    ✓    ✓    ✓    ✓    ✓    ✓        │ │
+│  │   95% ┤                   │                                      │ │
+│  │   90% ┤                                                           │ │
+│  │       └─────────────────────────────────────────────────         │ │
+│  │       #118 #119 #120 #121 #122 #123 #124 #125 #126 #127        │ │
+│  │                                                                   │ │
+│  │  Build #121: 12 failures (grasp planning regression)             │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+<h3 data-number="1.5.2" id="manual-test-execution-ui"><span
+class="header-section-number">1.5.2</span> 3.2 Manual Test Execution
+UI</h3>
+<p><strong>Purpose:</strong> Guided manual testing with checklists and
+result recording</p>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│  ✋ Manual Test Execution                  Test Suite: System Tests    │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  Test Case: M1 - Basic Pick and Place (Single Object)                 │
+│  Tester: Alex Johnson | Date: 2025-10-18 | Build: #127                │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  PRE-CONDITIONS                                        [Status]  │ │
+│  │  ☑ 1. Robot is powered on and homed                       ✓     │ │
+│  │  ☑ 2. Camera feed is active (30 FPS)                      ✓     │ │
+│  │  ☑ 3. Test object (red cube 50mm) placed in workspace     ✓     │ │
+│  │  ☑ 4. Place zone is clear                                 ✓     │ │
+│  │  ☑ 5. System state is IDLE                                ✓     │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  TEST STEPS                                                      │ │
+│  │                                                                   │ │
+│  │  Step 1: Press &quot;Start System&quot; button                             │ │
+│  │  ☑ Expected: System transitions to SCANNING state                │ │
+│  │  ☑ Actual: System transitioned to SCANNING at 10:23:45           │ │
+│  │  Result: ✓ PASS | Screenshot: [📷 View] | Notes: _________      │ │
+│  │                                                                   │ │
+│  │  Step 2: Observe object detection                                │ │
+│  │  ☑ Expected: Red cube detected with &gt;90% confidence              │ │
+│  │  ☑ Actual: Cube detected at 98% confidence                       │ │
+│  │  Result: ✓ PASS | Screenshot: [📷 View] | Notes: _________      │ │
+│  │                                                                   │ │
+│  │  Step 3: Wait for pick execution                                 │ │
+│  │  ☑ Expected: Robot moves to grasp pose without collision         │ │
+│  │  ☑ Actual: Smooth motion, no collision detected                  │ │
+│  │  Result: ✓ PASS | Video: [🎥 View] | Notes: _________           │ │
+│  │                                                                   │ │
+│  │  Step 4: Observe grasp                                           │ │
+│  │  ☑ Expected: Gripper closes, object lifted without slip          │ │
+│  │  ☑ Actual: Object grasped securely, lifted 10cm                  │ │
+│  │  Result: ✓ PASS | Video: [🎥 View] | Notes: _________           │ │
+│  │                                                                   │ │
+│  │  Step 5: Observe place                                           │ │
+│  │  ☑ Expected: Object placed within ±10mm of target                │ │
+│  │  ☑ Actual: Measured offset: 3.2mm (within tolerance)             │ │
+│  │  Result: ✓ PASS | Screenshot: [📷 View] | Notes: _________      │ │
+│  │                                                                   │ │
+│  │  Step 6: Verify cycle time                                       │ │
+│  │  ☑ Expected: Total time &lt;10 seconds                              │ │
+│  │  ☑ Actual: 7.8 seconds (scan to place completion)                │ │
+│  │  Result: ✓ PASS | Notes: _________________________               │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  SUCCESS CRITERIA                                                │ │
+│  │  ☑ Cycle time: &lt;10 seconds                           ✓ (7.8s)   │ │
+│  │  ☑ Grasp success: Object lifted without slipping     ✓           │ │
+│  │  ☑ Placement accuracy: &lt;10mm from target             ✓ (3.2mm)   │ │
+│  │  ☑ No collisions detected                            ✓           │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  Overall Result: ✓ PASS                                               │
+│                                                                        │
+│  Defects Found: None                                                  │
+│  Additional Notes:                                                    │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │ System performed excellently. Grasp was very stable.            │  │
+│  │ Cycle time better than expected (target was 10s, achieved 7.8s) │  │
+│  │                                                                  │  │
+│  └────────────────────────────────────────────────────────────────┘  │
+│                                                                        │
+│  [Save Result] [Mark as Failed] [Create Defect] [Export Report]       │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+<hr />
+<h2 data-number="1.6" id="department-specific-demo-flows"><span
+class="header-section-number">1.6</span> 4. Department-Specific Demo
+Flows</h2>
+<h3 data-number="1.6.1" id="mechanical-department-demo"><span
+class="header-section-number">1.6.1</span> 4.1 Mechanical Department
+Demo</h3>
+<p><strong>Audience:</strong> Mechanical engineers, CAD designers
+<strong>Focus:</strong> Robot kinematics, workspace, mechanical
+design</p>
+<h4 data-number="1.6.1.1" id="demo-script"><span
+class="header-section-number">1.6.1.1</span> 4.1.1 Demo Script</h4>
+<pre><code>DEMO: Mechanical Systems Showcase
+Duration: 15 minutes
+Prerequisites: Robot homed, workspace setup complete
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 1: Workspace &amp; Reachability (5 min)                   │
+└─────────────────────────────────────────────────────────────┘
+
+1. Show 3D workspace visualization
+   • Open RViz2 with workspace overlay
+   • Highlight pick zone (green), place zone (blue), forbidden zone (red)
+   • Demonstrate joint limit visualization
+
+2. Demonstrate reachability analysis
+   • Click &quot;Show Reachability Map&quot;
+   • Explain color coding: Green=easy reach, Yellow=edge, Red=unreachable
+   • Show IK solution count for sample poses
+
+3. Live robot motion demo
+   • Manually jog robot to 5 key positions:
+     - Home position
+     - Pick zone center
+     - Pick zone corners (2)
+     - Place zone
+   • Show joint angles and Cartesian pose for each
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 2: Gripper &amp; End-Effector (4 min)                     │
+└─────────────────────────────────────────────────────────────┘
+
+4. Gripper specifications demo
+   • Display gripper datasheet overlay
+   • Show force/torque sensor readings (real-time graph)
+   • Demonstrate grasp force adjustment (10N → 50N)
+   • Show different object grasps (cube, cylinder, irregular)
+
+5. Tool center point (TCP) calibration
+   • Explain TCP offset from flange
+   • Show calibration wizard (4-point method)
+   • Verify TCP accuracy with test picks
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 3: Collision Avoidance &amp; Safety (6 min)               │
+└─────────────────────────────────────────────────────────────┘
+
+6. Collision checking demonstration
+   • Place obstacle in workspace
+   • Attempt to plan motion through obstacle
+   • Show &quot;Collision detected&quot; warning
+   • Replanned path avoiding obstacle
+
+7. Self-collision avoidance
+   • Show planning scene with robot model
+   • Attempt unreachable pose (would cause self-collision)
+   • System rejects invalid configuration
+
+8. Force limiting (ISO/TS 15066 compliance)
+   • Press force sensor against rigid surface
+   • Show force graph reaching 150N limit
+   • Robot automatically stops and retracts
+   • Explain safety zones and speed limits
+
+SUCCESS METRICS:
+✓ Demonstrated complete workspace coverage
+✓ Showed collision avoidance working
+✓ Verified force limits (ISO compliance)
+✓ All mechanical movements smooth and repeatable</code></pre>
+<h4 data-number="1.6.1.2" id="mechanical-demo-ui"><span
+class="header-section-number">1.6.1.2</span> 4.1.2 Mechanical Demo
+UI</h4>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│  ⚙️ Mechanical Systems Demo                          [RViz2 View]      │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  3D ROBOT VISUALIZATION (RViz2)                                  │ │
+│  │                                                                   │ │
+│  │         Z ↑                                                       │ │
+│  │           │    ╔═══════════════╗   ← Pick Zone (Green)          │ │
+│  │           │    ║               ║                                 │ │
+│  │           │    ║      ●        ║   ● = Objects                   │ │
+│  │           │    ║     ●  ●      ║                                 │ │
+│  │           │    ╚═══════════════╝                                 │ │
+│  │           │                                                       │ │
+│  │           │         Robot                                        │ │
+│  │           │          │││                                         │ │
+│  │           │          │││                                         │ │
+│  │           │       ───┴┴┴───   ← Gripper                          │ │
+│  │           │                                                       │ │
+│  │           │                    ╔═══════════════╗                 │ │
+│  │           │                    ║               ║ ← Place Zone    │ │
+│  │           │                    ║               ║   (Blue)         │ │
+│  │           │                    ╚═══════════════╝                 │ │
+│  │           └─────────────────────────────────────────&gt; X          │ │
+│  │          /                                                        │ │
+│  │         / Y                                                       │ │
+│  │                                                                   │ │
+│  │  [Workspace Grid] [Joint Limits] [Collision Objects] [TF Axes]  │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌─────────────────────────┬──────────────────────────────────────┐   │
+│  │  JOINT STATE (Current)  │  CARTESIAN POSE                      │   │
+│  │                         │                                      │   │
+│  │  Joint 1: -12.3°        │  Position (m):                       │   │
+│  │  Joint 2:  45.7°        │    X:  0.452                         │   │
+│  │  Joint 3: -67.2°        │    Y:  0.123                         │   │
+│  │  Joint 4:   8.9°        │    Z:  0.234                         │   │
+│  │  Joint 5:  90.0°        │                                      │   │
+│  │  Joint 6:   0.0°        │  Orientation (quaternion):           │   │
+│  │                         │    qw:  0.923                        │   │
+│  │  [Jog +] [Jog -]        │    qx:  0.012                        │   │
+│  │  [Home Position]        │    qy: -0.345                        │   │
+│  │                         │    qz:  0.156                        │   │
+│  └─────────────────────────┴──────────────────────────────────────┘   │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  FORCE/TORQUE SENSOR (Real-Time)                                │ │
+│  │                                                                   │ │
+│  │  Force (N)                                                       │ │
+│  │  150 ┤                                                     ─Limit│ │
+│  │  100 ┤                                                           │ │
+│  │   50 ┤     ╱╲                                                    │ │
+│  │    0 ┤────╱──╲────────────────────────────────────────────      │ │
+│  │  -50 ┤                                                           │ │
+│  │       └──────────────────────────────────────&gt; Time (s)          │ │
+│  │                                                                   │ │
+│  │  Current: Fx=2.3N, Fy=-1.2N, Fz=15.6N                           │ │
+│  │           Tx=0.1Nm, Ty=0.3Nm, Tz=-0.2Nm                         │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  [Start Demo Sequence] [Emergency Stop] [Reset] [Export Data]         │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+<hr />
+<h3 data-number="1.6.2" id="electrical-department-demo"><span
+class="header-section-number">1.6.2</span> 4.2 Electrical Department
+Demo</h3>
+<p><strong>Audience:</strong> Electrical engineers, power systems
+designers <strong>Focus:</strong> Power distribution, motor control,
+signal integrity</p>
+<h4 data-number="1.6.2.1" id="demo-script-1"><span
+class="header-section-number">1.6.2.1</span> 4.2.1 Demo Script</h4>
+<pre><code>DEMO: Electrical Systems Overview
+Duration: 12 minutes
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 1: Power Distribution &amp; Monitoring (4 min)            │
+└─────────────────────────────────────────────────────────────┘
+
+1. Show power architecture diagram
+   • Main supply: 230V AC → 48V DC converter
+   • Robot power: 48V DC (UR5e)
+   • Compute power: 19V DC (Intel NUC), 12V DC (Jetson Xavier)
+   • Sensor power: 12V DC, 5V DC
+
+2. Live power monitoring
+   • Display real-time power consumption dashboard
+   • Show current draw for each subsystem:
+     - Robot: 150W (idle), 350W (moving)
+     - Compute: 85W (NUC), 25W (Jetson)
+     - Camera: 5W
+     - Gripper: 12W
+   • Total system power: ~500W peak
+
+3. Power quality analysis
+   • Show voltage ripple (oscilloscope view)
+   • Demonstrate clean power delivery (&lt;2% ripple)
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 2: Motor Control &amp; EtherCAT (4 min)                   │
+└─────────────────────────────────────────────────────────────┘
+
+4. EtherCAT network topology
+   • Show network diagram: NUC → Robot → Gripper
+   • Display EtherCAT master status (1 kHz cycle)
+   • Show network diagnostics (packet loss, jitter)
+
+5. Motor controller demonstration
+   • Display joint torque commands (real-time)
+   • Show current control loop (1 kHz)
+   • Demonstrate smooth velocity ramping
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 3: Safety System &amp; E-Stop (4 min)                     │
+└─────────────────────────────────────────────────────────────┘
+
+6. Safety circuit walkthrough
+   • Show safety PLC diagram
+   • Explain dual-channel E-stop
+   • Demonstrate safety relay operation
+
+7. E-stop test
+   • Robot in motion → Press E-stop
+   • Measure stop time (&lt;100ms)
+   • Show power cut to motors
+   • Verify safety log entry
+
+SUCCESS METRICS:
+✓ All power rails within ±5% tolerance
+✓ EtherCAT cycle time stable at 1 kHz
+✓ E-stop response &lt;100ms (measured: 68ms)
+✓ Zero power supply faults during demo</code></pre>
+<h4 data-number="1.6.2.2" id="electrical-demo-ui"><span
+class="header-section-number">1.6.2.2</span> 4.2.2 Electrical Demo
+UI</h4>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│  ⚡ Electrical Systems Dashboard                                       │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  POWER DISTRIBUTION                                              │ │
+│  │                                                                   │ │
+│  │  230V AC ──[Converter]──&gt; 48V DC ──[Robot Controller]            │ │
+│  │               │                         350W (peak)               │ │
+│  │               │                                                   │ │
+│  │               ├──&gt; 19V DC ──[Intel NUC]                           │ │
+│  │               │                85W                                │ │
+│  │               │                                                   │ │
+│  │               ├──&gt; 12V DC ──[Jetson Xavier]                       │ │
+│  │               │                25W                                │ │
+│  │               │                                                   │ │
+│  │               └──&gt; 5V DC  ──[Sensors &amp; Peripherals]               │ │
+│  │                               20W                                 │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌─────────────────┬─────────────────┬─────────────────┬───────────┐ │
+│  │ Rail            │  Voltage        │  Current        │  Power    │ │
+│  ├─────────────────┼─────────────────┼─────────────────┼───────────┤ │
+│  │ 48V DC (Robot)  │  48.2V  ✓       │   7.3A          │  352W     │ │
+│  │ 19V DC (NUC)    │  19.1V  ✓       │   4.5A          │   86W     │ │
+│  │ 12V DC (Jetson) │  12.0V  ✓       │   2.1A          │   25W     │ │
+│  │  5V DC (Sensors)│   5.0V  ✓       │   4.0A          │   20W     │ │
+│  │                                                                  │ │
+│  │ Total System Power: 483W / 650W capacity (74%)                   │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  ETHERCAT NETWORK STATUS                                         │ │
+│  │                                                                   │ │
+│  │  Topology: NUC (Master) → UR5e Robot → Robotiq Gripper           │ │
+│  │                                                                   │ │
+│  │  Cycle Time: 1000 µs (1 kHz)                                     │ │
+│  │  Jitter: ±3 µs (excellent)                                       │ │
+│  │  Packet Loss: 0 / 1,234,567 (0.000%)                             │ │
+│  │                                                                   │ │
+│  │  Devices:                                                        │ │
+│  │  ✓ Slave 1: UR5e Robot Controller (Operational)                  │ │
+│  │  ✓ Slave 2: Robotiq 2F-85 Gripper (Operational)                  │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  MOTOR CURRENT (Real-Time)                                       │ │
+│  │                                                                   │ │
+│  │  Joint 1 Current (A)                                             │ │
+│  │   5.0 ┤        ╱╲                                                │ │
+│  │   2.5 ┤    ╱╲╱  ╲╱╲                                              │ │
+│  │   0.0 ┤───╱          ╲─────────────────────────────────          │ │
+│  │  -2.5 ┤                                                           │ │
+│  │        └──────────────────────────────────────&gt; Time             │ │
+│  │                                                                   │ │
+│  │  All joints within safe operating limits                         │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  SAFETY SYSTEM                                                   │ │
+│  │                                                                   │ │
+│  │  E-Stop Status: ✓ READY (Normal operation)                       │ │
+│  │  Safety PLC: ✓ OPERATIONAL                                       │ │
+│  │  Safety Relays: ✓ CLOSED (Power enabled)                         │ │
+│  │  Last E-Stop Test: 2025-10-15 14:23 (Pass - 68ms response)       │ │
+│  │                                                                   │ │
+│  │  [Test E-Stop] [View Safety Logs] [Safety Circuit Diagram]       │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+<hr />
+<h3 data-number="1.6.3" id="electronics-department-demo"><span
+class="header-section-number">1.6.3</span> 4.3 Electronics Department
+Demo</h3>
+<p><strong>Audience:</strong> Electronics engineers, embedded systems
+developers <strong>Focus:</strong> Sensors, embedded systems, signal
+processing</p>
+<h4 data-number="1.6.3.1" id="demo-script-2"><span
+class="header-section-number">1.6.3.1</span> 4.3.1 Demo Script</h4>
+<pre><code>DEMO: Electronics &amp; Sensor Systems
+Duration: 15 minutes
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 1: Vision System &amp; Camera (5 min)                     │
+└─────────────────────────────────────────────────────────────┘
+
+1. Camera specifications
+   • Intel RealSense D435i
+   • RGB: 1920×1080 @ 30 FPS
+   • Depth: 1280×720 @ 30 FPS (stereo)
+   • IMU: 6-axis (accelerometer + gyroscope)
+
+2. Live camera demo
+   • Show RGB stream with overlays
+   • Show depth map (color-coded by distance)
+   • Demonstrate point cloud generation (3D view)
+   • Show IMU data (real-time orientation)
+
+3. Camera calibration
+   • Explain intrinsic calibration (focal length, principal point)
+   • Show calibration matrix
+   • Demonstrate hand-eye calibration (camera-to-robot transform)
+   • Verify calibration accuracy (&lt;1mm reprojection error)
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 2: Force/Torque Sensor (4 min)                        │
+└─────────────────────────────────────────────────────────────┘
+
+4. F/T sensor specifications
+   • ATI Mini40 (6-axis force/torque)
+   • Range: ±40N (Fx, Fy), ±120N (Fz)
+   • Torque range: ±2Nm (all axes)
+   • Sample rate: 7 kHz
+
+5. F/T sensor demo
+   • Show zero-force baseline (tare)
+   • Manually apply force to gripper
+   • Show 6-axis force/torque graph
+   • Demonstrate contact detection (force threshold)
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 3: Embedded Compute &amp; Edge Processing (6 min)         │
+└─────────────────────────────────────────────────────────────┘
+
+6. Compute architecture
+   • Jetson Xavier NX: Vision processing (GPU)
+   • Intel NUC: Motion planning &amp; control (CPU)
+   • Show task distribution diagram
+
+7. GPU acceleration demo
+   • YOLOv8 inference: CPU vs GPU comparison
+     - CPU (NUC): ~120ms per frame
+     - GPU (Jetson + TensorRT): ~28ms per frame
+   • Show GPU utilization (nvidia-smi)
+
+8. Real-time performance
+   • Show system latency breakdown:
+     - Camera capture: 8ms
+     - Object detection: 28ms
+     - Pose estimation: 6ms
+     - Total vision latency: 42ms
+   • Demonstrate consistent frame rate (30 FPS)
+
+SUCCESS METRICS:
+✓ Camera calibration error &lt;1mm
+✓ F/T sensor noise &lt;0.1N RMS
+✓ Vision latency &lt;50ms (achieved: 42ms)
+✓ GPU inference 4× faster than CPU</code></pre>
+<hr />
+<h3 data-number="1.6.4" id="software-department-demo"><span
+class="header-section-number">1.6.4</span> 4.4 Software Department
+Demo</h3>
+<p><strong>Audience:</strong> Software engineers, DevOps
+<strong>Focus:</strong> ROS2 architecture, APIs, deployment</p>
+<pre><code>DEMO: Software Architecture &amp; APIs
+Duration: 18 minutes
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 1: ROS2 System Architecture (6 min)                   │
+└─────────────────────────────────────────────────────────────┘
+
+1. Show ROS2 node graph
+   • Open rqt_graph
+   • Explain node topology (vision, planning, control, orchestration)
+   • Show topic connections (pub/sub relationships)
+
+2. Live topic monitoring
+   • `ros2 topic list` - Show all 23 active topics
+   • `ros2 topic echo /vision/object_poses` - Live pose data
+   • `ros2 topic hz /joint_states` - Verify 100 Hz rate
+
+3. Service/Action demonstration
+   • Call `/grasp/compute_grasps` service (show request/response)
+   • Monitor `/pick_place` action (show feedback, progress)
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 2: REST &amp; gRPC APIs (5 min)                           │
+└─────────────────────────────────────────────────────────────┘
+
+4. REST API demo (Postman/cURL)
+   GET  /api/system/status     → System state
+   POST /api/system/start      → Start operation
+   GET  /api/picks?limit=10    → Recent picks
+   GET  /api/metrics           → Performance metrics
+
+5. gRPC API demo (BloomRPC)
+   • GetJointStates() → Current robot state
+   • StreamMetrics() → Real-time metric stream
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 3: CI/CD &amp; Deployment (7 min)                         │
+└─────────────────────────────────────────────────────────────┘
+
+6. Show GitHub Actions workflow
+   • Automated testing on every commit
+   • Build Docker images
+   • Deploy to staging/production
+
+7. Docker deployment
+   • Show docker-compose.yml
+   • `docker ps` - Running containers
+   • `docker logs vision_pipeline` - Live logs
+
+8. Monitoring &amp; observability
+   • Grafana dashboards (live metrics)
+   • Kibana logs (search &amp; filter)
+   • Distributed tracing (Jaeger)
+
+SUCCESS METRICS:
+✓ All ROS2 nodes healthy
+✓ API response time &lt;100ms
+✓ Test coverage &gt;80%
+✓ Zero deployment errors</code></pre>
+<hr />
+<h3 data-number="1.6.5" id="aiml-department-demo"><span
+class="header-section-number">1.6.5</span> 4.5 AI/ML Department
+Demo</h3>
+<p><strong>Audience:</strong> Data scientists, ML engineers
+<strong>Focus:</strong> Object detection, model performance, training
+pipeline</p>
+<pre><code>DEMO: AI/ML Pipeline &amp; Model Performance
+Duration: 20 minutes
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 1: Object Detection Model (YOLOv8) (7 min)            │
+└─────────────────────────────────────────────────────────────┘
+
+1. Model architecture overview
+   • YOLOv8n (nano) - 3.2M parameters
+   • Input: 640×640×3 RGB
+   • Output: Bounding boxes + class probabilities
+   • Classes: red_cube, blue_cylinder, green_box, ... (12 total)
+
+2. Live inference demo
+   • Place multiple objects in workspace
+   • Show real-time detections with confidence scores
+   • Highlight bounding boxes and class labels
+
+3. Model performance metrics
+   • Inference time: 28ms (with TensorRT FP16)
+   • mAP@0.5: 94.3%
+   • mAP@0.5:0.95: 87.1%
+   • Show precision-recall curve
+
+4. TensorRT optimization
+   • Compare PyTorch vs TensorRT:
+     - PyTorch (FP32): 89ms
+     - TensorRT (FP32): 45ms (2× faster)
+     - TensorRT (FP16): 28ms (3× faster)
+   • Show GPU memory usage: 512MB → 256MB
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 2: Training Pipeline &amp; MLOps (6 min)                  │
+└─────────────────────────────────────────────────────────────┘
+
+5. Dataset &amp; training
+   • Show training dataset (2,500 images, 12 classes)
+   • Data augmentation: rotation, scale, color jitter
+   • Training: 100 epochs on NVIDIA A100 (8 hours)
+
+6. MLflow experiment tracking
+   • Open MLflow UI
+   • Show training runs with hyperparameters
+   • Compare model versions (mAP over epochs)
+   • Download best model checkpoint
+
+7. Model deployment workflow
+   • Train on cloud (Google Colab / AWS)
+   • Export to ONNX → Convert to TensorRT
+   • Deploy to Jetson Xavier via CI/CD
+   • A/B testing (old model vs new model)
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 3: Continuous Learning &amp; Improvement (7 min)          │
+└─────────────────────────────────────────────────────────────┘
+
+8. Active learning pipeline
+   • Collect low-confidence detections (&lt;70%)
+   • Human labeling interface (Label Studio)
+   • Retrain model with new data
+   • Deploy updated model
+
+9. Model monitoring
+   • Track inference confidence over time
+   • Detect model drift (confidence drop)
+   • Alert if mAP drops below 85%
+
+10. Future improvements
+    • Instance segmentation (Mask R-CNN)
+    • 6DoF pose estimation (PVNet)
+    • Unknown object detection (outlier detection)
+
+SUCCESS METRICS:
+✓ mAP@0.5 &gt; 90% (achieved: 94.3%)
+✓ Inference latency &lt;50ms (achieved: 28ms)
+✓ Model deployment &lt;10 minutes
+✓ Zero false positives during demo</code></pre>
+<h4 data-number="1.6.5.1" id="aiml-demo-ui"><span
+class="header-section-number">1.6.5.1</span> 4.5.1 AI/ML Demo UI</h4>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│  🧠 AI/ML Dashboard                           Model: YOLOv8n v2.3      │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  MODEL PERFORMANCE                                                │ │
+│  │                                                                   │ │
+│  │  mAP@0.5: 94.3%  │  mAP@0.5:0.95: 87.1%  │  Inference: 28ms      │ │
+│  │                                                                   │ │
+│  │  ┌─────────────────────────────────────────────────────────────┐│ │
+│  │  │ Precision-Recall Curve                                      ││ │
+│  │  │                                                              ││ │
+│  │  │ Precision                                                    ││ │
+│  │  │  1.0 ┤  ●───────────────●                                   ││ │
+│  │  │  0.8 ┤      ●       ●                                        ││ │
+│  │  │  0.6 ┤         ●                                             ││ │
+│  │  │  0.4 ┤                                                       ││ │
+│  │  │  0.2 ┤                                                       ││ │
+│  │  │  0.0 └────────────────────────────────&gt; Recall              ││ │
+│  │  │     0.0  0.2  0.4  0.6  0.8  1.0                            ││ │
+│  │  └─────────────────────────────────────────────────────────────┘│ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  LIVE INFERENCE                                                  │ │
+│  │                                                                   │ │
+│  │  ┌────────────────────────────────────────────────────────────┐ │ │
+│  │  │ [Camera Feed with Detections]                              │ │ │
+│  │  │                                                             │ │ │
+│  │  │   ┌────────────┐                                            │ │ │
+│  │  │   │ Red Cube   │                                            │ │ │
+│  │  │   │ 98.2%      │     ┌─────────────┐                        │ │ │
+│  │  │   └────────────┘     │ Blue Cyl.   │                        │ │ │
+│  │  │                      │ 95.7%       │                        │ │ │
+│  │  │                      └─────────────┘                        │ │ │
+│  │  │                                                             │ │ │
+│  │  │            ┌──────────────┐                                 │ │ │
+│  │  │            │ Green Box    │                                 │ │ │
+│  │  │            │ 92.4%        │                                 │ │ │
+│  │  │            └──────────────┘                                 │ │ │
+│  │  └────────────────────────────────────────────────────────────┘ │ │
+│  │                                                                   │ │
+│  │  Detections: 3 | Inference Time: 27ms | FPS: 30                 │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌────────────────────────┬───────────────────────────────────────┐   │
+│  │  CLASS PERFORMANCE     │  INFERENCE LATENCY DISTRIBUTION       │   │
+│  │                        │                                       │   │
+│  │  Class       Precision │   Count                               │   │
+│  │  ────────────────────  │   500 ┤                               │   │
+│  │  red_cube       97.2%  │   400 ┤                               │   │
+│  │  blue_cylinder  94.8%  │   300 ┤    ███                        │   │
+│  │  green_box      92.1%  │   200 ┤   ██████                      │   │
+│  │  yellow_sphere  96.5%  │   100 ┤  ████████                     │   │
+│  │  ...            ...    │     0 └───┴────┴────┴────┴────        │   │
+│  │                        │       20  25  30  35  40  ms          │   │
+│  │  Overall:       94.3%  │                                       │   │
+│  │                        │   Mean: 28ms | Std: 3.2ms             │   │
+│  └────────────────────────┴───────────────────────────────────────┘   │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  MLFLOW EXPERIMENTS                                              │ │
+│  │                                                                   │ │
+│  │  Run      Date        mAP@0.5  Inference  Status                │ │
+│  │  ──────────────────────────────────────────────────────────────  │ │
+│  │  v2.3  ● 2025-10-15   94.3%    28ms       DEPLOYED (current)    │ │
+│  │  v2.2    2025-10-10   93.1%    29ms       Archived              │ │
+│  │  v2.1    2025-10-05   91.8%    31ms       Archived              │ │
+│  │  v2.0    2025-09-28   89.2%    35ms       Archived              │ │
+│  │                                                                   │ │
+│  │  [View Experiment] [Compare Runs] [Deploy New Model]             │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  [Retrain Model] [Export to ONNX] [TensorRT Conversion] [A/B Test]    │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+<hr />
+<h3 data-number="1.6.6" id="security-department-demo"><span
+class="header-section-number">1.6.6</span> 4.6 Security Department
+Demo</h3>
+<p><strong>Audience:</strong> Security engineers, IT administrators
+<strong>Focus:</strong> Authentication, encryption, compliance, audit
+logging</p>
+<pre><code>DEMO: Security &amp; Compliance Systems
+Duration: 12 minutes
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 1: Authentication &amp; Authorization (4 min)             │
+└─────────────────────────────────────────────────────────────┘
+
+1. User authentication (OAuth2 + JWT)
+   • Show login page (username/password)
+   • Explain OAuth2 flow (authorization code grant)
+   • Show JWT token (decoded payload)
+   • Token expiration: 1 hour, refresh token: 7 days
+
+2. Role-based access control (RBAC)
+   • Roles: Admin, Engineer, Operator, Viewer
+   • Permissions matrix:
+     - Admin: All permissions
+     - Engineer: Start/stop, logs, config
+     - Operator: Start/stop, monitor
+     - Viewer: Read-only
+
+3. Demo access control
+   • Login as &quot;Operator&quot; → Cannot access /config
+   • Login as &quot;Engineer&quot; → Full access
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 2: Network Security &amp; Encryption (4 min)              │
+└─────────────────────────────────────────────────────────────┘
+
+4. TLS/HTTPS configuration
+   • Show SSL certificate (Let&#39;s Encrypt)
+   • Force HTTPS redirect
+   • TLS 1.3 enabled
+   • Show cipher suite (AES-256-GCM)
+
+5. ROS2 security (SROS2)
+   • Enable DDS security
+   • Show X.509 certificates for each node
+   • Encrypted topics (AES-256)
+   • Access control lists (permissions.xml)
+
+6. Network segmentation
+   • Show firewall rules
+   • Robot network isolated from internet
+   • Only HTTPS (443) exposed externally
+
+┌─────────────────────────────────────────────────────────────┐
+│ PART 3: Audit Logging &amp; Compliance (4 min)                 │
+└─────────────────────────────────────────────────────────────┘
+
+7. Audit log demonstration
+   • Show audit trail (all user actions logged)
+   • Search for &quot;E-stop&quot; events
+   • Export audit logs (tamper-proof, immutable)
+
+8. Compliance reporting
+   • ISO 27001 compliance checklist
+   • GDPR data protection (no PII stored)
+   • SOC 2 audit readiness
+
+9. Security monitoring
+   • Show Fail2ban (blocks IPs after 5 failed logins)
+   • Intrusion detection alerts
+   • Vulnerability scanning reports
+
+SUCCESS METRICS:
+✓ Zero authentication bypasses
+✓ All traffic encrypted (HTTPS + SROS2)
+✓ 100% audit log coverage
+✓ Zero security vulnerabilities (CVSS &gt; 7)</code></pre>
+<hr />
+<h2 data-number="1.7" id="end-to-end-demo-scenarios"><span
+class="header-section-number">1.7</span> 5. End-to-End Demo
+Scenarios</h2>
+<h3 data-number="1.7.1" id="executive-demo-c-suite-investors"><span
+class="header-section-number">1.7.1</span> 5.1 Executive Demo (C-Suite,
+Investors)</h3>
+<p><strong>Duration:</strong> 10 minutes <strong>Goal:</strong> Prove
+business value, ROI, system maturity</p>
+<pre><code>EXECUTIVE DEMO SCRIPT
+Audience: CEO, CFO, investors, board members
+
+┌─────────────────────────────────────────────────────────────┐
+│ 1. Opening (1 min) - Business Context                      │
+└─────────────────────────────────────────────────────────────┘
+• Problem: Manual pick-place is slow (14,400 picks/day), error-prone (5%)
+• Solution: AI-powered robotic automation
+• Impact: 3× productivity, 99%+ accuracy, $87k annual savings
+
+┌─────────────────────────────────────────────────────────────┐
+│ 2. Live Demonstration (5 min) - &quot;WOW&quot; Moment                │
+└─────────────────────────────────────────────────────────────┘
+• Show live camera feed with object detection
+• Start system with one button click
+• Watch robot autonomously pick 5 objects in &lt;2 min
+• Highlight:
+  - Speed (30 picks/min)
+  - Accuracy (0.1mm precision)
+  - Adaptability (handles different objects/poses)
+
+┌─────────────────────────────────────────────────────────────┐
+│ 3. Business Dashboard (3 min) - Proof of ROI                │
+└─────────────────────────────────────────────────────────────┘
+• Show analytics dashboard:
+  - Uptime: 99.7%
+  - Throughput: 28,340 picks/day (+97% vs baseline)
+  - Success rate: 98.4%
+  - Cost savings: $7,291 this month
+• ROI tracker:
+  - Payback period: 1.85 years
+  - Current progress: Month 4 (22% paid back)
+• Financial impact chart (savings vs investment)
+
+┌─────────────────────────────────────────────────────────────┐
+│ 4. Closing (1 min) - Call to Action                        │
+└─────────────────────────────────────────────────────────────┘
+• System is production-ready
+• Proven performance (4 months live data)
+• Next steps: Scale to 5 more lines
+• Projected total savings: $437k/year
+
+DEMO TIPS:
+✓ Focus on business outcomes, not technical details
+✓ Use real production data, not simulations
+✓ Show confidence: &quot;This is live, not a recording&quot;
+✓ Quantify everything (time, cost, ROI)</code></pre>
+<hr />
+<h3 data-number="1.7.2"
+id="technical-deep-dive-engineers-architects"><span
+class="header-section-number">1.7.2</span> 5.2 Technical Deep-Dive
+(Engineers, Architects)</h3>
+<p><strong>Duration:</strong> 45 minutes <strong>Goal:</strong> Showcase
+architecture, code quality, best practices</p>
+<pre><code>TECHNICAL DEEP-DIVE DEMO
+Audience: Software architects, senior engineers
+
+PART 1: Architecture Overview (10 min)
+──────────────────────────────────────
+1. C4 model walkthrough (Context → Containers → Components)
+2. ROS2 node graph (rqt_graph)
+3. Microservices architecture (Docker containers)
+4. Data flow: Camera → Vision → Grasp → Motion → Control → Robot
+
+PART 2: Code Quality &amp; Testing (12 min)
+────────────────────────────────────────
+5. Show codebase structure (monorepo with ROS2 packages)
+6. Unit test execution (847 tests, 87% coverage)
+7. Integration tests with mocking
+8. CI/CD pipeline (GitHub Actions)
+9. Code review process (PR template, automated checks)
+
+PART 3: Live Development Workflow (15 min)
+───────────────────────────────────────────
+10. Make a code change (adjust detection confidence threshold)
+11. Run local tests (`colcon test`)
+12. Commit and push (`git push`)
+13. Watch CI/CD build and deploy
+14. Verify change in production (dashboard update)
+
+PART 4: Observability &amp; Debugging (8 min)
+──────────────────────────────────────────
+15. Show Grafana dashboards (metrics, latency)
+16. Kibana log search (find error from 3 days ago)
+17. Distributed tracing (Jaeger - trace a pick-place request)
+18. Live debugging with ROS2 tools (`ros2 topic echo`, `ros2 service call`)
+
+TECHNICAL HIGHLIGHTS:
+✓ Modern stack (ROS2, Docker, K8s, React)
+✓ High code quality (87% test coverage)
+✓ Full observability (logs, metrics, traces)
+✓ Production-grade deployment (zero-downtime updates)</code></pre>
+<hr />
+<h2 data-number="1.8" id="ui-component-library"><span
+class="header-section-number">1.8</span> 6. UI Component Library</h2>
+<h3 data-number="1.8.1" id="reusable-components"><span
+class="header-section-number">1.8.1</span> 6.1 Reusable Components</h3>
+<pre class="tsx"><code>// components/MetricCard.tsx
+interface MetricCardProps {
+  title: string;
+  value: string | number;
+  unit?: string;
+  trend?: &#39;up&#39; | &#39;down&#39; | &#39;neutral&#39;;
+  trendValue?: string;
+  icon?: React.ReactNode;
+}
+
+export const MetricCard: React.FC&lt;MetricCardProps&gt; = ({
+  title, value, unit, trend, trendValue, icon
+}) =&gt; {
+  return (
+    &lt;Card&gt;
+      &lt;CardContent&gt;
+        &lt;Stack direction=&quot;row&quot; justifyContent=&quot;space-between&quot; alignItems=&quot;center&quot;&gt;
+          &lt;Typography variant=&quot;h6&quot; color=&quot;text.secondary&quot;&gt;{title}&lt;/Typography&gt;
+          {icon}
+        &lt;/Stack&gt;
+
+        &lt;Typography variant=&quot;h3&quot; mt={2}&gt;
+          {value}{unit &amp;&amp; &lt;Typography component=&quot;span&quot; variant=&quot;h5&quot;&gt; {unit}&lt;/Typography&gt;}
+        &lt;/Typography&gt;
+
+        {trend &amp;&amp; trendValue &amp;&amp; (
+          &lt;Stack direction=&quot;row&quot; alignItems=&quot;center&quot; mt={1}&gt;
+            {trend === &#39;up&#39; &amp;&amp; &lt;TrendingUp color=&quot;success&quot; /&gt;}
+            {trend === &#39;down&#39; &amp;&amp; &lt;TrendingDown color=&quot;error&quot; /&gt;}
+            &lt;Typography
+              variant=&quot;body2&quot;
+              color={trend === &#39;up&#39; ? &#39;success.main&#39; : &#39;error.main&#39;}
+              ml={0.5}
+            &gt;
+              {trendValue}
+            &lt;/Typography&gt;
+          &lt;/Stack&gt;
+        )}
+      &lt;/CardContent&gt;
+    &lt;/Card&gt;
+  );
+};
+
+// Usage:
+&lt;MetricCard
+  title=&quot;Uptime&quot;
+  value={99.7}
+  unit=&quot;%&quot;
+  trend=&quot;up&quot;
+  trendValue=&quot;+0.2%&quot;
+  icon={&lt;CheckCircle color=&quot;success&quot; /&gt;}
+/&gt;</code></pre>
+<hr />
+<h2 data-number="1.9" id="interactive-prototypes"><span
+class="header-section-number">1.9</span> 7. Interactive Prototypes</h2>
+<h3 data-number="1.9.1" id="figma-prototypes"><span
+class="header-section-number">1.9.1</span> 7.1 Figma Prototypes</h3>
+<p><strong>Link:</strong>
+<code>https://figma.com/robot-ui-prototype</code> (example)</p>
+<p><strong>Screens:</strong> 1. Login 2. Operator Dashboard 3. Engineer
+Console 4. Manager Analytics 5. Manual Test Execution 6. Settings &amp;
+Configuration</p>
+<p><strong>Interactions:</strong> - Click “Start System” → Loading
+animation → Status changes to “RUNNING” - Hover over metric card → Show
+historical trend (tooltip) - Click on alert → Expand details panel</p>
+<hr />
+<h2 data-number="1.10" id="demo-scripts-walkthroughs"><span
+class="header-section-number">1.10</span> 8. Demo Scripts &amp;
+Walkthroughs</h2>
+<h3 data-number="1.10.1" id="quick-start-guide-5-minutes"><span
+class="header-section-number">1.10.1</span> 8.1 Quick Start Guide (5
+Minutes)</h3>
+<pre><code>QUICK START DEMO (First-Time Users)
+────────────────────────────────────
+
+Prerequisites:
+✓ Robot homed and connected
+✓ Camera feed active
+✓ Test objects in workspace
+
+Step 1: Login (30 sec)
+──────────────────────
+• Open browser: https://robot.local
+• Username: operator
+• Password: demo123
+• Click &quot;Login&quot;
+
+Step 2: System Check (30 sec)
+──────────────────────────────
+• Verify green status indicators:
+  ✓ Robot: Connected
+  ✓ Camera: Active (30 FPS)
+  ✓ Vision: Ready
+  ✓ Gripper: Ready
+
+Step 3: Start Operation (1 min)
+────────────────────────────────
+• Click big green &quot;START SYSTEM&quot; button
+• Watch live camera feed
+• Objects detected automatically (bounding boxes appear)
+• Robot begins pick-place cycle
+
+Step 4: Monitor Progress (2 min)
+─────────────────────────────────
+• Watch task progress bar
+• See metrics update in real-time:
+  - Cycle time: ~1.8 seconds
+  - Success rate: 98%+
+• Observe robot smooth motion
+
+Step 5: Stop System (30 sec)
+─────────────────────────────
+• Click &quot;STOP&quot; button
+• Robot completes current cycle and returns to home
+• System state: STOPPED
+
+Step 6: Review Results (30 sec)
+────────────────────────────────
+• Check performance summary
+• Review any alerts/warnings
+• Export report (optional)
+
+CONGRATULATIONS! You&#39;ve completed your first demo.</code></pre>
+<hr />
+<h2 data-number="1.11" id="summary"><span
+class="header-section-number">1.11</span> Summary</h2>
+<h3 data-number="1.11.1" id="documentation-completeness"><span
+class="header-section-number">1.11.1</span> Documentation
+Completeness</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 20%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Section</strong></th>
+<th><strong>UI Designs</strong></th>
+<th><strong>Test Interfaces</strong></th>
+<th><strong>Demo Flows</strong></th>
+<th><strong>Status</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Customer Stories</strong></td>
+<td>3 personas (Operator, Engineer, Manager)</td>
+<td>✓</td>
+<td>✓</td>
+<td>✅ Complete</td>
+</tr>
+<tr class="even">
+<td><strong>Test UI</strong></td>
+<td>Automated test dashboard, Manual test UI</td>
+<td>✓</td>
+<td>✓</td>
+<td>✅ Complete</td>
+</tr>
+<tr class="odd">
+<td><strong>Department Demos</strong></td>
+<td>6 departments (Mech, Elec, Electronics, SW, AI, Security)</td>
+<td>✓</td>
+<td>✓</td>
+<td>✅ Complete</td>
+</tr>
+<tr class="even">
+<td><strong>End-to-End</strong></td>
+<td>Executive demo, Technical deep-dive</td>
+<td>✓</td>
+<td>✓</td>
+<td>✅ Complete</td>
+</tr>
+<tr class="odd">
+<td><strong>Component Library</strong></td>
+<td>Reusable React components</td>
+<td>✓</td>
+<td>-</td>
+<td>✅ Complete</td>
+</tr>
+<tr class="even">
+<td><strong>Interactive Prototypes</strong></td>
+<td>Figma designs</td>
+<td>✓</td>
+<td>-</td>
+<td>✅ Complete</td>
+</tr>
+<tr class="odd">
+<td><strong>Demo Scripts</strong></td>
+<td>5-min quick start, detailed walkthroughs</td>
+<td>-</td>
+<td>✓</td>
+<td>✅ Complete</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.11.2" id="key-features"><span
+class="header-section-number">1.11.2</span> Key Features</h3>
+<p>✅ <strong>8 persona-specific UIs</strong> (Operator, Engineer,
+Manager, Integrator, Maintenance, Data Scientist, Safety, Customer) ✅
+<strong>Complete test infrastructure</strong> (unit, integration,
+system, manual testing) ✅ <strong>6 department-specific demos</strong>
+with technical depth ✅ <strong>2 end-to-end scenarios</strong>
+(executive, technical) ✅ <strong>Reusable component library</strong>
+(React + TypeScript) ✅ <strong>Interactive prototypes</strong> (Figma
+wireframes) ✅ <strong>Production-ready code samples</strong> (React,
+ROS2 integration)</p>
+<hr />
+<p><strong>Document Status:</strong> ✅ v1.0 Complete <strong>Related
+Documents:</strong> User Stories (06), Testing Plan (11), C4 Model (15)
+<strong>Implementation:</strong> React 18, MUI v5, TypeScript, ROS2
+Humble</p>
+<hr />
+</body>
+</html>

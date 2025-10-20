@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>01 Core Robotics Concepts</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: #2d3748;
+            overflow-x: hidden;
+        }
+
+        .infographic-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .infographic-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            from { transform: translateX(0); }
+            to { transform: translateX(100px); }
+        }
+
+        .infographic-header h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 60px 20px;
+            max-width: 1400px;
+            margin: -50px auto 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .stat-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1em;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2 i {
+            font-size: 0.8em;
+        }
+
+        h3 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 30px 0 15px;
+        }
+
+        p {
+            line-height: 1.8;
+            margin: 15px 0;
+            color: #475569;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            color: #7c3aed;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 5px solid #7c3aed;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px 18px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        tr:hover {
+            background: #f1f5f9;
+        }
+
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e2e8f0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 15px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            transition: width 2s ease-out;
+        }
+
+        #TOC {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        #TOC ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        #TOC a {
+            color: #667eea;
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        #TOC a:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .footer {
+            background: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .infographic-header h1 {
+                font-size: 2em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-card {
+                padding: 25px;
+            }
+        }
+        </style>
+        </head>
+<body>
+        <div class="infographic-header">
+            <h1><i class="fas fa-robot"></i> 01 Core Robotics Concepts</h1>
+            <p style="font-size: 1.2em; opacity: 0.9;">Vision-Based Pick and Place Robotic System Documentation</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Complete</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-value">99.2%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="stat-value">1.74s</div>
+                <div class="stat-label">Cycle Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="stat-value">93.5%</div>
+                <div class="stat-label">OEE</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+        
+<header id="title-block-header">
+<h1 class="title">01 Core Robotics Concepts</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a
+href="#core-robotics-concepts---vision-based-pick-and-place-system"
+id="toc-core-robotics-concepts---vision-based-pick-and-place-system">Core
+Robotics Concepts - Vision-Based Pick and Place System</a>
+<ul>
+<li><a href="#project-overview" id="toc-project-overview">Project
+Overview</a></li>
+<li><a href="#computer-vision-perception"
+id="toc-computer-vision-perception">1. Computer Vision &amp;
+Perception</a></li>
+<li><a href="#robotic-kinematics" id="toc-robotic-kinematics">2. Robotic
+Kinematics</a></li>
+<li><a href="#motion-planning-control"
+id="toc-motion-planning-control">3. Motion Planning &amp;
+Control</a></li>
+<li><a href="#grasp-planning-manipulation"
+id="toc-grasp-planning-manipulation">4. Grasp Planning &amp;
+Manipulation</a></li>
+<li><a href="#sensor-fusion-localization"
+id="toc-sensor-fusion-localization">5. Sensor Fusion &amp;
+Localization</a></li>
+<li><a href="#coordinate-frame-transformations"
+id="toc-coordinate-frame-transformations">6. Coordinate Frame
+Transformations</a></li>
+<li><a href="#state-machine-task-planning"
+id="toc-state-machine-task-planning">7. State Machine &amp; Task
+Planning</a></li>
+<li><a href="#collision-avoidance-safety"
+id="toc-collision-avoidance-safety">8. Collision Avoidance &amp;
+Safety</a></li>
+<li><a href="#ros2-communication-paradigms"
+id="toc-ros2-communication-paradigms">9. ROS2 Communication
+Paradigms</a></li>
+<li><a href="#simulation-testing" id="toc-simulation-testing">10.
+Simulation &amp; Testing</a></li>
+<li><a href="#adaptation-autonomy" id="toc-adaptation-autonomy">11.
+Adaptation &amp; Autonomy</a></li>
+<li><a href="#performance-optimization"
+id="toc-performance-optimization">12. Performance Optimization</a></li>
+<li><a href="#concept-mapping-to-system-modules"
+id="toc-concept-mapping-to-system-modules">Concept Mapping to System
+Modules</a></li>
+<li><a href="#summary" id="toc-summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1
+id="core-robotics-concepts---vision-based-pick-and-place-system">Core
+Robotics Concepts - Vision-Based Pick and Place System</h1>
+<div class="content-card"><h2 id="project-overview">Project Overview</h2>
+<p><strong>Project Name:</strong> Vision-Based Pick and Place Robotics
+System <strong>Domain:</strong> Industrial Automation, Manufacturing,
+Warehouse Logistics <strong>Purpose:</strong> Autonomous object
+detection, localization, grasping, and placement using vision-guided
+robotic manipulation</p>
+<hr />
+</div><div class="content-card"><h2 id="computer-vision-perception">1. Computer Vision &amp;
+Perception</h2>
+<h3 id="object-detection">1.1 Object Detection</h3>
+<ul>
+<li><strong>Concept:</strong> Identifying and localizing objects in the
+camera’s field of view</li>
+<li><strong>Techniques:</strong>
+<ul>
+<li>Deep Learning (YOLO, SSD, Faster R-CNN)</li>
+<li>Classical CV (template matching, feature detection)</li>
+<li>Point cloud processing (PCL)</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Detect target objects on conveyor/workspace</li>
+<li>Classify object types (if multi-object handling)</li>
+<li>Extract bounding boxes and centroids</li>
+</ul></li>
+</ul>
+<h3 id="object-recognition-classification">1.2 Object Recognition &amp;
+Classification</h3>
+<ul>
+<li><strong>Concept:</strong> Identifying specific object
+types/categories</li>
+<li><strong>Techniques:</strong>
+<ul>
+<li>CNN-based classifiers (ResNet, MobileNet)</li>
+<li>Feature-based matching (SIFT, ORB)</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Differentiate between multiple object types</li>
+<li>Select appropriate grasp strategy per object</li>
+</ul></li>
+</ul>
+<h3 id="pose-estimation">1.3 Pose Estimation</h3>
+<ul>
+<li><strong>Concept:</strong> Determining 6DoF (position + orientation)
+of objects</li>
+<li><strong>Techniques:</strong>
+<ul>
+<li>PnP (Perspective-n-Point)</li>
+<li>ICP (Iterative Closest Point)</li>
+<li>Deep learning-based pose estimation</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Calculate precise 3D pose for accurate grasping</li>
+<li>Handle objects in arbitrary orientations</li>
+</ul></li>
+</ul>
+<h3 id="depth-estimation-3d-reconstruction">1.4 Depth Estimation &amp;
+3D Reconstruction</h3>
+<ul>
+<li><strong>Concept:</strong> Creating 3D representation from 2D
+images</li>
+<li><strong>Sensors:</strong>
+<ul>
+<li>RGB-D cameras (RealSense, Kinect)</li>
+<li>Stereo cameras</li>
+<li>LiDAR</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Generate point clouds</li>
+<li>Calculate object height and volume</li>
+<li>Obstacle detection</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="robotic-kinematics">2. Robotic Kinematics</h2>
+<h3 id="forward-kinematics-fk">2.1 Forward Kinematics (FK)</h3>
+<ul>
+<li><strong>Concept:</strong> Computing end-effector pose from joint
+angles</li>
+<li><strong>Methods:</strong>
+<ul>
+<li>Denavit-Hartenberg (D-H) parameters</li>
+<li>URDF-based modeling</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Verify robot configuration</li>
+<li>Workspace analysis</li>
+<li>Collision checking</li>
+</ul></li>
+</ul>
+<h3 id="inverse-kinematics-ik">2.2 Inverse Kinematics (IK)</h3>
+<ul>
+<li><strong>Concept:</strong> Computing joint angles for desired
+end-effector pose</li>
+<li><strong>Methods:</strong>
+<ul>
+<li>Analytical IK</li>
+<li>Numerical IK (Jacobian-based, optimization)</li>
+<li>IK libraries (KDL, TRAC-IK, MoveIt)</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Calculate joint angles to reach pick/place positions</li>
+<li>Path planning waypoint generation</li>
+</ul></li>
+</ul>
+<h3 id="jacobian-differential-kinematics">2.3 Jacobian &amp;
+Differential Kinematics</h3>
+<ul>
+<li><strong>Concept:</strong> Relating joint velocities to end-effector
+velocities</li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Velocity control</li>
+<li>Singularity avoidance</li>
+<li>Compliance control</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="motion-planning-control">3. Motion Planning &amp; Control</h2>
+<h3 id="path-planning">3.1 Path Planning</h3>
+<ul>
+<li><strong>Concept:</strong> Finding collision-free paths in
+configuration space</li>
+<li><strong>Algorithms:</strong>
+<ul>
+<li>RRT (Rapidly-exploring Random Tree)</li>
+<li>RRT*</li>
+<li>PRM (Probabilistic Roadmap)</li>
+<li>A* in discretized space</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Plan path from home to pick position</li>
+<li>Plan path from pick to place position</li>
+<li>Avoid obstacles and self-collision</li>
+</ul></li>
+</ul>
+<h3 id="trajectory-planning">3.2 Trajectory Planning</h3>
+<ul>
+<li><strong>Concept:</strong> Time-parameterized motion with
+velocity/acceleration constraints</li>
+<li><strong>Methods:</strong>
+<ul>
+<li>Polynomial interpolation (cubic, quintic)</li>
+<li>Spline-based (B-spline)</li>
+<li>Optimal trajectory generation (time-optimal, jerk-limited)</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Smooth motion execution</li>
+<li>Respect joint limits and dynamics</li>
+<li>Minimize cycle time</li>
+</ul></li>
+</ul>
+<h3 id="motion-controllers">3.3 Motion Controllers</h3>
+<ul>
+<li><strong>Concept:</strong> Executing planned trajectories with
+feedback</li>
+<li><strong>Types:</strong>
+<ul>
+<li>Joint-space controllers (PID, feedforward)</li>
+<li>Cartesian-space controllers (impedance, admittance)</li>
+<li>Hybrid position/force control</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Accurate position control during pick/place</li>
+<li>Force control during contact/grasping</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="grasp-planning-manipulation">4. Grasp Planning &amp;
+Manipulation</h2>
+<h3 id="grasp-synthesis">4.1 Grasp Synthesis</h3>
+<ul>
+<li><strong>Concept:</strong> Computing optimal gripper configurations
+for stable grasps</li>
+<li><strong>Methods:</strong>
+<ul>
+<li>Analytical grasp models (force closure, form closure)</li>
+<li>Learning-based (GraspNet, Dex-Net)</li>
+<li>Heuristic rules (centroid-based, axis-aligned)</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Calculate gripper pose and orientation</li>
+<li>Handle objects of varying shapes/sizes</li>
+</ul></li>
+</ul>
+<h3 id="grasp-quality-metrics">4.2 Grasp Quality Metrics</h3>
+<ul>
+<li><strong>Concept:</strong> Evaluating grasp stability and
+robustness</li>
+<li><strong>Metrics:</strong>
+<ul>
+<li>Force closure</li>
+<li>Grasp wrench space</li>
+<li>Epsilon quality</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Select best grasp from multiple candidates</li>
+<li>Predict grasp success probability</li>
+</ul></li>
+</ul>
+<h3 id="end-effector-control">4.3 End-Effector Control</h3>
+<ul>
+<li><strong>Concept:</strong> Controlling gripper actuation (parallel
+jaw, suction, multi-finger)</li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Open/close gripper at appropriate times</li>
+<li>Adjust grip force based on object properties</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="sensor-fusion-localization">5. Sensor Fusion &amp;
+Localization</h2>
+<h3 id="camera-robot-calibration">5.1 Camera-Robot Calibration</h3>
+<ul>
+<li><strong>Concept:</strong> Finding transformation between camera and
+robot frames</li>
+<li><strong>Methods:</strong>
+<ul>
+<li>Hand-eye calibration (eye-in-hand, eye-to-hand)</li>
+<li>Chessboard/ArUco-based calibration</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Transform detected object coordinates to robot base frame</li>
+<li>Essential for accurate pick operations</li>
+</ul></li>
+</ul>
+<h3 id="multi-sensor-fusion">5.2 Multi-Sensor Fusion</h3>
+<ul>
+<li><strong>Concept:</strong> Combining data from multiple sensors</li>
+<li><strong>Sensors:</strong>
+<ul>
+<li>RGB-D camera</li>
+<li>Force/torque sensor</li>
+<li>Encoders, IMU</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Improve perception accuracy</li>
+<li>Fault tolerance (sensor failure handling)</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="coordinate-frame-transformations">6. Coordinate Frame
+Transformations</h2>
+<h3 id="homogeneous-transformations">6.1 Homogeneous
+Transformations</h3>
+<ul>
+<li><strong>Concept:</strong> Representing position and orientation in
+3D space</li>
+<li><strong>Tools:</strong>
+<ul>
+<li>TF2 (ROS2 transform library)</li>
+<li>Quaternions, rotation matrices, Euler angles</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Transform between: world → camera → robot base → end-effector →
+object</li>
+<li>Coordinate system consistency across modules</li>
+</ul></li>
+</ul>
+<h3 id="static-dynamic-tf-broadcasting">6.2 Static &amp; Dynamic TF
+Broadcasting</h3>
+<ul>
+<li><strong>Concept:</strong> Publishing transform tree in
+real-time</li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Maintain global coordinate system</li>
+<li>Visualize transforms in RViz</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="state-machine-task-planning">7. State Machine &amp; Task
+Planning</h2>
+<h3 id="finite-state-machines-fsm">7.1 Finite State Machines (FSM)</h3>
+<ul>
+<li><strong>Concept:</strong> Model system behavior as states and
+transitions</li>
+<li><strong>States in Pick-Place:</strong>
+<ul>
+<li>IDLE → SCAN → DETECT → PLAN_PICK → EXECUTE_PICK → PLAN_PLACE →
+EXECUTE_PLACE → RELEASE → RETURN_HOME</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>High-level task sequencing</li>
+<li>Error handling and recovery</li>
+</ul></li>
+</ul>
+<h3 id="behavior-trees">7.2 Behavior Trees</h3>
+<ul>
+<li><strong>Concept:</strong> Hierarchical task representation with
+reactive control</li>
+<li><strong>Advantages:</strong>
+<ul>
+<li>Modularity, reusability</li>
+<li>Easy to extend with new behaviors</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Complex decision-making</li>
+<li>Parallel execution of subtasks</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="collision-avoidance-safety">8. Collision Avoidance &amp;
+Safety</h2>
+<h3 id="collision-detection">8.1 Collision Detection</h3>
+<ul>
+<li><strong>Concept:</strong> Detecting potential collisions before
+execution</li>
+<li><strong>Methods:</strong>
+<ul>
+<li>Bounding box checks</li>
+<li>Mesh-based collision checking</li>
+<li>Distance fields</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Prevent robot self-collision</li>
+<li>Avoid obstacles in workspace</li>
+<li>Protect humans in collaborative settings</li>
+</ul></li>
+</ul>
+<h3 id="safety-zones-virtual-fences">8.2 Safety Zones &amp; Virtual
+Fences</h3>
+<ul>
+<li><strong>Concept:</strong> Defining safe operational boundaries</li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Limit robot workspace</li>
+<li>Emergency stop triggers</li>
+<li>Human detection zones</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="ros2-communication-paradigms">9. ROS2 Communication
+Paradigms</h2>
+<h3 id="topics-publish-subscribe">9.1 Topics (Publish-Subscribe)</h3>
+<ul>
+<li><strong>Use Cases:</strong>
+<ul>
+<li>Sensor data streaming (camera images, point clouds)</li>
+<li>Robot state (joint states, TF)</li>
+<li>Continuous data flow</li>
+</ul></li>
+</ul>
+<h3 id="services-request-response">9.2 Services (Request-Response)</h3>
+<ul>
+<li><strong>Use Cases:</strong>
+<ul>
+<li>IK computation</li>
+<li>Grasp planning</li>
+<li>Configuration changes</li>
+<li>One-time queries</li>
+</ul></li>
+</ul>
+<h3 id="actions-goal-based-with-feedback">9.3 Actions (Goal-Based with
+Feedback)</h3>
+<ul>
+<li><strong>Use Cases:</strong>
+<ul>
+<li>Motion execution (MoveIt actions)</li>
+<li>Long-running tasks (pick, place)</li>
+<li>Preemptable operations</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="simulation-testing">10. Simulation &amp; Testing</h2>
+<h3 id="physics-simulation">10.1 Physics Simulation</h3>
+<ul>
+<li><strong>Tools:</strong>
+<ul>
+<li>Gazebo (Classic or Ignition)</li>
+<li>Isaac Sim</li>
+<li>PyBullet</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Test algorithms before hardware deployment</li>
+<li>Generate synthetic training data</li>
+<li>Validate safety logic</li>
+</ul></li>
+</ul>
+<h3 id="visualization">10.2 Visualization</h3>
+<ul>
+<li><strong>Tools:</strong>
+<ul>
+<li>RViz2</li>
+<li>Foxglove</li>
+</ul></li>
+<li><strong>Application in Project:</strong>
+<ul>
+<li>Monitor robot state</li>
+<li>Visualize sensor data and transforms</li>
+<li>Debug perception pipeline</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="adaptation-autonomy">11. Adaptation &amp; Autonomy</h2>
+<h3 id="error-detection-recovery">11.1 Error Detection &amp;
+Recovery</h3>
+<ul>
+<li><strong>Concept:</strong> Detecting failures and triggering fallback
+strategies</li>
+<li><strong>Examples:</strong>
+<ul>
+<li>Grasp failure → retry with different grasp</li>
+<li>Object not found → rescan workspace</li>
+<li>Path planning failure → replan with relaxed constraints</li>
+</ul></li>
+</ul>
+<h3 id="learning-adaptation">11.2 Learning &amp; Adaptation</h3>
+<ul>
+<li><strong>Concept:</strong> Improving performance over time</li>
+<li><strong>Methods:</strong>
+<ul>
+<li>Reinforcement learning for grasp selection</li>
+<li>Online calibration updates</li>
+<li>Performance analytics</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="performance-optimization">12. Performance Optimization</h2>
+<h3 id="cycle-time-optimization">12.1 Cycle Time Optimization</h3>
+<ul>
+<li><strong>Concept:</strong> Minimize time from detection to
+placement</li>
+<li><strong>Techniques:</strong>
+<ul>
+<li>Parallel processing (perception while robot moving)</li>
+<li>Trajectory time-optimization</li>
+<li>Pre-positioning strategies</li>
+</ul></li>
+</ul>
+<h3 id="real-time-constraints">12.2 Real-Time Constraints</h3>
+<ul>
+<li><strong>Concept:</strong> Meeting timing deadlines for control
+loops</li>
+<li><strong>Requirements:</strong>
+<ul>
+<li>Vision processing: ~10-30 Hz</li>
+<li>Motion control: 100-1000 Hz</li>
+<li>High-level planning: 1-10 Hz</li>
+</ul></li>
+</ul>
+<hr />
+</div><div class="content-card"><h2 id="concept-mapping-to-system-modules">Concept Mapping to System
+Modules</h2>
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Robotics Concept</strong></th>
+<th><strong>System Module/Component</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Object Detection</td>
+<td>Vision Pipeline (YOLO/SSD node)</td>
+</tr>
+<tr class="even">
+<td>Pose Estimation</td>
+<td>Pose Estimation Node</td>
+</tr>
+<tr class="odd">
+<td>Camera-Robot Calibration</td>
+<td>Calibration Module (hand-eye)</td>
+</tr>
+<tr class="even">
+<td>Inverse Kinematics</td>
+<td>MoveIt / IK Solver Node</td>
+</tr>
+<tr class="odd">
+<td>Path Planning</td>
+<td>MoveIt / OMPL Planner</td>
+</tr>
+<tr class="even">
+<td>Trajectory Execution</td>
+<td>Controller Manager (ros2_control)</td>
+</tr>
+<tr class="odd">
+<td>Grasp Planning</td>
+<td>Grasp Planner Node</td>
+</tr>
+<tr class="even">
+<td>State Machine</td>
+<td>Task Orchestrator Node (FSM/BT)</td>
+</tr>
+<tr class="odd">
+<td>Collision Checking</td>
+<td>MoveIt Planning Scene</td>
+</tr>
+<tr class="even">
+<td>Sensor Fusion</td>
+<td>Perception Fusion Node</td>
+</tr>
+<tr class="odd">
+<td>Transform Management</td>
+<td>TF2 Static/Dynamic Broadcasters</td>
+</tr>
+<tr class="even">
+<td>Force Control</td>
+<td>FTS Driver + Admittance Controller</td>
+</tr>
+<tr class="odd">
+<td>Simulation</td>
+<td>Gazebo + RViz2</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div><div class="content-card"><h2 id="summary">Summary</h2>
+<p>This vision-based pick-and-place system integrates <strong>13+ core
+robotics concepts</strong>, spanning: - <strong>Perception:</strong>
+Computer vision, depth sensing, object recognition -
+<strong>Planning:</strong> Kinematics, motion planning, grasp synthesis
+- <strong>Control:</strong> Trajectory execution, force control, state
+machines - <strong>Infrastructure:</strong> ROS2 communication,
+transforms, simulation</p>
+<p>Each concept is essential for building a robust, industrial-grade
+autonomous manipulation system.</p>
+<hr />
+<p><strong>Next Steps:</strong> 1. Map these concepts to specific ROS2
+packages 2. Define interfaces between modules 3. Create mathematical
+models for each concept 4. Develop test cases validating each
+concept</p>
+<hr />
+<p><strong>Document Status:</strong> ✅ Complete <strong>Last
+Updated:</strong> 2025-10-18 <strong>Author:</strong> System Architect
+<strong>Review Status:</strong> Pending Review</p>
+
+        </div>
+        <div class="footer">
+            <p><i class="fas fa-copyright"></i> 2025 VisionBot Project | Production-Ready Documentation</p>
+            <p>Generated: 2025-10-19 15:53:32</p>
+        </div>
+        </body>
+</html>

@@ -1,0 +1,1050 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={01 Core Robotics Concepts},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{01 Core Robotics Concepts}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{core-robotics-concepts---vision-based-pick-and-place-system}{%
+\section{Core Robotics Concepts - Vision-Based Pick and Place
+System}\label{core-robotics-concepts---vision-based-pick-and-place-system}}
+
+\hypertarget{project-overview}{%
+\subsection{Project Overview}\label{project-overview}}
+
+\textbf{Project Name:} Vision-Based Pick and Place Robotics System
+\textbf{Domain:} Industrial Automation, Manufacturing, Warehouse
+Logistics \textbf{Purpose:} Autonomous object detection, localization,
+grasping, and placement using vision-guided robotic manipulation
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{computer-vision-perception}{%
+\subsection{1. Computer Vision \&
+Perception}\label{computer-vision-perception}}
+
+\hypertarget{object-detection}{%
+\subsubsection{1.1 Object Detection}\label{object-detection}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Identifying and localizing objects in the camera's
+  field of view
+\item
+  \textbf{Techniques:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Deep Learning (YOLO, SSD, Faster R-CNN)
+  \item
+    Classical CV (template matching, feature detection)
+  \item
+    Point cloud processing (PCL)
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Detect target objects on conveyor/workspace
+  \item
+    Classify object types (if multi-object handling)
+  \item
+    Extract bounding boxes and centroids
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{object-recognition-classification}{%
+\subsubsection{1.2 Object Recognition \&
+Classification}\label{object-recognition-classification}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Identifying specific object types/categories
+\item
+  \textbf{Techniques:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    CNN-based classifiers (ResNet, MobileNet)
+  \item
+    Feature-based matching (SIFT, ORB)
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Differentiate between multiple object types
+  \item
+    Select appropriate grasp strategy per object
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{pose-estimation}{%
+\subsubsection{1.3 Pose Estimation}\label{pose-estimation}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Determining 6DoF (position + orientation) of objects
+\item
+  \textbf{Techniques:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    PnP (Perspective-n-Point)
+  \item
+    ICP (Iterative Closest Point)
+  \item
+    Deep learning-based pose estimation
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Calculate precise 3D pose for accurate grasping
+  \item
+    Handle objects in arbitrary orientations
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{depth-estimation-3d-reconstruction}{%
+\subsubsection{1.4 Depth Estimation \& 3D
+Reconstruction}\label{depth-estimation-3d-reconstruction}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Creating 3D representation from 2D images
+\item
+  \textbf{Sensors:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    RGB-D cameras (RealSense, Kinect)
+  \item
+    Stereo cameras
+  \item
+    LiDAR
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Generate point clouds
+  \item
+    Calculate object height and volume
+  \item
+    Obstacle detection
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{robotic-kinematics}{%
+\subsection{2. Robotic Kinematics}\label{robotic-kinematics}}
+
+\hypertarget{forward-kinematics-fk}{%
+\subsubsection{2.1 Forward Kinematics
+(FK)}\label{forward-kinematics-fk}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Computing end-effector pose from joint angles
+\item
+  \textbf{Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Denavit-Hartenberg (D-H) parameters
+  \item
+    URDF-based modeling
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Verify robot configuration
+  \item
+    Workspace analysis
+  \item
+    Collision checking
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{inverse-kinematics-ik}{%
+\subsubsection{2.2 Inverse Kinematics
+(IK)}\label{inverse-kinematics-ik}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Computing joint angles for desired end-effector pose
+\item
+  \textbf{Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Analytical IK
+  \item
+    Numerical IK (Jacobian-based, optimization)
+  \item
+    IK libraries (KDL, TRAC-IK, MoveIt)
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Calculate joint angles to reach pick/place positions
+  \item
+    Path planning waypoint generation
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{jacobian-differential-kinematics}{%
+\subsubsection{2.3 Jacobian \& Differential
+Kinematics}\label{jacobian-differential-kinematics}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Relating joint velocities to end-effector velocities
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Velocity control
+  \item
+    Singularity avoidance
+  \item
+    Compliance control
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{motion-planning-control}{%
+\subsection{3. Motion Planning \&
+Control}\label{motion-planning-control}}
+
+\hypertarget{path-planning}{%
+\subsubsection{3.1 Path Planning}\label{path-planning}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Finding collision-free paths in configuration space
+\item
+  \textbf{Algorithms:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    RRT (Rapidly-exploring Random Tree)
+  \item
+    RRT*
+  \item
+    PRM (Probabilistic Roadmap)
+  \item
+    A* in discretized space
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Plan path from home to pick position
+  \item
+    Plan path from pick to place position
+  \item
+    Avoid obstacles and self-collision
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{trajectory-planning}{%
+\subsubsection{3.2 Trajectory Planning}\label{trajectory-planning}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Time-parameterized motion with velocity/acceleration
+  constraints
+\item
+  \textbf{Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Polynomial interpolation (cubic, quintic)
+  \item
+    Spline-based (B-spline)
+  \item
+    Optimal trajectory generation (time-optimal, jerk-limited)
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Smooth motion execution
+  \item
+    Respect joint limits and dynamics
+  \item
+    Minimize cycle time
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{motion-controllers}{%
+\subsubsection{3.3 Motion Controllers}\label{motion-controllers}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Executing planned trajectories with feedback
+\item
+  \textbf{Types:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Joint-space controllers (PID, feedforward)
+  \item
+    Cartesian-space controllers (impedance, admittance)
+  \item
+    Hybrid position/force control
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accurate position control during pick/place
+  \item
+    Force control during contact/grasping
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{grasp-planning-manipulation}{%
+\subsection{4. Grasp Planning \&
+Manipulation}\label{grasp-planning-manipulation}}
+
+\hypertarget{grasp-synthesis}{%
+\subsubsection{4.1 Grasp Synthesis}\label{grasp-synthesis}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Computing optimal gripper configurations for stable
+  grasps
+\item
+  \textbf{Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Analytical grasp models (force closure, form closure)
+  \item
+    Learning-based (GraspNet, Dex-Net)
+  \item
+    Heuristic rules (centroid-based, axis-aligned)
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Calculate gripper pose and orientation
+  \item
+    Handle objects of varying shapes/sizes
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{grasp-quality-metrics}{%
+\subsubsection{4.2 Grasp Quality Metrics}\label{grasp-quality-metrics}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Evaluating grasp stability and robustness
+\item
+  \textbf{Metrics:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Force closure
+  \item
+    Grasp wrench space
+  \item
+    Epsilon quality
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Select best grasp from multiple candidates
+  \item
+    Predict grasp success probability
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{end-effector-control}{%
+\subsubsection{4.3 End-Effector Control}\label{end-effector-control}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Controlling gripper actuation (parallel jaw,
+  suction, multi-finger)
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Open/close gripper at appropriate times
+  \item
+    Adjust grip force based on object properties
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{sensor-fusion-localization}{%
+\subsection{5. Sensor Fusion \&
+Localization}\label{sensor-fusion-localization}}
+
+\hypertarget{camera-robot-calibration}{%
+\subsubsection{5.1 Camera-Robot
+Calibration}\label{camera-robot-calibration}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Finding transformation between camera and robot
+  frames
+\item
+  \textbf{Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Hand-eye calibration (eye-in-hand, eye-to-hand)
+  \item
+    Chessboard/ArUco-based calibration
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Transform detected object coordinates to robot base frame
+  \item
+    Essential for accurate pick operations
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{multi-sensor-fusion}{%
+\subsubsection{5.2 Multi-Sensor Fusion}\label{multi-sensor-fusion}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Combining data from multiple sensors
+\item
+  \textbf{Sensors:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    RGB-D camera
+  \item
+    Force/torque sensor
+  \item
+    Encoders, IMU
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Improve perception accuracy
+  \item
+    Fault tolerance (sensor failure handling)
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{coordinate-frame-transformations}{%
+\subsection{6. Coordinate Frame
+Transformations}\label{coordinate-frame-transformations}}
+
+\hypertarget{homogeneous-transformations}{%
+\subsubsection{6.1 Homogeneous
+Transformations}\label{homogeneous-transformations}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Representing position and orientation in 3D space
+\item
+  \textbf{Tools:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    TF2 (ROS2 transform library)
+  \item
+    Quaternions, rotation matrices, Euler angles
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Transform between: world → camera → robot base → end-effector →
+    object
+  \item
+    Coordinate system consistency across modules
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{static-dynamic-tf-broadcasting}{%
+\subsubsection{6.2 Static \& Dynamic TF
+Broadcasting}\label{static-dynamic-tf-broadcasting}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Publishing transform tree in real-time
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Maintain global coordinate system
+  \item
+    Visualize transforms in RViz
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{state-machine-task-planning}{%
+\subsection{7. State Machine \& Task
+Planning}\label{state-machine-task-planning}}
+
+\hypertarget{finite-state-machines-fsm}{%
+\subsubsection{7.1 Finite State Machines
+(FSM)}\label{finite-state-machines-fsm}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Model system behavior as states and transitions
+\item
+  \textbf{States in Pick-Place:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    IDLE → SCAN → DETECT → PLAN\_PICK → EXECUTE\_PICK → PLAN\_PLACE →
+    EXECUTE\_PLACE → RELEASE → RETURN\_HOME
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    High-level task sequencing
+  \item
+    Error handling and recovery
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{behavior-trees}{%
+\subsubsection{7.2 Behavior Trees}\label{behavior-trees}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Hierarchical task representation with reactive
+  control
+\item
+  \textbf{Advantages:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Modularity, reusability
+  \item
+    Easy to extend with new behaviors
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Complex decision-making
+  \item
+    Parallel execution of subtasks
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{collision-avoidance-safety}{%
+\subsection{8. Collision Avoidance \&
+Safety}\label{collision-avoidance-safety}}
+
+\hypertarget{collision-detection}{%
+\subsubsection{8.1 Collision Detection}\label{collision-detection}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Detecting potential collisions before execution
+\item
+  \textbf{Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Bounding box checks
+  \item
+    Mesh-based collision checking
+  \item
+    Distance fields
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Prevent robot self-collision
+  \item
+    Avoid obstacles in workspace
+  \item
+    Protect humans in collaborative settings
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{safety-zones-virtual-fences}{%
+\subsubsection{8.2 Safety Zones \& Virtual
+Fences}\label{safety-zones-virtual-fences}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Defining safe operational boundaries
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Limit robot workspace
+  \item
+    Emergency stop triggers
+  \item
+    Human detection zones
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{ros2-communication-paradigms}{%
+\subsection{9. ROS2 Communication
+Paradigms}\label{ros2-communication-paradigms}}
+
+\hypertarget{topics-publish-subscribe}{%
+\subsubsection{9.1 Topics
+(Publish-Subscribe)}\label{topics-publish-subscribe}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Use Cases:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Sensor data streaming (camera images, point clouds)
+  \item
+    Robot state (joint states, TF)
+  \item
+    Continuous data flow
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{services-request-response}{%
+\subsubsection{9.2 Services
+(Request-Response)}\label{services-request-response}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Use Cases:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    IK computation
+  \item
+    Grasp planning
+  \item
+    Configuration changes
+  \item
+    One-time queries
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{actions-goal-based-with-feedback}{%
+\subsubsection{9.3 Actions (Goal-Based with
+Feedback)}\label{actions-goal-based-with-feedback}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Use Cases:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Motion execution (MoveIt actions)
+  \item
+    Long-running tasks (pick, place)
+  \item
+    Preemptable operations
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{simulation-testing}{%
+\subsection{10. Simulation \& Testing}\label{simulation-testing}}
+
+\hypertarget{physics-simulation}{%
+\subsubsection{10.1 Physics Simulation}\label{physics-simulation}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tools:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Gazebo (Classic or Ignition)
+  \item
+    Isaac Sim
+  \item
+    PyBullet
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Test algorithms before hardware deployment
+  \item
+    Generate synthetic training data
+  \item
+    Validate safety logic
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{visualization}{%
+\subsubsection{10.2 Visualization}\label{visualization}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tools:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    RViz2
+  \item
+    Foxglove
+  \end{itemize}
+\item
+  \textbf{Application in Project:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Monitor robot state
+  \item
+    Visualize sensor data and transforms
+  \item
+    Debug perception pipeline
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adaptation-autonomy}{%
+\subsection{11. Adaptation \& Autonomy}\label{adaptation-autonomy}}
+
+\hypertarget{error-detection-recovery}{%
+\subsubsection{11.1 Error Detection \&
+Recovery}\label{error-detection-recovery}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Detecting failures and triggering fallback
+  strategies
+\item
+  \textbf{Examples:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Grasp failure → retry with different grasp
+  \item
+    Object not found → rescan workspace
+  \item
+    Path planning failure → replan with relaxed constraints
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{learning-adaptation}{%
+\subsubsection{11.2 Learning \& Adaptation}\label{learning-adaptation}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Improving performance over time
+\item
+  \textbf{Methods:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Reinforcement learning for grasp selection
+  \item
+    Online calibration updates
+  \item
+    Performance analytics
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{performance-optimization}{%
+\subsection{12. Performance
+Optimization}\label{performance-optimization}}
+
+\hypertarget{cycle-time-optimization}{%
+\subsubsection{12.1 Cycle Time
+Optimization}\label{cycle-time-optimization}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Minimize time from detection to placement
+\item
+  \textbf{Techniques:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Parallel processing (perception while robot moving)
+  \item
+    Trajectory time-optimization
+  \item
+    Pre-positioning strategies
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{real-time-constraints}{%
+\subsubsection{12.2 Real-Time Constraints}\label{real-time-constraints}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Concept:} Meeting timing deadlines for control loops
+\item
+  \textbf{Requirements:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Vision processing: \textasciitilde10-30 Hz
+  \item
+    Motion control: 100-1000 Hz
+  \item
+    High-level planning: 1-10 Hz
+  \end{itemize}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{concept-mapping-to-system-modules}{%
+\subsection{Concept Mapping to System
+Modules}\label{concept-mapping-to-system-modules}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4730}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5270}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Robotics Concept}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{System Module/Component}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Object Detection & Vision Pipeline (YOLO/SSD node) \\
+Pose Estimation & Pose Estimation Node \\
+Camera-Robot Calibration & Calibration Module (hand-eye) \\
+Inverse Kinematics & MoveIt / IK Solver Node \\
+Path Planning & MoveIt / OMPL Planner \\
+Trajectory Execution & Controller Manager (ros2\_control) \\
+Grasp Planning & Grasp Planner Node \\
+State Machine & Task Orchestrator Node (FSM/BT) \\
+Collision Checking & MoveIt Planning Scene \\
+Sensor Fusion & Perception Fusion Node \\
+Transform Management & TF2 Static/Dynamic Broadcasters \\
+Force Control & FTS Driver + Admittance Controller \\
+Simulation & Gazebo + RViz2 \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{summary}{%
+\subsection{Summary}\label{summary}}
+
+This vision-based pick-and-place system integrates \textbf{13+ core
+robotics concepts}, spanning: - \textbf{Perception:} Computer vision,
+depth sensing, object recognition - \textbf{Planning:} Kinematics,
+motion planning, grasp synthesis - \textbf{Control:} Trajectory
+execution, force control, state machines - \textbf{Infrastructure:} ROS2
+communication, transforms, simulation
+
+Each concept is essential for building a robust, industrial-grade
+autonomous manipulation system.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Next Steps:} 1. Map these concepts to specific ROS2 packages 2.
+Define interfaces between modules 3. Create mathematical models for each
+concept 4. Develop test cases validating each concept
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Author:} System Architect \textbf{Review Status:} Pending Review
+
+\end{document}

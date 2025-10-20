@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Scenario Testing - VisionBot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px 0;
+            border-bottom: 2px solid #334155;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85em;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+
+        .nav-section {
+            margin-bottom: 25px;
+        }
+
+        .nav-section-title {
+            color: #64748b;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .badge {
+            background: var(--danger);
+            color: white;
+            font-size: 0.65em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 1.2em;
+        }
+
+        /* Robot & Scenario Selection */
+        .selection-area {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .robot-selector {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .robot-selector h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .robot-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .robot-option {
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .robot-option:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .robot-option.selected {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .robot-icon {
+            font-size: 2em;
+        }
+
+        .robot-info h3 {
+            color: white;
+            font-size: 1em;
+            margin-bottom: 3px;
+        }
+
+        .robot-info p {
+            color: #94a3b8;
+            font-size: 0.85em;
+        }
+
+        /* Scenario Selector */
+        .scenario-selector {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .scenario-selector h2 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .scenario-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .scenario-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .scenario-card.selected {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .scenario-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .scenario-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .scenario-card h3 {
+            color: white;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .scenario-card p {
+            color: #94a3b8;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .difficulty-easy {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .difficulty-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .difficulty-hard {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        /* Test Execution Area */
+        .test-execution {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .test-header h2 {
+            color: white;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .run-test-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--success), #059669);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .run-test-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .run-test-btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .run-test-btn.running {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+        }
+
+        /* Visualization Area */
+        .visualization-area {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .scenario-visualization {
+            background: #0f172a;
+            border-radius: 15px;
+            padding: 30px;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .viz-canvas {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Robot Animations for Different Scenarios */
+        .robot-performing {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Assembly Line Simulation */
+        .assembly-line {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .conveyor-belt {
+            position: absolute;
+            bottom: 100px;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(90deg, #475569 25%, #334155 25%, #334155 50%, #475569 50%, #475569 75%, #334155 75%, #334155 100%);
+            background-size: 40px 60px;
+            animation: conveyor 3s linear infinite;
+        }
+
+        @keyframes conveyor {
+            from { background-position: 0 0; }
+            to { background-position: 40px 0; }
+        }
+
+        .workpiece {
+            position: absolute;
+            bottom: 160px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            animation: moveWorkpiece 5s linear infinite;
+        }
+
+        @keyframes moveWorkpiece {
+            0% { left: -60px; }
+            100% { left: calc(100% + 60px); }
+        }
+
+        .robot-arm-assembly {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Warehouse Navigation */
+        .warehouse-floor {
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(90deg, #334155 1px, transparent 1px),
+                linear-gradient(#334155 1px, transparent 1px);
+            background-size: 50px 50px;
+            position: relative;
+        }
+
+        .warehouse-shelf {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, #475569, #334155);
+            border: 2px solid #64748b;
+            border-radius: 5px;
+        }
+
+        .shelf-1 { top: 50px; left: 100px; }
+        .shelf-2 { top: 50px; right: 100px; }
+        .shelf-3 { bottom: 50px; left: 150px; }
+        .shelf-4 { bottom: 50px; right: 150px; }
+
+        .mobile-robot {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+            animation: navigate 8s ease-in-out infinite;
+        }
+
+        @keyframes navigate {
+            0%, 100% { left: 20px; bottom: 20px; }
+            25% { left: 120px; bottom: 70px; }
+            50% { left: calc(100% - 140px); bottom: 70px; }
+            75% { left: calc(100% - 60px); bottom: 180px; }
+        }
+
+        /* Surgical Precision */
+        .surgical-scene {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: radial-gradient(circle, #1e293b, #0f172a);
+        }
+
+        .patient-area {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 100px;
+            background: linear-gradient(135deg, #475569, #334155);
+            border-radius: 50px;
+            border: 3px solid #64748b;
+        }
+
+        .surgical-target {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--danger);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.8);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .surgical-instrument {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100px;
+            background: linear-gradient(180deg, #94a3b8, #64748b);
+            animation: precisionMove 3s ease-in-out infinite;
+        }
+
+        @keyframes precisionMove {
+            0%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            50% { transform: translateX(-50%) translateY(30px) rotate(5deg); }
+        }
+
+        /* Drone Flight Path */
+        .flight-zone {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(180deg, #1e3a5f, #0f172a);
+        }
+
+        .drone-visualization {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            animation: flightPath 6s ease-in-out infinite;
+        }
+
+        @keyframes flightPath {
+            0%, 100% { left: 20px; top: 80%; }
+            25% { left: 30%; top: 30%; }
+            50% { left: 70%; top: 20%; }
+            75% { left: 80%; top: 60%; }
+        }
+
+        .propeller-viz {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--info);
+            border-radius: 50%;
+            position: absolute;
+            animation: rotateProp 0.3s linear infinite;
+        }
+
+        .prop-tl { top: 0; left: 0; }
+        .prop-tr { top: 0; right: 0; }
+        .prop-bl { bottom: 0; left: 0; }
+        .prop-br { bottom: 0; right: 0; }
+
+        @keyframes rotateProp {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .delivery-point {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Test Metrics */
+        .test-metrics {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .test-metrics h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .metric-item {
+            margin-bottom: 20px;
+        }
+
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .metric-bar {
+            width: 100%;
+            height: 8px;
+            background: #334155;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            transition: width 0.5s ease-out;
+        }
+
+        .metric-value {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Test Results */
+        .test-results {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .test-results h2 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .result-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid #334155;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .result-value {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .result-label {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        .pass {
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .fail {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .warning {
+            color: var(--warning);
+            border-color: var(--warning);
+        }
+
+        /* Test Console */
+        .test-console {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        .console-line {
+            padding: 5px 0;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .console-line:last-child {
+            border-bottom: none;
+        }
+
+        .timestamp {
+            color: #64748b;
+            margin-right: 10px;
+        }
+
+        .console-success {
+            color: var(--success);
+        }
+
+        .console-error {
+            color: var(--danger);
+        }
+
+        .console-info {
+            color: var(--info);
+        }
+
+        .console-warning {
+            color: var(--warning);
+        }
+
+        /* Status Indicator */
+        .test-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .status-ready {
+            background: rgba(100, 116, 139, 0.2);
+            color: #cbd5e1;
+            border: 2px solid #64748b;
+        }
+
+        .status-running {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 2px solid var(--warning);
+        }
+
+        .status-passed {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 2px solid var(--success);
+        }
+
+        .status-failed {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 2px solid var(--danger);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.ready { background: #64748b; }
+        .status-dot.running { background: var(--warning); }
+        .status-dot.passed { background: var(--success); }
+        .status-dot.failed { background: var(--danger); }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1><i class="fas fa-vial"></i> VisionBot</h1>
+            <p>Robot Scenario Testing</p>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <div class="nav-section-title">📁 MAIN</div>
+                <a href="index.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="demo_ui.html" class="nav-item">
+                    <i class="fas fa-desktop"></i>
+                    <span>Demo UI</span>
+                </a>
+                <a href="simulation_phases.html" class="nav-item">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Simulation Phases</span>
+                </a>
+                <a href="engineering_workflow.html" class="nav-item">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Engineering Workflow</span>
+                </a>
+                <a href="robot_showcase.html" class="nav-item">
+                    <i class="fas fa-th-large"></i>
+                    <span>Robot Showcase</span>
+                </a>
+                <a href="robot_scenario_testing.html" class="nav-item active">
+                    <i class="fas fa-vial"></i>
+                    <span>Scenario Testing</span>
+                    <span class="badge">NEW</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">📁 DOCUMENTATION</div>
+                <a href="html_styled/28_multi_domain_simulation_testing_platform.html" class="nav-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>Doc 28: Simulation</span>
+                </a>
+                <a href="html_styled/29_demo_guide_complete_flow.html" class="nav-item">
+                    <i class="fas fa-book-open"></i>
+                    <span>Doc 29: Demo Guide</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-vial"></i> Robot Scenario Testing Platform</h1>
+            <p>Select Robot → Choose Scenario → Run Real-World Tests</p>
+        </div>
+
+        <!-- Selection Area -->
+        <div class="selection-area">
+            <!-- Robot Selector -->
+            <div class="robot-selector">
+                <h2><i class="fas fa-robot"></i> Select Robot</h2>
+                <div class="robot-list" id="robotList">
+                    <!-- Robots will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Scenario Selector -->
+            <div class="scenario-selector">
+                <h2><i class="fas fa-tasks"></i> Choose Test Scenario</h2>
+                <div class="scenario-grid" id="scenarioGrid">
+                    <!-- Scenarios will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Execution -->
+        <div class="test-execution">
+            <div class="test-header">
+                <div>
+                    <h2><i class="fas fa-flask"></i> Test Execution</h2>
+                    <div class="test-status status-ready" id="testStatus">
+                        <div class="status-dot ready"></div>
+                        <span>READY TO TEST</span>
+                    </div>
+                </div>
+                <button class="run-test-btn" id="runTestBtn" onclick="runTest()">
+                    <i class="fas fa-play"></i>
+                    Run Test
+                </button>
+            </div>
+
+            <!-- Visualization Area -->
+            <div class="visualization-area">
+                <div class="scenario-visualization">
+                    <div class="viz-canvas" id="vizCanvas">
+                        <p style="color: #64748b; text-align: center;">
+                            Select a robot and scenario to begin testing
+                        </p>
+                    </div>
+                </div>
+
+                <div class="test-metrics">
+                    <h3><i class="fas fa-chart-line"></i> Real-Time Metrics</h3>
+                    <div id="metricsDisplay">
+                        <p style="color: #64748b; text-align: center; padding: 40px 0;">
+                            Metrics will appear during test execution
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Console -->
+            <div class="test-console" id="testConsole">
+                <div class="console-line">
+                    <span class="timestamp">[00:00:00]</span>
+                    <span class="console-info">System initialized. Ready for testing.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Results -->
+        <div class="test-results">
+            <h2><i class="fas fa-clipboard-check"></i> Test Results</h2>
+            <div class="results-grid" id="resultsGrid">
+                <div class="result-card">
+                    <div class="result-icon">📊</div>
+                    <div class="result-value">--</div>
+                    <div class="result-label">Accuracy</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">⚡</div>
+                    <div class="result-value">--</div>
+                    <div class="result-label">Speed</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">✓</div>
+                    <div class="result-value">--</div>
+                    <div class="result-label">Success Rate</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-icon">⏱️</div>
+                    <div class="result-value">--</div>
+                    <div class="result-label">Cycle Time</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Robot Database with Test Capabilities
+        const robots = {
+            // INDUSTRIAL
+            'fanuc_m10ia': {
+                name: 'FANUC M-10iA',
+                manufacturer: 'FANUC',
+                icon: '🏭',
+                category: 'industrial',
+                scenarios: ['assembly', 'precision_pick', 'quality_inspection', 'high_speed']
+            },
+            'abb_irb120': {
+                name: 'ABB IRB 120',
+                manufacturer: 'ABB',
+                icon: '⚙️',
+                category: 'industrial',
+                scenarios: ['assembly', 'precision_pick', 'quality_inspection']
+            },
+            // COLLABORATIVE
+            'ur5e': {
+                name: 'UR5e',
+                manufacturer: 'Universal Robots',
+                icon: '🤝',
+                category: 'collaborative',
+                scenarios: ['human_collaboration', 'precision_pick', 'assembly']
+            },
+            // MOBILE
+            'spot': {
+                name: 'Spot',
+                manufacturer: 'Boston Dynamics',
+                icon: '🐕',
+                category: 'mobile',
+                scenarios: ['warehouse_nav', 'obstacle_course', 'inspection']
+            },
+            'mir100': {
+                name: 'MiR100',
+                manufacturer: 'Mobile Industrial Robots',
+                icon: '🚚',
+                category: 'mobile',
+                scenarios: ['warehouse_nav', 'material_transport']
+            },
+            // HUMANOID
+            'asimo': {
+                name: 'ASIMO',
+                manufacturer: 'Honda',
+                icon: '🚶',
+                category: 'humanoid',
+                scenarios: ['stair_climbing', 'object_handoff', 'social_interaction']
+            },
+            // MEDICAL
+            'davinci': {
+                name: 'da Vinci Surgical',
+                manufacturer: 'Intuitive Surgical',
+                icon: '🏥',
+                category: 'medical',
+                scenarios: ['surgical_precision', 'suturing', 'tissue_manipulation']
+            },
+            // DRONES
+            'dji_mavic3': {
+                name: 'DJI Mavic 3',
+                manufacturer: 'DJI',
+                icon: '🚁',
+                category: 'drone',
+                scenarios: ['aerial_mapping', 'package_delivery', 'inspection']
+            },
+            // WAREHOUSE
+            'kiva': {
+                name: 'Kiva Robot',
+                manufacturer: 'Amazon',
+                icon: '📦',
+                category: 'warehouse',
+                scenarios: ['warehouse_nav', 'shelf_transport', 'order_picking']
+            }
+        };
+
+        // Test Scenarios Database
+        const scenarios = {
+            // INDUSTRIAL SCENARIOS
+            'assembly': {
+                name: 'Assembly Line Production',
+                description: 'Rapid assembly of components with high precision',
+                icon: '🔧',
+                difficulty: 'medium',
+                duration: 8,
+                visualization: 'assembly',
+                requirements: ['industrial', 'collaborative'],
+                metrics: {
+                    accuracy: { target: 99.5, unit: '%' },
+                    speed: { target: 120, unit: 'parts/hr' },
+                    repeatability: { target: 0.05, unit: 'mm' },
+                    cycleTime: { target: 30, unit: 's' }
+                },
+                testSteps: [
+                    'Initialize robot and calibrate tools',
+                    'Load component A from feeder',
+                    'Align component with ±0.03mm precision',
+                    'Insert fasteners (torque control)',
+                    'Verify assembly with vision system',
+                    'Place completed assembly on conveyor',
+                    'Record cycle time and accuracy'
+                ]
+            },
+            'precision_pick': {
+                name: 'High-Precision Pick & Place',
+                description: 'Sub-millimeter accuracy object manipulation',
+                icon: '🎯',
+                difficulty: 'hard',
+                duration: 6,
+                visualization: 'assembly',
+                requirements: ['industrial', 'collaborative'],
+                metrics: {
+                    accuracy: { target: 99.9, unit: '%' },
+                    precision: { target: 0.01, unit: 'mm' },
+                    speed: { target: 60, unit: 'picks/hr' },
+                    errorRate: { target: 0.1, unit: '%' }
+                },
+                testSteps: [
+                    'Vision system locates micro-components',
+                    'Calculate optimal grasp points',
+                    'Approach with force feedback',
+                    'Execute precision grasp',
+                    'Transport to target location (±0.01mm)',
+                    'Gentle release with force monitoring',
+                    'Validate placement accuracy'
+                ]
+            },
+            'quality_inspection': {
+                name: 'Automated Quality Inspection',
+                description: 'Vision-based defect detection and measurement',
+                icon: '🔍',
+                difficulty: 'medium',
+                duration: 7,
+                visualization: 'assembly',
+                requirements: ['industrial', 'collaborative'],
+                metrics: {
+                    defectDetection: { target: 99.8, unit: '%' },
+                    throughput: { target: 200, unit: 'parts/hr' },
+                    falsePositive: { target: 0.5, unit: '%' },
+                    measurementAccuracy: { target: 0.02, unit: 'mm' }
+                },
+                testSteps: [
+                    'Capture high-res images (5 angles)',
+                    'AI-based defect detection',
+                    'Dimensional measurement',
+                    'Surface quality analysis',
+                    'Compare to CAD model',
+                    'Classification (pass/fail/rework)',
+                    'Data logging and traceability'
+                ]
+            },
+            'high_speed': {
+                name: 'High-Speed Operations',
+                description: 'Maximum throughput stress test',
+                icon: '⚡',
+                difficulty: 'hard',
+                duration: 10,
+                visualization: 'assembly',
+                requirements: ['industrial'],
+                metrics: {
+                    throughput: { target: 300, unit: 'cycles/hr' },
+                    reliability: { target: 99.5, unit: '%' },
+                    vibration: { target: 0.5, unit: 'mm/s' },
+                    temperature: { target: 45, unit: '°C' }
+                },
+                testSteps: [
+                    'Ramp up to maximum speed',
+                    'Execute 1000 consecutive cycles',
+                    'Monitor joint temperatures',
+                    'Track vibration levels',
+                    'Measure accuracy degradation',
+                    'Emergency stop response test',
+                    'Cool-down and diagnostics'
+                ]
+            },
+
+            // COLLABORATIVE SCENARIOS
+            'human_collaboration': {
+                name: 'Human-Robot Collaboration',
+                description: 'Safe interaction with human operators',
+                icon: '👥',
+                difficulty: 'medium',
+                duration: 9,
+                visualization: 'assembly',
+                requirements: ['collaborative'],
+                metrics: {
+                    safetyScore: { target: 100, unit: '%' },
+                    responseTime: { target: 50, unit: 'ms' },
+                    forceLimit: { target: 150, unit: 'N' },
+                    productivity: { target: 85, unit: '%' }
+                },
+                testSteps: [
+                    'Human operator approaches workspace',
+                    'Robot detects human presence (safety zone)',
+                    'Reduce speed to safe levels',
+                    'Collaborative assembly task',
+                    'Force limiting test (max 150N)',
+                    'Emergency stop response',
+                    'Return to normal operation'
+                ]
+            },
+
+            // MOBILE SCENARIOS
+            'warehouse_nav': {
+                name: 'Warehouse Navigation',
+                description: 'Autonomous navigation in dynamic environment',
+                icon: '🗺️',
+                difficulty: 'medium',
+                duration: 12,
+                visualization: 'warehouse',
+                requirements: ['mobile', 'warehouse'],
+                metrics: {
+                    pathAccuracy: { target: 95, unit: '%' },
+                    obstacleAvoidance: { target: 100, unit: '%' },
+                    speed: { target: 1.2, unit: 'm/s' },
+                    batteryEfficiency: { target: 90, unit: '%' }
+                },
+                testSteps: [
+                    'Start from charging station',
+                    'Navigate to shelf A3 (50m distance)',
+                    'Avoid dynamic obstacles (humans, forklifts)',
+                    'Retrieve inventory item',
+                    'Navigate to packing station B7',
+                    'Deliver item accurately',
+                    'Return to home position'
+                ]
+            },
+            'obstacle_course': {
+                name: 'Complex Obstacle Course',
+                description: 'Navigate challenging terrain and obstacles',
+                icon: '🏔️',
+                difficulty: 'hard',
+                duration: 15,
+                visualization: 'warehouse',
+                requirements: ['mobile'],
+                metrics: {
+                    completionTime: { target: 180, unit: 's' },
+                    collisions: { target: 0, unit: 'count' },
+                    stability: { target: 95, unit: '%' },
+                    adaptability: { target: 90, unit: '%' }
+                },
+                testSteps: [
+                    'Navigate stairs (15° incline)',
+                    'Cross narrow passage (1.2m width)',
+                    'Avoid moving obstacles',
+                    'Climb over 15cm obstacle',
+                    'Navigate slippery surface',
+                    'Recover from stumble',
+                    'Complete course under 3 minutes'
+                ]
+            },
+            'inspection': {
+                name: 'Facility Inspection',
+                description: 'Autonomous inspection and anomaly detection',
+                icon: '🔎',
+                difficulty: 'medium',
+                duration: 20,
+                visualization: 'warehouse',
+                requirements: ['mobile', 'drone'],
+                metrics: {
+                    coverage: { target: 98, unit: '%' },
+                    anomalyDetection: { target: 95, unit: '%' },
+                    dataQuality: { target: 90, unit: '%' },
+                    duration: { target: 30, unit: 'min' }
+                },
+                testSteps: [
+                    'Generate inspection route',
+                    'Scan all designated areas',
+                    'Thermal imaging of equipment',
+                    'Visual inspection for leaks/damage',
+                    'Gas leak detection',
+                    'Data upload to cloud',
+                    'Generate inspection report'
+                ]
+            },
+
+            // MEDICAL SCENARIOS
+            'surgical_precision': {
+                name: 'Surgical Precision Test',
+                description: 'Microsurgical accuracy and control',
+                icon: '🔬',
+                difficulty: 'hard',
+                duration: 10,
+                visualization: 'surgical',
+                requirements: ['medical'],
+                metrics: {
+                    accuracy: { target: 99.99, unit: '%' },
+                    precision: { target: 0.1, unit: 'mm' },
+                    tremor: { target: 0.01, unit: 'mm' },
+                    success: { target: 100, unit: '%' }
+                },
+                testSteps: [
+                    'Calibrate surgical instruments',
+                    'Identify target tissue (simulation)',
+                    'Execute precision incision (1mm)',
+                    'Suture with 0.1mm accuracy',
+                    'Tremor cancellation test',
+                    'Instrument collision avoidance',
+                    'Validate surgical outcome'
+                ]
+            },
+            'suturing': {
+                name: 'Automated Suturing',
+                description: 'Consistent suture placement and tension',
+                icon: '🧵',
+                difficulty: 'hard',
+                duration: 8,
+                visualization: 'surgical',
+                requirements: ['medical'],
+                metrics: {
+                    consistency: { target: 99, unit: '%' },
+                    tension: { target: 0.5, unit: 'N' },
+                    spacing: { target: 3.0, unit: 'mm' },
+                    speed: { target: 2.5, unit: 'min/suture' }
+                },
+                testSteps: [
+                    'Thread needle automatically',
+                    'Identify suture points',
+                    'Execute first suture',
+                    'Measure and maintain tension (0.5N)',
+                    'Place subsequent sutures (3mm spacing)',
+                    'Tie surgical knot',
+                    'Verify closure integrity'
+                ]
+            },
+
+            // DRONE SCENARIOS
+            'aerial_mapping': {
+                name: 'Aerial Mapping Survey',
+                description: 'High-resolution terrain mapping',
+                icon: '🗺️',
+                difficulty: 'medium',
+                duration: 18,
+                visualization: 'flight',
+                requirements: ['drone'],
+                metrics: {
+                    coverage: { target: 99, unit: '%' },
+                    resolution: { target: 2, unit: 'cm/px' },
+                    accuracy: { target: 10, unit: 'cm' },
+                    batteryUsage: { target: 85, unit: '%' }
+                },
+                testSteps: [
+                    'Pre-flight checklist',
+                    'Takeoff and reach survey altitude (50m)',
+                    'Execute grid pattern survey',
+                    'Capture overlapping images (70%)',
+                    'Maintain stable altitude (±0.5m)',
+                    'GPS position logging',
+                    'Safe landing and data transfer'
+                ]
+            },
+            'package_delivery': {
+                name: 'Autonomous Package Delivery',
+                description: 'Precision delivery to GPS coordinates',
+                icon: '📦',
+                difficulty: 'hard',
+                duration: 12,
+                visualization: 'flight',
+                requirements: ['drone'],
+                metrics: {
+                    accuracy: { target: 1, unit: 'm' },
+                    reliability: { target: 99, unit: '%' },
+                    speed: { target: 15, unit: 'm/s' },
+                    weatherAdaptation: { target: 90, unit: '%' }
+                },
+                testSteps: [
+                    'Load package (up to 2kg)',
+                    'Plan optimal flight path',
+                    'Navigate to delivery coordinates',
+                    'Avoid no-fly zones',
+                    'Descend to delivery altitude (2m)',
+                    'Release package at target (±1m)',
+                    'Return to base autonomously'
+                ]
+            },
+
+            // WAREHOUSE SPECIFIC
+            'shelf_transport': {
+                name: 'Shelf Transport Operation',
+                description: 'Lift and transport warehouse shelves',
+                icon: '📚',
+                difficulty: 'medium',
+                duration: 10,
+                visualization: 'warehouse',
+                requirements: ['warehouse'],
+                metrics: {
+                    liftCapacity: { target: 340, unit: 'kg' },
+                    stability: { target: 98, unit: '%' },
+                    accuracy: { target: 5, unit: 'mm' },
+                    throughput: { target: 40, unit: 'shelves/hr' }
+                },
+                testSteps: [
+                    'Locate target shelf (A3-47)',
+                    'Align under shelf (±5mm)',
+                    'Lift shelf (340kg load)',
+                    'Transport to destination (30m)',
+                    'Navigate tight corners',
+                    'Lower shelf at target location',
+                    'Verify stability and alignment'
+                ]
+            },
+            'order_picking': {
+                name: 'Order Picking Efficiency',
+                description: 'Multi-item order fulfillment',
+                icon: '🛒',
+                difficulty: 'medium',
+                duration: 15,
+                visualization: 'warehouse',
+                requirements: ['warehouse'],
+                metrics: {
+                    accuracy: { target: 99.5, unit: '%' },
+                    speed: { target: 100, unit: 'items/hr' },
+                    errorRate: { target: 0.5, unit: '%' },
+                    routeOptimization: { target: 95, unit: '%' }
+                },
+                testSteps: [
+                    'Receive order (15 items)',
+                    'Calculate optimal route',
+                    'Navigate to first shelf',
+                    'Vision-based item identification',
+                    'Pick correct item',
+                    'Repeat for all 15 items',
+                    'Deliver to packing station'
+                ]
+            },
+
+            // HUMANOID SCENARIOS
+            'stair_climbing': {
+                name: 'Stair Climbing Challenge',
+                description: 'Stable bipedal locomotion on stairs',
+                icon: '🪜',
+                difficulty: 'hard',
+                duration: 8,
+                visualization: 'warehouse',
+                requirements: ['humanoid'],
+                metrics: {
+                    stability: { target: 95, unit: '%' },
+                    speed: { target: 0.3, unit: 'm/s' },
+                    balance: { target: 98, unit: '%' },
+                    success: { target: 100, unit: '%' }
+                },
+                testSteps: [
+                    'Approach staircase',
+                    'Vision-based stair detection',
+                    'Calculate step height and depth',
+                    'Execute first step (balance control)',
+                    'Climb 10 stairs maintaining balance',
+                    'Handle mid-stair perturbation',
+                    'Complete ascent successfully'
+                ]
+            },
+            'object_handoff': {
+                name: 'Human-Robot Object Handoff',
+                description: 'Safe and intuitive object exchange',
+                icon: '🤝',
+                difficulty: 'medium',
+                duration: 6,
+                visualization: 'assembly',
+                requirements: ['humanoid', 'collaborative'],
+                metrics: {
+                    success: { target: 98, unit: '%' },
+                    safety: { target: 100, unit: '%' },
+                    naturalness: { target: 85, unit: '%' },
+                    responseTime: { target: 1.5, unit: 's' }
+                },
+                testSteps: [
+                    'Detect human approach',
+                    'Identify object for handoff',
+                    'Extend arm to human',
+                    'Wait for human grasp',
+                    'Confirm handoff (force sensor)',
+                    'Release object smoothly',
+                    'Return to neutral pose'
+                ]
+            },
+            'social_interaction': {
+                name: 'Social Interaction Test',
+                description: 'Natural human-robot communication',
+                icon: '💬',
+                difficulty: 'medium',
+                duration: 10,
+                visualization: 'assembly',
+                requirements: ['humanoid'],
+                metrics: {
+                    speechRecognition: { target: 95, unit: '%' },
+                    responseTime: { target: 2, unit: 's' },
+                    gestureAccuracy: { target: 90, unit: '%' },
+                    satisfaction: { target: 85, unit: '%' }
+                },
+                testSteps: [
+                    'Greet human visitor',
+                    'Listen to spoken question',
+                    'Process natural language',
+                    'Generate appropriate response',
+                    'Speak with natural intonation',
+                    'Execute complementary gestures',
+                    'Maintain eye contact'
+                ]
+            },
+
+            'material_transport': {
+                name: 'Material Transport',
+                description: 'Efficient material delivery between stations',
+                icon: '🚛',
+                difficulty: 'easy',
+                duration: 10,
+                visualization: 'warehouse',
+                requirements: ['mobile', 'warehouse'],
+                metrics: {
+                    efficiency: { target: 92, unit: '%' },
+                    speed: { target: 1.5, unit: 'm/s' },
+                    accuracy: { target: 95, unit: '%' },
+                    safety: { target: 100, unit: '%' }
+                },
+                testSteps: [
+                    'Receive transport request',
+                    'Navigate to pickup location',
+                    'Load material (QR scan verification)',
+                    'Calculate optimal route',
+                    'Transport to destination',
+                    'Unload at target location',
+                    'Confirm delivery completion'
+                ]
+            },
+
+            'tissue_manipulation': {
+                name: 'Tissue Manipulation',
+                description: 'Gentle handling of delicate biological tissue',
+                icon: '🧬',
+                difficulty: 'hard',
+                duration: 12,
+                visualization: 'surgical',
+                requirements: ['medical'],
+                metrics: {
+                    delicacy: { target: 99, unit: '%' },
+                    force: { target: 0.05, unit: 'N' },
+                    success: { target: 98, unit: '%' },
+                    damage: { target: 0, unit: '%' }
+                },
+                testSteps: [
+                    'Identify tissue region',
+                    'Approach with minimal force',
+                    'Grasp tissue (<0.05N)',
+                    'Retract gently',
+                    'Hold position steadily',
+                    'Release without damage',
+                    'Verify tissue integrity'
+                ]
+            }
+        };
+
+        let selectedRobot = null;
+        let selectedScenario = null;
+        let testRunning = false;
+        let testInterval = null;
+
+        // Initialize
+        function init() {
+            populateRobots();
+        }
+
+        // Populate robot list
+        function populateRobots() {
+            const robotList = document.getElementById('robotList');
+            robotList.innerHTML = '';
+
+            Object.entries(robots).forEach(([id, robot]) => {
+                const robotDiv = document.createElement('div');
+                robotDiv.className = 'robot-option';
+                robotDiv.onclick = () => selectRobot(id);
+                robotDiv.innerHTML = `
+                    <div class="robot-icon">${robot.icon}</div>
+                    <div class="robot-info">
+                        <h3>${robot.name}</h3>
+                        <p>${robot.manufacturer}</p>
+                    </div>
+                `;
+                robotList.appendChild(robotDiv);
+            });
+        }
+
+        // Select robot
+        function selectRobot(robotId) {
+            selectedRobot = robotId;
+            selectedScenario = null;
+
+            // Update UI
+            document.querySelectorAll('.robot-option').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.robot-option').classList.add('selected');
+
+            // Populate scenarios for this robot
+            populateScenarios(robotId);
+            updateConsole('info', `Selected robot: ${robots[robotId].name}`);
+        }
+
+        // Populate scenarios
+        function populateScenarios(robotId) {
+            const robot = robots[robotId];
+            const scenarioGrid = document.getElementById('scenarioGrid');
+            scenarioGrid.innerHTML = '';
+
+            Object.entries(scenarios).forEach(([id, scenario]) => {
+                const isCompatible = robot.scenarios.includes(id);
+                const scenarioCard = document.createElement('div');
+                scenarioCard.className = `scenario-card ${isCompatible ? '' : 'disabled'}`;
+                if (isCompatible) {
+                    scenarioCard.onclick = () => selectScenario(id);
+                }
+
+                scenarioCard.innerHTML = `
+                    <div class="scenario-icon">${scenario.icon}</div>
+                    <h3>${scenario.name}</h3>
+                    <p>${scenario.description}</p>
+                    <span class="difficulty-badge difficulty-${scenario.difficulty}">
+                        ${scenario.difficulty.toUpperCase()}
+                    </span>
+                `;
+                scenarioGrid.appendChild(scenarioCard);
+            });
+        }
+
+        // Select scenario
+        function selectScenario(scenarioId) {
+            selectedScenario = scenarioId;
+
+            // Update UI
+            document.querySelectorAll('.scenario-card').forEach(el => el.classList.remove('selected'));
+            event.target.closest('.scenario-card').classList.add('selected');
+
+            updateConsole('info', `Selected scenario: ${scenarios[scenarioId].name}`);
+            updateConsole('info', `Test duration: ${scenarios[scenarioId].duration} seconds`);
+
+            // Update visualization preview
+            updateVisualization(scenarios[scenarioId].visualization);
+
+            // Enable run button
+            document.getElementById('runTestBtn').disabled = false;
+        }
+
+        // Update visualization
+        function updateVisualization(vizType) {
+            const vizCanvas = document.getElementById('vizCanvas');
+            vizCanvas.innerHTML = '';
+
+            if (vizType === 'assembly') {
+                vizCanvas.innerHTML = `
+                    <div class="assembly-line">
+                        <div class="conveyor-belt"></div>
+                        <div class="workpiece"></div>
+                        <div class="robot-arm-assembly">
+                            <div style="width: 80px; height: 100px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px; margin: 0 auto;"></div>
+                        </div>
+                    </div>
+                `;
+            } else if (vizType === 'warehouse') {
+                vizCanvas.innerHTML = `
+                    <div class="warehouse-floor">
+                        <div class="warehouse-shelf shelf-1"></div>
+                        <div class="warehouse-shelf shelf-2"></div>
+                        <div class="warehouse-shelf shelf-3"></div>
+                        <div class="warehouse-shelf shelf-4"></div>
+                        <div class="mobile-robot"></div>
+                    </div>
+                `;
+            } else if (vizType === 'surgical') {
+                vizCanvas.innerHTML = `
+                    <div class="surgical-scene">
+                        <div class="patient-area">
+                            <div class="surgical-target"></div>
+                        </div>
+                        <div class="surgical-instrument"></div>
+                    </div>
+                `;
+            } else if (vizType === 'flight') {
+                vizCanvas.innerHTML = `
+                    <div class="flight-zone">
+                        <div class="drone-visualization">
+                            <div class="propeller-viz prop-tl"></div>
+                            <div class="propeller-viz prop-tr"></div>
+                            <div class="propeller-viz prop-bl"></div>
+                            <div class="propeller-viz prop-br"></div>
+                        </div>
+                        <div class="delivery-point"></div>
+                    </div>
+                `;
+            }
+        }
+
+        // Run test
+        function runTest() {
+            if (!selectedRobot || !selectedScenario || testRunning) return;
+
+            testRunning = true;
+            const btn = document.getElementById('runTestBtn');
+            btn.classList.add('running');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+            btn.disabled = true;
+
+            updateStatus('running', 'TEST IN PROGRESS');
+            updateConsole('success', '========== TEST STARTED ==========');
+
+            const scenario = scenarios[selectedScenario];
+            let step = 0;
+            const stepDuration = (scenario.duration * 1000) / scenario.testSteps.length;
+
+            // Execute test steps
+            testInterval = setInterval(() => {
+                if (step < scenario.testSteps.length) {
+                    updateConsole('info', `Step ${step + 1}: ${scenario.testSteps[step]}`);
+                    updateMetrics(scenario.metrics, (step + 1) / scenario.testSteps.length);
+                    step++;
+                } else {
+                    completeTest(scenario);
+                }
+            }, stepDuration);
+        }
+
+        // Update metrics
+        function updateMetrics(metrics, progress) {
+            const metricsDisplay = document.getElementById('metricsDisplay');
+            metricsDisplay.innerHTML = '';
+
+            Object.entries(metrics).forEach(([key, data]) => {
+                const value = data.target * (0.8 + Math.random() * 0.2) * progress;
+                const metricDiv = document.createElement('div');
+                metricDiv.className = 'metric-item';
+                metricDiv.innerHTML = `
+                    <div class="metric-label">
+                        <span>${key.replace(/([A-Z])/g, ' $1').toUpperCase()}</span>
+                        <span class="metric-value">${value.toFixed(2)} ${data.unit}</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: ${(value / data.target) * 100}%"></div>
+                    </div>
+                `;
+                metricsDisplay.appendChild(metricDiv);
+            });
+        }
+
+        // Complete test
+        function completeTest(scenario) {
+            clearInterval(testInterval);
+            testRunning = false;
+
+            const success = Math.random() > 0.1; // 90% success rate
+            updateStatus(success ? 'passed' : 'failed', success ? 'TEST PASSED ✓' : 'TEST FAILED ✗');
+            updateConsole(success ? 'success' : 'error', `========== TEST ${success ? 'PASSED' : 'FAILED'} ==========`);
+
+            // Update results
+            const resultsGrid = document.getElementById('resultsGrid');
+            const metrics = Object.entries(scenario.metrics);
+            resultsGrid.innerHTML = '';
+
+            metrics.slice(0, 4).forEach(([key, data]) => {
+                const value = data.target * (success ? (0.95 + Math.random() * 0.05) : (0.7 + Math.random() * 0.2));
+                const resultCard = document.createElement('div');
+                resultCard.className = `result-card ${value >= data.target * 0.9 ? 'pass' : 'fail'}`;
+                resultCard.innerHTML = `
+                    <div class="result-icon">${value >= data.target * 0.9 ? '✓' : '✗'}</div>
+                    <div class="result-value">${value.toFixed(2)} ${data.unit}</div>
+                    <div class="result-label">${key.replace(/([A-Z])/g, ' $1').toUpperCase()}</div>
+                `;
+                resultsGrid.appendChild(resultCard);
+            });
+
+            // Reset button
+            const btn = document.getElementById('runTestBtn');
+            btn.classList.remove('running');
+            btn.innerHTML = '<i class="fas fa-play"></i> Run Test';
+            btn.disabled = false;
+        }
+
+        // Update status
+        function updateStatus(state, text) {
+            const statusEl = document.getElementById('testStatus');
+            statusEl.className = `test-status status-${state}`;
+            statusEl.innerHTML = `
+                <div class="status-dot ${state}"></div>
+                <span>${text}</span>
+            `;
+        }
+
+        // Update console
+        function updateConsole(type, message) {
+            const console = document.getElementById('testConsole');
+            const timestamp = new Date().toLocaleTimeString();
+            const line = document.createElement('div');
+            line.className = 'console-line';
+            line.innerHTML = `
+                <span class="timestamp">[${timestamp}]</span>
+                <span class="console-${type}">${message}</span>
+            `;
+            console.appendChild(line);
+            console.scrollTop = console.scrollHeight;
+        }
+
+        // Initialize on load
+        window.onload = init;
+    </script>
+</body>
+</html>

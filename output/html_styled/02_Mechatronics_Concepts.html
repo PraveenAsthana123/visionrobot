@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>02 Mechatronics Concepts</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../styles/beautiful.css" />
+
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        #TOC {
+            background: var(--dark);
+            color: white;
+            padding: 30px;
+            position: sticky;
+            top: 0;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        #TOC ul {
+            list-style: none;
+        }
+
+        #TOC a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        #TOC a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        main {
+            padding: 60px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin: 1.5em 0 0.5em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 0;
+            padding-bottom: 20px;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            margin-top: 1.5em;
+            padding-left: 20px;
+            border-left: 5px solid var(--primary);
+        }
+
+        h3 {
+            font-size: 1.6em;
+        }
+
+        p {
+            margin: 1em 0;
+            font-size: 1.05em;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--secondary);
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        blockquote {
+            border-left: 5px solid var(--primary);
+            background: #f8fafc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        a:hover {
+            border-bottom-color: var(--primary);
+        }
+
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 0.5em 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            #TOC {
+                display: none;
+            }
+        }
+        </style>
+        </head>
+<body><div class="container">
+<header id="title-block-header">
+<h1 class="title">02 Mechatronics Concepts</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a
+href="#mechatronics-concepts---vision-based-pick-and-place-system"
+id="toc-mechatronics-concepts---vision-based-pick-and-place-system"><span
+class="toc-section-number">1</span> Mechatronics Concepts - Vision-Based
+Pick and Place System</a>
+<ul>
+<li><a href="#overview" id="toc-overview"><span
+class="toc-section-number">1.1</span> Overview</a></li>
+<li><a href="#mechanical-systems" id="toc-mechanical-systems"><span
+class="toc-section-number">1.2</span> 1. Mechanical Systems</a>
+<ul>
+<li><a href="#robot-manipulator-mechanics"
+id="toc-robot-manipulator-mechanics"><span
+class="toc-section-number">1.2.1</span> 1.1 Robot Manipulator
+Mechanics</a></li>
+<li><a href="#end-effector-gripper-mechanisms"
+id="toc-end-effector-gripper-mechanisms"><span
+class="toc-section-number">1.2.2</span> 1.2 End-Effector (Gripper)
+Mechanisms</a></li>
+<li><a href="#structural-dynamics" id="toc-structural-dynamics"><span
+class="toc-section-number">1.2.3</span> 1.3 Structural Dynamics</a></li>
+<li><a href="#transmission-mechanisms"
+id="toc-transmission-mechanisms"><span
+class="toc-section-number">1.2.4</span> 1.4 Transmission
+Mechanisms</a></li>
+</ul></li>
+<li><a href="#electrical-systems" id="toc-electrical-systems"><span
+class="toc-section-number">1.3</span> 2. Electrical Systems</a>
+<ul>
+<li><a href="#power-systems" id="toc-power-systems"><span
+class="toc-section-number">1.3.1</span> 2.1 Power Systems</a></li>
+<li><a href="#actuation-systems" id="toc-actuation-systems"><span
+class="toc-section-number">1.3.2</span> 2.2 Actuation Systems</a></li>
+<li><a href="#motor-drives-controllers"
+id="toc-motor-drives-controllers"><span
+class="toc-section-number">1.3.3</span> 2.3 Motor Drives &amp;
+Controllers</a></li>
+</ul></li>
+<li><a href="#electronics-sensors" id="toc-electronics-sensors"><span
+class="toc-section-number">1.4</span> 3. Electronics &amp; Sensors</a>
+<ul>
+<li><a href="#vision-sensors" id="toc-vision-sensors"><span
+class="toc-section-number">1.4.1</span> 3.1 Vision Sensors</a></li>
+<li><a href="#forcetorque-sensors" id="toc-forcetorque-sensors"><span
+class="toc-section-number">1.4.2</span> 3.2 Force/Torque
+Sensors</a></li>
+<li><a href="#proximity-limit-sensors"
+id="toc-proximity-limit-sensors"><span
+class="toc-section-number">1.4.3</span> 3.3 Proximity &amp; Limit
+Sensors</a></li>
+<li><a href="#encoder-systems" id="toc-encoder-systems"><span
+class="toc-section-number">1.4.4</span> 3.4 Encoder Systems</a></li>
+</ul></li>
+<li><a href="#control-systems" id="toc-control-systems"><span
+class="toc-section-number">1.5</span> 4. Control Systems</a>
+<ul>
+<li><a href="#control-theory-fundamentals"
+id="toc-control-theory-fundamentals"><span
+class="toc-section-number">1.5.1</span> 4.1 Control Theory
+Fundamentals</a></li>
+<li><a href="#motion-control-architectures"
+id="toc-motion-control-architectures"><span
+class="toc-section-number">1.5.2</span> 4.2 Motion Control
+Architectures</a></li>
+<li><a href="#force-control" id="toc-force-control"><span
+class="toc-section-number">1.5.3</span> 4.3 Force Control</a></li>
+<li><a href="#real-time-control-systems"
+id="toc-real-time-control-systems"><span
+class="toc-section-number">1.5.4</span> 4.4 Real-Time Control
+Systems</a></li>
+</ul></li>
+<li><a href="#embedded-systems-microcontrollers"
+id="toc-embedded-systems-microcontrollers"><span
+class="toc-section-number">1.6</span> 5. Embedded Systems &amp;
+Microcontrollers</a>
+<ul>
+<li><a href="#microcontroller-units-mcu"
+id="toc-microcontroller-units-mcu"><span
+class="toc-section-number">1.6.1</span> 5.1 Microcontroller Units
+(MCU)</a></li>
+<li><a href="#single-board-computers-sbc"
+id="toc-single-board-computers-sbc"><span
+class="toc-section-number">1.6.2</span> 5.2 Single-Board Computers
+(SBC)</a></li>
+</ul></li>
+<li><a href="#signal-processing-filtering"
+id="toc-signal-processing-filtering"><span
+class="toc-section-number">1.7</span> 6. Signal Processing &amp;
+Filtering</a>
+<ul>
+<li><a href="#sensor-data-filtering"
+id="toc-sensor-data-filtering"><span
+class="toc-section-number">1.7.1</span> 6.1 Sensor Data
+Filtering</a></li>
+<li><a href="#signal-conditioning-circuits"
+id="toc-signal-conditioning-circuits"><span
+class="toc-section-number">1.7.2</span> 6.2 Signal Conditioning
+Circuits</a></li>
+</ul></li>
+<li><a href="#power-electronics" id="toc-power-electronics"><span
+class="toc-section-number">1.8</span> 7. Power Electronics</a>
+<ul>
+<li><a href="#motor-drivers" id="toc-motor-drivers"><span
+class="toc-section-number">1.8.1</span> 7.1 Motor Drivers</a></li>
+<li><a href="#dc-dc-converters" id="toc-dc-dc-converters"><span
+class="toc-section-number">1.8.2</span> 7.2 DC-DC Converters</a></li>
+</ul></li>
+<li><a href="#system-integration-interfacing"
+id="toc-system-integration-interfacing"><span
+class="toc-section-number">1.9</span> 8. System Integration &amp;
+Interfacing</a>
+<ul>
+<li><a href="#communication-protocols"
+id="toc-communication-protocols"><span
+class="toc-section-number">1.9.1</span> 8.1 Communication
+Protocols</a></li>
+<li><a href="#hardware-abstraction-layer-hal"
+id="toc-hardware-abstraction-layer-hal"><span
+class="toc-section-number">1.9.2</span> 8.2 Hardware Abstraction Layer
+(HAL)</a></li>
+</ul></li>
+<li><a href="#safety-fault-tolerance"
+id="toc-safety-fault-tolerance"><span
+class="toc-section-number">1.10</span> 9. Safety &amp; Fault
+Tolerance</a>
+<ul>
+<li><a href="#safety-rated-systems" id="toc-safety-rated-systems"><span
+class="toc-section-number">1.10.1</span> 9.1 Safety-Rated
+Systems</a></li>
+<li><a href="#fault-detection-diagnosis"
+id="toc-fault-detection-diagnosis"><span
+class="toc-section-number">1.10.2</span> 9.2 Fault Detection &amp;
+Diagnosis</a></li>
+</ul></li>
+<li><a href="#mechatronics-system-integration-map"
+id="toc-mechatronics-system-integration-map"><span
+class="toc-section-number">1.11</span> 10. Mechatronics System
+Integration Map</a>
+<ul>
+<li><a href="#subsystem-dependencies"
+id="toc-subsystem-dependencies"><span
+class="toc-section-number">1.11.1</span> 10.1 Subsystem
+Dependencies</a></li>
+<li><a href="#signal-flow" id="toc-signal-flow"><span
+class="toc-section-number">1.11.2</span> 10.2 Signal Flow</a></li>
+</ul></li>
+<li><a href="#mechatronics-concept-to-module-mapping"
+id="toc-mechatronics-concept-to-module-mapping"><span
+class="toc-section-number">1.12</span> 11. Mechatronics Concept to
+Module Mapping</a></li>
+<li><a href="#design-considerations-trade-offs"
+id="toc-design-considerations-trade-offs"><span
+class="toc-section-number">1.13</span> 12. Design Considerations &amp;
+Trade-offs</a>
+<ul>
+<li><a href="#mechanical" id="toc-mechanical"><span
+class="toc-section-number">1.13.1</span> 12.1 Mechanical</a></li>
+<li><a href="#electrical" id="toc-electrical"><span
+class="toc-section-number">1.13.2</span> 12.2 Electrical</a></li>
+<li><a href="#electronics" id="toc-electronics"><span
+class="toc-section-number">1.13.3</span> 12.3 Electronics</a></li>
+<li><a href="#control" id="toc-control"><span
+class="toc-section-number">1.13.4</span> 12.4 Control</a></li>
+</ul></li>
+<li><a href="#summary" id="toc-summary"><span
+class="toc-section-number">1.14</span> Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="mechatronics-concepts---vision-based-pick-and-place-system"><span
+class="header-section-number">1</span> Mechatronics Concepts -
+Vision-Based Pick and Place System</h1>
+<h2 data-number="1.1" id="overview"><span
+class="header-section-number">1.1</span> Overview</h2>
+<p>Mechatronics integrates <strong>Mechanical Engineering</strong>,
+<strong>Electrical Engineering</strong>, <strong>Electronics</strong>,
+and <strong>Computer Science</strong> to create intelligent systems.
+This document outlines all mechatronics concepts applied in the
+vision-based pick-and-place robotic system.</p>
+<hr />
+<h2 data-number="1.2" id="mechanical-systems"><span
+class="header-section-number">1.2</span> 1. Mechanical Systems</h2>
+<h3 data-number="1.2.1" id="robot-manipulator-mechanics"><span
+class="header-section-number">1.2.1</span> 1.1 Robot Manipulator
+Mechanics</h3>
+<h4 data-number="1.2.1.1" id="kinematic-chain"><span
+class="header-section-number">1.2.1.1</span> 1.1.1 Kinematic Chain</h4>
+<ul>
+<li><strong>Concept:</strong> Serial/parallel linkage configuration</li>
+<li><strong>Types:</strong>
+<ul>
+<li>Serial manipulator (6-DOF arm: UR5, ABB, KUKA)</li>
+<li>SCARA (Selective Compliance Assembly Robot Arm)</li>
+<li>Delta robot (parallel kinematics)</li>
+</ul></li>
+<li><strong>Application:</strong>
+<ul>
+<li>Workspace coverage analysis</li>
+<li>Reachability studies</li>
+<li>Joint limit constraints</li>
+</ul></li>
+</ul>
+<h4 data-number="1.2.1.2" id="degrees-of-freedom-dof"><span
+class="header-section-number">1.2.1.2</span> 1.1.2 Degrees of Freedom
+(DOF)</h4>
+<ul>
+<li><strong>Minimum DOF:</strong> 3 for positioning + 3 for orientation
+= 6 DOF</li>
+<li><strong>Redundancy:</strong> &gt;6 DOF for obstacle avoidance and
+singularity handling</li>
+<li><strong>Application:</strong> Task-specific DOF selection</li>
+</ul>
+<h4 data-number="1.2.1.3" id="link-geometry-d-h-parameters"><span
+class="header-section-number">1.2.1.3</span> 1.1.3 Link Geometry &amp;
+D-H Parameters</h4>
+<ul>
+<li><strong>Denavit-Hartenberg Convention:</strong>
+<ul>
+<li>Link length (a)</li>
+<li>Link twist (α)</li>
+<li>Link offset (d)</li>
+<li>Joint angle (θ)</li>
+</ul></li>
+<li><strong>Application:</strong>
+<ul>
+<li>Forward kinematics modeling</li>
+<li>URDF generation</li>
+</ul></li>
+</ul>
+<h3 data-number="1.2.2" id="end-effector-gripper-mechanisms"><span
+class="header-section-number">1.2.2</span> 1.2 End-Effector (Gripper)
+Mechanisms</h3>
+<h4 data-number="1.2.2.1" id="gripper-types"><span
+class="header-section-number">1.2.2.1</span> 1.2.1 Gripper Types</h4>
+<ul>
+<li><strong>Parallel Jaw Gripper:</strong>
+<ul>
+<li>Two-finger, symmetric closure</li>
+<li>Force transmission through linear actuation</li>
+</ul></li>
+<li><strong>Suction Gripper:</strong>
+<ul>
+<li>Vacuum-based (for flat, non-porous objects)</li>
+<li>Venturi effect or vacuum pump</li>
+</ul></li>
+<li><strong>Adaptive Gripper:</strong>
+<ul>
+<li>Soft robotics, compliant fingers</li>
+<li>Underactuated mechanisms</li>
+</ul></li>
+</ul>
+<h4 data-number="1.2.2.2" id="gripper-kinematics-force-analysis"><span
+class="header-section-number">1.2.2.2</span> 1.2.2 Gripper Kinematics
+&amp; Force Analysis</h4>
+<ul>
+<li><p><strong>Grasp Force Calculation:</strong></p>
+<pre><code>F_grasp = μ * N (friction force)
+Object weight: W = m * g
+Minimum normal force: N = W / (2 * μ)</code></pre></li>
+<li><p><strong>Gripper Opening Range:</strong> Adjustable for object
+size variation</p></li>
+<li><p><strong>Compliance:</strong> Spring-loaded fingers for delicate
+objects</p></li>
+</ul>
+<h3 data-number="1.2.3" id="structural-dynamics"><span
+class="header-section-number">1.2.3</span> 1.3 Structural Dynamics</h3>
+<h4 data-number="1.2.3.1" id="rigid-body-dynamics"><span
+class="header-section-number">1.2.3.1</span> 1.3.1 Rigid Body
+Dynamics</h4>
+<ul>
+<li><strong>Equations of Motion:</strong>
+<ul>
+<li>Lagrangian mechanics</li>
+<li>Newton-Euler recursive formulation</li>
+</ul></li>
+<li><strong>Inertia Matrix:</strong> M(q)</li>
+<li><strong>Coriolis/Centrifugal Forces:</strong> C(q, q̇)</li>
+<li><strong>Gravity Vector:</strong> G(q)</li>
+<li><strong>Equation:</strong> M(q)q̈ + C(q,q̇)q̇ + G(q) = τ</li>
+</ul>
+<h4 data-number="1.2.3.2" id="vibration-analysis"><span
+class="header-section-number">1.2.3.2</span> 1.3.2 Vibration
+Analysis</h4>
+<ul>
+<li><strong>Natural Frequencies:</strong> Avoid resonance</li>
+<li><strong>Damping:</strong> Minimize oscillations during motion</li>
+<li><strong>Application:</strong> Trajectory planning to reduce
+vibrations</li>
+</ul>
+<h3 data-number="1.2.4" id="transmission-mechanisms"><span
+class="header-section-number">1.2.4</span> 1.4 Transmission
+Mechanisms</h3>
+<h4 data-number="1.2.4.1" id="gears-reducers"><span
+class="header-section-number">1.2.4.1</span> 1.4.1 Gears &amp;
+Reducers</h4>
+<ul>
+<li><strong>Harmonic Drive:</strong> High reduction ratio, zero
+backlash</li>
+<li><strong>Planetary Gearbox:</strong> Compact, high torque</li>
+<li><strong>Application:</strong> Joint actuation with torque
+amplification</li>
+</ul>
+<h4 data-number="1.2.4.2" id="belts-pulleys"><span
+class="header-section-number">1.2.4.2</span> 1.4.2 Belts &amp;
+Pulleys</h4>
+<ul>
+<li><strong>Timing Belts:</strong> Synchronous motion</li>
+<li><strong>Application:</strong> Gripper actuation, linear motion
+stages</li>
+</ul>
+<hr />
+<h2 data-number="1.3" id="electrical-systems"><span
+class="header-section-number">1.3</span> 2. Electrical Systems</h2>
+<h3 data-number="1.3.1" id="power-systems"><span
+class="header-section-number">1.3.1</span> 2.1 Power Systems</h3>
+<h4 data-number="1.3.1.1" id="power-distribution-architecture"><span
+class="header-section-number">1.3.1.1</span> 2.1.1 Power Distribution
+Architecture</h4>
+<ul>
+<li><p><strong>Input:</strong> AC mains (110-240V) or DC supply (24V/48V
+industrial)</p></li>
+<li><p><strong>Power Tree:</strong></p>
+<pre><code>Mains AC → AC-DC Converter → DC Bus (24V/48V)
+  ├→ Motor Drivers (servo/stepper)
+  ├→ Embedded Controllers (5V/12V regulators)
+  ├→ Sensors (3.3V/5V)
+  └→ Vision System (12V)</code></pre></li>
+</ul>
+<h4 data-number="1.3.1.2" id="power-budget"><span
+class="header-section-number">1.3.1.2</span> 2.1.2 Power Budget</h4>
+<table>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Voltage</th>
+<th>Current</th>
+<th>Power</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>6x Servo Motors</td>
+<td>48V</td>
+<td>10A</td>
+<td>480W</td>
+</tr>
+<tr class="even">
+<td>Controller (Jetson)</td>
+<td>12V</td>
+<td>5A</td>
+<td>60W</td>
+</tr>
+<tr class="odd">
+<td>Camera System</td>
+<td>12V</td>
+<td>2A</td>
+<td>24W</td>
+</tr>
+<tr class="even">
+<td>Gripper Actuator</td>
+<td>24V</td>
+<td>3A</td>
+<td>72W</td>
+</tr>
+<tr class="odd">
+<td><strong>Total</strong></td>
+<td>-</td>
+<td>-</td>
+<td><strong>636W</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 data-number="1.3.1.3" id="protection-circuits"><span
+class="header-section-number">1.3.1.3</span> 2.1.3 Protection
+Circuits</h4>
+<ul>
+<li><strong>Overcurrent Protection:</strong> Fuses, circuit
+breakers</li>
+<li><strong>EMI/EMC Filtering:</strong> Noise suppression</li>
+<li><strong>Grounding:</strong> Safety earth, signal ground
+isolation</li>
+</ul>
+<h3 data-number="1.3.2" id="actuation-systems"><span
+class="header-section-number">1.3.2</span> 2.2 Actuation Systems</h3>
+<h4 data-number="1.3.2.1" id="servo-motors"><span
+class="header-section-number">1.3.2.1</span> 2.2.1 Servo Motors</h4>
+<ul>
+<li><strong>Type:</strong> Brushless DC (BLDC) or AC servo</li>
+<li><strong>Control:</strong> Position, velocity, torque modes</li>
+<li><strong>Feedback:</strong> Encoders (incremental/absolute)</li>
+<li><strong>Specifications:</strong>
+<ul>
+<li>Rated torque: 5-20 Nm</li>
+<li>Speed: 3000 RPM</li>
+<li>Resolution: 17-20 bit encoders</li>
+</ul></li>
+</ul>
+<h4 data-number="1.3.2.2" id="stepper-motors"><span
+class="header-section-number">1.3.2.2</span> 2.2.2 Stepper Motors</h4>
+<ul>
+<li><strong>Type:</strong> Hybrid stepper (1.8° or 0.9° step)</li>
+<li><strong>Advantages:</strong> Open-loop positioning, no feedback
+required</li>
+<li><strong>Disadvantages:</strong> Torque drops at high speed, step
+loss</li>
+<li><strong>Application:</strong> Gripper actuation (if
+cost-sensitive)</li>
+</ul>
+<h4 data-number="1.3.2.3" id="linear-actuators"><span
+class="header-section-number">1.3.2.3</span> 2.2.3 Linear Actuators</h4>
+<ul>
+<li><strong>Types:</strong>
+<ul>
+<li>Electric: Ball screw, lead screw</li>
+<li>Pneumatic: Air cylinders</li>
+</ul></li>
+<li><strong>Application:</strong> Z-axis (vertical) motion, gripper
+open/close</li>
+</ul>
+<h3 data-number="1.3.3" id="motor-drives-controllers"><span
+class="header-section-number">1.3.3</span> 2.3 Motor Drives &amp;
+Controllers</h3>
+<h4 data-number="1.3.3.1" id="servo-drives"><span
+class="header-section-number">1.3.3.1</span> 2.3.1 Servo Drives</h4>
+<ul>
+<li><strong>Function:</strong> Commutate motor phases, close
+position/velocity loops</li>
+<li><strong>Control Modes:</strong>
+<ul>
+<li>Position mode (PID)</li>
+<li>Velocity mode</li>
+<li>Torque mode</li>
+</ul></li>
+<li><strong>Communication:</strong> EtherCAT, CANopen, Modbus,
+RS-485</li>
+</ul>
+<h4 data-number="1.3.3.2" id="drive-tuning"><span
+class="header-section-number">1.3.3.2</span> 2.3.2 Drive Tuning</h4>
+<ul>
+<li><strong>PID Parameters:</strong> Proportional, Integral, Derivative
+gains</li>
+<li><strong>Auto-tuning:</strong> Some drives support automatic PID
+calibration</li>
+<li><strong>Application:</strong> Minimize overshoot, settling time</li>
+</ul>
+<hr />
+<h2 data-number="1.4" id="electronics-sensors"><span
+class="header-section-number">1.4</span> 3. Electronics &amp;
+Sensors</h2>
+<h3 data-number="1.4.1" id="vision-sensors"><span
+class="header-section-number">1.4.1</span> 3.1 Vision Sensors</h3>
+<h4 data-number="1.4.1.1" id="rgb-d-cameras"><span
+class="header-section-number">1.4.1.1</span> 3.1.1 RGB-D Cameras</h4>
+<ul>
+<li><strong>Models:</strong>
+<ul>
+<li>Intel RealSense D435/D455</li>
+<li>Microsoft Azure Kinect</li>
+<li>Orbbec Astra</li>
+</ul></li>
+<li><strong>Outputs:</strong>
+<ul>
+<li>RGB image (1920x1080 @ 30fps)</li>
+<li>Depth map (aligned to RGB)</li>
+<li>Point cloud (XYZ + RGB)</li>
+</ul></li>
+<li><strong>Interface:</strong> USB 3.0, USB-C</li>
+<li><strong>Application:</strong> Object detection, pose estimation</li>
+</ul>
+<h4 data-number="1.4.1.2" id="stereo-cameras"><span
+class="header-section-number">1.4.1.2</span> 3.1.2 Stereo Cameras</h4>
+<ul>
+<li><strong>Principle:</strong> Triangulation from two camera views</li>
+<li><strong>Calibration:</strong> Stereo calibration for
+disparity-to-depth</li>
+<li><strong>Advantages:</strong> Passive, works in all lighting</li>
+</ul>
+<h4 data-number="1.4.1.3" id="industrial-cameras"><span
+class="header-section-number">1.4.1.3</span> 3.1.3 Industrial
+Cameras</h4>
+<ul>
+<li><strong>Type:</strong> GigE Vision, USB3 Vision</li>
+<li><strong>Features:</strong> Global shutter, high frame rate (60-120
+fps)</li>
+<li><strong>Application:</strong> High-speed pick-and-place</li>
+</ul>
+<h3 data-number="1.4.2" id="forcetorque-sensors"><span
+class="header-section-number">1.4.2</span> 3.2 Force/Torque Sensors</h3>
+<h4 data-number="1.4.2.1" id="axis-ft-sensor"><span
+class="header-section-number">1.4.2.1</span> 3.2.1 6-Axis F/T
+Sensor</h4>
+<ul>
+<li><strong>Mounting:</strong> Between robot flange and gripper</li>
+<li><strong>Measurements:</strong> Fx, Fy, Fz, Tx, Ty, Tz</li>
+<li><strong>Resolution:</strong> 0.1-1 N force, 0.01-0.1 Nm torque</li>
+<li><strong>Application:</strong>
+<ul>
+<li>Grasp force control</li>
+<li>Collision detection</li>
+<li>Contact detection (surface touch)</li>
+</ul></li>
+</ul>
+<h4 data-number="1.4.2.2" id="signal-conditioning"><span
+class="header-section-number">1.4.2.2</span> 3.2.2 Signal
+Conditioning</h4>
+<ul>
+<li><strong>Amplification:</strong> Low-noise amplifiers</li>
+<li><strong>Filtering:</strong> Low-pass filter (remove high-freq
+noise)</li>
+<li><strong>Calibration:</strong> Zero-offset calibration, load
+compensation</li>
+</ul>
+<h3 data-number="1.4.3" id="proximity-limit-sensors"><span
+class="header-section-number">1.4.3</span> 3.3 Proximity &amp; Limit
+Sensors</h3>
+<h4 data-number="1.4.3.1" id="inductive-proximity-sensors"><span
+class="header-section-number">1.4.3.1</span> 3.3.1 Inductive Proximity
+Sensors</h4>
+<ul>
+<li><strong>Detection:</strong> Metal objects (non-contact)</li>
+<li><strong>Application:</strong> Detect gripper jaw position, home
+position</li>
+</ul>
+<h4 data-number="1.4.3.2" id="photoelectric-sensors"><span
+class="header-section-number">1.4.3.2</span> 3.3.2 Photoelectric
+Sensors</h4>
+<ul>
+<li><strong>Types:</strong> Through-beam, retro-reflective, diffuse</li>
+<li><strong>Application:</strong> Object presence detection on
+conveyor</li>
+</ul>
+<h4 data-number="1.4.3.3" id="limit-switches"><span
+class="header-section-number">1.4.3.3</span> 3.3.3 Limit Switches</h4>
+<ul>
+<li><strong>Type:</strong> Mechanical, magnetic (hall-effect)</li>
+<li><strong>Application:</strong> End-of-travel detection, safety
+interlocks</li>
+</ul>
+<h3 data-number="1.4.4" id="encoder-systems"><span
+class="header-section-number">1.4.4</span> 3.4 Encoder Systems</h3>
+<h4 data-number="1.4.4.1" id="rotary-encoders"><span
+class="header-section-number">1.4.4.1</span> 3.4.1 Rotary Encoders</h4>
+<ul>
+<li><strong>Types:</strong>
+<ul>
+<li>Incremental (A/B quadrature, index)</li>
+<li>Absolute (multi-turn)</li>
+</ul></li>
+<li><strong>Resolution:</strong> 1000-10000 CPR (counts per
+revolution)</li>
+<li><strong>Application:</strong> Joint position feedback</li>
+</ul>
+<h4 data-number="1.4.4.2" id="linear-encoders"><span
+class="header-section-number">1.4.4.2</span> 3.4.2 Linear Encoders</h4>
+<ul>
+<li><strong>Principle:</strong> Optical/magnetic scale reading</li>
+<li><strong>Application:</strong> Linear stage position measurement</li>
+</ul>
+<hr />
+<h2 data-number="1.5" id="control-systems"><span
+class="header-section-number">1.5</span> 4. Control Systems</h2>
+<h3 data-number="1.5.1" id="control-theory-fundamentals"><span
+class="header-section-number">1.5.1</span> 4.1 Control Theory
+Fundamentals</h3>
+<h4 data-number="1.5.1.1" id="pid-control"><span
+class="header-section-number">1.5.1.1</span> 4.1.1 PID Control</h4>
+<ul>
+<li><strong>Equation:</strong> u(t) = Kp·e(t) + Ki·∫e(t)dt +
+Kd·de(t)/dt</li>
+<li><strong>Tuning Methods:</strong>
+<ul>
+<li>Ziegler-Nichols</li>
+<li>Manual tuning</li>
+<li>Auto-tuning algorithms</li>
+</ul></li>
+<li><strong>Application:</strong> Joint position/velocity control</li>
+</ul>
+<h4 data-number="1.5.1.2" id="feedforward-control"><span
+class="header-section-number">1.5.1.2</span> 4.1.2 Feedforward
+Control</h4>
+<ul>
+<li><strong>Concept:</strong> Compensate known disturbances (gravity,
+friction)</li>
+<li><strong>Equation:</strong> τ_ff = G(q) + friction_model(q̇)</li>
+<li><strong>Application:</strong> Improve trajectory tracking</li>
+</ul>
+<h4 data-number="1.5.1.3" id="state-space-control"><span
+class="header-section-number">1.5.1.3</span> 4.1.3 State-Space
+Control</h4>
+<ul>
+<li><strong>Representation:</strong> ẋ = Ax + Bu, y = Cx</li>
+<li><strong>Controllers:</strong> LQR (Linear Quadratic Regulator)</li>
+<li><strong>Application:</strong> Advanced multi-variable control</li>
+</ul>
+<h3 data-number="1.5.2" id="motion-control-architectures"><span
+class="header-section-number">1.5.2</span> 4.2 Motion Control
+Architectures</h3>
+<h4 data-number="1.5.2.1" id="cascaded-control-loops"><span
+class="header-section-number">1.5.2.1</span> 4.2.1 Cascaded Control
+Loops</h4>
+<pre><code>Position Loop (outer) → Velocity Loop (middle) → Current Loop (inner)
+  10-100 Hz                 1 kHz                   10 kHz</code></pre>
+<h4 data-number="1.5.2.2" id="trajectory-interpolation"><span
+class="header-section-number">1.5.2.2</span> 4.2.2 Trajectory
+Interpolation</h4>
+<ul>
+<li><strong>Point-to-Point:</strong> Trapezoidal, S-curve velocity
+profiles</li>
+<li><strong>Continuous Path:</strong> Spline interpolation</li>
+<li><strong>Real-Time:</strong> Update setpoints at control
+frequency</li>
+</ul>
+<h3 data-number="1.5.3" id="force-control"><span
+class="header-section-number">1.5.3</span> 4.3 Force Control</h3>
+<h4 data-number="1.5.3.1" id="impedance-control"><span
+class="header-section-number">1.5.3.1</span> 4.3.1 Impedance
+Control</h4>
+<ul>
+<li><strong>Equation:</strong> F = M·ẍ + D·ẋ + K·x</li>
+<li><strong>Application:</strong> Compliant contact, assembly tasks</li>
+</ul>
+<h4 data-number="1.5.3.2" id="admittance-control"><span
+class="header-section-number">1.5.3.2</span> 4.3.2 Admittance
+Control</h4>
+<ul>
+<li><strong>Inverse of Impedance:</strong> Compute desired motion from
+measured force</li>
+<li><strong>Application:</strong> Human-robot collaboration, delicate
+grasping</li>
+</ul>
+<h3 data-number="1.5.4" id="real-time-control-systems"><span
+class="header-section-number">1.5.4</span> 4.4 Real-Time Control
+Systems</h3>
+<h4 data-number="1.5.4.1" id="real-time-operating-systems-rtos"><span
+class="header-section-number">1.5.4.1</span> 4.4.1 Real-Time Operating
+Systems (RTOS)</h4>
+<ul>
+<li><strong>Examples:</strong> RT-Preempt Linux, FreeRTOS, QNX</li>
+<li><strong>Requirements:</strong>
+<ul>
+<li>Deterministic latency (&lt;1 ms jitter)</li>
+<li>Priority-based scheduling</li>
+</ul></li>
+<li><strong>Application:</strong> Hard real-time control loops</li>
+</ul>
+<h4 data-number="1.5.4.2" id="control-frequency-requirements"><span
+class="header-section-number">1.5.4.2</span> 4.4.2 Control Frequency
+Requirements</h4>
+<table>
+<thead>
+<tr class="header">
+<th>Control Level</th>
+<th>Frequency</th>
+<th>Latency Req.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Current Control</td>
+<td>10-20 kHz</td>
+<td>&lt;100 µs</td>
+</tr>
+<tr class="even">
+<td>Velocity Control</td>
+<td>1-5 kHz</td>
+<td>&lt;1 ms</td>
+</tr>
+<tr class="odd">
+<td>Position Control</td>
+<td>100-1000 Hz</td>
+<td>&lt;10 ms</td>
+</tr>
+<tr class="even">
+<td>Task Planning</td>
+<td>1-10 Hz</td>
+<td>&lt;100 ms</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.6" id="embedded-systems-microcontrollers"><span
+class="header-section-number">1.6</span> 5. Embedded Systems &amp;
+Microcontrollers</h2>
+<h3 data-number="1.6.1" id="microcontroller-units-mcu"><span
+class="header-section-number">1.6.1</span> 5.1 Microcontroller Units
+(MCU)</h3>
+<h4 data-number="1.6.1.1" id="mcu-selection"><span
+class="header-section-number">1.6.1.1</span> 5.1.1 MCU Selection</h4>
+<ul>
+<li><strong>Low-Level Control:</strong> STM32, Arduino (gripper, simple
+I/O)</li>
+<li><strong>Application:</strong> PWM generation, encoder reading, I/O
+interfacing</li>
+</ul>
+<h4 data-number="1.6.1.2" id="communication-interfaces"><span
+class="header-section-number">1.6.1.2</span> 5.1.2 Communication
+Interfaces</h4>
+<ul>
+<li><strong>UART/Serial:</strong> Legacy motor controllers</li>
+<li><strong>SPI/I2C:</strong> Sensor interfaces</li>
+<li><strong>CAN Bus:</strong> Industrial communication</li>
+<li><strong>EtherCAT:</strong> High-speed distributed I/O</li>
+</ul>
+<h3 data-number="1.6.2" id="single-board-computers-sbc"><span
+class="header-section-number">1.6.2</span> 5.2 Single-Board Computers
+(SBC)</h3>
+<h4 data-number="1.6.2.1" id="sbc-options"><span
+class="header-section-number">1.6.2.1</span> 5.2.1 SBC Options</h4>
+<ul>
+<li><strong>NVIDIA Jetson (Nano/Xavier/Orin):</strong>
+<ul>
+<li>GPU for AI inference</li>
+<li>Application: Vision processing, deep learning</li>
+</ul></li>
+<li><strong>Raspberry Pi:</strong>
+<ul>
+<li>Low cost, general-purpose</li>
+<li>Application: Lightweight tasks, prototyping</li>
+</ul></li>
+<li><strong>Industrial PC (x86):</strong>
+<ul>
+<li>High compute, ROS2 master</li>
+<li>Application: MoveIt planning, system orchestration</li>
+</ul></li>
+</ul>
+<hr />
+<h2 data-number="1.7" id="signal-processing-filtering"><span
+class="header-section-number">1.7</span> 6. Signal Processing &amp;
+Filtering</h2>
+<h3 data-number="1.7.1" id="sensor-data-filtering"><span
+class="header-section-number">1.7.1</span> 6.1 Sensor Data
+Filtering</h3>
+<h4 data-number="1.7.1.1" id="low-pass-filter"><span
+class="header-section-number">1.7.1.1</span> 6.1.1 Low-Pass Filter</h4>
+<ul>
+<li><strong>Purpose:</strong> Remove high-frequency noise</li>
+<li><strong>Types:</strong>
+<ul>
+<li>Moving average</li>
+<li>Exponential smoothing</li>
+<li>Butterworth filter</li>
+</ul></li>
+<li><strong>Application:</strong> Smooth encoder readings, force sensor
+data</li>
+</ul>
+<h4 data-number="1.7.1.2" id="kalman-filter"><span
+class="header-section-number">1.7.1.2</span> 6.1.2 Kalman Filter</h4>
+<ul>
+<li><strong>Purpose:</strong> Optimal state estimation with noisy
+measurements</li>
+<li><strong>Application:</strong> Fuse multiple sensors (vision +
+encoder)</li>
+</ul>
+<h4 data-number="1.7.1.3" id="median-filter"><span
+class="header-section-number">1.7.1.3</span> 6.1.3 Median Filter</h4>
+<ul>
+<li><strong>Purpose:</strong> Remove outliers/spikes</li>
+<li><strong>Application:</strong> Depth image denoising</li>
+</ul>
+<h3 data-number="1.7.2" id="signal-conditioning-circuits"><span
+class="header-section-number">1.7.2</span> 6.2 Signal Conditioning
+Circuits</h3>
+<h4 data-number="1.7.2.1" id="amplification"><span
+class="header-section-number">1.7.2.1</span> 6.2.1 Amplification</h4>
+<ul>
+<li><strong>Instrumentation Amplifiers:</strong> High CMRR for
+differential signals</li>
+<li><strong>Application:</strong> Strain gauge, load cell
+amplification</li>
+</ul>
+<h4 data-number="1.7.2.2" id="analog-to-digital-conversion-adc"><span
+class="header-section-number">1.7.2.2</span> 6.2.2 Analog-to-Digital
+Conversion (ADC)</h4>
+<ul>
+<li><strong>Resolution:</strong> 12-16 bit</li>
+<li><strong>Sampling Rate:</strong> 1-100 kHz</li>
+<li><strong>Application:</strong> Force sensor, analog encoder
+readout</li>
+</ul>
+<hr />
+<h2 data-number="1.8" id="power-electronics"><span
+class="header-section-number">1.8</span> 7. Power Electronics</h2>
+<h3 data-number="1.8.1" id="motor-drivers"><span
+class="header-section-number">1.8.1</span> 7.1 Motor Drivers</h3>
+<h4 data-number="1.8.1.1" id="h-bridge"><span
+class="header-section-number">1.8.1.1</span> 7.1.1 H-Bridge</h4>
+<ul>
+<li><strong>Function:</strong> Bidirectional current control for DC
+motors</li>
+<li><strong>Components:</strong> MOSFETs, gate drivers</li>
+<li><strong>Application:</strong> DC motor speed/direction control</li>
+</ul>
+<h4 data-number="1.8.1.2" id="three-phase-inverter"><span
+class="header-section-number">1.8.1.2</span> 7.1.2 Three-Phase
+Inverter</h4>
+<ul>
+<li><strong>Function:</strong> Drive BLDC/AC servo motors</li>
+<li><strong>Modulation:</strong> PWM (Space Vector Modulation,
+Sinusoidal PWM)</li>
+<li><strong>Application:</strong> High-performance servo drives</li>
+</ul>
+<h3 data-number="1.8.2" id="dc-dc-converters"><span
+class="header-section-number">1.8.2</span> 7.2 DC-DC Converters</h3>
+<h4 data-number="1.8.2.1" id="buck-converter-step-down"><span
+class="header-section-number">1.8.2.1</span> 7.2.1 Buck Converter
+(Step-Down)</h4>
+<ul>
+<li><strong>Input:</strong> 48V → Output: 12V/5V</li>
+<li><strong>Efficiency:</strong> 85-95%</li>
+<li><strong>Application:</strong> Power embedded systems from main DC
+bus</li>
+</ul>
+<h4 data-number="1.8.2.2" id="boost-converter-step-up"><span
+class="header-section-number">1.8.2.2</span> 7.2.2 Boost Converter
+(Step-Up)</h4>
+<ul>
+<li><strong>Application:</strong> Battery-powered systems</li>
+</ul>
+<hr />
+<h2 data-number="1.9" id="system-integration-interfacing"><span
+class="header-section-number">1.9</span> 8. System Integration &amp;
+Interfacing</h2>
+<h3 data-number="1.9.1" id="communication-protocols"><span
+class="header-section-number">1.9.1</span> 8.1 Communication
+Protocols</h3>
+<h4 data-number="1.9.1.1" id="industrial-ethernet"><span
+class="header-section-number">1.9.1.1</span> 8.1.1 Industrial
+Ethernet</h4>
+<ul>
+<li><strong>EtherCAT:</strong>
+<ul>
+<li>Real-time, deterministic</li>
+<li>Cycle time: &lt;1 ms</li>
+<li>Application: Servo drive network</li>
+</ul></li>
+<li><strong>PROFINET, Ethernet/IP:</strong> Alternatives</li>
+</ul>
+<h4 data-number="1.9.1.2" id="fieldbus"><span
+class="header-section-number">1.9.1.2</span> 8.1.2 Fieldbus</h4>
+<ul>
+<li><strong>CAN Bus:</strong>
+<ul>
+<li>Multi-master, robust</li>
+<li>Application: Distributed sensors/actuators</li>
+</ul></li>
+<li><strong>Modbus RTU/TCP:</strong> Legacy industrial devices</li>
+</ul>
+<h4 data-number="1.9.1.3" id="usb"><span
+class="header-section-number">1.9.1.3</span> 8.1.3 USB</h4>
+<ul>
+<li><strong>USB 3.0/3.1:</strong> Camera data transfer</li>
+<li><strong>USB-Serial:</strong> MCU communication</li>
+</ul>
+<h3 data-number="1.9.2" id="hardware-abstraction-layer-hal"><span
+class="header-section-number">1.9.2</span> 8.2 Hardware Abstraction
+Layer (HAL)</h3>
+<h4 data-number="1.9.2.1" id="ros2_control-framework"><span
+class="header-section-number">1.9.2.1</span> 8.2.1 ROS2_Control
+Framework</h4>
+<ul>
+<li><strong>Concept:</strong> Standardized interface between controllers
+and hardware</li>
+<li><strong>Components:</strong>
+<ul>
+<li>Hardware Interface (read/write joint states)</li>
+<li>Controller Manager</li>
+<li>Controllers (position, velocity, effort)</li>
+</ul></li>
+<li><strong>Application:</strong> Portable control code across robot
+platforms</li>
+</ul>
+<hr />
+<h2 data-number="1.10" id="safety-fault-tolerance"><span
+class="header-section-number">1.10</span> 9. Safety &amp; Fault
+Tolerance</h2>
+<h3 data-number="1.10.1" id="safety-rated-systems"><span
+class="header-section-number">1.10.1</span> 9.1 Safety-Rated
+Systems</h3>
+<h4 data-number="1.10.1.1" id="emergency-stop-e-stop"><span
+class="header-section-number">1.10.1.1</span> 9.1.1 Emergency Stop
+(E-Stop)</h4>
+<ul>
+<li><strong>Category:</strong> SIL 2 / PLd (ISO 13849)</li>
+<li><strong>Implementation:</strong> Dual-channel, monitored E-stop
+button</li>
+<li><strong>Action:</strong> Power cut to motors, safe state</li>
+</ul>
+<h4 data-number="1.10.1.2" id="safety-plcs"><span
+class="header-section-number">1.10.1.2</span> 9.1.2 Safety PLCs</h4>
+<ul>
+<li><strong>Function:</strong> Monitor safety zones, light curtains,
+door interlocks</li>
+<li><strong>Communication:</strong> Safe EtherCAT (FSoE)</li>
+</ul>
+<h3 data-number="1.10.2" id="fault-detection-diagnosis"><span
+class="header-section-number">1.10.2</span> 9.2 Fault Detection &amp;
+Diagnosis</h3>
+<h4 data-number="1.10.2.1" id="sensor-fault-detection"><span
+class="header-section-number">1.10.2.1</span> 9.2.1 Sensor Fault
+Detection</h4>
+<ul>
+<li><strong>Methods:</strong>
+<ul>
+<li>Range checks (out-of-bounds values)</li>
+<li>Redundancy (compare dual sensors)</li>
+<li>Plausibility checks</li>
+</ul></li>
+<li><strong>Action:</strong> Switch to fallback mode, alert
+operator</li>
+</ul>
+<h4 data-number="1.10.2.2" id="actuator-fault-detection"><span
+class="header-section-number">1.10.2.2</span> 9.2.2 Actuator Fault
+Detection</h4>
+<ul>
+<li><strong>Following Error Monitoring:</strong> Commanded vs actual
+position deviation</li>
+<li><strong>Overcurrent Detection:</strong> Motor overload</li>
+<li><strong>Action:</strong> Stop motion, trigger alarm</li>
+</ul>
+<hr />
+<h2 data-number="1.11" id="mechatronics-system-integration-map"><span
+class="header-section-number">1.11</span> 10. Mechatronics System
+Integration Map</h2>
+<h3 data-number="1.11.1" id="subsystem-dependencies"><span
+class="header-section-number">1.11.1</span> 10.1 Subsystem
+Dependencies</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                    CONTROL SYSTEM (Software)                │
+│         ROS2 / MoveIt / Vision AI / Task Planner            │
+└────────────┬────────────────────────────────┬───────────────┘
+             │                                │
+             ▼                                ▼
+  ┌──────────────────────┐        ┌──────────────────────┐
+  │   ELECTRICAL POWER   │        │   ELECTRONICS        │
+  │  - Power Supply      │        │  - Sensors (Camera,  │
+  │  - Motor Drivers     │        │    F/T, Proximity)   │
+  │  - Distribution      │        │  - Signal Cond.      │
+  └──────────┬───────────┘        │  - ADC/DAC           │
+             │                    └──────────┬───────────┘
+             │                               │
+             ▼                               ▼
+  ┌─────────────────────────────────────────────────┐
+  │            ACTUATION (Mechanical)               │
+  │  - Servo Motors → Gearbox → Joints              │
+  │  - Gripper Actuator                             │
+  │  - Linkages, Kinematics                         │
+  └─────────────────────────────────────────────────┘</code></pre>
+<h3 data-number="1.11.2" id="signal-flow"><span
+class="header-section-number">1.11.2</span> 10.2 Signal Flow</h3>
+<pre><code>Vision Sensor (RGB-D) → USB 3.0 → Jetson (AI Processing)
+                                       ↓
+                            Object Pose (x,y,z,roll,pitch,yaw)
+                                       ↓
+                         IK Solver → Joint Angles (θ1..θ6)
+                                       ↓
+                         Trajectory Planner → Waypoints
+                                       ↓
+                         Controller Manager → Motor Commands
+                                       ↓
+               Servo Drives (EtherCAT) → Motors → Joint Motion
+                                       ↓
+                         Encoders → Position Feedback → Controller</code></pre>
+<hr />
+<h2 data-number="1.12" id="mechatronics-concept-to-module-mapping"><span
+class="header-section-number">1.12</span> 11. Mechatronics Concept to
+Module Mapping</h2>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 45%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Mechatronics Concept</strong></th>
+<th><strong>Module/Component</strong></th>
+<th><strong>Department</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Link Dynamics (M, C, G)</td>
+<td>Robot URDF, Dynamics Engine</td>
+<td>Mechanical</td>
+</tr>
+<tr class="even">
+<td>Gripper Mechanism</td>
+<td>Parallel Jaw Gripper, Pneumatic/Electric</td>
+<td>Mechanical</td>
+</tr>
+<tr class="odd">
+<td>Power Distribution</td>
+<td>48V DC Bus, Regulators</td>
+<td>Electrical</td>
+</tr>
+<tr class="even">
+<td>Servo Motor Control</td>
+<td>Servo Drives (EtherCAT)</td>
+<td>Electrical</td>
+</tr>
+<tr class="odd">
+<td>Motor Drive (H-Bridge/Inverter)</td>
+<td>Motor Driver Boards</td>
+<td>Electrical</td>
+</tr>
+<tr class="even">
+<td>RGB-D Camera</td>
+<td>RealSense D435, Vision Pipeline</td>
+<td>Electronics</td>
+</tr>
+<tr class="odd">
+<td>Force/Torque Sensor</td>
+<td>ATI F/T Sensor, Data Acquisition</td>
+<td>Electronics</td>
+</tr>
+<tr class="even">
+<td>Encoder Feedback</td>
+<td>Absolute Encoders, Quadrature Interface</td>
+<td>Electronics</td>
+</tr>
+<tr class="odd">
+<td>PID Control</td>
+<td>ros2_control Controllers</td>
+<td>Software/Control</td>
+</tr>
+<tr class="even">
+<td>Impedance Control</td>
+<td>Admittance Controller Node</td>
+<td>Software/Control</td>
+</tr>
+<tr class="odd">
+<td>Real-Time Control Loop</td>
+<td>RT-Preempt Kernel, RTOS</td>
+<td>Software</td>
+</tr>
+<tr class="even">
+<td>EtherCAT Communication</td>
+<td>IgH EtherCAT Master, Driver Nodes</td>
+<td>Software</td>
+</tr>
+<tr class="odd">
+<td>Emergency Stop</td>
+<td>Safety PLC, E-Stop Circuit</td>
+<td>Safety/Elect.</td>
+</tr>
+<tr class="even">
+<td>Sensor Filtering</td>
+<td>Kalman Filter, Moving Avg Node</td>
+<td>Software</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.13" id="design-considerations-trade-offs"><span
+class="header-section-number">1.13</span> 12. Design Considerations
+&amp; Trade-offs</h2>
+<h3 data-number="1.13.1" id="mechanical"><span
+class="header-section-number">1.13.1</span> 12.1 Mechanical</h3>
+<ul>
+<li><strong>Stiffness vs Weight:</strong> High stiffness → heavy →
+slower motion</li>
+<li><strong>Backlash:</strong> Harmonic drives (zero backlash) vs
+gearboxes (cheaper, backlash)</li>
+</ul>
+<h3 data-number="1.13.2" id="electrical"><span
+class="header-section-number">1.13.2</span> 12.2 Electrical</h3>
+<ul>
+<li><strong>Voltage Selection:</strong> Higher voltage → lower current →
+less heating, but safety concerns</li>
+<li><strong>Motor Sizing:</strong> Continuous vs peak torque
+requirements</li>
+</ul>
+<h3 data-number="1.13.3" id="electronics"><span
+class="header-section-number">1.13.3</span> 12.3 Electronics</h3>
+<ul>
+<li><strong>Camera Resolution vs Frame Rate:</strong> Higher res → lower
+FPS</li>
+<li><strong>Sensor Accuracy vs Cost:</strong> High-res encoders
+expensive</li>
+</ul>
+<h3 data-number="1.13.4" id="control"><span
+class="header-section-number">1.13.4</span> 12.4 Control</h3>
+<ul>
+<li><strong>Sampling Frequency:</strong> Higher → better performance,
+but more compute load</li>
+<li><strong>Model-Based vs Learning-Based:</strong> Analytical control
+(robust) vs RL (adaptive, data-hungry)</li>
+</ul>
+<hr />
+<h2 data-number="1.14" id="summary"><span
+class="header-section-number">1.14</span> Summary</h2>
+<p>This vision-based pick-and-place system is a <strong>comprehensive
+mechatronics integration</strong> spanning:</p>
+<ul>
+<li><strong>Mechanical:</strong> 6-DOF manipulator, gripper mechanisms,
+transmission systems</li>
+<li><strong>Electrical:</strong> Power distribution (48V DC bus), servo
+drives, motor control</li>
+<li><strong>Electronics:</strong> RGB-D camera, F/T sensors, encoders,
+signal conditioning</li>
+<li><strong>Control:</strong> PID, impedance control, real-time loops
+(10 kHz current, 1 kHz velocity)</li>
+<li><strong>Embedded:</strong> Jetson for vision, MCU for low-level I/O,
+EtherCAT for real-time comms</li>
+</ul>
+<p>Each subsystem is tightly coupled, requiring
+<strong>cross-disciplinary design and validation</strong>.</p>
+<hr />
+<p><strong>Next Steps:</strong> 1. Create detailed CAD models
+(mechanical) 2. Design electrical schematics and PCBs 3. Select and
+procure sensors/actuators 4. Develop control firmware and ROS2 drivers
+5. Integrate and test subsystems incrementally</p>
+<hr />
+<p><strong>Document Status:</strong> ✅ Complete <strong>Last
+Updated:</strong> 2025-10-18 <strong>Author:</strong> Mechatronics Team
+<strong>Review Status:</strong> Pending Review</p>
+</div></body>
+</html>

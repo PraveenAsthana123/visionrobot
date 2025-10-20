@@ -1,0 +1,1558 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={05 Technical Stack},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{05 Technical Stack}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{technical-stack---vision-based-pick-and-place-system}{%
+\section{Technical Stack - Vision-Based Pick and Place
+System}\label{technical-stack---vision-based-pick-and-place-system}}
+
+\hypertarget{overview}{%
+\subsection{Overview}\label{overview}}
+
+This document provides a comprehensive specification of all
+\textbf{hardware, software, frameworks, libraries, and tools} used in
+the vision-based pick-and-place robotic system, organized by
+architectural layer.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{architecture-layers}{%
+\subsection{1. Architecture Layers}\label{architecture-layers}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────────┐
+│                 LAYER 7: USER INTERFACE                      │
+│  Web Dashboard, Mobile App, RViz2, Grafana, Foxglove         │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│              LAYER 6: APPLICATION / BUSINESS LOGIC           │
+│  Task Orchestrator, Workflow Manager, Analytics Engine       │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│            LAYER 5: AI / MACHINE LEARNING                    │
+│  Object Detection, Pose Estimation, Grasp Planning (AI)      │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│           LAYER 4: ROBOTICS MIDDLEWARE (ROS2)                │
+│  MoveIt2, Nav2, ros2_control, TF2, Image Transport           │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│         LAYER 3: PERCEPTION & SENSOR PROCESSING              │
+│  OpenCV, PCL, RealSense SDK, Image Processing Nodes          │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│       LAYER 2: EMBEDDED / FIRMWARE / DRIVERS                 │
+│  Motor Drivers, EtherCAT Master, Camera Drivers, MCU Firmware│
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│              LAYER 1: HARDWARE                               │
+│  Robot, Sensors, Actuators, Power, Network                   │
+└──────────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{layer-1-hardware}{%
+\subsection{2. Layer 1: Hardware}\label{layer-1-hardware}}
+
+\hypertarget{robot-manipulator}{%
+\subsubsection{2.1 Robot Manipulator}\label{robot-manipulator}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1795}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4701}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1197}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Specification}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Vendor/Model}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Robot Arm (6-DOF) & Payload: 5kg, Reach: 850mm, Repeatability: ±0.1mm &
+Universal Robots UR5e / ABB IRB 1200 & 1 \\
+Gripper & Parallel jaw, 85mm stroke, 100N grip force & Robotiq 2F-85 /
+Schunk PGN-plus-E & 1 \\
+Robot Controller & Built-in controller with EtherCAT/Modbus support & UR
+Control Box / ABB Controller & 1 \\
+\end{longtable}
+
+\hypertarget{sensors}{%
+\subsubsection{2.2 Sensors}\label{sensors}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4274}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1197}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Specification}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Vendor/Model}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RGB-D Camera & 1920x1080 RGB @ 30fps, Depth range: 0.3-3m & Intel
+RealSense D435i & 1-2 \\
+Force/Torque Sensor & 6-axis, ±100N, ±10Nm, Resolution: 0.1N/0.01Nm &
+ATI Mini45 / OnRobot HEX & 1 \\
+Proximity Sensor & Inductive, 8mm sensing distance & Omron E2E-X8ME1 &
+2 \\
+Emergency Stop Button & Safety-rated (SIL 2), dual-channel & Schneider
+XB7NS8445 & 1 \\
+\end{longtable}
+
+\hypertarget{vision-lighting}{%
+\subsubsection{2.3 Vision \& Lighting}\label{vision-lighting}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4274}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1197}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Specification}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Vendor/Model}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+LED Ring Light & 5000K, 2000 lumen, dimmable & CCS LDR2-74SW2-WHI & 1 \\
+Camera Mount & Adjustable angle, vibration-damped & Custom / Manfrotto
+Magic Arm & 1 \\
+\end{longtable}
+
+\hypertarget{compute-hardware}{%
+\subsubsection{2.4 Compute Hardware}\label{compute-hardware}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4274}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1197}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Specification}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Vendor/Model}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Vision Processing & GPU: 512 CUDA cores, 8GB RAM, Jetson Linux & NVIDIA
+Jetson Xavier NX & 1 \\
+Main Controller & x86 CPU (4-core, 3.5GHz), 16GB RAM, SSD & Intel NUC /
+Dell Optiplex & 1 \\
+Microcontroller (I/O) & ARM Cortex-M4, 168MHz, 512KB Flash & STM32F407VG
+& 1 \\
+\end{longtable}
+
+\hypertarget{power-electrical}{%
+\subsubsection{2.5 Power \& Electrical}\label{power-electrical}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4274}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1197}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Specification}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Vendor/Model}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Power Supply & 48V DC, 20A, 960W & Mean Well RSP-1000-48 & 1 \\
+DC-DC Converter (12V) & 48V → 12V, 10A, 120W & Mean Well SD-100B-12 &
+1 \\
+DC-DC Converter (5V) & 12V → 5V, 5A, 25W & RECOM R-78E5.0-1.0 & 2 \\
+Circuit Breaker & 25A, 2-pole & Eaton FAZ-C25/2 & 1 \\
+\end{longtable}
+
+\hypertarget{networking}{%
+\subsubsection{2.6 Networking}\label{networking}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4274}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1197}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Specification}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Vendor/Model}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+EtherCAT Switch & 5-port, managed, industrial & Beckhoff EK1100 & 1 \\
+Ethernet Switch & 8-port, Gigabit, unmanaged & Netgear GS108 & 1 \\
+WiFi Router (optional) & Dual-band, 802.11ac & TP-Link Archer C7 & 1 \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{layer-2-embedded-firmware-drivers}{%
+\subsection{3. Layer 2: Embedded / Firmware /
+Drivers}\label{layer-2-embedded-firmware-drivers}}
+
+\hypertarget{operating-systems}{%
+\subsubsection{3.1 Operating Systems}\label{operating-systems}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4274}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1197}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Technology}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Real-Time Linux & Ubuntu 22.04 with RT-Preempt kernel & 5.15-rt & Main
+controller (ros2\_control) \\
+Jetson Linux & NVIDIA L4T (Linux for Tegra) & 35.3.1 (Ubuntu 20.04) &
+Vision processing \\
+Bare-Metal RTOS & FreeRTOS & 10.5.1 & STM32 MCU (I/O) \\
+\end{longtable}
+
+\hypertarget{device-drivers-sdks}{%
+\subsubsection{3.2 Device Drivers \& SDKs}\label{device-drivers-sdks}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4274}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1197}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Technology}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RealSense SDK & librealsense2 & 2.54.1 & Camera interface \\
+EtherCAT Master & IgH EtherCAT Master & 1.5.2 & Motor driver
+communication \\
+F/T Sensor Driver & ATI DAQ C Library & 2.3.0 & Force/torque data
+acquisition \\
+GPIO Library & libgpiod & 1.6.3 & Digital I/O (E-stop, sensors) \\
+CUDA & NVIDIA CUDA Toolkit & 11.4 & GPU acceleration \\
+TensorRT & NVIDIA TensorRT & 8.5.1 & AI inference optimization \\
+\end{longtable}
+
+\hypertarget{firmware}{%
+\subsubsection{3.3 Firmware}\label{firmware}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2185}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4202}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2437}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1176}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Technology}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Development Environment}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+STM32 MCU Firmware & C/C++, HAL, FreeRTOS & STM32CubeIDE & Low-level I/O
+control \\
+Motor Drive Firmware & Proprietary (Beckhoff TwinCAT) & TwinCAT 3 &
+Servo drive configuration \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{layer-3-perception-sensor-processing}{%
+\subsection{4. Layer 3: Perception \& Sensor
+Processing}\label{layer-3-perception-sensor-processing}}
+
+\hypertarget{computer-vision-libraries}{%
+\subsubsection{4.1 Computer Vision
+Libraries}\label{computer-vision-libraries}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2574}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4752}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1386}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Library}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Language}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+OpenCV & 4.8.0 & Image processing, calibration, feature detection & C++,
+Python \\
+Point Cloud Library (PCL) & 1.13.1 & 3D point cloud processing,
+segmentation, ICP & C++ \\
+Open3D & 0.17.0 & Point cloud visualization, registration & Python \\
+librealsense2 & 2.54.1 & RealSense camera SDK & C++, Python \\
+\end{longtable}
+
+\hypertarget{image-processing}{%
+\subsubsection{4.2 Image Processing}\label{image-processing}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2574}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4752}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1386}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool/Library}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Language}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+NumPy & 1.24.3 & Array operations, image manipulation & Python \\
+SciPy & 1.11.1 & Signal processing, filtering & Python \\
+Pillow (PIL) & 10.0.0 & Image I/O, format conversion & Python \\
+scikit-image & 0.21.0 & Advanced image processing algorithms & Python \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{layer-4-robotics-middleware-ros2}{%
+\subsection{5. Layer 4: Robotics Middleware
+(ROS2)}\label{layer-4-robotics-middleware-ros2}}
+
+\hypertarget{ros2-distribution}{%
+\subsubsection{5.1 ROS2 Distribution}\label{ros2-distribution}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Component}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ROS2 Humble Hawksbill & Humble (LTS) & Base middleware for all nodes \\
+rclcpp & Humble & C++ client library \\
+rclpy & Humble & Python client library \\
+\end{longtable}
+
+\hypertarget{core-ros2-packages}{%
+\subsubsection{5.2 Core ROS2 Packages}\label{core-ros2-packages}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Package}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+MoveIt2 & 2.5.5 & Motion planning, IK, collision checking \\
+ros2\_control & 2.27.0 & Real-time control framework \\
+ros2\_controllers & 2.27.0 & PID, trajectory, admittance controllers \\
+tf2 & 0.25.2 & Coordinate frame transforms \\
+image\_transport & 3.1.7 & Compressed image streaming \\
+cv\_bridge & 3.2.1 & OpenCV ↔ ROS message conversion \\
+pcl\_ros & 2.4.0 & PCL ↔ ROS message conversion \\
+\end{longtable}
+
+\hypertarget{ros2-communication}{%
+\subsubsection{5.3 ROS2 Communication}\label{ros2-communication}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Package}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+rmw\_cyclonedds\_cpp & 1.3.4 & DDS implementation (middleware) \\
+rosbridge\_suite & 1.3.2 & WebSocket bridge for web UIs \\
+ros2\_tracing & 4.1.1 & Performance tracing (LTTng) \\
+\end{longtable}
+
+\hypertarget{custom-ros2-packages}{%
+\subsubsection{5.4 Custom ROS2 Packages}\label{custom-ros2-packages}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2955}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1591}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5455}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Package Name}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Language}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+vision\_pipeline & Python & Object detection, pose estimation nodes \\
+grasp\_planner & C++ & Grasp synthesis and ranking \\
+task\_orchestrator & Python & State machine, task sequencing \\
+hardware\_interface & C++ & ros2\_control hardware interface for
+robot \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{layer-5-ai-machine-learning}{%
+\subsection{6. Layer 5: AI / Machine
+Learning}\label{layer-5-ai-machine-learning}}
+
+\hypertarget{deep-learning-frameworks}{%
+\subsubsection{6.1 Deep Learning
+Frameworks}\label{deep-learning-frameworks}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2574}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4752}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1386}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Framework}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Backend}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+PyTorch & 2.0.1 & Model training, object detection, pose estimation &
+CUDA 11.4 \\
+TensorFlow & 2.13.0 & Alternative framework for grasp planning & CUDA
+11.4 \\
+ONNX Runtime & 1.15.1 & Cross-framework inference & CUDA, CPU \\
+TensorRT & 8.5.1 & Optimized inference on NVIDIA GPUs & CUDA 11.4 \\
+\end{longtable}
+
+\hypertarget{pre-trained-models-libraries}{%
+\subsubsection{6.2 Pre-Trained Models \&
+Libraries}\label{pre-trained-models-libraries}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2574}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4752}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1386}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Model/Library}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Source}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+YOLOv8 & 8.0.20 & Real-time object detection & Ultralytics \\
+Mask R-CNN & - & Instance segmentation (if needed) & Detectron2 \\
+PVNet & - & 6DoF pose estimation & Research repo \\
+GraspNet & - & Grasp pose prediction & Research repo \\
+Segment Anything (SAM) & 1.0 & Zero-shot segmentation (optional) & Meta
+AI \\
+\end{longtable}
+
+\hypertarget{training-mlops}{%
+\subsubsection{6.3 Training \& MLOps}\label{training-mlops}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+MLflow & 2.5.0 & Experiment tracking, model registry \\
+Weights \& Biases (W\&B) & 0.15.8 & Experiment tracking,
+collaboration \\
+DVC (Data Version Control) & 3.15.0 & Dataset versioning \\
+Label Studio & 1.8.2 & Data annotation (bounding boxes, keypoints) \\
+Roboflow & - & Dataset management, augmentation \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{layer-6-application-business-logic}{%
+\subsection{7. Layer 6: Application / Business
+Logic}\label{layer-6-application-business-logic}}
+
+\hypertarget{application-frameworks}{%
+\subsubsection{7.1 Application
+Frameworks}\label{application-frameworks}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2574}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1287}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4752}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1386}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Framework}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Language}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+FastAPI & 0.103.0 & RESTful API backend & Python \\
+gRPC & 1.57.0 & High-performance RPC & C++, Python \\
+Redis & 7.0.12 & In-memory cache, pub/sub & - \\
+PostgreSQL & 15.3 & Relational database (tasks, logs, configs) & SQL \\
+InfluxDB & 2.7.1 & Time-series database (sensor data) & - \\
+MongoDB & 6.0.8 & Document database (AI inference logs) & - \\
+\end{longtable}
+
+\hypertarget{task-orchestration}{%
+\subsubsection{7.2 Task Orchestration}\label{task-orchestration}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool/Library}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+BehaviorTree.CPP & 4.5.1 & Behavior tree execution engine \\
+SMACH (ROS) & 2.5.0 & State machine library (deprecated, use BT.CPP) \\
+Celery & 5.3.1 & Distributed task queue (if async tasks needed) \\
+\end{longtable}
+
+\hypertarget{analytics-reporting}{%
+\subsubsection{7.3 Analytics \& Reporting}\label{analytics-reporting}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Pandas & 2.0.3 & Data analysis, reporting \\
+Matplotlib & 3.7.2 & Data visualization (plots) \\
+Seaborn & 0.12.2 & Statistical visualization \\
+Jupyter Notebook & 7.0.2 & Interactive data analysis \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{layer-7-user-interface-visualization}{%
+\subsection{8. Layer 7: User Interface \&
+Visualization}\label{layer-7-user-interface-visualization}}
+
+\hypertarget{robotics-visualization}{%
+\subsubsection{8.1 Robotics
+Visualization}\label{robotics-visualization}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+RViz2 & Humble & 3D robot visualization, TF, point clouds \\
+Foxglove Studio & 1.68.0 & Modern ROS visualization (alternative to
+RViz) \\
+Gazebo (Classic) & 11.13.0 & Physics simulation \\
+Gazebo (Ignition/Harmonic) & Garden & Next-gen simulation \\
+RobotStudio (ABB) & 2023.2 & ABB-specific simulation (if using ABB
+robot) \\
+\end{longtable}
+
+\hypertarget{dashboards-monitoring}{%
+\subsubsection{8.2 Dashboards \&
+Monitoring}\label{dashboards-monitoring}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Grafana & 10.0.3 & Real-time dashboards, time-series visualization \\
+Prometheus & 2.45.0 & Metrics collection, alerting \\
+Node Exporter & 1.6.1 & System metrics (CPU, RAM, disk) \\
+ROS2 Diagnostics & Humble & Robot health monitoring \\
+\end{longtable}
+
+\hypertarget{web-frontend}{%
+\subsubsection{8.3 Web Frontend}\label{web-frontend}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Framework}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+React & 18.2.0 & Web UI framework \\
+Next.js & 13.4.12 & React framework with SSR \\
+TypeScript & 5.1.6 & Type-safe JavaScript \\
+TailwindCSS & 3.3.3 & Utility-first CSS framework \\
+rosbridge & 1.3.2 & WebSocket connection to ROS2 \\
+roslibjs & 1.3.0 & JavaScript library for ROS communication \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{cross-cutting-devops-infrastructure}{%
+\subsection{9. Cross-Cutting: DevOps \&
+Infrastructure}\label{cross-cutting-devops-infrastructure}}
+
+\hypertarget{version-control-cicd}{%
+\subsubsection{9.1 Version Control \&
+CI/CD}\label{version-control-cicd}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Git & 2.40.1 & Source code version control \\
+GitHub / GitLab & - & Code hosting, issue tracking \\
+GitHub Actions & - & CI/CD pipelines \\
+Docker & 24.0.5 & Containerization \\
+Docker Compose & 2.20.2 & Multi-container orchestration \\
+Kubernetes (optional) & 1.27.4 & Container orchestration (for cloud
+deployment) \\
+\end{longtable}
+
+\hypertarget{build-dependency-management}{%
+\subsubsection{9.2 Build \& Dependency
+Management}\label{build-dependency-management}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+colcon & 0.14.1 & ROS2 build tool \\
+CMake & 3.26.4 & C/C++ build system \\
+pip & 23.2.1 & Python package manager \\
+conda / mamba & 23.5.0 & Python environment manager \\
+rosdep & 0.22.2 & ROS dependency management \\
+\end{longtable}
+
+\hypertarget{testing-frameworks}{%
+\subsubsection{9.3 Testing Frameworks}\label{testing-frameworks}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Framework}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+pytest & 7.4.0 & Python unit testing \\
+Google Test (gtest) & 1.13.0 & C++ unit testing \\
+ros2 launch\_testing & Humble & ROS2 integration testing \\
+unittest (Python) & Built-in & Python standard testing library \\
+Locust & 2.15.1 & Load testing (API endpoints) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{cross-cutting-security}{%
+\subsection{10. Cross-Cutting: Security}\label{cross-cutting-security}}
+
+\hypertarget{authentication-authorization}{%
+\subsubsection{10.1 Authentication \&
+Authorization}\label{authentication-authorization}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+OAuth2 & - & Authentication protocol \\
+Keycloak & 22.0.1 & Identity and access management \\
+JWT (JSON Web Tokens) & - & Stateless authentication tokens \\
+bcrypt & 4.0.1 & Password hashing \\
+\end{longtable}
+
+\hypertarget{encryption-secure-communication}{%
+\subsubsection{10.2 Encryption \& Secure
+Communication}\label{encryption-secure-communication}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+OpenSSL & 3.0.9 & TLS/SSL, cryptography \\
+Let's Encrypt & - & Free SSL certificates \\
+mTLS (mutual TLS) & - & Bidirectional authentication (gRPC) \\
+\end{longtable}
+
+\hypertarget{security-monitoring}{%
+\subsubsection{10.3 Security Monitoring}\label{security-monitoring}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Fail2ban & 1.0.2 & Intrusion prevention (ban failed logins) \\
+Snort / Suricata & 3.1.65.0 & Network intrusion detection \\
+OSSEC & 3.7.0 & Host-based intrusion detection \\
+Wireshark & 4.0.8 & Network traffic analysis \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{cross-cutting-logging-observability}{%
+\subsection{11. Cross-Cutting: Logging \&
+Observability}\label{cross-cutting-logging-observability}}
+
+\hypertarget{logging}{%
+\subsubsection{11.1 Logging}\label{logging}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+syslog-ng & 3.38.1 & System logging \\
+Logrotate & 3.20.1 & Log file rotation \\
+Python logging & Built-in & Application-level logging \\
+rclcpp logging & Humble & ROS2 C++ logging \\
+\end{longtable}
+
+\hypertarget{centralized-logging-elk-stack}{%
+\subsubsection{11.2 Centralized Logging (ELK
+Stack)}\label{centralized-logging-elk-stack}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Elasticsearch & 8.9.0 & Log indexing and search \\
+Logstash & 8.9.0 & Log ingestion and transformation \\
+Kibana & 8.9.0 & Log visualization and dashboards \\
+Filebeat & 8.9.0 & Log shipping agent \\
+\end{longtable}
+
+\hypertarget{distributed-tracing}{%
+\subsubsection{11.3 Distributed Tracing}\label{distributed-tracing}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Jaeger & 1.47.0 & Distributed tracing \\
+OpenTelemetry & 1.20.0 & Observability framework (metrics, traces,
+logs) \\
+Zipkin & 2.24.2 & Alternative to Jaeger \\
+\end{longtable}
+
+\hypertarget{performance-monitoring}{%
+\subsubsection{11.4 Performance
+Monitoring}\label{performance-monitoring}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Prometheus & 2.45.0 & Metrics collection \\
+Grafana & 10.0.3 & Metrics visualization \\
+Node Exporter & 1.6.1 & Hardware/OS metrics \\
+cAdvisor & 0.47.2 & Container metrics \\
+NVIDIA-SMI & 530.30.02 & GPU monitoring \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{development-tools}{%
+\subsection{12. Development Tools}\label{development-tools}}
+
+\hypertarget{ides-editors}{%
+\subsubsection{12.1 IDEs \& Editors}\label{ides-editors}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+VS Code & 1.81.1 & Primary IDE (C++, Python) \\
+CLion & 2023.2 & C++ IDE (JetBrains) \\
+PyCharm & 2023.2 & Python IDE (JetBrains) \\
+Vim / Neovim & 9.0 & Terminal-based editor \\
+\end{longtable}
+
+\hypertarget{debugging-profiling}{%
+\subsubsection{12.2 Debugging \& Profiling}\label{debugging-profiling}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+GDB & 13.2 & C++ debugger \\
+Valgrind & 3.21.0 & Memory leak detection \\
+perf & 6.3 & Linux performance profiling \\
+NVIDIA Nsight Systems & 2023.2.3 & GPU profiling \\
+ros2 topic / service / action CLI & Humble & ROS2 debugging tools \\
+\end{longtable}
+
+\hypertarget{documentation}{%
+\subsubsection{12.3 Documentation}\label{documentation}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2989}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.1494}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Doxygen & 1.9.7 & C++ API documentation \\
+Sphinx & 7.1.2 & Python documentation \\
+MkDocs & 1.5.2 & Markdown-based documentation \\
+Mermaid & 10.3.1 & Diagrams as code (in markdown) \\
+PlantUML & 1.2023.10 & UML diagrams \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{hardware-tools-equipment}{%
+\subsection{13. Hardware Tools \&
+Equipment}\label{hardware-tools-equipment}}
+
+\hypertarget{development-testing}{%
+\subsubsection{13.1 Development \& Testing}\label{development-testing}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.3291}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.6709}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tool}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Oscilloscope & Signal analysis (motor drivers, sensors) \\
+Logic Analyzer & Digital signal debugging (EtherCAT, SPI, I2C) \\
+Multimeter & Voltage, current, resistance measurement \\
+Power Analyzer & Power consumption measurement \\
+3D Printer & Prototype gripper parts, fixtures \\
+CMM (Coordinate Measuring Machine) & Precision position measurement
+(±0.01mm) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{technology-stack-summary-table}{%
+\subsection{14. Technology Stack Summary
+Table}\label{technology-stack-summary-table}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.2364}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.7636}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Layer}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Core Technologies}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Hardware} & UR5e / ABB robot, RealSense D435i, ATI F/T sensor,
+Jetson Xavier, Intel NUC \\
+\textbf{Firmware} & RT-Linux (5.15-rt), Jetson Linux (L4T), FreeRTOS,
+EtherCAT Master (IgH) \\
+\textbf{Perception} & OpenCV 4.8, PCL 1.13, librealsense2 2.54, Open3D
+0.17 \\
+\textbf{Middleware} & ROS2 Humble, MoveIt2 2.5, ros2\_control 2.27, TF2
+0.25 \\
+\textbf{AI/ML} & PyTorch 2.0, TensorRT 8.5, YOLOv8, PVNet, GraspNet,
+MLflow \\
+\textbf{Application} & FastAPI, gRPC, PostgreSQL, Redis, InfluxDB,
+BehaviorTree.CPP \\
+\textbf{UI/Visualization} & RViz2, Foxglove, Grafana, Prometheus, React,
+Next.js \\
+\textbf{DevOps} & Docker, GitHub Actions, colcon, CMake, pytest,
+gtest \\
+\textbf{Security} & OAuth2, Keycloak, OpenSSL, Fail2ban, Snort \\
+\textbf{Observability} & ELK Stack (Elasticsearch, Logstash, Kibana),
+Jaeger, OpenTelemetry, Prometheus \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{technology-selection-rationale}{%
+\subsection{15. Technology Selection
+Rationale}\label{technology-selection-rationale}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1496}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1732}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1969}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4803}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Category}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Selected}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternatives}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Reason for Selection}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Robot Middleware & ROS2 Humble & ROS1, YARP, OROCOS & Industry standard,
+active development, real-time support \\
+Motion Planning & MoveIt2 & OMPL standalone, Pilz & Integrated with
+ROS2, mature, good community support \\
+Vision Library & OpenCV & VTK, SimpleCV & Comprehensive, optimized,
+large community \\
+Deep Learning & PyTorch & TensorFlow, JAX & Research-friendly, dynamic
+graphs, good ONNX/TensorRT export \\
+Object Detection & YOLOv8 & Faster R-CNN, SSD & Best speed/accuracy
+trade-off for real-time \\
+Database (OLTP) & PostgreSQL & MySQL, MariaDB & Feature-rich,
+extensible, excellent JSON support \\
+Time-Series DB & InfluxDB & TimescaleDB, Prometheus & Purpose-built for
+time-series, easy integration \\
+Message Queue & Redis & RabbitMQ, Kafka & Low latency, in-memory,
+pub/sub support \\
+API Framework & FastAPI & Flask, Django & Fast, async, auto-generated
+API docs \\
+Container & Docker & Podman, LXC & Industry standard, extensive
+ecosystem \\
+CI/CD & GitHub Actions & GitLab CI, Jenkins & Integrated with GitHub,
+easy to configure \\
+Monitoring & Grafana + Prometheus & Datadog, New Relic & Open-source,
+flexible, large community \\
+Logging & ELK Stack & Splunk, Graylog & Open-source, powerful search,
+scalable \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{dependency-graph-simplified}{%
+\subsection{16. Dependency Graph
+(Simplified)}\label{dependency-graph-simplified}}
+
+\begin{verbatim}
+Application Layer (FastAPI, React)
+    ↓
+ROS2 Middleware (MoveIt2, ros2_control)
+    ↓
+Perception (OpenCV, PCL) ←→ AI/ML (PyTorch, TensorRT)
+    ↓
+Drivers (librealsense2, EtherCAT Master)
+    ↓
+Hardware (Robot, Sensors, Actuators)
+\end{verbatim}
+
+\textbf{Cross-Cutting:} - \textbf{Monitoring:} Prometheus, Grafana (all
+layers) - \textbf{Logging:} ELK Stack (all layers) - \textbf{Security:}
+OAuth2, TLS (Application, Middleware) - \textbf{DevOps:} Docker, GitHub
+Actions (build, deploy)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{version-pinning-compatibility}{%
+\subsection{17. Version Pinning \&
+Compatibility}\label{version-pinning-compatibility}}
+
+\hypertarget{critical-version-constraints}{%
+\subsubsection{17.1 Critical Version
+Constraints}\label{critical-version-constraints}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2680}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2474}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4845}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Dependency}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Version Constraint}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Reason}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ROS2 & = Humble (LTS) & Long-term support, stable until 2027 \\
+Ubuntu & = 22.04 LTS & Required for ROS2 Humble \\
+CUDA & = 11.4 & Compatible with TensorRT 8.5 and PyTorch 2.0 \\
+TensorRT & = 8.5.x & Optimized for Jetson Xavier \\
+Python & = 3.10 & Default for Ubuntu 22.04, ROS2 Humble support \\
+OpenCV & \textgreater= 4.5, \textless{} 5.0 & API stability, avoid
+breaking changes \\
+MoveIt2 & \textgreater= 2.5, \textless{} 3.0 & Humble-compatible \\
+\end{longtable}
+
+\hypertarget{package-managers}{%
+\subsubsection{17.2 Package Managers}\label{package-managers}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2459}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3607}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3934}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Ecosystem}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Package Manager}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Lock File}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ROS2 & rosdep, apt & package.xml, rosdep.yaml \\
+Python & pip, conda & requirements.txt, environment.yml \\
+C++ & apt, vcpkg & CMakeLists.txt \\
+Node.js (UI) & npm, yarn & package-lock.json \\
+Docker & Docker Compose & docker-compose.yml \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{deployment-architecture}{%
+\subsection{18. Deployment Architecture}\label{deployment-architecture}}
+
+\hypertarget{single-machine-deployment-developmentsmall-scale}{%
+\subsubsection{18.1 Single-Machine Deployment
+(Development/Small-Scale)}\label{single-machine-deployment-developmentsmall-scale}}
+
+\begin{verbatim}
+┌────────────────────────────────────────────────┐
+│         Intel NUC (Ubuntu 22.04 RT)            │
+│  ┌──────────────────────────────────────────┐  │
+│  │  ROS2 Humble Nodes (MoveIt, control)     │  │
+│  └──────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────┐  │
+│  │  PostgreSQL, Redis, InfluxDB             │  │
+│  └──────────────────────────────────────────┘  │
+└────────────────────────────────────────────────┘
+                    │
+                    │ USB 3.0
+                    ▼
+┌────────────────────────────────────────────────┐
+│     NVIDIA Jetson Xavier NX                    │
+│  ┌──────────────────────────────────────────┐  │
+│  │  Vision Pipeline (YOLOv8, Pose Est.)     │  │
+│  └──────────────────────────────────────────┘  │
+└────────────────────────────────────────────────┘
+                    │
+                    │ EtherCAT
+                    ▼
+┌────────────────────────────────────────────────┐
+│          Servo Drives (EtherCAT slaves)        │
+└────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{distributed-deployment-productioncloud-connected}{%
+\subsubsection{18.2 Distributed Deployment
+(Production/Cloud-Connected)}\label{distributed-deployment-productioncloud-connected}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────┐
+│              Cloud (AWS / Azure)                │
+│  • MLflow (model registry)                      │
+│  • Grafana (dashboards)                         │
+│  • Elasticsearch (log aggregation)              │
+└─────────────────────────────────────────────────┘
+                    ▲
+                    │ HTTPS
+                    │
+┌─────────────────────────────────────────────────┐
+│            Edge Gateway (Intel NUC)             │
+│  • FastAPI (REST API)                           │
+│  • Data uplink to cloud                         │
+└─────────────────────────────────────────────────┘
+                    ▲
+                    │ ROS2 DDS
+                    │
+┌─────────────────────────────────────────────────┐
+│       Robot Controller (RT Linux)               │
+│  • MoveIt2, ros2_control, TF2                   │
+└─────────────────────────────────────────────────┘
+                    ▲
+                    │
+┌─────────────────────────────────────────────────┐
+│       Vision Processor (Jetson Xavier)          │
+│  • YOLOv8, Pose Estimation                      │
+└─────────────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{total-cost-of-ownership-tco-estimate}{%
+\subsection{19. Total Cost of Ownership (TCO)
+Estimate}\label{total-cost-of-ownership-tco-estimate}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2524}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.3398}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1553}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1359}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1165}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Category}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Item}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cost (USD)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Quantity}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Total}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Hardware} & UR5e Robot Arm & \$35,000 & 1 & \$35,000 \\
+& Robotiq 2F-85 Gripper & \$5,000 & 1 & \$5,000 \\
+& RealSense D435i & \$350 & 1 & \$350 \\
+& ATI Mini45 F/T Sensor & \$2,500 & 1 & \$2,500 \\
+& NVIDIA Jetson Xavier NX & \$500 & 1 & \$500 \\
+& Intel NUC & \$800 & 1 & \$800 \\
+& Power Supply, Electrical & \$500 & 1 & \$500 \\
+& \textbf{Hardware Subtotal} & & & \textbf{\$44,650} \\
+\textbf{Software (Licenses)} & All open-source (ROS2, PyTorch, etc.) &
+\$0 & - & \$0 \\
+& Windows/proprietary tools (if any) & \$1,000 & 1 & \$1,000 \\
+& \textbf{Software Subtotal} & & & \textbf{\$1,000} \\
+\textbf{Development} & Engineering (6 months, 2 FTEs) & \$100,000 & 1 &
+\$100,000 \\
+& \textbf{Development Subtotal} & & & \textbf{\$100,000} \\
+\textbf{Operations (Annual)} & Maintenance, electricity & \$2,000/year &
+- & \$2,000/year \\
+\textbf{Total (Initial)} & & & & \textbf{\$145,650} \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{conclusion}{%
+\subsection{20. Conclusion}\label{conclusion}}
+
+This technical stack represents a \textbf{comprehensive,
+production-ready} architecture for a vision-based pick-and-place system,
+featuring: - \textbf{Open-source} core (ROS2, OpenCV, PyTorch) → minimal
+licensing costs - \textbf{Real-time} performance (RT-Linux, EtherCAT,
+1kHz control) - \textbf{Scalability} (Docker, Kubernetes-ready, cloud
+integration) - \textbf{Observability} (Prometheus, Grafana, ELK, Jaeger)
+- \textbf{Security} (OAuth2, TLS, intrusion detection) -
+\textbf{Flexibility} (modular architecture, easy to swap components)
+
+\textbf{Next Steps:} 1. Procure hardware based on specifications 2. Set
+up development environment (Docker containers) 3. Implement CI/CD
+pipeline (GitHub Actions) 4. Begin software development following
+architecture docs
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Author:} Technical Architecture Team \textbf{Review Status:}
+Pending Review
+
+\end{document}

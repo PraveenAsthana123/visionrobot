@@ -1,0 +1,1229 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={11 Testing Validation Plan},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{11 Testing Validation Plan}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{testing-validation-plan}{%
+\section{Testing \& Validation Plan}\label{testing-validation-plan}}
+
+\hypertarget{vision-based-pick-and-place-robotic-system}{%
+\subsection{Vision-Based Pick and Place Robotic
+System}\label{vision-based-pick-and-place-robotic-system}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{document-control}{%
+\subsection{Document Control}\label{document-control}}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\textbf{Item} & \textbf{Details} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Document Title} & Testing \& Validation Plan \\
+\textbf{Version} & 1.0 \\
+\textbf{Date} & 2025-10-18 \\
+\textbf{Status} & Draft \\
+\textbf{Author(s)} & QA Lead, Test Engineer \\
+\textbf{Approvers} & Tech Lead, Project Manager \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{introduction}{%
+\subsection{1. Introduction}\label{introduction}}
+
+\hypertarget{purpose}{%
+\subsubsection{1.1 Purpose}\label{purpose}}
+
+This document defines the comprehensive testing and validation strategy
+for the vision-based pick-and-place robotic system, ensuring: -
+\textbf{Functional correctness:} System performs as specified -
+\textbf{Performance:} Meets cycle time, accuracy, throughput targets -
+\textbf{Safety:} Complies with ISO 10218, ISO/TS 15066 -
+\textbf{Reliability:} 99.5\% uptime target - \textbf{User acceptance:}
+Satisfies end-user requirements
+
+\hypertarget{scope}{%
+\subsubsection{1.2 Scope}\label{scope}}
+
+\textbf{In Scope:} - Unit testing (individual modules/functions) -
+Integration testing (module-to-module interfaces) - System testing
+(end-to-end workflows) - Performance testing (latency, throughput,
+stress) - Safety testing (E-stop, collision detection, force limiting) -
+Acceptance testing (customer sign-off) - Regression testing (after
+changes)
+
+\textbf{Out of Scope:} - Penetration testing (covered in Security Plan)
+- Long-term reliability testing (\textgreater6 months, post-deployment)
+- Field testing at customer sites (deployment phase)
+
+\hypertarget{test-levels}{%
+\subsubsection{1.3 Test Levels}\label{test-levels}}
+
+\begin{verbatim}
+Level 1: Unit Tests (Developer-driven, pytest, gtest)
+   ↓
+Level 2: Integration Tests (Module interfaces, ROS2 launch tests)
+   ↓
+Level 3: System Tests (End-to-end workflows, simulation + hardware)
+   ↓
+Level 4: Acceptance Tests (Customer requirements, real environment)
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{test-strategy}{%
+\subsection{2. Test Strategy}\label{test-strategy}}
+
+\hypertarget{testing-pyramid}{%
+\subsubsection{2.1 Testing Pyramid}\label{testing-pyramid}}
+
+\begin{verbatim}
+           ┌─────────────────────┐
+           │  Acceptance (10%)   │  ← Few, slow, expensive
+           ├─────────────────────┤
+           │   System (20%)      │
+           ├─────────────────────┤
+           │  Integration (30%)  │
+           ├─────────────────────┤
+           │   Unit (40%)        │  ← Many, fast, cheap
+           └─────────────────────┘
+\end{verbatim}
+
+\textbf{Rationale:} More low-level tests (fast feedback), fewer
+high-level tests (high confidence).
+
+\hypertarget{test-approach}{%
+\subsubsection{2.2 Test Approach}\label{test-approach}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2759}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2414}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2931}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1897}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Test Level}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Approach}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Environment}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tools}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Unit} & White-box, code coverage & Dev machine & pytest, gtest,
+coverage.py \\
+\textbf{Integration} & Black-box, interface contracts & Dev + CI/CD &
+ROS2 launch\_testing, mock services \\
+\textbf{System} & Black-box, end-to-end scenarios & Simulation (Gazebo)
++ Real hardware & Manual + automated scripts \\
+\textbf{Performance} & Benchmark-driven, metrics & Real hardware &
+JMeter, Locust, custom profilers \\
+\textbf{Safety} & Compliance-driven, audit & Real hardware + safety
+setup & Manual inspection, cert tools \\
+\textbf{Acceptance} & Requirement-driven, UAT & Customer environment &
+Customer-defined tests \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{unit-testing}{%
+\subsection{3. Unit Testing}\label{unit-testing}}
+
+\hypertarget{objectives}{%
+\subsubsection{3.1 Objectives}\label{objectives}}
+
+\begin{itemize}
+\tightlist
+\item
+  Verify individual functions/classes work correctly
+\item
+  Achieve \textgreater80\% code coverage
+\item
+  Fast execution (\textless5 min for full suite)
+\item
+  Run on every commit (CI/CD)
+\end{itemize}
+
+\hypertarget{test-cases-examples}{%
+\subsubsection{3.2 Test Cases (Examples)}\label{test-cases-examples}}
+
+\hypertarget{vision-pipeline}{%
+\paragraph{3.2.1 Vision Pipeline}\label{vision-pipeline}}
+
+\textbf{Test: Object Detection} - \textbf{Input:} Image with 1 red cube
+- \textbf{Expected:} Bounding box at (x=320, y=240, w=100, h=100),
+confidence \textgreater0.9 - \textbf{Assertion:}
+\texttt{python\ \ \ detections\ =\ detector.detect(image)\ \ \ assert\ len(detections)\ ==\ 1\ \ \ assert\ detections{[}0{]}.class\_name\ ==\ "cube"\ \ \ assert\ detections{[}0{]}.confidence\ \textgreater{}\ 0.9}
+
+\textbf{Test: Pose Estimation} - \textbf{Input:} RGB-D image, object
+mask - \textbf{Expected:} 6DoF pose (x,y,z,qx,qy,qz,qw) -
+\textbf{Assertion:}
+\texttt{python\ \ \ pose\ =\ estimator.estimate\_pose(image,\ mask)\ \ \ assert\ abs(pose.position.z\ -\ 0.5)\ \textless{}\ 0.01\ \ \#\ Object\ at\ 50cm\ height}
+
+\hypertarget{grasp-planning}{%
+\paragraph{3.2.2 Grasp Planning}\label{grasp-planning}}
+
+\textbf{Test: Grasp Sampling} - \textbf{Input:} Object pose, point cloud
+- \textbf{Expected:} List of 10 grasp candidates - \textbf{Assertion:}
+\texttt{python\ \ \ grasps\ =\ planner.sample\_grasps(pose,\ cloud)\ \ \ assert\ len(grasps)\ \textgreater{}=\ 10\ \ \ assert\ all(g.quality\ \textgreater{}\ 0.5\ for\ g\ in\ grasps)}
+
+\hypertarget{motion-planning}{%
+\paragraph{3.2.3 Motion Planning}\label{motion-planning}}
+
+\textbf{Test: IK Solver} - \textbf{Input:} Target pose (x=0.5, y=0.2,
+z=0.3, roll=0, pitch=π/2, yaw=0) - \textbf{Expected:} Joint angles
+{[}θ1, θ2, θ3, θ4, θ5, θ6{]}, IK success=True - \textbf{Assertion:}
+\texttt{python\ \ \ joint\_angles,\ success\ =\ ik\_solver.solve(target\_pose)\ \ \ assert\ success\ ==\ True\ \ \ assert\ len(joint\_angles)\ ==\ 6\ \ \ \#\ Verify\ FK(IK(pose))\ ==\ pose\ \ \ fk\_pose\ =\ fk\_solver.compute(joint\_angles)\ \ \ assert\ np.allclose(fk\_pose,\ target\_pose,\ atol=0.001)}
+
+\hypertarget{coverage-goals}{%
+\subsubsection{3.3 Coverage Goals}\label{coverage-goals}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+\textbf{Module} & \textbf{Target Coverage} & \textbf{Current} &
+\textbf{Gap} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+vision\_pipeline & 85\% & TBD & TBD \\
+grasp\_planner & 80\% & TBD & TBD \\
+motion\_planner (custom code) & 90\% & TBD & TBD \\
+task\_orchestrator & 75\% & TBD & TBD \\
+\textbf{Overall} & \textbf{80\%} & \textbf{TBD} & \textbf{TBD} \\
+\end{longtable}
+
+\hypertarget{test-execution}{%
+\subsubsection{3.4 Test Execution}\label{test-execution}}
+
+\textbf{Command:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{colcon}\NormalTok{ test }\AttributeTok{{-}{-}packages{-}select}\NormalTok{ vision\_pipeline grasp\_planner}
+\ExtensionTok{colcon}\NormalTok{ test{-}result }\AttributeTok{{-}{-}all} \AttributeTok{{-}{-}verbose}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{CI/CD Integration:} - GitHub Actions runs tests on every PR -
+Fail CI if coverage \textless80\% - Report coverage to Codecov.io
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{integration-testing}{%
+\subsection{4. Integration Testing}\label{integration-testing}}
+
+\hypertarget{objectives-1}{%
+\subsubsection{4.1 Objectives}\label{objectives-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  Verify modules communicate correctly (ROS2 topics, services, actions)
+\item
+  Test data flow between subsystems
+\item
+  Detect interface mismatches early
+\end{itemize}
+
+\hypertarget{test-cases-examples-1}{%
+\subsubsection{4.2 Test Cases (Examples)}\label{test-cases-examples-1}}
+
+\hypertarget{vision-grasp-planning}{%
+\paragraph{4.2.1 Vision → Grasp Planning}\label{vision-grasp-planning}}
+
+\textbf{Test:} Detected object pose flows to grasp planner -
+\textbf{Setup:} Launch vision\_pipeline and grasp\_planner nodes -
+\textbf{Action:} Publish mock RGB-D image with object -
+\textbf{Expected:} Grasp planner receives \texttt{/vision/object\_poses}
+message within 200ms - \textbf{Assertion:} ```python \# launch\_testing
+syntax def test\_vision\_to\_grasp(): vision\_node =
+launch\_node(`vision\_pipeline') grasp\_node =
+launch\_node(`grasp\_planner')
+
+\begin{verbatim}
+  pub = Publisher('/camera/color/image_raw', Image)
+  sub = Subscriber('/grasp/candidates', GraspArray)
+
+  pub.publish(mock_image)
+  msg = sub.wait_for_message(timeout=1.0)
+  assert msg is not None
+  assert len(msg.grasps) > 0
+\end{verbatim}
+
+\begin{verbatim}
+
+#### 4.2.2 Motion Planning → Control
+
+**Test:** Trajectory execution action completes
+- **Setup:** Launch moveit2 and ros2_control nodes
+- **Action:** Send `FollowJointTrajectory` action goal
+- **Expected:** Action succeeds, robot reaches goal within tolerance
+- **Assertion:**
+```python
+client = ActionClient('/joint_trajectory_controller/follow_joint_trajectory', FollowJointTrajectory)
+goal = FollowJointTrajectory.Goal(trajectory=test_trajectory)
+future = client.send_goal_async(goal)
+result = future.result(timeout=10.0)
+assert result.error_code == FollowJointTrajectory.Result.SUCCESSFUL
+\end{verbatim}
+
+\hypertarget{test-environment}{%
+\subsubsection{4.3 Test Environment}\label{test-environment}}
+
+\textbf{Simulation:} - Use Gazebo for realistic robot/environment
+simulation - Mock camera publishes synthetic images - Fast iteration, no
+hardware risk
+
+\textbf{Hardware-in-Loop (Optional):} - Real camera, simulated robot (or
+vice versa) - Validate sensor drivers, communication latency
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{system-testing}{%
+\subsection{5. System Testing}\label{system-testing}}
+
+\hypertarget{objectives-2}{%
+\subsubsection{5.1 Objectives}\label{objectives-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  Validate end-to-end workflows (idle → scan → detect → pick → place →
+  home)
+\item
+  Test in realistic scenarios (cluttered workspace, varying lighting)
+\item
+  Verify all requirements met
+\end{itemize}
+
+\hypertarget{test-scenarios}{%
+\subsubsection{5.2 Test Scenarios}\label{test-scenarios}}
+
+\hypertarget{nominal-pick-place-sunny-day}{%
+\paragraph{5.2.1 Nominal Pick-Place (Sunny
+Day)}\label{nominal-pick-place-sunny-day}}
+
+\textbf{Scenario:} Single object, ideal conditions 1.
+\textbf{Pre-conditions:} - Robot at home position - 1 red cube
+(50×50×50mm) on table at (x=0.5, y=0.2, z=0.05) - Camera operational,
+lighting uniform (2000 lumen) 2. \textbf{Steps:} - Press ``Start''
+button - System scans workspace (camera captures image) - Vision detects
+cube (bounding box, pose) - Grasp planner computes top-down grasp -
+Motion planner generates pick trajectory - Robot executes pick (gripper
+closes, force=20N) - Motion planner generates place trajectory - Robot
+executes place at target (x=0.3, y=-0.2, z=0.05) - Robot returns home 3.
+\textbf{Expected Results:} - ✅ Cycle time: \textless10 seconds - ✅
+Object successfully placed at target - ✅ Placement error: \textless5mm
+- ✅ No collisions detected
+
+\hypertarget{multi-object-sequential-picking}{%
+\paragraph{5.2.2 Multi-Object Sequential
+Picking}\label{multi-object-sequential-picking}}
+
+\textbf{Scenario:} 5 objects, pick all sequentially 1.
+\textbf{Pre-conditions:} 5 colored cubes randomly placed on table 2.
+\textbf{Steps:} For each object: scan → detect → pick → place 3.
+\textbf{Expected Results:} - ✅ All 5 objects picked and placed - ✅
+Total cycle time: \textless60 seconds - ✅ Success rate: 100\% (0
+failures)
+
+\hypertarget{error-recovery-grasp-failure}{%
+\paragraph{5.2.3 Error Recovery (Grasp
+Failure)}\label{error-recovery-grasp-failure}}
+
+\textbf{Scenario:} Intentional grasp failure, test retry logic 1.
+\textbf{Pre-conditions:} - Slippery object (low friction) - Grasp force
+reduced to 50\% (to induce failure) 2. \textbf{Steps:} - Robot attempts
+pick - F/T sensor detects drop (force spike → 0N) - System logs error:
+``Grasp failed'' - System retries with increased force (100\%) - Second
+attempt succeeds 3. \textbf{Expected Results:} - ✅ Failure detected
+within 500ms - ✅ Retry succeeds - ✅ Event logged with timestamp
+
+\hypertarget{occlusion-handling}{%
+\paragraph{5.2.4 Occlusion Handling}\label{occlusion-handling}}
+
+\textbf{Scenario:} Partially occluded object 1. \textbf{Pre-conditions:}
+Object A partially hidden behind object B 2. \textbf{Steps:} - Scan
+workspace - Vision detects visible objects (A partially visible, B fully
+visible) - System picks B first (higher confidence) - Re-scan after
+picking B - Now A fully visible, system picks A 3. \textbf{Expected
+Results:} - ✅ Both objects eventually picked - ✅ No collisions with
+occluding objects
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{performance-testing}{%
+\subsection{6. Performance Testing}\label{performance-testing}}
+
+\hypertarget{objectives-3}{%
+\subsubsection{6.1 Objectives}\label{objectives-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  Measure and validate performance metrics
+\item
+  Identify bottlenecks
+\item
+  Ensure real-time constraints met
+\end{itemize}
+
+\hypertarget{test-cases}{%
+\subsubsection{6.2 Test Cases}\label{test-cases}}
+
+\hypertarget{cycle-time-test}{%
+\paragraph{6.2.1 Cycle Time Test}\label{cycle-time-test}}
+
+\textbf{Objective:} Measure average cycle time - \textbf{Setup:} 100
+pick-place cycles (single object) - \textbf{Metrics:} - Mean cycle time
+- P50, P95, P99 percentiles - Standard deviation - \textbf{Pass
+Criteria:} Mean \textless2.5 sec, P95 \textless3.0 sec
+
+\textbf{Test Procedure:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cycle\_times }\OperatorTok{=}\NormalTok{ []}
+\ControlFlowTok{for}\NormalTok{ i }\KeywordTok{in} \BuiltInTok{range}\NormalTok{(}\DecValTok{100}\NormalTok{):}
+\NormalTok{    start }\OperatorTok{=}\NormalTok{ time.time()}
+\NormalTok{    execute\_pick\_place()}
+\NormalTok{    end }\OperatorTok{=}\NormalTok{ time.time()}
+\NormalTok{    cycle\_times.append(end }\OperatorTok{{-}}\NormalTok{ start)}
+
+\NormalTok{mean\_time }\OperatorTok{=}\NormalTok{ np.mean(cycle\_times)}
+\NormalTok{p95\_time }\OperatorTok{=}\NormalTok{ np.percentile(cycle\_times, }\DecValTok{95}\NormalTok{)}
+\ControlFlowTok{assert}\NormalTok{ mean\_time }\OperatorTok{\textless{}} \FloatTok{2.5}\NormalTok{, }\SpecialStringTok{f"Mean cycle time }\SpecialCharTok{\{}\NormalTok{mean\_time}\SpecialCharTok{\}}\SpecialStringTok{s exceeds 2.5s"}
+\ControlFlowTok{assert}\NormalTok{ p95\_time }\OperatorTok{\textless{}} \FloatTok{3.0}\NormalTok{, }\SpecialStringTok{f"P95 cycle time }\SpecialCharTok{\{}\NormalTok{p95\_time}\SpecialCharTok{\}}\SpecialStringTok{s exceeds 3.0s"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{vision-latency-test}{%
+\paragraph{6.2.2 Vision Latency Test}\label{vision-latency-test}}
+
+\textbf{Objective:} Measure vision pipeline latency - \textbf{Setup:}
+1000 images processed - \textbf{Metrics:} - Detection latency (image →
+bounding boxes) - Pose estimation latency (image → 6DoF pose) -
+\textbf{Pass Criteria:} Detection \textless50ms, Pose \textless100ms
+
+\hypertarget{control-loop-jitter-test}{%
+\paragraph{6.2.3 Control Loop Jitter
+Test}\label{control-loop-jitter-test}}
+
+\textbf{Objective:} Measure real-time control loop stability -
+\textbf{Setup:} 1 hour continuous operation, log loop timings -
+\textbf{Metrics:} - Mean loop time (should be 1ms for 1kHz) - Jitter
+(std dev) - Max jitter - \textbf{Pass Criteria:} Mean=1ms ±0.1ms, Max
+jitter \textless2ms
+
+\textbf{Tool:} \texttt{cyclictest} (Linux RT benchmark)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sudo}\NormalTok{ cyclictest }\AttributeTok{{-}p}\NormalTok{ 90 }\AttributeTok{{-}t}\NormalTok{ 1 }\AttributeTok{{-}n} \AttributeTok{{-}a}\NormalTok{ 1 }\AttributeTok{{-}D}\NormalTok{ 3600 }\AttributeTok{{-}m} \AttributeTok{{-}q}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{throughput-test}{%
+\paragraph{6.2.4 Throughput Test}\label{throughput-test}}
+
+\textbf{Objective:} Max picks per hour (continuous operation) -
+\textbf{Setup:} 1-hour run, unlimited objects (refill bin as needed) -
+\textbf{Metrics:} Total picks in 1 hour - \textbf{Pass Criteria:} ≥1800
+picks/hour (30 picks/min)
+
+\hypertarget{load-testing-api}{%
+\subsubsection{6.3 Load Testing (API)}\label{load-testing-api}}
+
+\textbf{Objective:} Test REST API under concurrent load - \textbf{Tool:}
+Locust (Python load testing framework) - \textbf{Scenario:} 100
+concurrent users, each calling \texttt{/start} API - \textbf{Pass
+Criteria:} 95\% requests complete \textless100ms, 0\% errors
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{safety-testing}{%
+\subsection{7. Safety Testing}\label{safety-testing}}
+
+\hypertarget{objectives-4}{%
+\subsubsection{7.1 Objectives}\label{objectives-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  Verify compliance with ISO 10218 (robot safety), ISO/TS 15066
+  (collaborative robots)
+\item
+  Validate E-stop functionality
+\item
+  Test collision detection, force limiting
+\end{itemize}
+
+\hypertarget{test-cases-1}{%
+\subsubsection{7.2 Test Cases}\label{test-cases-1}}
+
+\hypertarget{emergency-stop-e-stop-test}{%
+\paragraph{7.2.1 Emergency Stop (E-Stop)
+Test}\label{emergency-stop-e-stop-test}}
+
+\textbf{Test:} E-stop response time - \textbf{Setup:} Robot in motion
+(50\% of max speed) - \textbf{Action:} Press E-stop button -
+\textbf{Measurement:} Time from button press to motor stop
+(oscilloscope) - \textbf{Pass Criteria:} \textless100ms
+
+\textbf{Test:} E-stop recovery - \textbf{Setup:} E-stop triggered, robot
+halted - \textbf{Action:} Release E-stop, press ``Reset'', select
+``Return Home'' - \textbf{Expected:} Robot returns to home position
+safely - \textbf{Pass Criteria:} No unintended motion, user acknowledges
+before resuming
+
+\hypertarget{collision-detection-test}{%
+\paragraph{7.2.2 Collision Detection
+Test}\label{collision-detection-test}}
+
+\textbf{Test:} Detect unexpected contact - \textbf{Setup:} Robot moving
+toward pick position - \textbf{Action:} Place foam block in path
+(simulated collision) - \textbf{Expected:} F/T sensor detects force
+spike (\textgreater150N), robot stops - \textbf{Pass Criteria:} Stop
+within 100ms, no damage to robot/object
+
+\hypertarget{force-limiting-test-isots-15066}{%
+\paragraph{7.2.3 Force Limiting Test (ISO/TS
+15066)}\label{force-limiting-test-isots-15066}}
+
+\textbf{Test:} Verify force limits in collaborative mode -
+\textbf{Setup:} Robot approaches human (mannequin with force sensor) -
+\textbf{Action:} Robot contacts mannequin during motion -
+\textbf{Measurement:} Peak contact force (N) - \textbf{Pass Criteria:}
+Force \textless150N (ISO/TS 15066 limit for transient contact)
+
+\hypertarget{safety-zone-test}{%
+\paragraph{7.2.4 Safety Zone Test}\label{safety-zone-test}}
+
+\textbf{Test:} Human enters safety zone, robot slows/stops -
+\textbf{Setup:} Robot operating at 100\% speed, camera detects humans -
+\textbf{Action:} Human enters outer zone (slow zone) -
+\textbf{Expected:} Robot slows to 50\% speed - \textbf{Action:} Human
+enters inner zone (stop zone) - \textbf{Expected:} Robot stops
+completely - \textbf{Pass Criteria:} Speed reduction smooth, stop
+\textless100ms
+
+\hypertarget{safety-certification}{%
+\subsubsection{7.3 Safety Certification}\label{safety-certification}}
+
+\textbf{Process:} 1. Conduct all safety tests 2. Document results in
+safety report 3. Submit to TÜV/UL for certification audit 4. Obtain CE
+marking (EU) or UL listing (US)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{acceptance-testing}{%
+\subsection{8. Acceptance Testing}\label{acceptance-testing}}
+
+\hypertarget{objectives-5}{%
+\subsubsection{8.1 Objectives}\label{objectives-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  Validate system meets customer requirements
+\item
+  Obtain customer sign-off for deployment
+\item
+  Basis for contract completion
+\end{itemize}
+
+\hypertarget{acceptance-criteria}{%
+\subsubsection{8.2 Acceptance Criteria}\label{acceptance-criteria}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2273}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1818}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3636}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2273}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Criterion}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Target}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Measurement Method}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pass/Fail}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Cycle Time & ≤2 sec/object & 100-pick test, average & TBD \\
+Throughput & ≥28,000 picks/day & 8-hour run, extrapolate to 24h & TBD \\
+Grasp Success Rate & ≥99\% & 1000-pick test, count failures & TBD \\
+Placement Accuracy & ±0.1mm & CMM measurement (10 placements) & TBD \\
+Uptime & ≥99.5\% & 1-week continuous run, track downtime & TBD \\
+Safety Compliance & ISO 10218, ISO/TS 15066 & Certification audit &
+TBD \\
+\end{longtable}
+
+\hypertarget{user-acceptance-test-uat-procedure}{%
+\subsubsection{8.3 User Acceptance Test (UAT)
+Procedure}\label{user-acceptance-test-uat-procedure}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Preparation (Week 1):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Install system at customer site
+  \item
+    Calibrate camera-robot transform
+  \item
+    Load customer objects (train detection model if needed)
+  \end{itemize}
+\item
+  \textbf{Training (Week 1):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Train operators (2 days)
+  \item
+    Train maintenance staff (1 day)
+  \end{itemize}
+\item
+  \textbf{UAT Execution (Week 2):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Customer runs system for 40 hours (1 week)
+  \item
+    Customer observes performance, logs issues
+  \item
+    Project team fixes critical bugs (on-site support)
+  \end{itemize}
+\item
+  \textbf{UAT Sign-Off (End of Week 2):}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Customer reviews acceptance criteria table
+  \item
+    If all ``Pass'', customer signs acceptance document
+  \item
+    If any ``Fail'', create punch list, remediate, retest
+  \end{itemize}
+\end{enumerate}
+
+\hypertarget{acceptance-test-report-template}{%
+\subsubsection{8.4 Acceptance Test Report
+Template}\label{acceptance-test-report-template}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{\# Acceptance Test Report}
+
+\FunctionTok{\#\# Test Summary}
+\SpecialStringTok{{-} }\NormalTok{**Date:** }\CommentTok{[}\OtherTok{YYYY{-}MM{-}DD}\CommentTok{]}
+\SpecialStringTok{{-} }\NormalTok{**Location:** }\CommentTok{[}\OtherTok{Customer Site}\CommentTok{]}
+\SpecialStringTok{{-} }\NormalTok{**Testers:** }\CommentTok{[}\OtherTok{Names}\CommentTok{]}
+
+\FunctionTok{\#\# Results}
+\NormalTok{| Criterion | Target | Actual | Pass/Fail | Notes |}
+\NormalTok{|{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}|{-}{-}{-}{-}{-}{-}{-}{-}|{-}{-}{-}{-}{-}{-}{-}{-}|{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}|{-}{-}{-}{-}{-}{-}{-}|}
+\NormalTok{| Cycle Time | ≤2 sec | 1.8 sec | ✅ Pass | Average of 100 picks |}
+\NormalTok{| ... | ... | ... | ... | ... |}
+
+\FunctionTok{\#\# Issues Found}
+\NormalTok{| Issue ID | Severity | Description | Status |}
+\NormalTok{|{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}|{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}|{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}{-}|{-}{-}{-}{-}{-}{-}{-}{-}|}
+\NormalTok{| UAT{-}001 | High | Camera loses connection after 4 hours | Fixed |}
+\NormalTok{| UAT{-}002 | Low | Dashboard slow to load (5 sec) | Open |}
+
+\FunctionTok{\#\# Conclusion}
+\CommentTok{[}\OtherTok{Pass / Fail / Conditional Pass}\CommentTok{]}
+
+\FunctionTok{\#\# Signatures}
+\SpecialStringTok{{-} }\NormalTok{Customer Representative: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Date: \_\_\_\_\_\_\_\_}
+\SpecialStringTok{{-} }\NormalTok{Project Manager: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Date: \_\_\_\_\_\_\_\_}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{regression-testing}{%
+\subsection{9. Regression Testing}\label{regression-testing}}
+
+\hypertarget{objectives-6}{%
+\subsubsection{9.1 Objectives}\label{objectives-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  Ensure new changes don't break existing functionality
+\item
+  Run after every significant code change or bug fix
+\end{itemize}
+
+\hypertarget{regression-suite}{%
+\subsubsection{9.2 Regression Suite}\label{regression-suite}}
+
+\textbf{Composition:} - All unit tests (full suite) - Critical
+integration tests (vision → planning → control) - 1 end-to-end system
+test (smoke test: single pick-place)
+
+\textbf{Execution:} - Automated (CI/CD pipeline) - Run on every merge to
+\texttt{main} branch - Takes \textasciitilde30 minutes (parallelized)
+
+\textbf{Pass Criteria:} - 100\% of unit tests pass - All critical
+integration tests pass - Smoke test completes successfully
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{test-environment-tools}{%
+\subsection{10. Test Environment \&
+Tools}\label{test-environment-tools}}
+
+\hypertarget{test-environments}{%
+\subsubsection{10.1 Test Environments}\label{test-environments}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2931}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2241}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2414}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2414}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Environment}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Hardware}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Software}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Dev} & Unit, integration tests & Developer laptop & Ubuntu
+22.04, ROS2, Gazebo \\
+\textbf{CI/CD} & Automated regression & GitHub Actions runners & Docker
+containers \\
+\textbf{Sim} & System tests (simulation) & x86 server (16 cores, 32GB
+RAM) & Gazebo, RViz2 \\
+\textbf{Lab} & System tests (real hardware) & Full robot cell (UR5e,
+camera, NUC) & Production-identical setup \\
+\textbf{Customer} & Acceptance tests & Customer site & Customer
+environment \\
+\end{longtable}
+
+\hypertarget{test-tools}{%
+\subsubsection{10.2 Test Tools}\label{test-tools}}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+\textbf{Tool} & \textbf{Purpose} & \textbf{Language} &
+\textbf{License} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{pytest} & Unit tests (Python) & Python & MIT \\
+\textbf{gtest} & Unit tests (C++) & C++ & BSD \\
+\textbf{coverage.py} & Code coverage (Python) & Python & Apache 2.0 \\
+\textbf{gcov/lcov} & Code coverage (C++) & C++ & GPL \\
+\textbf{launch\_testing} & ROS2 integration tests & Python & Apache
+2.0 \\
+\textbf{JMeter} & API load testing & Java & Apache 2.0 \\
+\textbf{Locust} & API load testing & Python & MIT \\
+\textbf{cyclictest} & Real-time jitter testing & C & GPL \\
+\textbf{Gazebo} & Robot simulation & C++ & Apache 2.0 \\
+\textbf{RViz2} & Visualization, debugging & C++ & BSD \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{test-data-management}{%
+\subsection{11. Test Data Management}\label{test-data-management}}
+
+\hypertarget{test-data-sets}{%
+\subsubsection{11.1 Test Data Sets}\label{test-data-sets}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2407}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3148}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1852}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2593}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Dataset}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Description}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Size}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Location}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Synthetic Images} & Rendered cubes, boxes (Blender) & 1000
+images & \texttt{/test\_data/synthetic/} \\
+\textbf{Real Images} & Lab-captured RGB-D & 500 images &
+\texttt{/test\_data/real/} \\
+\textbf{Edge Cases} & Occlusions, poor lighting & 100 images &
+\texttt{/test\_data/edge\_cases/} \\
+\textbf{Point Clouds} & Pre-captured scenes & 200 PCD files &
+\texttt{/test\_data/point\_clouds/} \\
+\end{longtable}
+
+\hypertarget{test-data-versioning}{%
+\subsubsection{11.2 Test Data Versioning}\label{test-data-versioning}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Tool:} DVC (Data Version Control)
+\item
+  \textbf{Storage:} AWS S3 bucket (or local NAS)
+\item
+  \textbf{Versioning:} Tag datasets with git commit hash
+\end{itemize}
+
+\textbf{Example:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{dvc}\NormalTok{ add test\_data/}
+\FunctionTok{git}\NormalTok{ add test\_data.dvc .gitignore}
+\FunctionTok{git}\NormalTok{ commit }\AttributeTok{{-}m} \StringTok{"Add test dataset v1.0"}
+\FunctionTok{git}\NormalTok{ tag test{-}data{-}v1.0}
+\ExtensionTok{dvc}\NormalTok{ push}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{defect-management}{%
+\subsection{12. Defect Management}\label{defect-management}}
+
+\hypertarget{defect-lifecycle}{%
+\subsubsection{12.1 Defect Lifecycle}\label{defect-lifecycle}}
+
+\begin{verbatim}
+[Found] → [Logged] → [Triaged] → [Assigned] → [Fixed] → [Verified] → [Closed]
+\end{verbatim}
+
+\hypertarget{defect-severity-levels}{%
+\subsubsection{12.2 Defect Severity
+Levels}\label{defect-severity-levels}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2692}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3077}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1731}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Severity}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Definition}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{SLA}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Example}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Critical} & System unusable, safety risk & Fix within 24h &
+E-stop not working \\
+\textbf{High} & Major feature broken & Fix within 1 week & Object
+detection fails \\
+\textbf{Medium} & Minor feature broken & Fix within 2 weeks & Dashboard
+slow to load \\
+\textbf{Low} & Cosmetic, minor annoyance & Fix in next release & Typo in
+UI \\
+\end{longtable}
+
+\hypertarget{defect-tracking-tool}{%
+\subsubsection{12.3 Defect Tracking Tool}\label{defect-tracking-tool}}
+
+\textbf{Tool:} Jira / GitHub Issues \textbf{Fields:} - \textbf{ID:}
+BUG-XXX - \textbf{Summary:} Short description - \textbf{Severity:}
+Critical / High / Medium / Low - \textbf{Priority:} P0 (urgent) to P3
+(low) - \textbf{Assignee:} Developer responsible - \textbf{Status:} Open
+/ In Progress / Resolved / Closed - \textbf{Found in Version:} v1.0 -
+\textbf{Fixed in Version:} v1.1
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{test-metrics-reporting}{%
+\subsection{13. Test Metrics \&
+Reporting}\label{test-metrics-reporting}}
+
+\hypertarget{key-metrics}{%
+\subsubsection{13.1 Key Metrics}\label{key-metrics}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2708}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2292}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Metric}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Target}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Current}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Trend}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Code Coverage} & \textgreater80\% & TBD & TBD \\
+\textbf{Test Pass Rate} & 100\% (all must pass) & TBD & TBD \\
+\textbf{Defect Density} & \textless1 bug per 1000 LOC & TBD & TBD \\
+\textbf{Mean Time to Detect (MTTD)} & \textless1 day (find bugs fast) &
+TBD & TBD \\
+\textbf{Mean Time to Resolve (MTTR)} & \textless5 days (fix bugs fast) &
+TBD & TBD \\
+\end{longtable}
+
+\hypertarget{test-reports}{%
+\subsubsection{13.2 Test Reports}\label{test-reports}}
+
+\textbf{Weekly Test Summary:} - Tests executed: 1250 - Tests passed:
+1248 (99.8\%) - Tests failed: 2 (0.2\%) - Integration test: vision →
+grasp (timeout) - System test: multi-object (1 out of 5 objects missed)
+- New bugs found: 3 (2 High, 1 Low) - Bugs fixed this week: 5
+
+\textbf{Release Test Report:} - All acceptance criteria met: ✅ -
+Critical bugs: 0 - High bugs: 1 (known issue, workaround documented) -
+\textbf{Recommendation:} Approve for release
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{test-schedule}{%
+\subsection{14. Test Schedule}\label{test-schedule}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1746}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1746}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2857}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Phase}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Duration}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Start}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{End}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Deliverables}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Unit Tests} & Ongoing (every commit) & Week 7 & Week 22 & Test
+code, coverage reports \\
+\textbf{Integration Tests} & 2 weeks & Week 17 & Week 18 & Integration
+test suite \\
+\textbf{System Tests (Sim)} & 2 weeks & Week 19 & Week 20 & Test
+results, bug reports \\
+\textbf{System Tests (Hardware)} & 2 weeks & Week 21 & Week 22 &
+Hardware test report \\
+\textbf{Performance Tests} & 1 week & Week 22 & Week 22 & Performance
+benchmarks \\
+\textbf{Safety Tests} & 1 week & Week 22 & Week 22 & Safety
+certification docs \\
+\textbf{Acceptance Tests} & 2 weeks & Week 25 & Week 26 & UAT report,
+sign-off \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{roles-responsibilities}{%
+\subsection{15. Roles \&
+Responsibilities}\label{roles-responsibilities}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.3125}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.6875}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Role}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Responsibilities}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{QA Lead} & Define test strategy, review test plans, approve
+releases \\
+\textbf{Test Engineer} & Write test cases, execute tests, log bugs \\
+\textbf{Developer} & Write unit tests (code coverage), fix bugs \\
+\textbf{Automation Engineer} & Build CI/CD pipelines, automate
+regression tests \\
+\textbf{Safety Auditor} & Conduct safety tests, obtain certifications \\
+\textbf{Customer Representative} & Define acceptance criteria, execute
+UAT, sign-off \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{risks-mitigation}{%
+\subsection{16. Risks \& Mitigation}\label{risks-mitigation}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2632}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3158}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4211}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Risk}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Impact}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Mitigation}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Insufficient test coverage (\textless80\%) & Bugs slip to production &
+Enforce coverage gates in CI/CD, prioritize critical paths \\
+Real hardware unavailable for testing & Delays, reliance on simulation &
+Procure hardware early, use hardware-in-loop (HIL) setup \\
+Test data not representative & False confidence & Collaborate with
+customer, use real production objects \\
+Acceptance tests fail at customer site & Project delay, reputation
+damage & Pre-acceptance testing in lab with customer objects, buffer
+time \\
+Safety certification rejected & Cannot deploy & Engage safety
+consultants early, pre-audit with TÜV \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{appendices}{%
+\subsection{17. Appendices}\label{appendices}}
+
+\hypertarget{appendix-a-test-case-templates}{%
+\subsubsection{Appendix A: Test Case
+Templates}\label{appendix-a-test-case-templates}}
+
+\textbf{Unit Test Template (pytest):}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ test\_object\_detection():}
+    \CommentTok{"""}
+\CommentTok{    Test that object detector correctly identifies a single cube.}
+\CommentTok{    """}
+    \CommentTok{\# Arrange}
+\NormalTok{    detector }\OperatorTok{=}\NormalTok{ ObjectDetector(model\_path}\OperatorTok{=}\StringTok{"yolov8.onnx"}\NormalTok{)}
+\NormalTok{    image }\OperatorTok{=}\NormalTok{ load\_test\_image(}\StringTok{"single\_cube.jpg"}\NormalTok{)}
+
+    \CommentTok{\# Act}
+\NormalTok{    detections }\OperatorTok{=}\NormalTok{ detector.detect(image)}
+
+    \CommentTok{\# Assert}
+    \ControlFlowTok{assert} \BuiltInTok{len}\NormalTok{(detections) }\OperatorTok{==} \DecValTok{1}
+    \ControlFlowTok{assert}\NormalTok{ detections[}\DecValTok{0}\NormalTok{].class\_name }\OperatorTok{==} \StringTok{"cube"}
+    \ControlFlowTok{assert}\NormalTok{ detections[}\DecValTok{0}\NormalTok{].confidence }\OperatorTok{\textgreater{}} \FloatTok{0.9}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Integration Test Template (ROS2 launch\_testing):}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ launch\_testing.actions}
+\ImportTok{import}\NormalTok{ pytest}
+
+\KeywordTok{def}\NormalTok{ generate\_test\_description():}
+    \ControlFlowTok{return}\NormalTok{ launch.LaunchDescription([}
+\NormalTok{        launch.actions.Node(package}\OperatorTok{=}\StringTok{\textquotesingle{}vision\_pipeline\textquotesingle{}}\NormalTok{, executable}\OperatorTok{=}\StringTok{\textquotesingle{}detector\textquotesingle{}}\NormalTok{),}
+\NormalTok{        launch\_testing.actions.ReadyToTest()}
+\NormalTok{    ])}
+
+\KeywordTok{def}\NormalTok{ test\_vision\_publishes\_detections(launch\_service, proc\_info, proc\_output):}
+\NormalTok{    sub }\OperatorTok{=}\NormalTok{ Subscriber(}\StringTok{\textquotesingle{}/vision/detections\textquotesingle{}}\NormalTok{, Detection2DArray)}
+\NormalTok{    msg }\OperatorTok{=}\NormalTok{ sub.wait\_for\_message(timeout}\OperatorTok{=}\FloatTok{5.0}\NormalTok{)}
+    \ControlFlowTok{assert}\NormalTok{ msg }\KeywordTok{is} \KeywordTok{not} \VariableTok{None}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{appendix-b-test-data-samples}{%
+\subsubsection{Appendix B: Test Data
+Samples}\label{appendix-b-test-data-samples}}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{test\_data/synthetic/cube\_001.jpg}: Red cube, centered,
+  well-lit
+\item
+  \texttt{test\_data/edge\_cases/occluded.jpg}: Partially occluded
+  object
+\item
+  \texttt{test\_data/point\_clouds/bin\_pile.pcd}: 20 objects in random
+  pile
+\end{itemize}
+
+\hypertarget{appendix-c-references}{%
+\subsubsection{Appendix C: References}\label{appendix-c-references}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.iso.org/standard/51330.html}{ISO 10218-1:2011 (Robot
+  Safety)}
+\item
+  \href{https://www.iso.org/standard/62996.html}{ISO/TS 15066:2016
+  (Collaborative Robots)}
+\item
+  \href{https://docs.ros.org/en/humble/Tutorials/Intermediate/Testing/Testing-Main.html}{ROS2
+  Testing Guide}
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Next Review:} After Development Phase (Week 22)
+\textbf{Approvals:} Pending QA Lead, Tech Lead Sign-Off
+
+\end{document}

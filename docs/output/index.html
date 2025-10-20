@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionBot Documentation - Index</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            color: #1e293b;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .stat-box i {
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .stat-box .value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        .stat-box .label {
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            letter-spacing: 1px;
+        }
+
+        .documents {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .documents h2 {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .doc-card {
+            border: 3px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .doc-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .doc-card:hover {
+            border-color: #667eea;
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .doc-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4em;
+            font-weight: 900;
+            color: #f1f5f9;
+        }
+
+        .doc-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 15px;
+            padding-right: 80px;
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            font-size: 0.95em;
+        }
+
+        .meta-item i {
+            color: #667eea;
+        }
+
+        .doc-description {
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.05em;
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .feature-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+            font-size: 0.9em;
+        }
+
+        .feature-tag i {
+            color: #10b981;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        footer p {
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .documents {
+                padding: 30px 20px;
+            }
+
+            .doc-card {
+                padding: 25px;
+            }
+
+            .doc-number {
+                font-size: 2.5em;
+            }
+
+            .doc-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-robot"></i> VisionBot Documentation</h1>
+            <p>Multi-Domain Robotic Simulation & Testing Platform</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-box">
+                <i class="fas fa-file-alt"></i>
+                <div class="value">2</div>
+                <div class="label">Latest Documents</div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-code"></i>
+                <div class="value">6,726</div>
+                <div class="label">Lines of Docs</div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-book"></i>
+                <div class="value">27</div>
+                <div class="label">User Stories</div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-check-circle"></i>
+                <div class="value">100%</div>
+                <div class="label">Complete</div>
+            </div>
+        </div>
+
+        <div class="documents">
+            <h2><i class="fas fa-book-open"></i> Available Documents</h2>
+
+            <!-- Document 28 -->
+            <div class="doc-card">
+                <div class="doc-number">28</div>
+                <div class="doc-title">Multi-Domain Simulation & Testing Platform</div>
+
+                <div class="doc-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>2025-10-19</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file"></i>
+                        <span>212 KB (MD) / 997 KB (HTML)</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-layer-group"></i>
+                        <span>15 Sections</span>
+                    </div>
+                </div>
+
+                <div class="doc-description">
+                    Comprehensive end-to-end multi-domain simulation platform covering mechanical, electrical,
+                    electronics, software, AI/ML, and security domains. Includes FMI-based co-simulation,
+                    500+ automated test cases, full observability stack (Prometheus, Grafana, ELK, Jaeger),
+                    and hardware-in-the-loop integration.
+                </div>
+
+                <div class="features">
+                    <div class="feature-tag"><i class="fas fa-check"></i> FMI Co-Simulation</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> 500+ Test Cases</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> Full Observability</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> HIL Integration</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> Fault Injection</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> CI/CD Pipeline</div>
+                </div>
+
+                <div class="doc-actions">
+                    <a href="html_styled/28_multi_domain_simulation_testing_platform.html" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> View HTML
+                    </a>
+                    <a href="../docs/28_multi_domain_simulation_testing_platform.md" class="btn btn-secondary">
+                        <i class="fas fa-code"></i> View Markdown
+                    </a>
+                </div>
+            </div>
+
+            <!-- Document 29 -->
+            <div class="doc-card">
+                <div class="doc-number">29</div>
+                <div class="doc-title">Demo Guide - Complete Flow & User Stories</div>
+
+                <div class="doc-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span>2025-10-19</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file"></i>
+                        <span>53 KB (MD) / 220 KB (HTML)</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-layer-group"></i>
+                        <span>8 Sections</span>
+                    </div>
+                </div>
+
+                <div class="doc-description">
+                    Complete demonstration guide showing end-to-end pick-and-place flow with all 27 user stories
+                    documented. Includes detailed input/output examples, multi-domain execution timeline,
+                    visualization descriptions (Grafana, Jaeger, 3D views), and quick start guide for running
+                    the simulation.
+                </div>
+
+                <div class="features">
+                    <div class="feature-tag"><i class="fas fa-check"></i> 27 User Stories</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> Demo Flow</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> I/O Examples</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> Visualizations</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> Quick Start</div>
+                    <div class="feature-tag"><i class="fas fa-check"></i> Step-by-Step</div>
+                </div>
+
+                <div class="doc-actions">
+                    <a href="html_styled/29_demo_guide_complete_flow.html" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> View HTML
+                    </a>
+                    <a href="../docs/29_demo_guide_complete_flow.md" class="btn btn-secondary">
+                        <i class="fas fa-code"></i> View Markdown
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><i class="fas fa-robot"></i> VisionBot Project - Production-Ready Documentation</p>
+            <p><i class="fas fa-copyright"></i> 2025 | Generated with Claude Code</p>
+            <p style="font-size: 0.9em; margin-top: 20px;">
+                <i class="fas fa-info-circle"></i>
+                This documentation describes a vision-based pick-and-place robotic system with
+                comprehensive multi-domain simulation, testing, and observability capabilities.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

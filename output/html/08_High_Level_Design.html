@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>08 High Level Design</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">08 High Level Design</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a
+href="#high-level-design-hld---vision-based-pick-and-place-system"
+id="toc-high-level-design-hld---vision-based-pick-and-place-system"><span
+class="toc-section-number">1</span> High-Level Design (HLD) -
+Vision-Based Pick and Place System</a>
+<ul>
+<li><a href="#document-information" id="toc-document-information"><span
+class="toc-section-number">1.1</span> Document Information</a></li>
+<li><a href="#table-of-contents" id="toc-table-of-contents"><span
+class="toc-section-number">1.2</span> Table of Contents</a></li>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1.3</span> 1. Introduction</a>
+<ul>
+<li><a href="#purpose" id="toc-purpose"><span
+class="toc-section-number">1.3.1</span> 1.1 Purpose</a></li>
+<li><a href="#scope" id="toc-scope"><span
+class="toc-section-number">1.3.2</span> 1.2 Scope</a></li>
+<li><a href="#definitions-acronyms" id="toc-definitions-acronyms"><span
+class="toc-section-number">1.3.3</span> 1.3 Definitions &amp;
+Acronyms</a></li>
+</ul></li>
+<li><a href="#system-context" id="toc-system-context"><span
+class="toc-section-number">1.4</span> 2. System Context</a>
+<ul>
+<li><a href="#system-boundary" id="toc-system-boundary"><span
+class="toc-section-number">1.4.1</span> 2.1 System Boundary</a></li>
+<li><a href="#system-interfaces" id="toc-system-interfaces"><span
+class="toc-section-number">1.4.2</span> 2.2 System Interfaces</a></li>
+<li><a href="#stakeholders" id="toc-stakeholders"><span
+class="toc-section-number">1.4.3</span> 2.3 Stakeholders</a></li>
+</ul></li>
+<li><a href="#architectural-principles"
+id="toc-architectural-principles"><span
+class="toc-section-number">1.5</span> 3. Architectural Principles</a>
+<ul>
+<li><a href="#design-principles" id="toc-design-principles"><span
+class="toc-section-number">1.5.1</span> 3.1 Design Principles</a></li>
+<li><a href="#architectural-patterns"
+id="toc-architectural-patterns"><span
+class="toc-section-number">1.5.2</span> 3.2 Architectural
+Patterns</a></li>
+</ul></li>
+<li><a href="#system-architecture-overview"
+id="toc-system-architecture-overview"><span
+class="toc-section-number">1.6</span> 4. System Architecture
+Overview</a>
+<ul>
+<li><a href="#logical-architecture-layered-view"
+id="toc-logical-architecture-layered-view"><span
+class="toc-section-number">1.6.1</span> 4.1 Logical Architecture
+(Layered View)</a></li>
+<li><a href="#subsystem-decomposition"
+id="toc-subsystem-decomposition"><span
+class="toc-section-number">1.6.2</span> 4.2 Subsystem
+Decomposition</a></li>
+</ul></li>
+<li><a href="#subsystem-design" id="toc-subsystem-design"><span
+class="toc-section-number">1.7</span> 5. Subsystem Design</a>
+<ul>
+<li><a href="#vision-perception-subsystem"
+id="toc-vision-perception-subsystem"><span
+class="toc-section-number">1.7.1</span> 5.1 Vision Perception
+Subsystem</a></li>
+<li><a href="#grasp-planning-subsystem"
+id="toc-grasp-planning-subsystem"><span
+class="toc-section-number">1.7.2</span> 5.2 Grasp Planning
+Subsystem</a></li>
+<li><a href="#motion-planning-subsystem-moveit2"
+id="toc-motion-planning-subsystem-moveit2"><span
+class="toc-section-number">1.7.3</span> 5.3 Motion Planning Subsystem
+(MoveIt2)</a></li>
+<li><a href="#control-execution-subsystem-ros2_control"
+id="toc-control-execution-subsystem-ros2_control"><span
+class="toc-section-number">1.7.4</span> 5.4 Control &amp; Execution
+Subsystem (ros2_control)</a></li>
+<li><a href="#task-orchestration-subsystem"
+id="toc-task-orchestration-subsystem"><span
+class="toc-section-number">1.7.5</span> 5.5 Task Orchestration
+Subsystem</a></li>
+<li><a href="#monitoring-logging-subsystem"
+id="toc-monitoring-logging-subsystem"><span
+class="toc-section-number">1.7.6</span> 5.6 Monitoring &amp; Logging
+Subsystem</a></li>
+</ul></li>
+<li><a href="#data-architecture" id="toc-data-architecture"><span
+class="toc-section-number">1.8</span> 6. Data Architecture</a>
+<ul>
+<li><a href="#data-flow-diagram" id="toc-data-flow-diagram"><span
+class="toc-section-number">1.8.1</span> 6.1 Data Flow Diagram</a></li>
+<li><a href="#database-schemas" id="toc-database-schemas"><span
+class="toc-section-number">1.8.2</span> 6.2 Database Schemas</a></li>
+</ul></li>
+<li><a href="#interface-design" id="toc-interface-design"><span
+class="toc-section-number">1.9</span> 7. Interface Design</a>
+<ul>
+<li><a href="#ros2-topic-interfaces"
+id="toc-ros2-topic-interfaces"><span
+class="toc-section-number">1.9.1</span> 7.1 ROS2 Topic
+Interfaces</a></li>
+<li><a href="#ros2-service-interfaces"
+id="toc-ros2-service-interfaces"><span
+class="toc-section-number">1.9.2</span> 7.2 ROS2 Service
+Interfaces</a></li>
+<li><a href="#ros2-action-interfaces"
+id="toc-ros2-action-interfaces"><span
+class="toc-section-number">1.9.3</span> 7.3 ROS2 Action
+Interfaces</a></li>
+<li><a href="#rest-api-interfaces" id="toc-rest-api-interfaces"><span
+class="toc-section-number">1.9.4</span> 7.4 REST API Interfaces</a></li>
+</ul></li>
+<li><a href="#deployment-architecture"
+id="toc-deployment-architecture"><span
+class="toc-section-number">1.10</span> 8. Deployment Architecture</a>
+<ul>
+<li><a href="#single-machine-deployment-development"
+id="toc-single-machine-deployment-development"><span
+class="toc-section-number">1.10.1</span> 8.1 Single-Machine Deployment
+(Development)</a></li>
+<li><a href="#distributed-deployment-production"
+id="toc-distributed-deployment-production"><span
+class="toc-section-number">1.10.2</span> 8.2 Distributed Deployment
+(Production)</a></li>
+<li><a href="#cloud-connected-deployment"
+id="toc-cloud-connected-deployment"><span
+class="toc-section-number">1.10.3</span> 8.3 Cloud-Connected
+Deployment</a></li>
+</ul></li>
+<li><a href="#security-architecture"
+id="toc-security-architecture"><span
+class="toc-section-number">1.11</span> 9. Security Architecture</a>
+<ul>
+<li><a href="#security-layers" id="toc-security-layers"><span
+class="toc-section-number">1.11.1</span> 9.1 Security Layers</a></li>
+<li><a href="#security-controls" id="toc-security-controls"><span
+class="toc-section-number">1.11.2</span> 9.2 Security Controls</a></li>
+</ul></li>
+<li><a href="#scalability-performance"
+id="toc-scalability-performance"><span
+class="toc-section-number">1.12</span> 10. Scalability &amp;
+Performance</a>
+<ul>
+<li><a href="#scalability-dimensions"
+id="toc-scalability-dimensions"><span
+class="toc-section-number">1.12.1</span> 10.1 Scalability
+Dimensions</a></li>
+<li><a href="#performance-requirements"
+id="toc-performance-requirements"><span
+class="toc-section-number">1.12.2</span> 10.2 Performance
+Requirements</a></li>
+<li><a href="#performance-optimization-strategies"
+id="toc-performance-optimization-strategies"><span
+class="toc-section-number">1.12.3</span> 10.3 Performance Optimization
+Strategies</a></li>
+</ul></li>
+<li><a href="#appendices" id="toc-appendices"><span
+class="toc-section-number">1.13</span> 11. Appendices</a>
+<ul>
+<li><a href="#appendix-a-technology-versions"
+id="toc-appendix-a-technology-versions"><span
+class="toc-section-number">1.13.1</span> Appendix A: Technology
+Versions</a></li>
+<li><a href="#appendix-b-key-design-decisions"
+id="toc-appendix-b-key-design-decisions"><span
+class="toc-section-number">1.13.2</span> Appendix B: Key Design
+Decisions</a></li>
+<li><a href="#appendix-c-glossary" id="toc-appendix-c-glossary"><span
+class="toc-section-number">1.13.3</span> Appendix C: Glossary</a></li>
+</ul></li>
+<li><a href="#document-approval" id="toc-document-approval"><span
+class="toc-section-number">1.14</span> Document Approval</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="high-level-design-hld---vision-based-pick-and-place-system"><span
+class="header-section-number">1</span> High-Level Design (HLD) -
+Vision-Based Pick and Place System</h1>
+<h2 data-number="1.1" id="document-information"><span
+class="header-section-number">1.1</span> Document Information</h2>
+<ul>
+<li><strong>Project:</strong> Vision-Based Pick and Place Robotic
+System</li>
+<li><strong>Version:</strong> 1.0</li>
+<li><strong>Date:</strong> 2025-10-18</li>
+<li><strong>Status:</strong> Draft</li>
+<li><strong>Authors:</strong> System Architecture Team</li>
+</ul>
+<hr />
+<h2 data-number="1.2" id="table-of-contents"><span
+class="header-section-number">1.2</span> Table of Contents</h2>
+<ol type="1">
+<li><a href="#1-introduction">Introduction</a></li>
+<li><a href="#2-system-context">System Context</a></li>
+<li><a href="#3-architectural-principles">Architectural
+Principles</a></li>
+<li><a href="#4-system-architecture-overview">System Architecture
+Overview</a></li>
+<li><a href="#5-subsystem-design">Subsystem Design</a></li>
+<li><a href="#6-data-architecture">Data Architecture</a></li>
+<li><a href="#7-interface-design">Interface Design</a></li>
+<li><a href="#8-deployment-architecture">Deployment
+Architecture</a></li>
+<li><a href="#9-security-architecture">Security Architecture</a></li>
+<li><a href="#10-scalability--performance">Scalability &amp;
+Performance</a></li>
+<li><a href="#11-appendices">Appendices</a></li>
+</ol>
+<hr />
+<h2 data-number="1.3" id="introduction"><span
+class="header-section-number">1.3</span> 1. Introduction</h2>
+<h3 data-number="1.3.1" id="purpose"><span
+class="header-section-number">1.3.1</span> 1.1 Purpose</h3>
+<p>This High-Level Design (HLD) document describes the system
+architecture for a vision-based pick-and-place robotic system. It
+provides: - Architectural overview and design principles - Subsystem
+decomposition and responsibilities - Interface specifications between
+subsystems - Data flow and storage architecture - Deployment and
+infrastructure design</p>
+<h3 data-number="1.3.2" id="scope"><span
+class="header-section-number">1.3.2</span> 1.2 Scope</h3>
+<p><strong>In Scope:</strong> - System architecture (software, hardware,
+network) - Subsystem decomposition - Interface definitions (APIs,
+messages, protocols) - Data architecture (databases, caching, logging) -
+Deployment models (single-machine, distributed)</p>
+<p><strong>Out of Scope:</strong> - Detailed class diagrams (see
+Low-Level Design) - Algorithm implementation details - Hardware
+schematics (see Electrical Design docs) - Test plans (see Testing &amp;
+Validation Plan)</p>
+<h3 data-number="1.3.3" id="definitions-acronyms"><span
+class="header-section-number">1.3.3</span> 1.3 Definitions &amp;
+Acronyms</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HLD</td>
+<td>High-Level Design</td>
+</tr>
+<tr class="even">
+<td>ROS2</td>
+<td>Robot Operating System 2</td>
+</tr>
+<tr class="odd">
+<td>DDS</td>
+<td>Data Distribution Service (ROS2 middleware)</td>
+</tr>
+<tr class="even">
+<td>IK</td>
+<td>Inverse Kinematics</td>
+</tr>
+<tr class="odd">
+<td>FK</td>
+<td>Forward Kinematics</td>
+</tr>
+<tr class="even">
+<td>F/T</td>
+<td>Force/Torque</td>
+</tr>
+<tr class="odd">
+<td>TF</td>
+<td>Transform (coordinate frame transformations)</td>
+</tr>
+<tr class="even">
+<td>URDF</td>
+<td>Unified Robot Description Format</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.4" id="system-context"><span
+class="header-section-number">1.4</span> 2. System Context</h2>
+<h3 data-number="1.4.1" id="system-boundary"><span
+class="header-section-number">1.4.1</span> 2.1 System Boundary</h3>
+<pre><code>┌────────────────────────────────────────────────────────────────┐
+│                       EXTERNAL ACTORS                          │
+├────────────────────────────────────────────────────────────────┤
+│  • Operator (HMI interaction)                                  │
+│  • Integrator (configuration, calibration)                     │
+│  • Engineer (development, debugging)                           │
+│  • Manager (monitoring, reporting)                             │
+│  • Maintenance Tech (diagnostics, repair)                      │
+└────────────────────────┬───────────────────────────────────────┘
+                         │
+                         ▼
+┌────────────────────────────────────────────────────────────────┐
+│                 VISION-BASED PICK-PLACE SYSTEM                 │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  Vision         Motion       Grasp       Task            │  │
+│  │  Perception     Planning     Planning    Orchestration   │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  Control &amp;      Monitoring   Security    Data            │  │
+│  │  Execution      &amp; Logging    &amp; Auth      Management      │  │
+│  └──────────────────────────────────────────────────────────┘  │
+└────────────────────────┬───────────────────────────────────────┘
+                         │
+                         ▼
+┌────────────────────────────────────────────────────────────────┐
+│                     EXTERNAL SYSTEMS                           │
+├────────────────────────────────────────────────────────────────┤
+│  • Warehouse Management System (WMS)                           │
+│  • Manufacturing Execution System (MES)                        │
+│  • Cloud Analytics Platform (AWS/Azure)                        │
+│  • Time-Series Database (InfluxDB Cloud)                       │
+└────────────────────────────────────────────────────────────────┘</code></pre>
+<h3 data-number="1.4.2" id="system-interfaces"><span
+class="header-section-number">1.4.2</span> 2.2 System Interfaces</h3>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 17%" />
+<col style="width: 25%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Interface</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Protocol</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HMI (Web)</td>
+<td>Input</td>
+<td>HTTP/WebSocket</td>
+<td>Operator control panel</td>
+</tr>
+<tr class="even">
+<td>Robot API</td>
+<td>Bidirectional</td>
+<td>EtherCAT/Modbus</td>
+<td>Motor control, status</td>
+</tr>
+<tr class="odd">
+<td>Camera</td>
+<td>Input</td>
+<td>USB 3.0</td>
+<td>RGB-D image stream</td>
+</tr>
+<tr class="even">
+<td>F/T Sensor</td>
+<td>Input</td>
+<td>Ethernet/UDP</td>
+<td>Force-torque data</td>
+</tr>
+<tr class="odd">
+<td>WMS/MES</td>
+<td>Bidirectional</td>
+<td>REST API</td>
+<td>Task orders, completion reports</td>
+</tr>
+<tr class="even">
+<td>Cloud Analytics</td>
+<td>Output</td>
+<td>HTTPS/MQTT</td>
+<td>Telemetry, logs</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.4.3" id="stakeholders"><span
+class="header-section-number">1.4.3</span> 2.3 Stakeholders</h3>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 28%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Stakeholder</strong></th>
+<th><strong>Interest</strong></th>
+<th><strong>Key Concerns</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>End User (Operator)</td>
+<td>Ease of use, reliability</td>
+<td>Simple UI, fast error recovery</td>
+</tr>
+<tr class="even">
+<td>System Integrator</td>
+<td>Easy deployment, configuration</td>
+<td>Documentation, calibration tools</td>
+</tr>
+<tr class="odd">
+<td>Software Developer</td>
+<td>Code quality, modularity</td>
+<td>Clean architecture, testability</td>
+</tr>
+<tr class="even">
+<td>Project Manager</td>
+<td>On-time delivery, ROI</td>
+<td>Progress tracking, risk management</td>
+</tr>
+<tr class="odd">
+<td>Safety Officer</td>
+<td>Compliance, worker safety</td>
+<td>ISO 10218, E-stop, audit trails</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.5" id="architectural-principles"><span
+class="header-section-number">1.5</span> 3. Architectural
+Principles</h2>
+<h3 data-number="1.5.1" id="design-principles"><span
+class="header-section-number">1.5.1</span> 3.1 Design Principles</h3>
+<ol type="1">
+<li><strong>Modularity:</strong>
+<ul>
+<li>Each subsystem is independently deployable and testable</li>
+<li>Clear interfaces between modules (ROS2 topics, services,
+actions)</li>
+<li>Loose coupling, high cohesion</li>
+</ul></li>
+<li><strong>Scalability:</strong>
+<ul>
+<li>Horizontal scaling: Add more robots without redesigning system</li>
+<li>Vertical scaling: Upgrade compute (e.g., Jetson Xavier → Orin)</li>
+</ul></li>
+<li><strong>Real-Time Performance:</strong>
+<ul>
+<li>Control loops run at deterministic frequencies (1 kHz for motion
+control)</li>
+<li>Vision pipeline optimized for low latency (&lt;50ms)</li>
+</ul></li>
+<li><strong>Fault Tolerance:</strong>
+<ul>
+<li>Graceful degradation (e.g., if F/T sensor fails, continue with
+vision-only)</li>
+<li>Automatic retry mechanisms for transient errors</li>
+<li>Comprehensive error logging</li>
+</ul></li>
+<li><strong>Security:</strong>
+<ul>
+<li>Authentication required for configuration changes</li>
+<li>Encrypted communication for sensitive data (TLS)</li>
+<li>Audit trail for all critical operations</li>
+</ul></li>
+<li><strong>Maintainability:</strong>
+<ul>
+<li>Self-documenting code (docstrings, type hints)</li>
+<li>Automated testing (unit, integration, system)</li>
+<li>Version control for all artifacts (code, configs, models)</li>
+</ul></li>
+<li><strong>Usability:</strong>
+<ul>
+<li>Intuitive UIs (web dashboard, RViz)</li>
+<li>Guided wizards for complex tasks (calibration)</li>
+<li>Clear error messages with actionable guidance</li>
+</ul></li>
+</ol>
+<h3 data-number="1.5.2" id="architectural-patterns"><span
+class="header-section-number">1.5.2</span> 3.2 Architectural
+Patterns</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 38%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Pattern</strong></th>
+<th><strong>Application</strong></th>
+<th><strong>Benefit</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Layered Architecture</strong></td>
+<td>Separate concerns (perception, planning, control)</td>
+<td>Clear separation, testability</td>
+</tr>
+<tr class="even">
+<td><strong>Event-Driven (Pub-Sub)</strong></td>
+<td>ROS2 topics for sensor data</td>
+<td>Decoupling, flexibility</td>
+</tr>
+<tr class="odd">
+<td><strong>Microservices</strong></td>
+<td>Independent ROS2 nodes</td>
+<td>Scalability, fault isolation</td>
+</tr>
+<tr class="even">
+<td><strong>State Machine</strong></td>
+<td>Task orchestration</td>
+<td>Clear control flow, error handling</td>
+</tr>
+<tr class="odd">
+<td><strong>Repository Pattern</strong></td>
+<td>Data access (PostgreSQL, Redis)</td>
+<td>Abstraction, testability</td>
+</tr>
+<tr class="even">
+<td><strong>Adapter Pattern</strong></td>
+<td>Hardware abstraction (ros2_control)</td>
+<td>Portability across robots</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.6" id="system-architecture-overview"><span
+class="header-section-number">1.6</span> 4. System Architecture
+Overview</h2>
+<h3 data-number="1.6.1" id="logical-architecture-layered-view"><span
+class="header-section-number">1.6.1</span> 4.1 Logical Architecture
+(Layered View)</h3>
+<pre><code>┌──────────────────────────────────────────────────────────────┐
+│               LAYER 6: PRESENTATION                          │
+│  Web UI, RViz2, Grafana, Foxglove, Mobile App               │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (HTTPS, WebSocket)
+┌──────────────────────────────────────────────────────────────┐
+│            LAYER 5: APPLICATION / BUSINESS LOGIC             │
+│  Task Orchestrator (FSM/BT), Workflow Manager, Analytics     │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (ROS2 Services/Actions)
+┌──────────────────────────────────────────────────────────────┐
+│              LAYER 4: DOMAIN / CORE LOGIC                    │
+│  Vision Pipeline, Grasp Planner, Motion Planner (MoveIt2)    │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (ROS2 Topics/Services)
+┌──────────────────────────────────────────────────────────────┐
+│           LAYER 3: MIDDLEWARE (ROS2)                         │
+│  DDS (CycloneDDS), TF2, Image Transport, ros2_control        │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (ROS2 APIs)
+┌──────────────────────────────────────────────────────────────┐
+│          LAYER 2: DEVICE ABSTRACTION                         │
+│  Camera SDK, Motor Drivers, Sensor Drivers, GPIO             │
+└──────────────────────────────────────────────────────────────┘
+                         ▲ (USB, EtherCAT, Ethernet)
+┌──────────────────────────────────────────────────────────────┐
+│               LAYER 1: HARDWARE                              │
+│  Robot, Camera, F/T Sensor, Compute (Jetson, NUC), Network   │
+└──────────────────────────────────────────────────────────────┘</code></pre>
+<h3 data-number="1.6.2" id="subsystem-decomposition"><span
+class="header-section-number">1.6.2</span> 4.2 Subsystem
+Decomposition</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 37%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Subsystem</strong></th>
+<th><strong>Responsibilities</strong></th>
+<th><strong>Key Components</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Vision Perception</strong></td>
+<td>Detect objects, estimate poses, generate point clouds</td>
+<td>YOLO detector, Pose estimator, PCL processor</td>
+</tr>
+<tr class="even">
+<td><strong>Grasp Planning</strong></td>
+<td>Compute optimal gripper poses</td>
+<td>Grasp sampler, Collision checker, Quality scorer</td>
+</tr>
+<tr class="odd">
+<td><strong>Motion Planning</strong></td>
+<td>Plan collision-free trajectories</td>
+<td>MoveIt2, OMPL, IK solver</td>
+</tr>
+<tr class="even">
+<td><strong>Control &amp; Execution</strong></td>
+<td>Execute trajectories with feedback</td>
+<td>ros2_control, PID controllers, Trajectory interpolator</td>
+</tr>
+<tr class="odd">
+<td><strong>Task Orchestration</strong></td>
+<td>High-level task sequencing, error handling</td>
+<td>State machine (BT.CPP), Event dispatcher</td>
+</tr>
+<tr class="even">
+<td><strong>Monitoring &amp; Logging</strong></td>
+<td>Telemetry, logging, alerting</td>
+<td>Prometheus, Grafana, ELK stack, rosbag2</td>
+</tr>
+<tr class="odd">
+<td><strong>Security &amp; Auth</strong></td>
+<td>User authentication, access control</td>
+<td>OAuth2, JWT, Firewall</td>
+</tr>
+<tr class="even">
+<td><strong>Data Management</strong></td>
+<td>Persistent storage, caching</td>
+<td>PostgreSQL, Redis, InfluxDB</td>
+</tr>
+<tr class="odd">
+<td><strong>Configuration</strong></td>
+<td>System configuration, parameter management</td>
+<td>YAML files, ROS2 parameter server</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.7" id="subsystem-design"><span
+class="header-section-number">1.7</span> 5. Subsystem Design</h2>
+<h3 data-number="1.7.1" id="vision-perception-subsystem"><span
+class="header-section-number">1.7.1</span> 5.1 Vision Perception
+Subsystem</h3>
+<p><strong>Purpose:</strong> Acquire images, detect objects, estimate
+6DoF poses, generate point clouds</p>
+<p><strong>Architecture:</strong></p>
+<pre><code>┌─────────────────┐
+│  RealSense D435 │ (Hardware)
+└────────┬────────┘
+         │ USB 3.0 (RGB-D stream)
+         ▼
+┌──────────────────────────────────┐
+│  Camera Driver Node              │
+│  (realsense2_camera)             │
+│  - Publishes: /camera/color/image_raw  │
+│             : /camera/depth/image_rect │
+│             : /camera/color/camera_info │
+└────────┬─────────────────────────┘
+         │ ROS2 Topics (image_transport)
+         ▼
+┌──────────────────────────────────┐
+│  Object Detection Node           │
+│  - Subscribes: RGB image         │
+│  - Runs: YOLOv8 inference        │
+│  - Publishes: Detection2DArray   │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Pose Estimation Node            │
+│  - Subscribes: RGB-D, Detections │
+│  - Runs: PnP / Deep pose model   │
+│  - Publishes: PoseArray          │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Point Cloud Processor Node      │
+│  - Subscribes: Depth image       │
+│  - Runs: Deprojection, filtering │
+│  - Publishes: PointCloud2        │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Coordinate Transform Node       │
+│  - Subscribes: Poses (cam frame) │
+│  - Uses: TF2 (cam → robot frame) │
+│  - Publishes: Poses (base frame) │
+└──────────────────────────────────┘</code></pre>
+<p><strong>Interfaces:</strong> - <strong>Input:</strong> Camera USB
+stream (RGB 1920×1080 @ 30fps, Depth 1280×720 @ 30fps) -
+<strong>Output:</strong> - <code>/vision/detected_objects</code>
+(vision_msgs/Detection2DArray) - <code>/vision/object_poses</code>
+(geometry_msgs/PoseArray) - <code>/vision/point_cloud</code>
+(sensor_msgs/PointCloud2)</p>
+<p><strong>Performance:</strong> - Detection latency: &lt;50ms (YOLOv8
+on Jetson Xavier) - Pose estimation latency: &lt;100ms - Total pipeline
+latency: &lt;150ms (end-to-end)</p>
+<hr />
+<h3 data-number="1.7.2" id="grasp-planning-subsystem"><span
+class="header-section-number">1.7.2</span> 5.2 Grasp Planning
+Subsystem</h3>
+<p><strong>Purpose:</strong> Compute grasp poses given object pose and
+geometry</p>
+<p><strong>Architecture:</strong></p>
+<pre><code>┌──────────────────────────────────┐
+│  Grasp Planner Node              │
+│  - Service: /compute_grasp       │
+│    Request: object_pose, point_cloud │
+│    Response: grasp_pose, quality │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Grasp Sampling Module           │
+│  - Samples candidate grasps      │
+│  - Methods: Centroid, GPD, GraspNet │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Collision Checking Module       │
+│  - Checks gripper-object collision│
+│  - Uses: FCL (Flexible Collision Library) │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Grasp Ranking Module            │
+│  - Computes quality metrics      │
+│  - Metrics: Force closure, reachability │
+└────────┬─────────────────────────┘
+         │
+         ▼
+     Best Grasp</code></pre>
+<p><strong>Interfaces:</strong> - <strong>Input:</strong> - Object pose
+(geometry_msgs/PoseStamped) - Point cloud (sensor_msgs/PointCloud2) -
+<strong>Output:</strong> - Grasp pose (geometry_msgs/PoseStamped) -
+Quality score (float, 0-1)</p>
+<p><strong>Performance:</strong> - Grasp computation: &lt;200ms -
+Success rate: &gt;90% (for known objects)</p>
+<hr />
+<h3 data-number="1.7.3" id="motion-planning-subsystem-moveit2"><span
+class="header-section-number">1.7.3</span> 5.3 Motion Planning Subsystem
+(MoveIt2)</h3>
+<p><strong>Purpose:</strong> Plan collision-free trajectories from
+current state to goal</p>
+<p><strong>Architecture:</strong></p>
+<pre><code>┌──────────────────────────────────┐
+│  MoveIt2 Move Group Interface    │
+│  - Action: /move_group/goal      │
+│    Goal: target_pose             │
+│    Result: trajectory            │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Planning Scene Manager          │
+│  - Maintains collision objects   │
+│  - Subscribes: /point_cloud (obstacles) │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  IK Solver (KDL/TRAC-IK)         │
+│  - Computes joint angles for pose│
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Path Planner (RRT*, PRM)        │
+│  - Searches collision-free path  │
+│  - Library: OMPL                 │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Trajectory Generator            │
+│  - Time-parameterizes path       │
+│  - Respects velocity/accel limits│
+└────────┬─────────────────────────┘
+         │
+         ▼
+   Joint Trajectory</code></pre>
+<p><strong>Interfaces:</strong> - <strong>Input:</strong> - Target pose
+(geometry_msgs/PoseStamped) - Planning scene (obstacles) -
+<strong>Output:</strong> - Joint trajectory
+(trajectory_msgs/JointTrajectory)</p>
+<p><strong>Performance:</strong> - Planning time: &lt;500ms (typical) -
+Success rate: &gt;95% (in uncluttered workspace)</p>
+<hr />
+<h3 data-number="1.7.4"
+id="control-execution-subsystem-ros2_control"><span
+class="header-section-number">1.7.4</span> 5.4 Control &amp; Execution
+Subsystem (ros2_control)</h3>
+<p><strong>Purpose:</strong> Execute trajectories with real-time
+feedback control</p>
+<p><strong>Architecture:</strong></p>
+<pre><code>┌──────────────────────────────────┐
+│  Controller Manager              │
+│  - Loads/unloads controllers     │
+│  - Runs at 1 kHz                 │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Joint Trajectory Controller     │
+│  - Subscribes: /joint_trajectory │
+│  - Interpolates waypoints        │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  PID Controller (per joint)      │
+│  - Computes torque command       │
+│  - Feedforward + feedback        │
+└────────┬─────────────────────────┘
+         │
+         ▼
+┌──────────────────────────────────┐
+│  Hardware Interface              │
+│  - Writes: motor commands (EtherCAT) │
+│  - Reads: encoder positions      │
+└────────┬─────────────────────────┘
+         │
+         ▼
+     Robot Motors</code></pre>
+<p><strong>Interfaces:</strong> - <strong>Input:</strong> - Joint
+trajectory (trajectory_msgs/JointTrajectory) - <strong>Output:</strong>
+- Motor commands (EtherCAT PDO) - Joint states
+(sensor_msgs/JointState)</p>
+<p><strong>Performance:</strong> - Control loop: 1 kHz - Trajectory
+tracking error: &lt;2mm (Cartesian space)</p>
+<hr />
+<h3 data-number="1.7.5" id="task-orchestration-subsystem"><span
+class="header-section-number">1.7.5</span> 5.5 Task Orchestration
+Subsystem</h3>
+<p><strong>Purpose:</strong> High-level task sequencing, state
+management, error handling</p>
+<p><strong>State Machine Diagram:</strong></p>
+<pre><code>  ┌──────────┐
+  │   IDLE   │◄──────────────┐
+  └─────┬────┘               │
+        │ (Start)            │
+        ▼                    │
+  ┌──────────┐               │
+  │   SCAN   │               │
+  └─────┬────┘               │
+        │ (Image captured)   │
+        ▼                    │
+  ┌──────────┐               │
+  │  DETECT  │               │
+  └─────┬────┘               │
+        │ (Object found)     │
+        ▼                    │
+  ┌─────────────┐            │
+  │ PLAN_GRASP  │            │
+  └─────┬───────┘            │
+        │ (Grasp computed)   │
+        ▼                    │
+  ┌─────────────┐            │
+  │ PLAN_PICK   │            │
+  └─────┬───────┘            │
+        │ (Trajectory ready) │
+        ▼                    │
+  ┌──────────────┐           │
+  │ EXECUTE_PICK │           │
+  └─────┬────────┘           │
+        │ (Grasped)          │
+        ▼                    │
+  ┌──────────────┐           │
+  │ PLAN_PLACE   │           │
+  └─────┬────────┘           │
+        │ (Trajectory ready) │
+        ▼                    │
+  ┌───────────────┐          │
+  │ EXECUTE_PLACE │          │
+  └─────┬─────────┘          │
+        │ (Released)         │
+        ▼                    │
+  ┌──────────┐               │
+  │  VERIFY  │               │
+  └─────┬────┘               │
+        │ (Success)          │
+        └────────────────────┘
+
+   (Any error) → ┌───────┐
+                 │ ERROR │
+                 └───┬───┘
+                     │ (Retry / Abort)
+                     └─→ IDLE or previous state</code></pre>
+<p><strong>Interfaces:</strong> - <strong>Input:</strong> - User
+commands (start, stop, reset) - Sensor events (object detected, grasp
+success/fail) - <strong>Output:</strong> - High-level commands to
+subsystems (scan, plan, execute) - System state (published to
+/system/state)</p>
+<hr />
+<h3 data-number="1.7.6" id="monitoring-logging-subsystem"><span
+class="header-section-number">1.7.6</span> 5.6 Monitoring &amp; Logging
+Subsystem</h3>
+<p><strong>Architecture:</strong></p>
+<pre><code>┌────────────────────────────────────────┐
+│  Data Collection Agents                │
+│  - ROS Topic Logger (rosbag2)          │
+│  - Prometheus Exporters (node, GPU)    │
+│  - Application Loggers (Python, C++)   │
+└────────┬───────────────────────────────┘
+         │
+         ▼
+┌────────────────────────────────────────┐
+│  Storage Layer                         │
+│  - Time-Series: InfluxDB (metrics)     │
+│  - Logs: Elasticsearch (text search)   │
+│  - Bags: Local SSD (ROS bag files)     │
+└────────┬───────────────────────────────┘
+         │
+         ▼
+┌────────────────────────────────────────┐
+│  Visualization &amp; Alerting              │
+│  - Grafana (dashboards)                │
+│  - Kibana (log search)                 │
+│  - Alertmanager (threshold alerts)     │
+└────────────────────────────────────────┘</code></pre>
+<p><strong>Key Metrics:</strong> - <strong>Performance:</strong> Cycle
+time, throughput (picks/hour) - <strong>Quality:</strong> Grasp success
+rate, placement accuracy - <strong>System Health:</strong> CPU, GPU, RAM
+usage, temperatures - <strong>Errors:</strong> Error counts by type,
+mean time between failures (MTBF)</p>
+<hr />
+<h2 data-number="1.8" id="data-architecture"><span
+class="header-section-number">1.8</span> 6. Data Architecture</h2>
+<h3 data-number="1.8.1" id="data-flow-diagram"><span
+class="header-section-number">1.8.1</span> 6.1 Data Flow Diagram</h3>
+<pre><code>Sensors (Camera, F/T)
+   │
+   ├─→ Vision Pipeline → Object Poses ─┐
+   │                                   │
+   └─→ Motor Encoders → Joint States ──┤
+                                       │
+                                       ▼
+                          ┌─────────────────────┐
+                          │  Core Processing    │
+                          │  (Planning, Control)│
+                          └─────────┬───────────┘
+                                    │
+         ┌──────────────────────────┼──────────────────────┐
+         │                          │                      │
+         ▼                          ▼                      ▼
+┌─────────────────┐    ┌─────────────────┐    ┌──────────────────┐
+│  PostgreSQL     │    │  Redis          │    │  InfluxDB        │
+│  (Persistent)   │    │  (Cache)        │    │  (Time-Series)   │
+├─────────────────┤    ├─────────────────┤    ├──────────────────┤
+│ • Tasks         │    │ • Session state │    │ • Sensor data    │
+│ • Configs       │    │ • Recent poses  │    │ • Metrics        │
+│ • Users         │    │ • Temp results  │    │ • Performance    │
+└─────────────────┘    └─────────────────┘    └──────────────────┘</code></pre>
+<h3 data-number="1.8.2" id="database-schemas"><span
+class="header-section-number">1.8.2</span> 6.2 Database Schemas</h3>
+<h4 data-number="1.8.2.1" id="postgresql-relational-data"><span
+class="header-section-number">1.8.2.1</span> PostgreSQL (Relational
+Data)</h4>
+<p><strong>Table: tasks</strong> | Column | Type | Description |
+|————–|———–|————-| | task_id | SERIAL | Primary key | | object_type |
+VARCHAR | Object class | | status | ENUM | pending, in_progress,
+completed, failed | | start_time | TIMESTAMP | Task start | | end_time |
+TIMESTAMP | Task completion | | result | JSONB | Task outcome (success,
+error message) |</p>
+<p><strong>Table: users</strong> | Column | Type | Description |
+|————–|———–|————-| | user_id | SERIAL | Primary key | | username |
+VARCHAR | Unique username | | password_hash| VARCHAR | bcrypt hash | |
+role | ENUM | operator, engineer, admin | | created_at | TIMESTAMP |
+Account creation |</p>
+<h4 data-number="1.8.2.2" id="influxdb-time-series-data"><span
+class="header-section-number">1.8.2.2</span> InfluxDB (Time-Series
+Data)</h4>
+<p><strong>Measurement: sensor_data</strong> - <strong>Tags:</strong>
+sensor_id, type (camera, force, encoder) - <strong>Fields:</strong>
+value (float), unit (string) - <strong>Timestamp:</strong> nanosecond
+precision</p>
+<p><strong>Measurement: performance_metrics</strong> -
+<strong>Tags:</strong> metric_name (cycle_time, success_rate) -
+<strong>Fields:</strong> value (float) - <strong>Timestamp:</strong>
+nanosecond precision</p>
+<hr />
+<h2 data-number="1.9" id="interface-design"><span
+class="header-section-number">1.9</span> 7. Interface Design</h2>
+<h3 data-number="1.9.1" id="ros2-topic-interfaces"><span
+class="header-section-number">1.9.1</span> 7.1 ROS2 Topic
+Interfaces</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 25%" />
+<col style="width: 21%" />
+<col style="width: 26%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Topic</strong></th>
+<th><strong>Message Type</strong></th>
+<th><strong>Publisher</strong></th>
+<th><strong>Subscriber(s)</strong></th>
+<th><strong>Hz</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/camera/color/image_raw</code></td>
+<td>sensor_msgs/Image</td>
+<td>realsense2_camera</td>
+<td>vision_pipeline</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td><code>/vision/detected_objects</code></td>
+<td>vision_msgs/Detection2DArray</td>
+<td>object_detector</td>
+<td>grasp_planner</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td><code>/vision/object_poses</code></td>
+<td>geometry_msgs/PoseArray</td>
+<td>pose_estimator</td>
+<td>grasp_planner, task_orchestrator</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td><code>/joint_states</code></td>
+<td>sensor_msgs/JointState</td>
+<td>hardware_interface</td>
+<td>moveit2, RViz</td>
+<td>100</td>
+</tr>
+<tr class="odd">
+<td><code>/joint_trajectory</code></td>
+<td>trajectory_msgs/JointTrajectory</td>
+<td>moveit2</td>
+<td>controller_manager</td>
+<td>on-demand</td>
+</tr>
+<tr class="even">
+<td><code>/system/state</code></td>
+<td>std_msgs/String</td>
+<td>task_orchestrator</td>
+<td>monitoring, UI</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.9.2" id="ros2-service-interfaces"><span
+class="header-section-number">1.9.2</span> 7.2 ROS2 Service
+Interfaces</h3>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 20%" />
+<col style="width: 25%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Service</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Server</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/compute_grasp</code></td>
+<td>custom_msgs/ComputeGrasp</td>
+<td>grasp_planner</td>
+<td>Compute grasp pose</td>
+</tr>
+<tr class="even">
+<td><code>/plan_trajectory</code></td>
+<td>moveit_msgs/GetMotionPlan</td>
+<td>moveit2</td>
+<td>Plan pick/place trajectory</td>
+</tr>
+<tr class="odd">
+<td><code>/start_task</code></td>
+<td>std_srvs/Trigger</td>
+<td>task_orchestrator</td>
+<td>Start pick-place workflow</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.9.3" id="ros2-action-interfaces"><span
+class="header-section-number">1.9.3</span> 7.3 ROS2 Action
+Interfaces</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 21%" />
+<col style="width: 25%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Action</strong></th>
+<th><strong>Type</strong></th>
+<th><strong>Server</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/move_group</code></td>
+<td>moveit_msgs/MoveGroup</td>
+<td>moveit2</td>
+<td>Execute motion plan</td>
+</tr>
+<tr class="even">
+<td><code>/execute_trajectory</code></td>
+<td>control_msgs/FollowJointTrajectory</td>
+<td>controller_manager</td>
+<td>Execute trajectory with feedback</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.9.4" id="rest-api-interfaces"><span
+class="header-section-number">1.9.4</span> 7.4 REST API Interfaces</h3>
+<p><strong>Base URL:</strong>
+<code>https://&lt;robot_ip&gt;:8000/api/v1</code></p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Endpoint</strong></th>
+<th><strong>Method</strong></th>
+<th><strong>Description</strong></th>
+<th><strong>Auth</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>/status</code></td>
+<td>GET</td>
+<td>Get system status</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td><code>/start</code></td>
+<td>POST</td>
+<td>Start pick-place task</td>
+<td>JWT</td>
+</tr>
+<tr class="odd">
+<td><code>/stop</code></td>
+<td>POST</td>
+<td>Stop current task</td>
+<td>JWT</td>
+</tr>
+<tr class="even">
+<td><code>/tasks</code></td>
+<td>GET</td>
+<td>List all tasks</td>
+<td>JWT</td>
+</tr>
+<tr class="odd">
+<td><code>/tasks/{id}</code></td>
+<td>GET</td>
+<td>Get task details</td>
+<td>JWT</td>
+</tr>
+<tr class="even">
+<td><code>/config</code></td>
+<td>GET</td>
+<td>Get system config</td>
+<td>JWT (admin)</td>
+</tr>
+<tr class="odd">
+<td><code>/config</code></td>
+<td>PUT</td>
+<td>Update system config</td>
+<td>JWT (admin)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.10" id="deployment-architecture"><span
+class="header-section-number">1.10</span> 8. Deployment
+Architecture</h2>
+<h3 data-number="1.10.1"
+id="single-machine-deployment-development"><span
+class="header-section-number">1.10.1</span> 8.1 Single-Machine
+Deployment (Development)</h3>
+<pre><code>┌────────────────────────────────────────────────────────┐
+│              Intel NUC (Ubuntu 22.04 RT)               │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Docker Container: ros2_workspace                │  │
+│  │  - Vision Pipeline (CPU-based YOLO)              │  │
+│  │  - MoveIt2, ros2_control                         │  │
+│  │  - Task Orchestrator                             │  │
+│  │  - Monitoring (Prometheus)                       │  │
+│  └──────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Docker Container: data_services                 │  │
+│  │  - PostgreSQL, Redis, InfluxDB                   │  │
+│  └──────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │  Docker Container: visualization                 │  │
+│  │  - Grafana, Kibana                               │  │
+│  └──────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
+           │ USB 3.0         │ EtherCAT
+           ▼                 ▼
+    RealSense D435      Servo Drives → Robot</code></pre>
+<p><strong>Advantages:</strong> - Simple setup, single machine to manage
+- Low cost, suitable for prototyping</p>
+<p><strong>Disadvantages:</strong> - Limited compute for vision
+(CPU-only) - Single point of failure</p>
+<hr />
+<h3 data-number="1.10.2" id="distributed-deployment-production"><span
+class="header-section-number">1.10.2</span> 8.2 Distributed Deployment
+(Production)</h3>
+<pre><code>┌────────────────────────────────┐
+│  NVIDIA Jetson Xavier NX       │
+│  - Vision Pipeline (GPU)       │
+│  - YOLOv8 (TensorRT)           │
+│  - Pose Estimation             │
+└───────────┬────────────────────┘
+            │ ROS2 DDS (UDP multicast)
+            ▼
+┌────────────────────────────────┐
+│  Intel NUC (RT Linux)          │
+│  - MoveIt2, ros2_control       │
+│  - Task Orchestrator           │
+│  - Controller Manager (1kHz)   │
+└───────────┬────────────────────┘
+            │ EtherCAT (real-time)
+            ▼
+┌────────────────────────────────┐
+│  Servo Drives (EtherCAT)       │
+│  - Joint 1-6 drivers           │
+└────────────────────────────────┘
+
+┌────────────────────────────────┐
+│  Edge Server (x86, optional)   │
+│  - PostgreSQL, Redis, InfluxDB │
+│  - Grafana, Kibana             │
+│  - REST API (FastAPI)          │
+└────────────────────────────────┘</code></pre>
+<p><strong>Advantages:</strong> - GPU acceleration for vision (Jetson) -
+Real-time control isolated on NUC - Scalable (add more Jetsons for
+multi-camera)</p>
+<p><strong>Disadvantages:</strong> - More complex networking (DDS
+configuration) - Higher cost</p>
+<hr />
+<h3 data-number="1.10.3" id="cloud-connected-deployment"><span
+class="header-section-number">1.10.3</span> 8.3 Cloud-Connected
+Deployment</h3>
+<pre><code>┌───────────────────────────────────────────────────┐
+│                  AWS / Azure Cloud                │
+│  - MLflow (model registry)                        │
+│  - S3 / Blob Storage (rosbag backups)             │
+│  - CloudWatch / Application Insights (monitoring) │
+│  - Grafana Cloud (dashboards)                     │
+└────────────────┬──────────────────────────────────┘
+                 │ HTTPS, MQTT
+                 ▼
+┌───────────────────────────────────────────────────┐
+│            Edge Gateway (on-premises)             │
+│  - Data uplink (buffered, resilient)              │
+│  - Local cache (Redis)                            │
+│  - Security (firewall, VPN)                       │
+└────────────────┬──────────────────────────────────┘
+                 │ Internal network
+                 ▼
+     ┌─────────────────────────┐
+     │  Robot Controller       │
+     │  (same as distributed)  │
+     └─────────────────────────┘</code></pre>
+<p><strong>Advantages:</strong> - Centralized analytics across multiple
+sites - Cloud storage for long-term data retention - Remote
+monitoring</p>
+<p><strong>Disadvantages:</strong> - Requires reliable internet
+connection - Data privacy concerns (check regulations)</p>
+<hr />
+<h2 data-number="1.11" id="security-architecture"><span
+class="header-section-number">1.11</span> 9. Security Architecture</h2>
+<h3 data-number="1.11.1" id="security-layers"><span
+class="header-section-number">1.11.1</span> 9.1 Security Layers</h3>
+<pre><code>┌──────────────────────────────────────────────┐
+│          Layer 5: Application Security       │
+│  - Input validation, SQL injection prevention│
+└──────────────────────────────────────────────┘
+                    ▲
+┌──────────────────────────────────────────────┐
+│       Layer 4: Authentication &amp; Authorization│
+│  - OAuth2, JWT tokens, RBAC                  │
+└──────────────────────────────────────────────┘
+                    ▲
+┌──────────────────────────────────────────────┐
+│          Layer 3: Data Encryption            │
+│  - TLS 1.3 (HTTPS, gRPC), AES-256 (storage)  │
+└──────────────────────────────────────────────┘
+                    ▲
+┌──────────────────────────────────────────────┐
+│          Layer 2: Network Security           │
+│  - Firewalls, VLANs, Intrusion Detection     │
+└──────────────────────────────────────────────┘
+                    ▲
+┌──────────────────────────────────────────────┐
+│          Layer 1: Physical Security          │
+│  - Locked cabinets, E-stop, safety zones     │
+└──────────────────────────────────────────────┘</code></pre>
+<h3 data-number="1.11.2" id="security-controls"><span
+class="header-section-number">1.11.2</span> 9.2 Security Controls</h3>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Threat</strong></th>
+<th><strong>Mitigation</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unauthorized access</td>
+<td>OAuth2 authentication, JWT tokens</td>
+</tr>
+<tr class="even">
+<td>Data breach</td>
+<td>TLS encryption (in transit), AES encryption (at rest)</td>
+</tr>
+<tr class="odd">
+<td>Denial of Service</td>
+<td>Rate limiting (100 req/min), firewall rules</td>
+</tr>
+<tr class="even">
+<td>Code injection</td>
+<td>Input validation, parameterized queries</td>
+</tr>
+<tr class="odd">
+<td>Privilege escalation</td>
+<td>RBAC (operator, engineer, admin roles)</td>
+</tr>
+<tr class="even">
+<td>Insider threat</td>
+<td>Audit logging (immutable), separation of duties</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.12" id="scalability-performance"><span
+class="header-section-number">1.12</span> 10. Scalability &amp;
+Performance</h2>
+<h3 data-number="1.12.1" id="scalability-dimensions"><span
+class="header-section-number">1.12.1</span> 10.1 Scalability
+Dimensions</h3>
+<table>
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 35%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Dimension</strong></th>
+<th><strong>Approach</strong></th>
+<th><strong>Limit</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Concurrent Robots</strong></td>
+<td>ROS2 DDS namespaces, multi-master</td>
+<td>10 robots/network</td>
+</tr>
+<tr class="even">
+<td><strong>Throughput</strong></td>
+<td>Parallel planning, GPU acceleration</td>
+<td>60 picks/min (2× current)</td>
+</tr>
+<tr class="odd">
+<td><strong>Data Volume</strong></td>
+<td>InfluxDB downsampling, log rotation</td>
+<td>1 TB/month</td>
+</tr>
+<tr class="even">
+<td><strong>Users</strong></td>
+<td>Load balancer (NGINX), stateless API</td>
+<td>100 concurrent</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.12.2" id="performance-requirements"><span
+class="header-section-number">1.12.2</span> 10.2 Performance
+Requirements</h3>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Metric</strong></th>
+<th><strong>Target</strong></th>
+<th><strong>Current</strong></th>
+<th><strong>Gap</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cycle Time</td>
+<td>2 sec</td>
+<td>3 sec</td>
+<td>-1 sec (optimize trajectory)</td>
+</tr>
+<tr class="even">
+<td>Vision Latency</td>
+<td>&lt;50ms</td>
+<td>45ms</td>
+<td>✅ Met</td>
+</tr>
+<tr class="odd">
+<td>Control Loop</td>
+<td>1 kHz</td>
+<td>1 kHz</td>
+<td>✅ Met</td>
+</tr>
+<tr class="even">
+<td>API Response</td>
+<td>&lt;100ms</td>
+<td>80ms</td>
+<td>✅ Met</td>
+</tr>
+<tr class="odd">
+<td>Uptime</td>
+<td>99.5%</td>
+<td>98.2%</td>
+<td>+1.3% (improve error handling)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.12.3" id="performance-optimization-strategies"><span
+class="header-section-number">1.12.3</span> 10.3 Performance
+Optimization Strategies</h3>
+<ol type="1">
+<li><strong>Vision Pipeline:</strong>
+<ul>
+<li>TensorRT quantization (FP16 → 2× speedup)</li>
+<li>Reduce input size (640×640 → 512×512)</li>
+</ul></li>
+<li><strong>Motion Planning:</strong>
+<ul>
+<li>Pre-computed IK solutions (lookup table)</li>
+<li>Trajectory caching for repeated tasks</li>
+</ul></li>
+<li><strong>Control:</strong>
+<ul>
+<li>RT-Preempt kernel tuning (CPU isolation)</li>
+<li>Feedforward compensation (reduce PID load)</li>
+</ul></li>
+</ol>
+<hr />
+<h2 data-number="1.13" id="appendices"><span
+class="header-section-number">1.13</span> 11. Appendices</h2>
+<h3 data-number="1.13.1" id="appendix-a-technology-versions"><span
+class="header-section-number">1.13.1</span> Appendix A: Technology
+Versions</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ROS2</td>
+<td>Humble (LTS)</td>
+</tr>
+<tr class="even">
+<td>Ubuntu</td>
+<td>22.04 LTS</td>
+</tr>
+<tr class="odd">
+<td>Python</td>
+<td>3.10</td>
+</tr>
+<tr class="even">
+<td>Docker</td>
+<td>24.0.5</td>
+</tr>
+<tr class="odd">
+<td>PostgreSQL</td>
+<td>15.3</td>
+</tr>
+<tr class="even">
+<td>InfluxDB</td>
+<td>2.7.1</td>
+</tr>
+<tr class="odd">
+<td>Grafana</td>
+<td>10.0.3</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.13.2" id="appendix-b-key-design-decisions"><span
+class="header-section-number">1.13.2</span> Appendix B: Key Design
+Decisions</h3>
+<table>
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Decision</strong></th>
+<th><strong>Rationale</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ROS2 over ROS1</td>
+<td>Real-time support, better security, active development</td>
+</tr>
+<tr class="even">
+<td>CycloneDDS over FastDDS</td>
+<td>Better performance on small networks</td>
+</tr>
+<tr class="odd">
+<td>PostgreSQL over MySQL</td>
+<td>JSONB support, extensibility</td>
+</tr>
+<tr class="even">
+<td>YOLOv8 over Faster R-CNN</td>
+<td>Real-time inference, good accuracy</td>
+</tr>
+<tr class="odd">
+<td>Docker over bare metal</td>
+<td>Reproducibility, easy deployment</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.13.3" id="appendix-c-glossary"><span
+class="header-section-number">1.13.3</span> Appendix C: Glossary</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OMPL</td>
+<td>Open Motion Planning Library</td>
+</tr>
+<tr class="even">
+<td>PCL</td>
+<td>Point Cloud Library</td>
+</tr>
+<tr class="odd">
+<td>TF2</td>
+<td>ROS2 transform library</td>
+</tr>
+<tr class="even">
+<td>URDF</td>
+<td>Unified Robot Description Format</td>
+</tr>
+<tr class="odd">
+<td>DDS</td>
+<td>Data Distribution Service</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.14" id="document-approval"><span
+class="header-section-number">1.14</span> Document Approval</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Role</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>Signature</strong></th>
+<th><strong>Date</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>System Architect</td>
+<td>TBD</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Lead Engineer</td>
+<td>TBD</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Project Manager</td>
+<td>TBD</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Document Status:</strong> ✅ Complete <strong>Last
+Updated:</strong> 2025-10-18 <strong>Next Review:</strong> 2025-11-18
+<strong>Version Control:</strong> Git (branch: main)</p>
+</body>
+</html>

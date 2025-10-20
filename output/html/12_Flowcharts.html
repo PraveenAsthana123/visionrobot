@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>12 Flowcharts</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">12 Flowcharts</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#flowcharts---vision-based-pick-and-place-system"
+id="toc-flowcharts---vision-based-pick-and-place-system"><span
+class="toc-section-number">1</span> Flowcharts - Vision-Based Pick and
+Place System</a>
+<ul>
+<li><a href="#document-control" id="toc-document-control"><span
+class="toc-section-number">1.1</span> Document Control</a></li>
+<li><a href="#introduction" id="toc-introduction"><span
+class="toc-section-number">1.2</span> 1. Introduction</a></li>
+<li><a href="#main-system-flowchart"
+id="toc-main-system-flowchart"><span
+class="toc-section-number">1.3</span> 2. Main System Flowchart</a>
+<ul>
+<li><a href="#end-to-end-pick-place-workflow"
+id="toc-end-to-end-pick-place-workflow"><span
+class="toc-section-number">1.3.1</span> 2.1 End-to-End Pick-Place
+Workflow</a></li>
+</ul></li>
+<li><a href="#vision-pipeline-flowchart"
+id="toc-vision-pipeline-flowchart"><span
+class="toc-section-number">1.4</span> 3. Vision Pipeline Flowchart</a>
+<ul>
+<li><a href="#object-detection-pose-estimation"
+id="toc-object-detection-pose-estimation"><span
+class="toc-section-number">1.4.1</span> 3.1 Object Detection &amp; Pose
+Estimation</a></li>
+</ul></li>
+<li><a href="#grasp-planning-flowchart"
+id="toc-grasp-planning-flowchart"><span
+class="toc-section-number">1.5</span> 4. Grasp Planning Flowchart</a>
+<ul>
+<li><a href="#grasp-synthesis-selection"
+id="toc-grasp-synthesis-selection"><span
+class="toc-section-number">1.5.1</span> 4.1 Grasp Synthesis &amp;
+Selection</a></li>
+</ul></li>
+<li><a href="#motion-planning-flowchart-moveit2"
+id="toc-motion-planning-flowchart-moveit2"><span
+class="toc-section-number">1.6</span> 5. Motion Planning Flowchart
+(MoveIt2)</a>
+<ul>
+<li><a href="#trajectory-planning-execution"
+id="toc-trajectory-planning-execution"><span
+class="toc-section-number">1.6.1</span> 5.1 Trajectory Planning &amp;
+Execution</a></li>
+</ul></li>
+<li><a href="#state-machine-flowchart"
+id="toc-state-machine-flowchart"><span
+class="toc-section-number">1.7</span> 6. State Machine Flowchart</a>
+<ul>
+<li><a href="#task-orchestrator-fsm"
+id="toc-task-orchestrator-fsm"><span
+class="toc-section-number">1.7.1</span> 6.1 Task Orchestrator
+FSM</a></li>
+</ul></li>
+<li><a href="#error-handling-flowchart"
+id="toc-error-handling-flowchart"><span
+class="toc-section-number">1.8</span> 7. Error Handling Flowchart</a>
+<ul>
+<li><a href="#error-recovery-logic" id="toc-error-recovery-logic"><span
+class="toc-section-number">1.8.1</span> 7.1 Error Recovery
+Logic</a></li>
+</ul></li>
+<li><a href="#calibration-flowchart"
+id="toc-calibration-flowchart"><span
+class="toc-section-number">1.9</span> 8. Calibration Flowchart</a>
+<ul>
+<li><a href="#hand-eye-calibration-procedure"
+id="toc-hand-eye-calibration-procedure"><span
+class="toc-section-number">1.9.1</span> 8.1 Hand-Eye Calibration
+Procedure</a></li>
+</ul></li>
+<li><a href="#deployment-flowchart" id="toc-deployment-flowchart"><span
+class="toc-section-number">1.10</span> 9. Deployment Flowchart</a>
+<ul>
+<li><a href="#system-deployment-commissioning"
+id="toc-system-deployment-commissioning"><span
+class="toc-section-number">1.10.1</span> 9.1 System Deployment &amp;
+Commissioning</a></li>
+</ul></li>
+<li><a href="#maintenance-flowchart"
+id="toc-maintenance-flowchart"><span
+class="toc-section-number">1.11</span> 10. Maintenance Flowchart</a>
+<ul>
+<li><a href="#preventive-maintenance-procedure"
+id="toc-preventive-maintenance-procedure"><span
+class="toc-section-number">1.11.1</span> 10.1 Preventive Maintenance
+Procedure</a></li>
+</ul></li>
+<li><a href="#summary" id="toc-summary"><span
+class="toc-section-number">1.12</span> Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="flowcharts---vision-based-pick-and-place-system"><span
+class="header-section-number">1</span> Flowcharts - Vision-Based Pick
+and Place System</h1>
+<h2 data-number="1.1" id="document-control"><span
+class="header-section-number">1.1</span> Document Control</h2>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Item</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Document Title</strong></td>
+<td>System Flowcharts</td>
+</tr>
+<tr class="even">
+<td><strong>Version</strong></td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td><strong>Date</strong></td>
+<td>2025-10-18</td>
+</tr>
+<tr class="even">
+<td><strong>Status</strong></td>
+<td>Draft</td>
+</tr>
+<tr class="odd">
+<td><strong>Author(s)</strong></td>
+<td>System Architect, Technical Lead</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.2" id="introduction"><span
+class="header-section-number">1.2</span> 1. Introduction</h2>
+<p>This document provides flowcharts for all major processes in the
+vision-based pick-and-place robotic system. Flowcharts are presented
+using ASCII art and can be rendered with tools like Mermaid or
+PlantUML.</p>
+<hr />
+<h2 data-number="1.3" id="main-system-flowchart"><span
+class="header-section-number">1.3</span> 2. Main System Flowchart</h2>
+<h3 data-number="1.3.1" id="end-to-end-pick-place-workflow"><span
+class="header-section-number">1.3.1</span> 2.1 End-to-End Pick-Place
+Workflow</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                      START SYSTEM                           │
+└──────────────────────┬──────────────────────────────────────┘
+                       │
+                       ▼
+              ┌────────────────┐
+              │  Initialize    │
+              │  (Home Robot)  │
+              └────────┬───────┘
+                       │
+                       ▼
+              ┌────────────────┐       ┌───────────────┐
+              │   Wait for     │──────▶│  User presses │
+              │   Start Signal │       │   &quot;Start&quot;     │
+              └────────┬───────┘       └───────┬───────┘
+                       │                       │
+                       │◀──────────────────────┘
+                       ▼
+         ┌─────────────────────────┐
+         │  SCAN WORKSPACE         │
+         │  (Capture RGB-D Image)  │
+         └─────────┬───────────────┘
+                   │
+                   ▼
+         ┌─────────────────────────┐
+         │  DETECT OBJECTS         │
+         │  (Run YOLO, Get Boxes)  │
+         └─────────┬───────────────┘
+                   │
+                   ▼
+         ┌──────────────┐
+         │  Any Objects │     NO
+         │   Detected?  ├──────────┐
+         └──────┬───────┘          │
+                │ YES              │
+                ▼                  ▼
+    ┌───────────────────────┐  ┌──────────────────┐
+    │  ESTIMATE POSE        │  │  Log: No Objects │
+    │  (6DoF for each obj)  │  │  Return to SCAN  │
+    └───────────┬───────────┘  └─────────┬────────┘
+                │                        │
+                │◀───────────────────────┘
+                ▼
+    ┌───────────────────────┐
+    │  SELECT OBJECT        │
+    │  (Highest confidence) │
+    └───────────┬───────────┘
+                │
+                ▼
+    ┌───────────────────────┐
+    │  PLAN GRASP           │
+    │  (Compute gripper pose│
+    │   + approach vector)  │
+    └───────────┬───────────┘
+                │
+                ▼
+    ┌─────────────────┐
+    │  Grasp Valid?   │     NO
+    ├─────────────────┤───────────┐
+    │  (Quality &gt;0.5) │           │
+    └────────┬────────┘           │
+             │ YES                │
+             ▼                    ▼
+ ┌───────────────────────┐  ┌─────────────────┐
+ │  PLAN PICK MOTION     │  │  Skip Object    │
+ │  (MoveIt: Home→Grasp) │  │  Select Next    │
+ └───────────┬───────────┘  └────────┬────────┘
+             │                       │
+             │◀──────────────────────┘
+             ▼
+ ┌───────────────────────┐
+ │  Path Found?          │     NO
+ ├───────────────────────┤───────────┐
+ │  (Collision-free)     │           │
+ └────────┬──────────────┘           │
+          │ YES                      │
+          ▼                          ▼
+┌─────────────────────┐      ┌──────────────┐
+│  EXECUTE PICK       │      │  Replan with │
+│  - Move to pre-grasp│      │  Relaxed     │
+│  - Move to grasp    │      │  Constraints │
+│  - Close gripper    │      └──────┬───────┘
+└─────────┬───────────┘             │
+          │                         │
+          │◀────────────────────────┘
+          ▼
+┌─────────────────────┐
+│  Grasp Successful?  │     NO
+├─────────────────────┤───────────┐
+│  (F/T sensor check) │           │
+└────────┬────────────┘           │
+         │ YES                    ▼
+         ▼                ┌───────────────┐
+┌─────────────────────┐  │  RETRY GRASP  │
+│  PLAN PLACE MOTION  │  │  (Increase    │
+│  (Grasp→Target)     │  │   force)      │
+└─────────┬───────────┘  └───────┬───────┘
+          │                      │
+          │◀─────────────────────┘
+          ▼
+┌─────────────────────┐
+│  EXECUTE PLACE      │
+│  - Move to target   │
+│  - Open gripper     │
+│  - Retract          │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  VERIFY PLACEMENT   │     FAIL
+├─────────────────────┤───────────┐
+│  (Optional camera   │           │
+│   check)            │           │
+└────────┬────────────┘           │
+         │ PASS                   ▼
+         ▼                ┌───────────────┐
+┌─────────────────────┐  │  Log Error    │
+│  More Objects?      │  │  Continue or  │
+├─────────────────────┤  │  Alert User   │
+│                     │  └───────────────┘
+└────────┬────────────┘
+         │ YES    │ NO
+         │        │
+         │        ▼
+         │   ┌─────────────────┐
+         │   │  RETURN HOME    │
+         │   └────────┬────────┘
+         │            │
+         │            ▼
+         │   ┌─────────────────┐
+         │   │   END (IDLE)    │
+         │   └─────────────────┘
+         │
+         └──────▶ (Loop back to SCAN)</code></pre>
+<hr />
+<h2 data-number="1.4" id="vision-pipeline-flowchart"><span
+class="header-section-number">1.4</span> 3. Vision Pipeline
+Flowchart</h2>
+<h3 data-number="1.4.1" id="object-detection-pose-estimation"><span
+class="header-section-number">1.4.1</span> 3.1 Object Detection &amp;
+Pose Estimation</h3>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│          START VISION PIPELINE                       │
+└─────────────────────┬────────────────────────────────┘
+                      │
+                      ▼
+         ┌────────────────────────┐
+         │  Camera Trigger        │
+         │  (Request RGB-D frame) │
+         └────────────┬───────────┘
+                      │
+                      ▼
+         ┌────────────────────────┐
+         │  Receive RGB-D Frame   │
+         │  - RGB: 1920x1080      │
+         │  - Depth: 1280x720     │
+         └────────────┬───────────┘
+                      │
+                      ▼
+         ┌────────────────────────┐
+         │  PREPROCESSING         │
+         │  - Resize to 640x640   │
+         │  - Normalize pixels    │
+         │  - Convert to tensor   │
+         └────────────┬───────────┘
+                      │
+                      ▼
+         ┌────────────────────────┐
+         │  OBJECT DETECTION      │
+         │  (YOLOv8 Inference)    │
+         │  Input: 640x640 RGB    │
+         │  Output: [x,y,w,h,c]   │
+         └────────────┬───────────┘
+                      │
+                      ▼
+         ┌──────────────┐
+         │  Detections  │     NO
+         │   &gt; 0 ?      ├──────────────┐
+         └──────┬───────┘              │
+                │ YES                  │
+                ▼                      ▼
+    ┌───────────────────────┐  ┌──────────────┐
+    │  Non-Max Suppression  │  │  Return      │
+    │  (Remove duplicates)  │  │  Empty List  │
+    └───────────┬───────────┘  └──────────────┘
+                │
+                ▼
+    ┌───────────────────────┐
+    │  Filter Low Confidence│
+    │  (threshold = 0.7)    │
+    └───────────┬───────────┘
+                │
+                ▼
+    ┌───────────────────────┐
+    │  For Each Detection:  │
+    │  POSE ESTIMATION      │
+    └───────────┬───────────┘
+                │
+                ▼
+    ┌───────────────────────┐
+    │  Extract ROI          │
+    │  (Crop RGB-D to bbox) │
+    └───────────┬───────────┘
+                │
+                ▼
+    ┌───────────────────────┐
+    │  Generate Point Cloud │
+    │  (Deproject depth)    │
+    └───────────┬───────────┘
+                │
+                ▼
+    ┌───────────────────────┐
+    │  Estimate 6DoF Pose   │
+    │  - Method: PnP / ICP  │
+    │  - Output: (x,y,z,    │
+    │    qx,qy,qz,qw)       │
+    └───────────┬───────────┘
+                │
+                ▼
+    ┌───────────────────────┐
+    │  Transform to Robot   │
+    │  Frame (TF2)          │
+    │  Camera → Base        │
+    └───────────┬───────────┘
+                │
+                ▼
+    ┌───────────────────────┐
+    │  Publish Object Poses │
+    │  (/vision/object_poses│
+    └───────────┬───────────┘
+                │
+                ▼
+         ┌──────────────┐
+         │     END      │
+         └──────────────┘</code></pre>
+<hr />
+<h2 data-number="1.5" id="grasp-planning-flowchart"><span
+class="header-section-number">1.5</span> 4. Grasp Planning
+Flowchart</h2>
+<h3 data-number="1.5.1" id="grasp-synthesis-selection"><span
+class="header-section-number">1.5.1</span> 4.1 Grasp Synthesis &amp;
+Selection</h3>
+<pre><code>┌──────────────────────────────────────┐
+│     START GRASP PLANNING             │
+└─────────────┬────────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Input:             │
+    │  - Object Pose      │
+    │  - Point Cloud      │
+    │  - Gripper Type     │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  SAMPLE GRASPS      │
+    │  Method:            │
+    │  - Parallel Jaw:    │
+    │    Antipodal points │
+    │  - Suction:         │
+    │    Top-down normals │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Generate N=50      │
+    │  Candidate Grasps   │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  For Each Grasp:    │
+    │  COLLISION CHECK    │
+    └─────────┬───────────┘
+              │
+        ┌─────┴─────┐
+        │           │
+        ▼           ▼
+┌──────────────┐  ┌──────────────┐
+│  Gripper-    │  │  Gripper-    │
+│  Object      │  │  Table       │
+│  Collision?  │  │  Collision?  │
+└──────┬───────┘  └──────┬───────┘
+       │ YES             │ YES
+       │                 │
+       ▼                 ▼
+┌──────────────────────────┐
+│  Mark Grasp INVALID      │
+└──────────────────────────┘
+       │ NO (both checks)
+       │
+       ▼
+┌─────────────────────┐
+│  COMPUTE QUALITY    │
+│  Metrics:           │
+│  - Force closure    │
+│  - Reachability     │
+│  - Stability        │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  Quality &gt; 0.5?     │  NO
+├─────────────────────┤──────┐
+└─────────┬───────────┘      │
+          │ YES              │
+          ▼                  ▼
+┌─────────────────────┐  ┌──────────┐
+│  Add to Valid List  │  │  Discard │
+└─────────┬───────────┘  └──────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  All Grasps Checked?│  NO
+├─────────────────────┤───────┐
+└─────────┬───────────┘       │
+          │ YES               │
+          ▼                   │
+┌─────────────────────┐       │
+│  Valid Grasps &gt; 0?  │  NO   │
+├─────────────────────┤───────┼─────┐
+└─────────┬───────────┘       │     │
+          │ YES               │     │
+          ▼                   │     ▼
+┌─────────────────────┐       │  ┌────────────┐
+│  RANK GRASPS        │       │  │  Return    │
+│  (Sort by quality)  │       │  │  Failure   │
+└─────────┬───────────┘       │  └────────────┘
+          │                   │
+          ▼                   │
+┌─────────────────────┐       │
+│  SELECT TOP GRASP   │       │
+└─────────┬───────────┘       │
+          │                   │
+          ▼                   │
+┌─────────────────────┐       │
+│  Compute Approach   │       │
+│  Vector (pre-grasp) │       │
+└─────────┬───────────┘       │
+          │                   │
+          ▼                   │
+┌─────────────────────┐       │
+│  Return:            │       │
+│  - Grasp Pose       │       │
+│  - Approach Vector  │       │
+│  - Quality Score    │       │
+└─────────┬───────────┘       │
+          │                   │
+          ▼                   │
+       ┌──────┐               │
+       │  END │◀──────────────┘
+       └──────┘</code></pre>
+<hr />
+<h2 data-number="1.6" id="motion-planning-flowchart-moveit2"><span
+class="header-section-number">1.6</span> 5. Motion Planning Flowchart
+(MoveIt2)</h2>
+<h3 data-number="1.6.1" id="trajectory-planning-execution"><span
+class="header-section-number">1.6.1</span> 5.1 Trajectory Planning &amp;
+Execution</h3>
+<pre><code>┌──────────────────────────────────────┐
+│    START MOTION PLANNING             │
+└─────────────┬────────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Input:             │
+    │  - Target Pose      │
+    │  - Current State    │
+    │  - Planning Scene   │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  UPDATE PLANNING    │
+    │  SCENE              │
+    │  - Add obstacles    │
+    │    (from point cloud│
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  INVERSE KINEMATICS │
+    │  Target Pose → θ[]  │
+    └─────────┬───────────┘
+              │
+        ┌─────┴──────┐
+        │            │
+        ▼            ▼
+┌──────────────┐  ┌──────────────┐
+│  IK Solution │  │  IK Failed?  │
+│  Found?      │  │              │
+└──────┬───────┘  └──────┬───────┘
+       │ YES             │ YES
+       │                 │
+       │                 ▼
+       │         ┌───────────────┐
+       │         │  Try Alternate│
+       │         │  IK Solver    │
+       │         │  (TRAC-IK)    │
+       │         └───────┬───────┘
+       │                 │
+       │◀────────────────┘ (if found)
+       │                 │
+       │                 ▼ (if still fails)
+       │         ┌───────────────┐
+       │         │  Return Error │
+       │         │  (Unreachable)│
+       │         └───────────────┘
+       │
+       ▼
+┌─────────────────────┐
+│  VALIDATE GOAL      │
+│  - Joint limits OK? │
+│  - Self-collision?  │
+└─────────┬───────────┘
+          │
+    ┌─────┴──────┐
+    │            │
+    ▼            ▼
+┌─────────┐  ┌─────────┐
+│  Valid  │  │ Invalid │
+└────┬────┘  └────┬────┘
+     │ YES        │ NO
+     │            │
+     │            ▼
+     │    ┌───────────────┐
+     │    │  Return Error │
+     │    └───────────────┘
+     │
+     ▼
+┌─────────────────────┐
+│  PATH PLANNING      │
+│  Algorithm: RRT*    │
+│  - Start: current   │
+│  - Goal: IK solution│
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  Planning Loop      │
+│  (max 5 sec timeout)│
+└─────────┬───────────┘
+          │
+    ┌─────┴──────┐
+    │            │
+    ▼            ▼
+┌─────────┐  ┌──────────┐
+│  Path   │  │ Timeout? │
+│  Found? │  │          │
+└────┬────┘  └────┬─────┘
+     │ YES        │ YES
+     │            │
+     │            ▼
+     │    ┌───────────────┐
+     │    │  Relax        │
+     │    │  Constraints  │
+     │    │  (Retry)      │
+     │    └───────┬───────┘
+     │            │
+     │◀───────────┘ (if found)
+     │            │
+     │            ▼ (if still fails)
+     │    ┌───────────────┐
+     │    │  Return Error │
+     │    │  (No solution)│
+     │    └───────────────┘
+     │
+     ▼
+┌─────────────────────┐
+│  TRAJECTORY         │
+│  GENERATION         │
+│  - Time-param path  │
+│  - Apply vel/acc    │
+│    limits           │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  TRAJECTORY         │
+│  SMOOTHING          │
+│  - Shortcut         │
+│  - Jerk limiting    │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  SEND TO CONTROLLER │
+│  (FollowJoint       │
+│   Trajectory Action)│
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  MONITOR EXECUTION  │
+│  - Track feedback   │
+│  - Check errors     │
+└─────────┬───────────┘
+          │
+    ┌─────┴──────┐
+    │            │
+    ▼            ▼
+┌─────────┐  ┌──────────┐
+│ Success │  │  Error?  │
+└────┬────┘  └────┬─────┘
+     │            │
+     │            ▼
+     │    ┌───────────────┐
+     │    │  E-stop or    │
+     │    │  Following    │
+     │    │  Error Large  │
+     │    └───────┬───────┘
+     │            │
+     │            ▼
+     │    ┌───────────────┐
+     │    │  Return Error │
+     │    └───────────────┘
+     │
+     ▼
+  ┌──────┐
+  │  END │
+  └──────┘</code></pre>
+<hr />
+<h2 data-number="1.7" id="state-machine-flowchart"><span
+class="header-section-number">1.7</span> 6. State Machine Flowchart</h2>
+<h3 data-number="1.7.1" id="task-orchestrator-fsm"><span
+class="header-section-number">1.7.1</span> 6.1 Task Orchestrator
+FSM</h3>
+<pre><code>                     ┌──────┐
+                     │ IDLE │
+                     └───┬──┘
+                         │ (Start command)
+                         ▼
+                     ┌──────┐
+                     │ SCAN │
+                     └───┬──┘
+                         │ (Image captured)
+                         ▼
+                   ┌────────────┐
+                   │   DETECT   │
+                   └──────┬─────┘
+                          │
+                    ┌─────┴─────┐
+                    │           │
+                    ▼           ▼
+            ┌──────────┐    ┌────────────┐
+            │ Objects  │    │ No Objects │
+            │  Found   │    │  (Timeout) │
+            └─────┬────┘    └─────┬──────┘
+                  │               │
+                  │               ▼
+                  │         ┌──────────┐
+                  │         │  ERROR   │
+                  │         └─────┬────┘
+                  │               │
+                  ▼               │
+          ┌──────────────┐        │
+          │  PLAN_GRASP  │        │
+          └──────┬───────┘        │
+                 │                │
+           ┌─────┴─────┐          │
+           │           │          │
+           ▼           ▼          │
+    ┌──────────┐  ┌──────────┐   │
+    │  Grasp   │  │ No Valid │   │
+    │  Valid   │  │  Grasp   │───┘
+    └─────┬────┘  └──────────┘
+          │
+          ▼
+   ┌──────────────┐
+   │  PLAN_PICK   │
+   └──────┬───────┘
+          │
+    ┌─────┴──────┐
+    │            │
+    ▼            ▼
+┌─────────┐  ┌──────────┐
+│  Path   │  │ Planning │
+│  Found  │  │  Failed  │─┐
+└────┬────┘  └──────────┘ │
+     │                    │
+     ▼                    │
+┌──────────────┐          │
+│ EXECUTE_PICK │          │
+└──────┬───────┘          │
+       │                  │
+  ┌────┴────┐             │
+  │         │             │
+  ▼         ▼             │
+┌───────┐ ┌─────────┐    │
+│Success│ │  Grasp  │    │
+│       │ │  Failed │────┤
+└───┬───┘ └─────────┘    │
+    │                    │
+    ▼                    │
+┌──────────────┐         │
+│ PLAN_PLACE   │         │
+└──────┬───────┘         │
+       │                 │
+  ┌────┴────┐            │
+  │         │            │
+  ▼         ▼            │
+┌───────┐ ┌─────────┐   │
+│ Path  │ │Planning │   │
+│ Found │ │ Failed  │───┤
+└───┬───┘ └─────────┘   │
+    │                   │
+    ▼                   │
+┌───────────────┐       │
+│ EXECUTE_PLACE │       │
+└───────┬───────┘       │
+        │               │
+   ┌────┴────┐          │
+   │         │          │
+   ▼         ▼          │
+┌───────┐ ┌─────────┐  │
+│Success│ │ Failed  │──┘
+└───┬───┘ └─────────┘
+    │
+    ▼
+┌──────────┐
+│  VERIFY  │
+└─────┬────┘
+      │
+ ┌────┴────┐
+ │         │
+ ▼         ▼
+┌──────┐ ┌────────┐
+│ Pass │ │  Fail  │
+└──┬───┘ └───┬────┘
+   │         │
+   │         ▼
+   │   ┌──────────┐
+   │   │  ERROR   │
+   │   └─────┬────┘
+   │         │
+   │         ▼
+   │   ┌──────────┐
+   │   │ Retry or │
+   │   │  Abort?  │
+   │   └─────┬────┘
+   │         │
+   │◀────────┘ (Retry: back to SCAN)
+   │         │
+   │         ▼ (Abort)
+   │   ┌──────────┐
+   │   │   IDLE   │
+   │   └──────────┘
+   │
+   ▼
+┌─────────────┐
+│ RETURN_HOME │
+└──────┬──────┘
+       │
+       ▼
+   ┌──────┐
+   │ IDLE │
+   └──────┘</code></pre>
+<hr />
+<h2 data-number="1.8" id="error-handling-flowchart"><span
+class="header-section-number">1.8</span> 7. Error Handling
+Flowchart</h2>
+<h3 data-number="1.8.1" id="error-recovery-logic"><span
+class="header-section-number">1.8.1</span> 7.1 Error Recovery Logic</h3>
+<pre><code>┌──────────────────────────────────────┐
+│     ERROR DETECTED                   │
+│  (Vision fail, grasp fail, etc.)     │
+└─────────────┬────────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Classify Error     │
+    │  - Vision timeout   │
+    │  - Grasp failure    │
+    │  - Planning failure │
+    │  - Execution error  │
+    │  - Safety violation │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Log Error          │
+    │  (timestamp, type,  │
+    │   context)          │
+    └─────────┬───────────┘
+              │
+       ┌──────┴──────────────────────┐
+       │                             │
+       ▼                             ▼
+┌──────────────┐            ┌────────────────┐
+│  Safety      │            │  Recoverable   │
+│  Violation?  │            │  Error?        │
+│  (E-stop,    │            └────────┬───────┘
+│   collision) │                     │
+└──────┬───────┘              ┌──────┴──────┐
+       │ YES                  │             │
+       │                      ▼             ▼
+       │             ┌──────────────┐  ┌───────────┐
+       │             │  Retry Count │  │ Non-      │
+       │             │  &lt; Max (3)?  │  │ Recoverable
+       │             └──────┬───────┘  └─────┬─────┘
+       │                    │                │
+       │             ┌──────┴──────┐         │
+       │             │             │         │
+       │             ▼             ▼         │
+       │     ┌──────────────┐ ┌─────────┐   │
+       │     │  YES         │ │  NO     │   │
+       │     │  (Try Again) │ │ (Give Up│   │
+       │     └──────┬───────┘ └────┬────┘   │
+       │            │              │        │
+       │            ▼              │        │
+       │  ┌──────────────────┐    │        │
+       │  │  RECOVERY ACTION │    │        │
+       │  │  - Rescan        │    │        │
+       │  │  - Adjust params │    │        │
+       │  │  - Retry with    │    │        │
+       │  │    fallback      │    │        │
+       │  └──────┬───────────┘    │        │
+       │         │                │        │
+       │         ▼                │        │
+       │  ┌──────────────────┐   │        │
+       │  │  Recovery        │   │        │
+       │  │  Successful?     │   │        │
+       │  └──────┬───────────┘   │        │
+       │         │                │        │
+       │    ┌────┴────┐           │        │
+       │    │         │           │        │
+       │    ▼         ▼           │        │
+       │ ┌─────┐  ┌──────┐        │        │
+       │ │ YES │  │  NO  │────────┤        │
+       │ └──┬──┘  └──────┘        │        │
+       │    │                     │        │
+       │    ▼                     │        │
+       │ ┌───────────────┐        │        │
+       │ │  RESUME TASK  │        │        │
+       │ └───────────────┘        │        │
+       │                          │        │
+       ▼                          ▼        ▼
+┌──────────────────────────────────────────────┐
+│           CRITICAL ERROR HANDLING            │
+│  1. Stop all motion (E-stop if safety)      │
+│  2. Move to safe state (home position)      │
+│  3. Alert operator (dashboard, alarm)       │
+│  4. Await manual intervention               │
+│  - Option A: Operator fixes issue, resume   │
+│  - Option B: Operator aborts task           │
+└──────────────────────────────────────────────┘
+                     │
+                     ▼
+              ┌──────────────┐
+              │  User Action │
+              │  Required    │
+              └──────┬───────┘
+                     │
+              ┌──────┴──────┐
+              │             │
+              ▼             ▼
+        ┌─────────┐   ┌─────────┐
+        │ Resume  │   │  Abort  │
+        └────┬────┘   └────┬────┘
+             │             │
+             ▼             ▼
+      ┌──────────┐   ┌──────────┐
+      │ Continue │   │   IDLE   │
+      │   Task   │   └──────────┘
+      └──────────┘</code></pre>
+<hr />
+<h2 data-number="1.9" id="calibration-flowchart"><span
+class="header-section-number">1.9</span> 8. Calibration Flowchart</h2>
+<h3 data-number="1.9.1" id="hand-eye-calibration-procedure"><span
+class="header-section-number">1.9.1</span> 8.1 Hand-Eye Calibration
+Procedure</h3>
+<pre><code>┌──────────────────────────────────────┐
+│   START CALIBRATION WIZARD           │
+└─────────────┬────────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Display Welcome    │
+    │  Instructions       │
+    │  - Place checkerboard
+    │  - Ensure good light│
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Initialize:        │
+    │  - Calibration data │
+    │  - Position counter │
+    │    (i = 1)          │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Move Robot to      │
+    │  Position i         │
+    │  (Pre-defined joint │
+    │   angles)           │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Prompt User:       │
+    │  &quot;Press OK when     │
+    │   robot stopped&quot;    │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Capture Image      │
+    │  (RGB from camera)  │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Detect Checkerboard│
+    │  Corners            │
+    └─────────┬───────────┘
+              │
+        ┌─────┴──────┐
+        │            │
+        ▼            ▼
+┌──────────────┐  ┌──────────────┐
+│  Corners     │  │  Detection   │
+│  Detected?   │  │  Failed?     │
+└──────┬───────┘  └──────┬───────┘
+       │ YES             │ YES
+       │                 │
+       │                 ▼
+       │         ┌───────────────┐
+       │         │  Display Error│
+       │         │  &quot;Retry       │
+       │         │   Position i&quot; │
+       │         └───────┬───────┘
+       │                 │
+       │                 └───────┐
+       │                         │
+       ▼                         │
+┌─────────────────────┐          │
+│  Record:            │          │
+│  - Robot pose (FK)  │          │
+│  - Image corners    │          │
+└─────────┬───────────┘          │
+          │                      │
+          ▼                      │
+┌─────────────────────┐          │
+│  i = i + 1          │          │
+└─────────┬───────────┘          │
+          │                      │
+          ▼                      │
+┌─────────────────────┐          │
+│  i &lt;= N (e.g., 5)?  │  NO      │
+├─────────────────────┤──────┐   │
+└─────────┬───────────┘      │   │
+          │ YES              │   │
+          │◀─────────────────┘   │
+          │                      │
+          ▼                      │
+┌─────────────────────┐          │
+│  COMPUTE CALIBRATION│          │
+│  - Solve AX=XB      │          │
+│  - Hand-eye matrix  │          │
+└─────────┬───────────┘          │
+          │                      │
+          ▼                      │
+┌─────────────────────┐          │
+│  VALIDATION         │          │
+│  - Place known      │          │
+│    object           │          │
+│  - Detect &amp; measure │          │
+│    position error   │          │
+└─────────┬───────────┘          │
+          │                      │
+     ┌────┴─────┐                │
+     │          │                │
+     ▼          ▼                │
+┌─────────┐ ┌──────────┐         │
+│ Error   │ │  Error   │         │
+│ &lt;5mm?   │ │  &gt;=5mm?  │─────────┤
+└────┬────┘ └──────────┘         │
+     │ YES       │ NO             │
+     │           │                │
+     │           ▼                │
+     │   ┌───────────────┐        │
+     │   │  Warn User    │        │
+     │   │  &quot;Recalibrate&quot;│        │
+     │   └───────┬───────┘        │
+     │           │                │
+     │           └────────────────┘
+     │
+     ▼
+┌─────────────────────┐
+│  SAVE CALIBRATION   │
+│  - Write to YAML    │
+│  - /config/camera_  │
+│    robot_tf.yaml    │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  Display Success    │
+│  &quot;Calibration       │
+│   Complete!&quot;        │
+└─────────┬───────────┘
+          │
+          ▼
+       ┌──────┐
+       │  END │
+       └──────┘</code></pre>
+<hr />
+<h2 data-number="1.10" id="deployment-flowchart"><span
+class="header-section-number">1.10</span> 9. Deployment Flowchart</h2>
+<h3 data-number="1.10.1" id="system-deployment-commissioning"><span
+class="header-section-number">1.10.1</span> 9.1 System Deployment &amp;
+Commissioning</h3>
+<pre><code>┌──────────────────────────────────────┐
+│     START DEPLOYMENT                 │
+└─────────────┬────────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  SITE PREPARATION   │
+    │  - Clear workspace  │
+    │  - Install power    │
+    │  - Network setup    │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  HARDWARE INSTALL   │
+    │  - Mount robot      │
+    │  - Install camera   │
+    │  - Connect cables   │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  POWER-ON CHECKS    │
+    │  - Verify voltages  │
+    │  - E-stop test      │
+    │  - Network ping     │
+    └─────────┬───────────┘
+              │
+        ┌─────┴──────┐
+        │            │
+        ▼            ▼
+┌──────────────┐  ┌──────────────┐
+│  All Checks  │  │  Any Checks  │
+│  Pass?       │  │  Fail?       │
+└──────┬───────┘  └──────┬───────┘
+       │ YES             │ YES
+       │                 │
+       │                 ▼
+       │         ┌───────────────┐
+       │         │  Troubleshoot │
+       │         │  - Recheck    │
+       │         │    connections│
+       │         └───────┬───────┘
+       │                 │
+       │◀────────────────┘ (if fixed)
+       │
+       ▼
+┌─────────────────────┐
+│  SOFTWARE INSTALL   │
+│  - Docker pull      │
+│  - Load ROS2 pkgs   │
+│  - Config files     │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  CALIBRATION        │
+│  - Hand-eye calib   │
+│  - Workspace zones  │
+│  - Gripper tuning   │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  SMOKE TEST         │
+│  - Single pick-place│
+│  - Verify all       │
+│    subsystems work  │
+└─────────┬───────────┘
+          │
+     ┌────┴─────┐
+     │          │
+     ▼          ▼
+┌─────────┐  ┌──────────┐
+│ Success │  │  Failure │
+└────┬────┘  └────┬─────┘
+     │            │
+     │            ▼
+     │    ┌───────────────┐
+     │    │  Debug &amp; Fix  │
+     │    └───────┬───────┘
+     │            │
+     │◀───────────┘ (if fixed)
+     │
+     ▼
+┌─────────────────────┐
+│  TRAINING           │
+│  - Operator (2 days)│
+│  - Maintenance (1 d)│
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  ACCEPTANCE TEST    │
+│  - Run 100 picks    │
+│  - Measure KPIs     │
+└─────────┬───────────┘
+          │
+     ┌────┴─────┐
+     │          │
+     ▼          ▼
+┌─────────┐  ┌──────────┐
+│  All    │  │  Any KPI │
+│  Pass?  │  │  Fail?   │
+└────┬────┘  └────┬─────┘
+     │ YES        │ YES
+     │            │
+     │            ▼
+     │    ┌───────────────┐
+     │    │  Remediate    │
+     │    │  - Tune params│
+     │    │  - Retest     │
+     │    └───────┬───────┘
+     │            │
+     │◀───────────┘ (if fixed)
+     │
+     ▼
+┌─────────────────────┐
+│  CUSTOMER SIGN-OFF  │
+│  - UAT approval     │
+│  - Handover docs    │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  PRODUCTION READINESS
+│  - Transition to ops│
+│  - Support handoff  │
+└─────────┬───────────┘
+          │
+          ▼
+       ┌──────┐
+       │  END │
+       └──────┘</code></pre>
+<hr />
+<h2 data-number="1.11" id="maintenance-flowchart"><span
+class="header-section-number">1.11</span> 10. Maintenance Flowchart</h2>
+<h3 data-number="1.11.1" id="preventive-maintenance-procedure"><span
+class="header-section-number">1.11.1</span> 10.1 Preventive Maintenance
+Procedure</h3>
+<pre><code>┌──────────────────────────────────────┐
+│     MAINTENANCE DUE                  │
+│  (Calendar-based or condition-based) │
+└─────────────┬────────────────────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  Schedule Downtime  │
+    │  (Notify operators) │
+    └─────────┬───────────┘
+              │
+              ▼
+    ┌─────────────────────┐
+    │  RUN DIAGNOSTIC     │
+    │  HEALTH CHECK       │
+    │  - Camera test      │
+    │  - Motor test       │
+    │  - Sensor test      │
+    └─────────┬───────────┘
+              │
+        ┌─────┴──────┐
+        │            │
+        ▼            ▼
+┌──────────────┐  ┌──────────────┐
+│  All Tests   │  │  Any Test    │
+│  Pass?       │  │  Fail?       │
+└──────┬───────┘  └──────┬───────┘
+       │ YES             │ YES
+       │                 │
+       │                 ▼
+       │         ┌───────────────┐
+       │         │  REPAIR       │
+       │         │  - Replace    │
+       │         │    component  │
+       │         └───────┬───────┘
+       │                 │
+       │◀────────────────┘
+       │
+       ▼
+┌─────────────────────┐
+│  LUBRICATION        │
+│  - Joint bearings   │
+│  - Gripper mechanics│
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  CLEAN &amp; INSPECT    │
+│  - Camera lens      │
+│  - Cables, connectors
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  UPDATE LOGS        │
+│  - Maintenance date │
+│  - Parts replaced   │
+│  - Next due date    │
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│  POST-MAINT TEST    │
+│  - Run smoke test   │
+│  - Verify performance
+└─────────┬───────────┘
+          │
+     ┌────┴─────┐
+     │          │
+     ▼          ▼
+┌─────────┐  ┌──────────┐
+│ Success │  │  Issues  │
+└────┬────┘  └────┬─────┘
+     │            │
+     │            ▼
+     │    ┌───────────────┐
+     │    │  Troubleshoot │
+     │    └───────┬───────┘
+     │            │
+     │◀───────────┘
+     │
+     ▼
+┌─────────────────────┐
+│  RETURN TO SERVICE  │
+│  (Notify operators) │
+└─────────┬───────────┘
+          │
+          ▼
+       ┌──────┐
+       │  END │
+       └──────┘</code></pre>
+<hr />
+<h2 data-number="1.12" id="summary"><span
+class="header-section-number">1.12</span> Summary</h2>
+<p>This document provides <strong>10 comprehensive flowcharts</strong>
+covering:</p>
+<ol type="1">
+<li><strong>Main System</strong> - End-to-end pick-place workflow</li>
+<li><strong>Vision Pipeline</strong> - Object detection and pose
+estimation</li>
+<li><strong>Grasp Planning</strong> - Grasp synthesis and selection</li>
+<li><strong>Motion Planning</strong> - MoveIt2 trajectory planning</li>
+<li><strong>State Machine</strong> - Task orchestrator FSM</li>
+<li><strong>Error Handling</strong> - Recovery logic</li>
+<li><strong>Calibration</strong> - Hand-eye calibration wizard</li>
+<li><strong>Deployment</strong> - System commissioning</li>
+<li><strong>Maintenance</strong> - Preventive maintenance procedure</li>
+</ol>
+<p><strong>Usage:</strong> - Convert to Mermaid diagrams for rendering -
+Use in design reviews, training materials - Reference during development
+and debugging</p>
+<hr />
+<p><strong>Document Status:</strong> ✅ Complete <strong>Last
+Updated:</strong> 2025-10-18 <strong>Format:</strong> ASCII art
+(convertible to Mermaid/PlantUML) <strong>Review Status:</strong>
+Pending Technical Review</p>
+</body>
+</html>

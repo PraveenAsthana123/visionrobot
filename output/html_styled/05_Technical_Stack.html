@@ -1,0 +1,2645 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>05 Technical Stack</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../styles/beautiful.css" />
+
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        #TOC {
+            background: var(--dark);
+            color: white;
+            padding: 30px;
+            position: sticky;
+            top: 0;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+
+        #TOC ul {
+            list-style: none;
+        }
+
+        #TOC a {
+            color: #94a3b8;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        #TOC a:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        main {
+            padding: 60px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            margin: 1.5em 0 0.5em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-top: 0;
+            padding-bottom: 20px;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            margin-top: 1.5em;
+            padding-left: 20px;
+            border-left: 5px solid var(--primary);
+        }
+
+        h3 {
+            font-size: 1.6em;
+        }
+
+        p {
+            margin: 1em 0;
+            font-size: 1.05em;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--secondary);
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        blockquote {
+            border-left: 5px solid var(--primary);
+            background: #f8fafc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        a:hover {
+            border-bottom-color: var(--primary);
+        }
+
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 0.5em 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            main {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.6em;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            #TOC {
+                display: none;
+            }
+        }
+        </style>
+        </head>
+<body><div class="container">
+<header id="title-block-header">
+<h1 class="title">05 Technical Stack</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#technical-stack---vision-based-pick-and-place-system"
+id="toc-technical-stack---vision-based-pick-and-place-system"><span
+class="toc-section-number">1</span> Technical Stack - Vision-Based Pick
+and Place System</a>
+<ul>
+<li><a href="#overview" id="toc-overview"><span
+class="toc-section-number">1.1</span> Overview</a></li>
+<li><a href="#architecture-layers" id="toc-architecture-layers"><span
+class="toc-section-number">1.2</span> 1. Architecture Layers</a></li>
+<li><a href="#layer-1-hardware" id="toc-layer-1-hardware"><span
+class="toc-section-number">1.3</span> 2. Layer 1: Hardware</a>
+<ul>
+<li><a href="#robot-manipulator" id="toc-robot-manipulator"><span
+class="toc-section-number">1.3.1</span> 2.1 Robot Manipulator</a></li>
+<li><a href="#sensors" id="toc-sensors"><span
+class="toc-section-number">1.3.2</span> 2.2 Sensors</a></li>
+<li><a href="#vision-lighting" id="toc-vision-lighting"><span
+class="toc-section-number">1.3.3</span> 2.3 Vision &amp;
+Lighting</a></li>
+<li><a href="#compute-hardware" id="toc-compute-hardware"><span
+class="toc-section-number">1.3.4</span> 2.4 Compute Hardware</a></li>
+<li><a href="#power-electrical" id="toc-power-electrical"><span
+class="toc-section-number">1.3.5</span> 2.5 Power &amp;
+Electrical</a></li>
+<li><a href="#networking" id="toc-networking"><span
+class="toc-section-number">1.3.6</span> 2.6 Networking</a></li>
+</ul></li>
+<li><a href="#layer-2-embedded-firmware-drivers"
+id="toc-layer-2-embedded-firmware-drivers"><span
+class="toc-section-number">1.4</span> 3. Layer 2: Embedded / Firmware /
+Drivers</a>
+<ul>
+<li><a href="#operating-systems" id="toc-operating-systems"><span
+class="toc-section-number">1.4.1</span> 3.1 Operating Systems</a></li>
+<li><a href="#device-drivers-sdks" id="toc-device-drivers-sdks"><span
+class="toc-section-number">1.4.2</span> 3.2 Device Drivers &amp;
+SDKs</a></li>
+<li><a href="#firmware" id="toc-firmware"><span
+class="toc-section-number">1.4.3</span> 3.3 Firmware</a></li>
+</ul></li>
+<li><a href="#layer-3-perception-sensor-processing"
+id="toc-layer-3-perception-sensor-processing"><span
+class="toc-section-number">1.5</span> 4. Layer 3: Perception &amp;
+Sensor Processing</a>
+<ul>
+<li><a href="#computer-vision-libraries"
+id="toc-computer-vision-libraries"><span
+class="toc-section-number">1.5.1</span> 4.1 Computer Vision
+Libraries</a></li>
+<li><a href="#image-processing" id="toc-image-processing"><span
+class="toc-section-number">1.5.2</span> 4.2 Image Processing</a></li>
+</ul></li>
+<li><a href="#layer-4-robotics-middleware-ros2"
+id="toc-layer-4-robotics-middleware-ros2"><span
+class="toc-section-number">1.6</span> 5. Layer 4: Robotics Middleware
+(ROS2)</a>
+<ul>
+<li><a href="#ros2-distribution" id="toc-ros2-distribution"><span
+class="toc-section-number">1.6.1</span> 5.1 ROS2 Distribution</a></li>
+<li><a href="#core-ros2-packages" id="toc-core-ros2-packages"><span
+class="toc-section-number">1.6.2</span> 5.2 Core ROS2 Packages</a></li>
+<li><a href="#ros2-communication" id="toc-ros2-communication"><span
+class="toc-section-number">1.6.3</span> 5.3 ROS2 Communication</a></li>
+<li><a href="#custom-ros2-packages" id="toc-custom-ros2-packages"><span
+class="toc-section-number">1.6.4</span> 5.4 Custom ROS2
+Packages</a></li>
+</ul></li>
+<li><a href="#layer-5-ai-machine-learning"
+id="toc-layer-5-ai-machine-learning"><span
+class="toc-section-number">1.7</span> 6. Layer 5: AI / Machine
+Learning</a>
+<ul>
+<li><a href="#deep-learning-frameworks"
+id="toc-deep-learning-frameworks"><span
+class="toc-section-number">1.7.1</span> 6.1 Deep Learning
+Frameworks</a></li>
+<li><a href="#pre-trained-models-libraries"
+id="toc-pre-trained-models-libraries"><span
+class="toc-section-number">1.7.2</span> 6.2 Pre-Trained Models &amp;
+Libraries</a></li>
+<li><a href="#training-mlops" id="toc-training-mlops"><span
+class="toc-section-number">1.7.3</span> 6.3 Training &amp;
+MLOps</a></li>
+</ul></li>
+<li><a href="#layer-6-application-business-logic"
+id="toc-layer-6-application-business-logic"><span
+class="toc-section-number">1.8</span> 7. Layer 6: Application / Business
+Logic</a>
+<ul>
+<li><a href="#application-frameworks"
+id="toc-application-frameworks"><span
+class="toc-section-number">1.8.1</span> 7.1 Application
+Frameworks</a></li>
+<li><a href="#task-orchestration" id="toc-task-orchestration"><span
+class="toc-section-number">1.8.2</span> 7.2 Task Orchestration</a></li>
+<li><a href="#analytics-reporting" id="toc-analytics-reporting"><span
+class="toc-section-number">1.8.3</span> 7.3 Analytics &amp;
+Reporting</a></li>
+</ul></li>
+<li><a href="#layer-7-user-interface-visualization"
+id="toc-layer-7-user-interface-visualization"><span
+class="toc-section-number">1.9</span> 8. Layer 7: User Interface &amp;
+Visualization</a>
+<ul>
+<li><a href="#robotics-visualization"
+id="toc-robotics-visualization"><span
+class="toc-section-number">1.9.1</span> 8.1 Robotics
+Visualization</a></li>
+<li><a href="#dashboards-monitoring"
+id="toc-dashboards-monitoring"><span
+class="toc-section-number">1.9.2</span> 8.2 Dashboards &amp;
+Monitoring</a></li>
+<li><a href="#web-frontend" id="toc-web-frontend"><span
+class="toc-section-number">1.9.3</span> 8.3 Web Frontend</a></li>
+</ul></li>
+<li><a href="#cross-cutting-devops-infrastructure"
+id="toc-cross-cutting-devops-infrastructure"><span
+class="toc-section-number">1.10</span> 9. Cross-Cutting: DevOps &amp;
+Infrastructure</a>
+<ul>
+<li><a href="#version-control-cicd" id="toc-version-control-cicd"><span
+class="toc-section-number">1.10.1</span> 9.1 Version Control &amp;
+CI/CD</a></li>
+<li><a href="#build-dependency-management"
+id="toc-build-dependency-management"><span
+class="toc-section-number">1.10.2</span> 9.2 Build &amp; Dependency
+Management</a></li>
+<li><a href="#testing-frameworks" id="toc-testing-frameworks"><span
+class="toc-section-number">1.10.3</span> 9.3 Testing Frameworks</a></li>
+</ul></li>
+<li><a href="#cross-cutting-security"
+id="toc-cross-cutting-security"><span
+class="toc-section-number">1.11</span> 10. Cross-Cutting: Security</a>
+<ul>
+<li><a href="#authentication-authorization"
+id="toc-authentication-authorization"><span
+class="toc-section-number">1.11.1</span> 10.1 Authentication &amp;
+Authorization</a></li>
+<li><a href="#encryption-secure-communication"
+id="toc-encryption-secure-communication"><span
+class="toc-section-number">1.11.2</span> 10.2 Encryption &amp; Secure
+Communication</a></li>
+<li><a href="#security-monitoring" id="toc-security-monitoring"><span
+class="toc-section-number">1.11.3</span> 10.3 Security
+Monitoring</a></li>
+</ul></li>
+<li><a href="#cross-cutting-logging-observability"
+id="toc-cross-cutting-logging-observability"><span
+class="toc-section-number">1.12</span> 11. Cross-Cutting: Logging &amp;
+Observability</a>
+<ul>
+<li><a href="#logging" id="toc-logging"><span
+class="toc-section-number">1.12.1</span> 11.1 Logging</a></li>
+<li><a href="#centralized-logging-elk-stack"
+id="toc-centralized-logging-elk-stack"><span
+class="toc-section-number">1.12.2</span> 11.2 Centralized Logging (ELK
+Stack)</a></li>
+<li><a href="#distributed-tracing" id="toc-distributed-tracing"><span
+class="toc-section-number">1.12.3</span> 11.3 Distributed
+Tracing</a></li>
+<li><a href="#performance-monitoring"
+id="toc-performance-monitoring"><span
+class="toc-section-number">1.12.4</span> 11.4 Performance
+Monitoring</a></li>
+</ul></li>
+<li><a href="#development-tools" id="toc-development-tools"><span
+class="toc-section-number">1.13</span> 12. Development Tools</a>
+<ul>
+<li><a href="#ides-editors" id="toc-ides-editors"><span
+class="toc-section-number">1.13.1</span> 12.1 IDEs &amp;
+Editors</a></li>
+<li><a href="#debugging-profiling" id="toc-debugging-profiling"><span
+class="toc-section-number">1.13.2</span> 12.2 Debugging &amp;
+Profiling</a></li>
+<li><a href="#documentation" id="toc-documentation"><span
+class="toc-section-number">1.13.3</span> 12.3 Documentation</a></li>
+</ul></li>
+<li><a href="#hardware-tools-equipment"
+id="toc-hardware-tools-equipment"><span
+class="toc-section-number">1.14</span> 13. Hardware Tools &amp;
+Equipment</a>
+<ul>
+<li><a href="#development-testing" id="toc-development-testing"><span
+class="toc-section-number">1.14.1</span> 13.1 Development &amp;
+Testing</a></li>
+</ul></li>
+<li><a href="#technology-stack-summary-table"
+id="toc-technology-stack-summary-table"><span
+class="toc-section-number">1.15</span> 14. Technology Stack Summary
+Table</a></li>
+<li><a href="#technology-selection-rationale"
+id="toc-technology-selection-rationale"><span
+class="toc-section-number">1.16</span> 15. Technology Selection
+Rationale</a></li>
+<li><a href="#dependency-graph-simplified"
+id="toc-dependency-graph-simplified"><span
+class="toc-section-number">1.17</span> 16. Dependency Graph
+(Simplified)</a></li>
+<li><a href="#version-pinning-compatibility"
+id="toc-version-pinning-compatibility"><span
+class="toc-section-number">1.18</span> 17. Version Pinning &amp;
+Compatibility</a>
+<ul>
+<li><a href="#critical-version-constraints"
+id="toc-critical-version-constraints"><span
+class="toc-section-number">1.18.1</span> 17.1 Critical Version
+Constraints</a></li>
+<li><a href="#package-managers" id="toc-package-managers"><span
+class="toc-section-number">1.18.2</span> 17.2 Package Managers</a></li>
+</ul></li>
+<li><a href="#deployment-architecture"
+id="toc-deployment-architecture"><span
+class="toc-section-number">1.19</span> 18. Deployment Architecture</a>
+<ul>
+<li><a href="#single-machine-deployment-developmentsmall-scale"
+id="toc-single-machine-deployment-developmentsmall-scale"><span
+class="toc-section-number">1.19.1</span> 18.1 Single-Machine Deployment
+(Development/Small-Scale)</a></li>
+<li><a href="#distributed-deployment-productioncloud-connected"
+id="toc-distributed-deployment-productioncloud-connected"><span
+class="toc-section-number">1.19.2</span> 18.2 Distributed Deployment
+(Production/Cloud-Connected)</a></li>
+</ul></li>
+<li><a href="#total-cost-of-ownership-tco-estimate"
+id="toc-total-cost-of-ownership-tco-estimate"><span
+class="toc-section-number">1.20</span> 19. Total Cost of Ownership (TCO)
+Estimate</a></li>
+<li><a href="#conclusion" id="toc-conclusion"><span
+class="toc-section-number">1.21</span> 20. Conclusion</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="technical-stack---vision-based-pick-and-place-system"><span
+class="header-section-number">1</span> Technical Stack - Vision-Based
+Pick and Place System</h1>
+<h2 data-number="1.1" id="overview"><span
+class="header-section-number">1.1</span> Overview</h2>
+<p>This document provides a comprehensive specification of all
+<strong>hardware, software, frameworks, libraries, and tools</strong>
+used in the vision-based pick-and-place robotic system, organized by
+architectural layer.</p>
+<hr />
+<h2 data-number="1.2" id="architecture-layers"><span
+class="header-section-number">1.2</span> 1. Architecture Layers</h2>
+<pre><code>┌──────────────────────────────────────────────────────────────┐
+│                 LAYER 7: USER INTERFACE                      │
+│  Web Dashboard, Mobile App, RViz2, Grafana, Foxglove         │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│              LAYER 6: APPLICATION / BUSINESS LOGIC           │
+│  Task Orchestrator, Workflow Manager, Analytics Engine       │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│            LAYER 5: AI / MACHINE LEARNING                    │
+│  Object Detection, Pose Estimation, Grasp Planning (AI)      │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│           LAYER 4: ROBOTICS MIDDLEWARE (ROS2)                │
+│  MoveIt2, Nav2, ros2_control, TF2, Image Transport           │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│         LAYER 3: PERCEPTION &amp; SENSOR PROCESSING              │
+│  OpenCV, PCL, RealSense SDK, Image Processing Nodes          │
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│       LAYER 2: EMBEDDED / FIRMWARE / DRIVERS                 │
+│  Motor Drivers, EtherCAT Master, Camera Drivers, MCU Firmware│
+└──────────────────────────────────────────────────────────────┘
+                              ▲
+┌──────────────────────────────────────────────────────────────┐
+│              LAYER 1: HARDWARE                               │
+│  Robot, Sensors, Actuators, Power, Network                   │
+└──────────────────────────────────────────────────────────────┘</code></pre>
+<hr />
+<h2 data-number="1.3" id="layer-1-hardware"><span
+class="header-section-number">1.3</span> 2. Layer 1: Hardware</h2>
+<h3 data-number="1.3.1" id="robot-manipulator"><span
+class="header-section-number">1.3.1</span> 2.1 Robot Manipulator</h3>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 47%" />
+<col style="width: 23%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Specification</strong></th>
+<th><strong>Vendor/Model</strong></th>
+<th><strong>Quantity</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Robot Arm (6-DOF)</td>
+<td>Payload: 5kg, Reach: 850mm, Repeatability: ±0.1mm</td>
+<td>Universal Robots UR5e / ABB IRB 1200</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Gripper</td>
+<td>Parallel jaw, 85mm stroke, 100N grip force</td>
+<td>Robotiq 2F-85 / Schunk PGN-plus-E</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Robot Controller</td>
+<td>Built-in controller with EtherCAT/Modbus support</td>
+<td>UR Control Box / ABB Controller</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.3.2" id="sensors"><span
+class="header-section-number">1.3.2</span> 2.2 Sensors</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Specification</strong></th>
+<th><strong>Vendor/Model</strong></th>
+<th><strong>Quantity</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RGB-D Camera</td>
+<td>1920x1080 RGB @ 30fps, Depth range: 0.3-3m</td>
+<td>Intel RealSense D435i</td>
+<td>1-2</td>
+</tr>
+<tr class="even">
+<td>Force/Torque Sensor</td>
+<td>6-axis, ±100N, ±10Nm, Resolution: 0.1N/0.01Nm</td>
+<td>ATI Mini45 / OnRobot HEX</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Proximity Sensor</td>
+<td>Inductive, 8mm sensing distance</td>
+<td>Omron E2E-X8ME1</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Emergency Stop Button</td>
+<td>Safety-rated (SIL 2), dual-channel</td>
+<td>Schneider XB7NS8445</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.3.3" id="vision-lighting"><span
+class="header-section-number">1.3.3</span> 2.3 Vision &amp;
+Lighting</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Specification</strong></th>
+<th><strong>Vendor/Model</strong></th>
+<th><strong>Quantity</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LED Ring Light</td>
+<td>5000K, 2000 lumen, dimmable</td>
+<td>CCS LDR2-74SW2-WHI</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Camera Mount</td>
+<td>Adjustable angle, vibration-damped</td>
+<td>Custom / Manfrotto Magic Arm</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.3.4" id="compute-hardware"><span
+class="header-section-number">1.3.4</span> 2.4 Compute Hardware</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Specification</strong></th>
+<th><strong>Vendor/Model</strong></th>
+<th><strong>Quantity</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vision Processing</td>
+<td>GPU: 512 CUDA cores, 8GB RAM, Jetson Linux</td>
+<td>NVIDIA Jetson Xavier NX</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Main Controller</td>
+<td>x86 CPU (4-core, 3.5GHz), 16GB RAM, SSD</td>
+<td>Intel NUC / Dell Optiplex</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Microcontroller (I/O)</td>
+<td>ARM Cortex-M4, 168MHz, 512KB Flash</td>
+<td>STM32F407VG</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.3.5" id="power-electrical"><span
+class="header-section-number">1.3.5</span> 2.5 Power &amp;
+Electrical</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Specification</strong></th>
+<th><strong>Vendor/Model</strong></th>
+<th><strong>Quantity</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Power Supply</td>
+<td>48V DC, 20A, 960W</td>
+<td>Mean Well RSP-1000-48</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>DC-DC Converter (12V)</td>
+<td>48V → 12V, 10A, 120W</td>
+<td>Mean Well SD-100B-12</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>DC-DC Converter (5V)</td>
+<td>12V → 5V, 5A, 25W</td>
+<td>RECOM R-78E5.0-1.0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Circuit Breaker</td>
+<td>25A, 2-pole</td>
+<td>Eaton FAZ-C25/2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.3.6" id="networking"><span
+class="header-section-number">1.3.6</span> 2.6 Networking</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Specification</strong></th>
+<th><strong>Vendor/Model</strong></th>
+<th><strong>Quantity</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>EtherCAT Switch</td>
+<td>5-port, managed, industrial</td>
+<td>Beckhoff EK1100</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Ethernet Switch</td>
+<td>8-port, Gigabit, unmanaged</td>
+<td>Netgear GS108</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>WiFi Router (optional)</td>
+<td>Dual-band, 802.11ac</td>
+<td>TP-Link Archer C7</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.4" id="layer-2-embedded-firmware-drivers"><span
+class="header-section-number">1.4</span> 3. Layer 2: Embedded / Firmware
+/ Drivers</h2>
+<h3 data-number="1.4.1" id="operating-systems"><span
+class="header-section-number">1.4.1</span> 3.1 Operating Systems</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Technology</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Real-Time Linux</td>
+<td>Ubuntu 22.04 with RT-Preempt kernel</td>
+<td>5.15-rt</td>
+<td>Main controller (ros2_control)</td>
+</tr>
+<tr class="even">
+<td>Jetson Linux</td>
+<td>NVIDIA L4T (Linux for Tegra)</td>
+<td>35.3.1 (Ubuntu 20.04)</td>
+<td>Vision processing</td>
+</tr>
+<tr class="odd">
+<td>Bare-Metal RTOS</td>
+<td>FreeRTOS</td>
+<td>10.5.1</td>
+<td>STM32 MCU (I/O)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.4.2" id="device-drivers-sdks"><span
+class="header-section-number">1.4.2</span> 3.2 Device Drivers &amp;
+SDKs</h3>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 42%" />
+<col style="width: 23%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Technology</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RealSense SDK</td>
+<td>librealsense2</td>
+<td>2.54.1</td>
+<td>Camera interface</td>
+</tr>
+<tr class="even">
+<td>EtherCAT Master</td>
+<td>IgH EtherCAT Master</td>
+<td>1.5.2</td>
+<td>Motor driver communication</td>
+</tr>
+<tr class="odd">
+<td>F/T Sensor Driver</td>
+<td>ATI DAQ C Library</td>
+<td>2.3.0</td>
+<td>Force/torque data acquisition</td>
+</tr>
+<tr class="even">
+<td>GPIO Library</td>
+<td>libgpiod</td>
+<td>1.6.3</td>
+<td>Digital I/O (E-stop, sensors)</td>
+</tr>
+<tr class="odd">
+<td>CUDA</td>
+<td>NVIDIA CUDA Toolkit</td>
+<td>11.4</td>
+<td>GPU acceleration</td>
+</tr>
+<tr class="even">
+<td>TensorRT</td>
+<td>NVIDIA TensorRT</td>
+<td>8.5.1</td>
+<td>AI inference optimization</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.4.3" id="firmware"><span
+class="header-section-number">1.4.3</span> 3.3 Firmware</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 42%" />
+<col style="width: 24%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Technology</strong></th>
+<th><strong>Development Environment</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>STM32 MCU Firmware</td>
+<td>C/C++, HAL, FreeRTOS</td>
+<td>STM32CubeIDE</td>
+<td>Low-level I/O control</td>
+</tr>
+<tr class="even">
+<td>Motor Drive Firmware</td>
+<td>Proprietary (Beckhoff TwinCAT)</td>
+<td>TwinCAT 3</td>
+<td>Servo drive configuration</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.5" id="layer-3-perception-sensor-processing"><span
+class="header-section-number">1.5</span> 4. Layer 3: Perception &amp;
+Sensor Processing</h2>
+<h3 data-number="1.5.1" id="computer-vision-libraries"><span
+class="header-section-number">1.5.1</span> 4.1 Computer Vision
+Libraries</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 12%" />
+<col style="width: 47%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Library</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+<th><strong>Language</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OpenCV</td>
+<td>4.8.0</td>
+<td>Image processing, calibration, feature detection</td>
+<td>C++, Python</td>
+</tr>
+<tr class="even">
+<td>Point Cloud Library (PCL)</td>
+<td>1.13.1</td>
+<td>3D point cloud processing, segmentation, ICP</td>
+<td>C++</td>
+</tr>
+<tr class="odd">
+<td>Open3D</td>
+<td>0.17.0</td>
+<td>Point cloud visualization, registration</td>
+<td>Python</td>
+</tr>
+<tr class="even">
+<td>librealsense2</td>
+<td>2.54.1</td>
+<td>RealSense camera SDK</td>
+<td>C++, Python</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.5.2" id="image-processing"><span
+class="header-section-number">1.5.2</span> 4.2 Image Processing</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 12%" />
+<col style="width: 47%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool/Library</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+<th><strong>Language</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>NumPy</td>
+<td>1.24.3</td>
+<td>Array operations, image manipulation</td>
+<td>Python</td>
+</tr>
+<tr class="even">
+<td>SciPy</td>
+<td>1.11.1</td>
+<td>Signal processing, filtering</td>
+<td>Python</td>
+</tr>
+<tr class="odd">
+<td>Pillow (PIL)</td>
+<td>10.0.0</td>
+<td>Image I/O, format conversion</td>
+<td>Python</td>
+</tr>
+<tr class="even">
+<td>scikit-image</td>
+<td>0.21.0</td>
+<td>Advanced image processing algorithms</td>
+<td>Python</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.6" id="layer-4-robotics-middleware-ros2"><span
+class="header-section-number">1.6</span> 5. Layer 4: Robotics Middleware
+(ROS2)</h2>
+<h3 data-number="1.6.1" id="ros2-distribution"><span
+class="header-section-number">1.6.1</span> 5.1 ROS2 Distribution</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ROS2 Humble Hawksbill</td>
+<td>Humble (LTS)</td>
+<td>Base middleware for all nodes</td>
+</tr>
+<tr class="even">
+<td>rclcpp</td>
+<td>Humble</td>
+<td>C++ client library</td>
+</tr>
+<tr class="odd">
+<td>rclpy</td>
+<td>Humble</td>
+<td>Python client library</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.6.2" id="core-ros2-packages"><span
+class="header-section-number">1.6.2</span> 5.2 Core ROS2 Packages</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Package</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MoveIt2</td>
+<td>2.5.5</td>
+<td>Motion planning, IK, collision checking</td>
+</tr>
+<tr class="even">
+<td>ros2_control</td>
+<td>2.27.0</td>
+<td>Real-time control framework</td>
+</tr>
+<tr class="odd">
+<td>ros2_controllers</td>
+<td>2.27.0</td>
+<td>PID, trajectory, admittance controllers</td>
+</tr>
+<tr class="even">
+<td>tf2</td>
+<td>0.25.2</td>
+<td>Coordinate frame transforms</td>
+</tr>
+<tr class="odd">
+<td>image_transport</td>
+<td>3.1.7</td>
+<td>Compressed image streaming</td>
+</tr>
+<tr class="even">
+<td>cv_bridge</td>
+<td>3.2.1</td>
+<td>OpenCV ↔︎ ROS message conversion</td>
+</tr>
+<tr class="odd">
+<td>pcl_ros</td>
+<td>2.4.0</td>
+<td>PCL ↔︎ ROS message conversion</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.6.3" id="ros2-communication"><span
+class="header-section-number">1.6.3</span> 5.3 ROS2 Communication</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Package</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>rmw_cyclonedds_cpp</td>
+<td>1.3.4</td>
+<td>DDS implementation (middleware)</td>
+</tr>
+<tr class="even">
+<td>rosbridge_suite</td>
+<td>1.3.2</td>
+<td>WebSocket bridge for web UIs</td>
+</tr>
+<tr class="odd">
+<td>ros2_tracing</td>
+<td>4.1.1</td>
+<td>Performance tracing (LTTng)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.6.4" id="custom-ros2-packages"><span
+class="header-section-number">1.6.4</span> 5.4 Custom ROS2 Packages</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 15%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Package Name</strong></th>
+<th><strong>Language</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>vision_pipeline</td>
+<td>Python</td>
+<td>Object detection, pose estimation nodes</td>
+</tr>
+<tr class="even">
+<td>grasp_planner</td>
+<td>C++</td>
+<td>Grasp synthesis and ranking</td>
+</tr>
+<tr class="odd">
+<td>task_orchestrator</td>
+<td>Python</td>
+<td>State machine, task sequencing</td>
+</tr>
+<tr class="even">
+<td>hardware_interface</td>
+<td>C++</td>
+<td>ros2_control hardware interface for robot</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.7" id="layer-5-ai-machine-learning"><span
+class="header-section-number">1.7</span> 6. Layer 5: AI / Machine
+Learning</h2>
+<h3 data-number="1.7.1" id="deep-learning-frameworks"><span
+class="header-section-number">1.7.1</span> 6.1 Deep Learning
+Frameworks</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 12%" />
+<col style="width: 47%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Framework</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+<th><strong>Backend</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PyTorch</td>
+<td>2.0.1</td>
+<td>Model training, object detection, pose estimation</td>
+<td>CUDA 11.4</td>
+</tr>
+<tr class="even">
+<td>TensorFlow</td>
+<td>2.13.0</td>
+<td>Alternative framework for grasp planning</td>
+<td>CUDA 11.4</td>
+</tr>
+<tr class="odd">
+<td>ONNX Runtime</td>
+<td>1.15.1</td>
+<td>Cross-framework inference</td>
+<td>CUDA, CPU</td>
+</tr>
+<tr class="even">
+<td>TensorRT</td>
+<td>8.5.1</td>
+<td>Optimized inference on NVIDIA GPUs</td>
+<td>CUDA 11.4</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.7.2" id="pre-trained-models-libraries"><span
+class="header-section-number">1.7.2</span> 6.2 Pre-Trained Models &amp;
+Libraries</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 12%" />
+<col style="width: 47%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Model/Library</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+<th><strong>Source</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>YOLOv8</td>
+<td>8.0.20</td>
+<td>Real-time object detection</td>
+<td>Ultralytics</td>
+</tr>
+<tr class="even">
+<td>Mask R-CNN</td>
+<td>-</td>
+<td>Instance segmentation (if needed)</td>
+<td>Detectron2</td>
+</tr>
+<tr class="odd">
+<td>PVNet</td>
+<td>-</td>
+<td>6DoF pose estimation</td>
+<td>Research repo</td>
+</tr>
+<tr class="even">
+<td>GraspNet</td>
+<td>-</td>
+<td>Grasp pose prediction</td>
+<td>Research repo</td>
+</tr>
+<tr class="odd">
+<td>Segment Anything (SAM)</td>
+<td>1.0</td>
+<td>Zero-shot segmentation (optional)</td>
+<td>Meta AI</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.7.3" id="training-mlops"><span
+class="header-section-number">1.7.3</span> 6.3 Training &amp; MLOps</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MLflow</td>
+<td>2.5.0</td>
+<td>Experiment tracking, model registry</td>
+</tr>
+<tr class="even">
+<td>Weights &amp; Biases (W&amp;B)</td>
+<td>0.15.8</td>
+<td>Experiment tracking, collaboration</td>
+</tr>
+<tr class="odd">
+<td>DVC (Data Version Control)</td>
+<td>3.15.0</td>
+<td>Dataset versioning</td>
+</tr>
+<tr class="even">
+<td>Label Studio</td>
+<td>1.8.2</td>
+<td>Data annotation (bounding boxes, keypoints)</td>
+</tr>
+<tr class="odd">
+<td>Roboflow</td>
+<td>-</td>
+<td>Dataset management, augmentation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.8" id="layer-6-application-business-logic"><span
+class="header-section-number">1.8</span> 7. Layer 6: Application /
+Business Logic</h2>
+<h3 data-number="1.8.1" id="application-frameworks"><span
+class="header-section-number">1.8.1</span> 7.1 Application
+Frameworks</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 12%" />
+<col style="width: 47%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Framework</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+<th><strong>Language</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FastAPI</td>
+<td>0.103.0</td>
+<td>RESTful API backend</td>
+<td>Python</td>
+</tr>
+<tr class="even">
+<td>gRPC</td>
+<td>1.57.0</td>
+<td>High-performance RPC</td>
+<td>C++, Python</td>
+</tr>
+<tr class="odd">
+<td>Redis</td>
+<td>7.0.12</td>
+<td>In-memory cache, pub/sub</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>PostgreSQL</td>
+<td>15.3</td>
+<td>Relational database (tasks, logs, configs)</td>
+<td>SQL</td>
+</tr>
+<tr class="odd">
+<td>InfluxDB</td>
+<td>2.7.1</td>
+<td>Time-series database (sensor data)</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>MongoDB</td>
+<td>6.0.8</td>
+<td>Document database (AI inference logs)</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.8.2" id="task-orchestration"><span
+class="header-section-number">1.8.2</span> 7.2 Task Orchestration</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool/Library</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BehaviorTree.CPP</td>
+<td>4.5.1</td>
+<td>Behavior tree execution engine</td>
+</tr>
+<tr class="even">
+<td>SMACH (ROS)</td>
+<td>2.5.0</td>
+<td>State machine library (deprecated, use BT.CPP)</td>
+</tr>
+<tr class="odd">
+<td>Celery</td>
+<td>5.3.1</td>
+<td>Distributed task queue (if async tasks needed)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.8.3" id="analytics-reporting"><span
+class="header-section-number">1.8.3</span> 7.3 Analytics &amp;
+Reporting</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pandas</td>
+<td>2.0.3</td>
+<td>Data analysis, reporting</td>
+</tr>
+<tr class="even">
+<td>Matplotlib</td>
+<td>3.7.2</td>
+<td>Data visualization (plots)</td>
+</tr>
+<tr class="odd">
+<td>Seaborn</td>
+<td>0.12.2</td>
+<td>Statistical visualization</td>
+</tr>
+<tr class="even">
+<td>Jupyter Notebook</td>
+<td>7.0.2</td>
+<td>Interactive data analysis</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.9" id="layer-7-user-interface-visualization"><span
+class="header-section-number">1.9</span> 8. Layer 7: User Interface
+&amp; Visualization</h2>
+<h3 data-number="1.9.1" id="robotics-visualization"><span
+class="header-section-number">1.9.1</span> 8.1 Robotics
+Visualization</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RViz2</td>
+<td>Humble</td>
+<td>3D robot visualization, TF, point clouds</td>
+</tr>
+<tr class="even">
+<td>Foxglove Studio</td>
+<td>1.68.0</td>
+<td>Modern ROS visualization (alternative to RViz)</td>
+</tr>
+<tr class="odd">
+<td>Gazebo (Classic)</td>
+<td>11.13.0</td>
+<td>Physics simulation</td>
+</tr>
+<tr class="even">
+<td>Gazebo (Ignition/Harmonic)</td>
+<td>Garden</td>
+<td>Next-gen simulation</td>
+</tr>
+<tr class="odd">
+<td>RobotStudio (ABB)</td>
+<td>2023.2</td>
+<td>ABB-specific simulation (if using ABB robot)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.9.2" id="dashboards-monitoring"><span
+class="header-section-number">1.9.2</span> 8.2 Dashboards &amp;
+Monitoring</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Grafana</td>
+<td>10.0.3</td>
+<td>Real-time dashboards, time-series visualization</td>
+</tr>
+<tr class="even">
+<td>Prometheus</td>
+<td>2.45.0</td>
+<td>Metrics collection, alerting</td>
+</tr>
+<tr class="odd">
+<td>Node Exporter</td>
+<td>1.6.1</td>
+<td>System metrics (CPU, RAM, disk)</td>
+</tr>
+<tr class="even">
+<td>ROS2 Diagnostics</td>
+<td>Humble</td>
+<td>Robot health monitoring</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.9.3" id="web-frontend"><span
+class="header-section-number">1.9.3</span> 8.3 Web Frontend</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Framework</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>React</td>
+<td>18.2.0</td>
+<td>Web UI framework</td>
+</tr>
+<tr class="even">
+<td>Next.js</td>
+<td>13.4.12</td>
+<td>React framework with SSR</td>
+</tr>
+<tr class="odd">
+<td>TypeScript</td>
+<td>5.1.6</td>
+<td>Type-safe JavaScript</td>
+</tr>
+<tr class="even">
+<td>TailwindCSS</td>
+<td>3.3.3</td>
+<td>Utility-first CSS framework</td>
+</tr>
+<tr class="odd">
+<td>rosbridge</td>
+<td>1.3.2</td>
+<td>WebSocket connection to ROS2</td>
+</tr>
+<tr class="even">
+<td>roslibjs</td>
+<td>1.3.0</td>
+<td>JavaScript library for ROS communication</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.10" id="cross-cutting-devops-infrastructure"><span
+class="header-section-number">1.10</span> 9. Cross-Cutting: DevOps &amp;
+Infrastructure</h2>
+<h3 data-number="1.10.1" id="version-control-cicd"><span
+class="header-section-number">1.10.1</span> 9.1 Version Control &amp;
+CI/CD</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Git</td>
+<td>2.40.1</td>
+<td>Source code version control</td>
+</tr>
+<tr class="even">
+<td>GitHub / GitLab</td>
+<td>-</td>
+<td>Code hosting, issue tracking</td>
+</tr>
+<tr class="odd">
+<td>GitHub Actions</td>
+<td>-</td>
+<td>CI/CD pipelines</td>
+</tr>
+<tr class="even">
+<td>Docker</td>
+<td>24.0.5</td>
+<td>Containerization</td>
+</tr>
+<tr class="odd">
+<td>Docker Compose</td>
+<td>2.20.2</td>
+<td>Multi-container orchestration</td>
+</tr>
+<tr class="even">
+<td>Kubernetes (optional)</td>
+<td>1.27.4</td>
+<td>Container orchestration (for cloud deployment)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.10.2" id="build-dependency-management"><span
+class="header-section-number">1.10.2</span> 9.2 Build &amp; Dependency
+Management</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>colcon</td>
+<td>0.14.1</td>
+<td>ROS2 build tool</td>
+</tr>
+<tr class="even">
+<td>CMake</td>
+<td>3.26.4</td>
+<td>C/C++ build system</td>
+</tr>
+<tr class="odd">
+<td>pip</td>
+<td>23.2.1</td>
+<td>Python package manager</td>
+</tr>
+<tr class="even">
+<td>conda / mamba</td>
+<td>23.5.0</td>
+<td>Python environment manager</td>
+</tr>
+<tr class="odd">
+<td>rosdep</td>
+<td>0.22.2</td>
+<td>ROS dependency management</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.10.3" id="testing-frameworks"><span
+class="header-section-number">1.10.3</span> 9.3 Testing Frameworks</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Framework</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pytest</td>
+<td>7.4.0</td>
+<td>Python unit testing</td>
+</tr>
+<tr class="even">
+<td>Google Test (gtest)</td>
+<td>1.13.0</td>
+<td>C++ unit testing</td>
+</tr>
+<tr class="odd">
+<td>ros2 launch_testing</td>
+<td>Humble</td>
+<td>ROS2 integration testing</td>
+</tr>
+<tr class="even">
+<td>unittest (Python)</td>
+<td>Built-in</td>
+<td>Python standard testing library</td>
+</tr>
+<tr class="odd">
+<td>Locust</td>
+<td>2.15.1</td>
+<td>Load testing (API endpoints)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.11" id="cross-cutting-security"><span
+class="header-section-number">1.11</span> 10. Cross-Cutting:
+Security</h2>
+<h3 data-number="1.11.1" id="authentication-authorization"><span
+class="header-section-number">1.11.1</span> 10.1 Authentication &amp;
+Authorization</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OAuth2</td>
+<td>-</td>
+<td>Authentication protocol</td>
+</tr>
+<tr class="even">
+<td>Keycloak</td>
+<td>22.0.1</td>
+<td>Identity and access management</td>
+</tr>
+<tr class="odd">
+<td>JWT (JSON Web Tokens)</td>
+<td>-</td>
+<td>Stateless authentication tokens</td>
+</tr>
+<tr class="even">
+<td>bcrypt</td>
+<td>4.0.1</td>
+<td>Password hashing</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.11.2" id="encryption-secure-communication"><span
+class="header-section-number">1.11.2</span> 10.2 Encryption &amp; Secure
+Communication</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OpenSSL</td>
+<td>3.0.9</td>
+<td>TLS/SSL, cryptography</td>
+</tr>
+<tr class="even">
+<td>Let’s Encrypt</td>
+<td>-</td>
+<td>Free SSL certificates</td>
+</tr>
+<tr class="odd">
+<td>mTLS (mutual TLS)</td>
+<td>-</td>
+<td>Bidirectional authentication (gRPC)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.11.3" id="security-monitoring"><span
+class="header-section-number">1.11.3</span> 10.3 Security
+Monitoring</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Fail2ban</td>
+<td>1.0.2</td>
+<td>Intrusion prevention (ban failed logins)</td>
+</tr>
+<tr class="even">
+<td>Snort / Suricata</td>
+<td>3.1.65.0</td>
+<td>Network intrusion detection</td>
+</tr>
+<tr class="odd">
+<td>OSSEC</td>
+<td>3.7.0</td>
+<td>Host-based intrusion detection</td>
+</tr>
+<tr class="even">
+<td>Wireshark</td>
+<td>4.0.8</td>
+<td>Network traffic analysis</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.12" id="cross-cutting-logging-observability"><span
+class="header-section-number">1.12</span> 11. Cross-Cutting: Logging
+&amp; Observability</h2>
+<h3 data-number="1.12.1" id="logging"><span
+class="header-section-number">1.12.1</span> 11.1 Logging</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>syslog-ng</td>
+<td>3.38.1</td>
+<td>System logging</td>
+</tr>
+<tr class="even">
+<td>Logrotate</td>
+<td>3.20.1</td>
+<td>Log file rotation</td>
+</tr>
+<tr class="odd">
+<td>Python logging</td>
+<td>Built-in</td>
+<td>Application-level logging</td>
+</tr>
+<tr class="even">
+<td>rclcpp logging</td>
+<td>Humble</td>
+<td>ROS2 C++ logging</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.12.2" id="centralized-logging-elk-stack"><span
+class="header-section-number">1.12.2</span> 11.2 Centralized Logging
+(ELK Stack)</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Elasticsearch</td>
+<td>8.9.0</td>
+<td>Log indexing and search</td>
+</tr>
+<tr class="even">
+<td>Logstash</td>
+<td>8.9.0</td>
+<td>Log ingestion and transformation</td>
+</tr>
+<tr class="odd">
+<td>Kibana</td>
+<td>8.9.0</td>
+<td>Log visualization and dashboards</td>
+</tr>
+<tr class="even">
+<td>Filebeat</td>
+<td>8.9.0</td>
+<td>Log shipping agent</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.12.3" id="distributed-tracing"><span
+class="header-section-number">1.12.3</span> 11.3 Distributed
+Tracing</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Jaeger</td>
+<td>1.47.0</td>
+<td>Distributed tracing</td>
+</tr>
+<tr class="even">
+<td>OpenTelemetry</td>
+<td>1.20.0</td>
+<td>Observability framework (metrics, traces, logs)</td>
+</tr>
+<tr class="odd">
+<td>Zipkin</td>
+<td>2.24.2</td>
+<td>Alternative to Jaeger</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.12.4" id="performance-monitoring"><span
+class="header-section-number">1.12.4</span> 11.4 Performance
+Monitoring</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Prometheus</td>
+<td>2.45.0</td>
+<td>Metrics collection</td>
+</tr>
+<tr class="even">
+<td>Grafana</td>
+<td>10.0.3</td>
+<td>Metrics visualization</td>
+</tr>
+<tr class="odd">
+<td>Node Exporter</td>
+<td>1.6.1</td>
+<td>Hardware/OS metrics</td>
+</tr>
+<tr class="even">
+<td>cAdvisor</td>
+<td>0.47.2</td>
+<td>Container metrics</td>
+</tr>
+<tr class="odd">
+<td>NVIDIA-SMI</td>
+<td>530.30.02</td>
+<td>GPU monitoring</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.13" id="development-tools"><span
+class="header-section-number">1.13</span> 12. Development Tools</h2>
+<h3 data-number="1.13.1" id="ides-editors"><span
+class="header-section-number">1.13.1</span> 12.1 IDEs &amp; Editors</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>VS Code</td>
+<td>1.81.1</td>
+<td>Primary IDE (C++, Python)</td>
+</tr>
+<tr class="even">
+<td>CLion</td>
+<td>2023.2</td>
+<td>C++ IDE (JetBrains)</td>
+</tr>
+<tr class="odd">
+<td>PyCharm</td>
+<td>2023.2</td>
+<td>Python IDE (JetBrains)</td>
+</tr>
+<tr class="even">
+<td>Vim / Neovim</td>
+<td>9.0</td>
+<td>Terminal-based editor</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.13.2" id="debugging-profiling"><span
+class="header-section-number">1.13.2</span> 12.2 Debugging &amp;
+Profiling</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GDB</td>
+<td>13.2</td>
+<td>C++ debugger</td>
+</tr>
+<tr class="even">
+<td>Valgrind</td>
+<td>3.21.0</td>
+<td>Memory leak detection</td>
+</tr>
+<tr class="odd">
+<td>perf</td>
+<td>6.3</td>
+<td>Linux performance profiling</td>
+</tr>
+<tr class="even">
+<td>NVIDIA Nsight Systems</td>
+<td>2023.2.3</td>
+<td>GPU profiling</td>
+</tr>
+<tr class="odd">
+<td>ros2 topic / service / action CLI</td>
+<td>Humble</td>
+<td>ROS2 debugging tools</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.13.3" id="documentation"><span
+class="header-section-number">1.13.3</span> 12.3 Documentation</h3>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Version</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Doxygen</td>
+<td>1.9.7</td>
+<td>C++ API documentation</td>
+</tr>
+<tr class="even">
+<td>Sphinx</td>
+<td>7.1.2</td>
+<td>Python documentation</td>
+</tr>
+<tr class="odd">
+<td>MkDocs</td>
+<td>1.5.2</td>
+<td>Markdown-based documentation</td>
+</tr>
+<tr class="even">
+<td>Mermaid</td>
+<td>10.3.1</td>
+<td>Diagrams as code (in markdown)</td>
+</tr>
+<tr class="odd">
+<td>PlantUML</td>
+<td>1.2023.10</td>
+<td>UML diagrams</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.14" id="hardware-tools-equipment"><span
+class="header-section-number">1.14</span> 13. Hardware Tools &amp;
+Equipment</h2>
+<h3 data-number="1.14.1" id="development-testing"><span
+class="header-section-number">1.14.1</span> 13.1 Development &amp;
+Testing</h3>
+<table>
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tool</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Oscilloscope</td>
+<td>Signal analysis (motor drivers, sensors)</td>
+</tr>
+<tr class="even">
+<td>Logic Analyzer</td>
+<td>Digital signal debugging (EtherCAT, SPI, I2C)</td>
+</tr>
+<tr class="odd">
+<td>Multimeter</td>
+<td>Voltage, current, resistance measurement</td>
+</tr>
+<tr class="even">
+<td>Power Analyzer</td>
+<td>Power consumption measurement</td>
+</tr>
+<tr class="odd">
+<td>3D Printer</td>
+<td>Prototype gripper parts, fixtures</td>
+</tr>
+<tr class="even">
+<td>CMM (Coordinate Measuring Machine)</td>
+<td>Precision position measurement (±0.01mm)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.15" id="technology-stack-summary-table"><span
+class="header-section-number">1.15</span> 14. Technology Stack Summary
+Table</h2>
+<table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 76%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Layer</strong></th>
+<th><strong>Core Technologies</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Hardware</strong></td>
+<td>UR5e / ABB robot, RealSense D435i, ATI F/T sensor, Jetson Xavier,
+Intel NUC</td>
+</tr>
+<tr class="even">
+<td><strong>Firmware</strong></td>
+<td>RT-Linux (5.15-rt), Jetson Linux (L4T), FreeRTOS, EtherCAT Master
+(IgH)</td>
+</tr>
+<tr class="odd">
+<td><strong>Perception</strong></td>
+<td>OpenCV 4.8, PCL 1.13, librealsense2 2.54, Open3D 0.17</td>
+</tr>
+<tr class="even">
+<td><strong>Middleware</strong></td>
+<td>ROS2 Humble, MoveIt2 2.5, ros2_control 2.27, TF2 0.25</td>
+</tr>
+<tr class="odd">
+<td><strong>AI/ML</strong></td>
+<td>PyTorch 2.0, TensorRT 8.5, YOLOv8, PVNet, GraspNet, MLflow</td>
+</tr>
+<tr class="even">
+<td><strong>Application</strong></td>
+<td>FastAPI, gRPC, PostgreSQL, Redis, InfluxDB, BehaviorTree.CPP</td>
+</tr>
+<tr class="odd">
+<td><strong>UI/Visualization</strong></td>
+<td>RViz2, Foxglove, Grafana, Prometheus, React, Next.js</td>
+</tr>
+<tr class="even">
+<td><strong>DevOps</strong></td>
+<td>Docker, GitHub Actions, colcon, CMake, pytest, gtest</td>
+</tr>
+<tr class="odd">
+<td><strong>Security</strong></td>
+<td>OAuth2, Keycloak, OpenSSL, Fail2ban, Snort</td>
+</tr>
+<tr class="even">
+<td><strong>Observability</strong></td>
+<td>ELK Stack (Elasticsearch, Logstash, Kibana), Jaeger, OpenTelemetry,
+Prometheus</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.16" id="technology-selection-rationale"><span
+class="header-section-number">1.16</span> 15. Technology Selection
+Rationale</h2>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 17%" />
+<col style="width: 19%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Category</strong></th>
+<th><strong>Selected</strong></th>
+<th><strong>Alternatives</strong></th>
+<th><strong>Reason for Selection</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Robot Middleware</td>
+<td>ROS2 Humble</td>
+<td>ROS1, YARP, OROCOS</td>
+<td>Industry standard, active development, real-time support</td>
+</tr>
+<tr class="even">
+<td>Motion Planning</td>
+<td>MoveIt2</td>
+<td>OMPL standalone, Pilz</td>
+<td>Integrated with ROS2, mature, good community support</td>
+</tr>
+<tr class="odd">
+<td>Vision Library</td>
+<td>OpenCV</td>
+<td>VTK, SimpleCV</td>
+<td>Comprehensive, optimized, large community</td>
+</tr>
+<tr class="even">
+<td>Deep Learning</td>
+<td>PyTorch</td>
+<td>TensorFlow, JAX</td>
+<td>Research-friendly, dynamic graphs, good ONNX/TensorRT export</td>
+</tr>
+<tr class="odd">
+<td>Object Detection</td>
+<td>YOLOv8</td>
+<td>Faster R-CNN, SSD</td>
+<td>Best speed/accuracy trade-off for real-time</td>
+</tr>
+<tr class="even">
+<td>Database (OLTP)</td>
+<td>PostgreSQL</td>
+<td>MySQL, MariaDB</td>
+<td>Feature-rich, extensible, excellent JSON support</td>
+</tr>
+<tr class="odd">
+<td>Time-Series DB</td>
+<td>InfluxDB</td>
+<td>TimescaleDB, Prometheus</td>
+<td>Purpose-built for time-series, easy integration</td>
+</tr>
+<tr class="even">
+<td>Message Queue</td>
+<td>Redis</td>
+<td>RabbitMQ, Kafka</td>
+<td>Low latency, in-memory, pub/sub support</td>
+</tr>
+<tr class="odd">
+<td>API Framework</td>
+<td>FastAPI</td>
+<td>Flask, Django</td>
+<td>Fast, async, auto-generated API docs</td>
+</tr>
+<tr class="even">
+<td>Container</td>
+<td>Docker</td>
+<td>Podman, LXC</td>
+<td>Industry standard, extensive ecosystem</td>
+</tr>
+<tr class="odd">
+<td>CI/CD</td>
+<td>GitHub Actions</td>
+<td>GitLab CI, Jenkins</td>
+<td>Integrated with GitHub, easy to configure</td>
+</tr>
+<tr class="even">
+<td>Monitoring</td>
+<td>Grafana + Prometheus</td>
+<td>Datadog, New Relic</td>
+<td>Open-source, flexible, large community</td>
+</tr>
+<tr class="odd">
+<td>Logging</td>
+<td>ELK Stack</td>
+<td>Splunk, Graylog</td>
+<td>Open-source, powerful search, scalable</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.17" id="dependency-graph-simplified"><span
+class="header-section-number">1.17</span> 16. Dependency Graph
+(Simplified)</h2>
+<pre><code>Application Layer (FastAPI, React)
+    ↓
+ROS2 Middleware (MoveIt2, ros2_control)
+    ↓
+Perception (OpenCV, PCL) ←→ AI/ML (PyTorch, TensorRT)
+    ↓
+Drivers (librealsense2, EtherCAT Master)
+    ↓
+Hardware (Robot, Sensors, Actuators)</code></pre>
+<p><strong>Cross-Cutting:</strong> - <strong>Monitoring:</strong>
+Prometheus, Grafana (all layers) - <strong>Logging:</strong> ELK Stack
+(all layers) - <strong>Security:</strong> OAuth2, TLS (Application,
+Middleware) - <strong>DevOps:</strong> Docker, GitHub Actions (build,
+deploy)</p>
+<hr />
+<h2 data-number="1.18" id="version-pinning-compatibility"><span
+class="header-section-number">1.18</span> 17. Version Pinning &amp;
+Compatibility</h2>
+<h3 data-number="1.18.1" id="critical-version-constraints"><span
+class="header-section-number">1.18.1</span> 17.1 Critical Version
+Constraints</h3>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 24%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Dependency</strong></th>
+<th><strong>Version Constraint</strong></th>
+<th><strong>Reason</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ROS2</td>
+<td>= Humble (LTS)</td>
+<td>Long-term support, stable until 2027</td>
+</tr>
+<tr class="even">
+<td>Ubuntu</td>
+<td>= 22.04 LTS</td>
+<td>Required for ROS2 Humble</td>
+</tr>
+<tr class="odd">
+<td>CUDA</td>
+<td>= 11.4</td>
+<td>Compatible with TensorRT 8.5 and PyTorch 2.0</td>
+</tr>
+<tr class="even">
+<td>TensorRT</td>
+<td>= 8.5.x</td>
+<td>Optimized for Jetson Xavier</td>
+</tr>
+<tr class="odd">
+<td>Python</td>
+<td>= 3.10</td>
+<td>Default for Ubuntu 22.04, ROS2 Humble support</td>
+</tr>
+<tr class="even">
+<td>OpenCV</td>
+<td>&gt;= 4.5, &lt; 5.0</td>
+<td>API stability, avoid breaking changes</td>
+</tr>
+<tr class="odd">
+<td>MoveIt2</td>
+<td>&gt;= 2.5, &lt; 3.0</td>
+<td>Humble-compatible</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.18.2" id="package-managers"><span
+class="header-section-number">1.18.2</span> 17.2 Package Managers</h3>
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 36%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Ecosystem</strong></th>
+<th><strong>Package Manager</strong></th>
+<th><strong>Lock File</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ROS2</td>
+<td>rosdep, apt</td>
+<td>package.xml, rosdep.yaml</td>
+</tr>
+<tr class="even">
+<td>Python</td>
+<td>pip, conda</td>
+<td>requirements.txt, environment.yml</td>
+</tr>
+<tr class="odd">
+<td>C++</td>
+<td>apt, vcpkg</td>
+<td>CMakeLists.txt</td>
+</tr>
+<tr class="even">
+<td>Node.js (UI)</td>
+<td>npm, yarn</td>
+<td>package-lock.json</td>
+</tr>
+<tr class="odd">
+<td>Docker</td>
+<td>Docker Compose</td>
+<td>docker-compose.yml</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.19" id="deployment-architecture"><span
+class="header-section-number">1.19</span> 18. Deployment
+Architecture</h2>
+<h3 data-number="1.19.1"
+id="single-machine-deployment-developmentsmall-scale"><span
+class="header-section-number">1.19.1</span> 18.1 Single-Machine
+Deployment (Development/Small-Scale)</h3>
+<pre><code>┌────────────────────────────────────────────────┐
+│         Intel NUC (Ubuntu 22.04 RT)            │
+│  ┌──────────────────────────────────────────┐  │
+│  │  ROS2 Humble Nodes (MoveIt, control)     │  │
+│  └──────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────┐  │
+│  │  PostgreSQL, Redis, InfluxDB             │  │
+│  └──────────────────────────────────────────┘  │
+└────────────────────────────────────────────────┘
+                    │
+                    │ USB 3.0
+                    ▼
+┌────────────────────────────────────────────────┐
+│     NVIDIA Jetson Xavier NX                    │
+│  ┌──────────────────────────────────────────┐  │
+│  │  Vision Pipeline (YOLOv8, Pose Est.)     │  │
+│  └──────────────────────────────────────────┘  │
+└────────────────────────────────────────────────┘
+                    │
+                    │ EtherCAT
+                    ▼
+┌────────────────────────────────────────────────┐
+│          Servo Drives (EtherCAT slaves)        │
+└────────────────────────────────────────────────┘</code></pre>
+<h3 data-number="1.19.2"
+id="distributed-deployment-productioncloud-connected"><span
+class="header-section-number">1.19.2</span> 18.2 Distributed Deployment
+(Production/Cloud-Connected)</h3>
+<pre><code>┌─────────────────────────────────────────────────┐
+│              Cloud (AWS / Azure)                │
+│  • MLflow (model registry)                      │
+│  • Grafana (dashboards)                         │
+│  • Elasticsearch (log aggregation)              │
+└─────────────────────────────────────────────────┘
+                    ▲
+                    │ HTTPS
+                    │
+┌─────────────────────────────────────────────────┐
+│            Edge Gateway (Intel NUC)             │
+│  • FastAPI (REST API)                           │
+│  • Data uplink to cloud                         │
+└─────────────────────────────────────────────────┘
+                    ▲
+                    │ ROS2 DDS
+                    │
+┌─────────────────────────────────────────────────┐
+│       Robot Controller (RT Linux)               │
+│  • MoveIt2, ros2_control, TF2                   │
+└─────────────────────────────────────────────────┘
+                    ▲
+                    │
+┌─────────────────────────────────────────────────┐
+│       Vision Processor (Jetson Xavier)          │
+│  • YOLOv8, Pose Estimation                      │
+└─────────────────────────────────────────────────┘</code></pre>
+<hr />
+<h2 data-number="1.20" id="total-cost-of-ownership-tco-estimate"><span
+class="header-section-number">1.20</span> 19. Total Cost of Ownership
+(TCO) Estimate</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 33%" />
+<col style="width: 15%" />
+<col style="width: 13%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Category</strong></th>
+<th><strong>Item</strong></th>
+<th><strong>Cost (USD)</strong></th>
+<th><strong>Quantity</strong></th>
+<th><strong>Total</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Hardware</strong></td>
+<td>UR5e Robot Arm</td>
+<td>$35,000</td>
+<td>1</td>
+<td>$35,000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Robotiq 2F-85 Gripper</td>
+<td>$5,000</td>
+<td>1</td>
+<td>$5,000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>RealSense D435i</td>
+<td>$350</td>
+<td>1</td>
+<td>$350</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>ATI Mini45 F/T Sensor</td>
+<td>$2,500</td>
+<td>1</td>
+<td>$2,500</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>NVIDIA Jetson Xavier NX</td>
+<td>$500</td>
+<td>1</td>
+<td>$500</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Intel NUC</td>
+<td>$800</td>
+<td>1</td>
+<td>$800</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Power Supply, Electrical</td>
+<td>$500</td>
+<td>1</td>
+<td>$500</td>
+</tr>
+<tr class="even">
+<td></td>
+<td><strong>Hardware Subtotal</strong></td>
+<td></td>
+<td></td>
+<td><strong>$44,650</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Software (Licenses)</strong></td>
+<td>All open-source (ROS2, PyTorch, etc.)</td>
+<td>$0</td>
+<td>-</td>
+<td>$0</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Windows/proprietary tools (if any)</td>
+<td>$1,000</td>
+<td>1</td>
+<td>$1,000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><strong>Software Subtotal</strong></td>
+<td></td>
+<td></td>
+<td><strong>$1,000</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Development</strong></td>
+<td>Engineering (6 months, 2 FTEs)</td>
+<td>$100,000</td>
+<td>1</td>
+<td>$100,000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><strong>Development Subtotal</strong></td>
+<td></td>
+<td></td>
+<td><strong>$100,000</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Operations (Annual)</strong></td>
+<td>Maintenance, electricity</td>
+<td>$2,000/year</td>
+<td>-</td>
+<td>$2,000/year</td>
+</tr>
+<tr class="odd">
+<td><strong>Total (Initial)</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>$145,650</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.21" id="conclusion"><span
+class="header-section-number">1.21</span> 20. Conclusion</h2>
+<p>This technical stack represents a <strong>comprehensive,
+production-ready</strong> architecture for a vision-based pick-and-place
+system, featuring: - <strong>Open-source</strong> core (ROS2, OpenCV,
+PyTorch) → minimal licensing costs - <strong>Real-time</strong>
+performance (RT-Linux, EtherCAT, 1kHz control) -
+<strong>Scalability</strong> (Docker, Kubernetes-ready, cloud
+integration) - <strong>Observability</strong> (Prometheus, Grafana, ELK,
+Jaeger) - <strong>Security</strong> (OAuth2, TLS, intrusion detection) -
+<strong>Flexibility</strong> (modular architecture, easy to swap
+components)</p>
+<p><strong>Next Steps:</strong> 1. Procure hardware based on
+specifications 2. Set up development environment (Docker containers) 3.
+Implement CI/CD pipeline (GitHub Actions) 4. Begin software development
+following architecture docs</p>
+<hr />
+<p><strong>Document Status:</strong> ✅ Complete <strong>Last
+Updated:</strong> 2025-10-18 <strong>Author:</strong> Technical
+Architecture Team <strong>Review Status:</strong> Pending Review</p>
+</div></body>
+</html>

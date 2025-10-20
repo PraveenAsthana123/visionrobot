@@ -1,0 +1,1553 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={15 C4 Model Diagrams},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{15 C4 Model Diagrams}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{c4-model-diagrams}{%
+\section{C4 Model Diagrams}\label{c4-model-diagrams}}
+
+\hypertarget{vision-based-pick-and-place-robotic-system}{%
+\subsection{Vision-Based Pick and Place Robotic
+System}\label{vision-based-pick-and-place-robotic-system}}
+
+\textbf{Document Version:} 1.0 \textbf{Last Updated:} 2025-10-18
+\textbf{Status:} ✅ Complete
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{table-of-contents}{%
+\subsection{Table of Contents}\label{table-of-contents}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \protect\hyperlink{1-introduction}{Introduction}
+\item
+  \protect\hyperlink{2-c4-model-overview}{C4 Model Overview}
+\item
+  \protect\hyperlink{3-level-1-system-context-diagram}{Level 1: System
+  Context Diagram}
+\item
+  \protect\hyperlink{4-level-2-container-diagram}{Level 2: Container
+  Diagram}
+\item
+  \protect\hyperlink{5-level-3-component-diagrams}{Level 3: Component
+  Diagrams}
+\item
+  \protect\hyperlink{6-level-4-code-diagrams}{Level 4: Code Diagrams}
+\item
+  \protect\hyperlink{7-cross-cutting-concerns}{Cross-Cutting Concerns}
+\item
+  \protect\hyperlink{8-deployment-view}{Deployment View}
+\item
+  \protect\hyperlink{9-dynamic-views}{Dynamic Views}
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{introduction}{%
+\subsection{1. Introduction}\label{introduction}}
+
+\hypertarget{purpose}{%
+\subsubsection{1.1 Purpose}\label{purpose}}
+
+This document presents the system architecture of the Vision-Based Pick
+and Place Robotic System using the \textbf{C4 model} (Context,
+Containers, Components, Code). The C4 model provides a hierarchical way
+to visualize software architecture at different levels of abstraction.
+
+\hypertarget{c4-model-benefits}{%
+\subsubsection{1.2 C4 Model Benefits}\label{c4-model-benefits}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Hierarchical abstraction:} Zoom in/out from system context to
+  code details
+\item
+  \textbf{Audience-appropriate:} Different stakeholders focus on
+  different levels
+\item
+  \textbf{Communication:} Clear, unambiguous diagrams for technical and
+  non-technical audiences
+\item
+  \textbf{Documentation:} Living documentation that evolves with the
+  system
+\end{itemize}
+
+\hypertarget{notation-legend}{%
+\subsubsection{1.3 Notation Legend}\label{notation-legend}}
+
+\begin{verbatim}
+┌─────────────────────┐
+│   Person/System     │  ← External entity (users, external systems)
+│   [Type]            │
+└─────────────────────┘
+
+┌─────────────────────┐
+│   Container         │  ← Application/data store
+│   [Technology]      │
+└─────────────────────┘
+
+┌─────────────────────┐
+│   Component         │  ← Logical grouping of functionality
+│   [Details]         │
+└─────────────────────┘
+
+──────>  Relationship (synchronous)
+- - - >  Relationship (asynchronous)
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{c4-model-overview}{%
+\subsection{2. C4 Model Overview}\label{c4-model-overview}}
+
+\hypertarget{the-four-cs}{%
+\subsubsection{2.1 The Four C's}\label{the-four-cs}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1692}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1538}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2154}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2615}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Level}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Name}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Audience}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Abstraction}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{C1} & \textbf{Context} & All stakeholders & Highest & System
+scope and external dependencies \\
+\textbf{C2} & \textbf{Container} & Technical leaders, architects & High
+& Runtime applications and data stores \\
+\textbf{C3} & \textbf{Component} & Developers, architects & Medium &
+Logical components within containers \\
+\textbf{C4} & \textbf{Code} & Developers & Lowest & Classes, interfaces,
+data structures \\
+\end{longtable}
+
+\hypertarget{our-c4-documentation-structure}{%
+\subsubsection{2.2 Our C4 Documentation
+Structure}\label{our-c4-documentation-structure}}
+
+\begin{verbatim}
+C1: System Context
+    └─> Robot System interacts with Operator, Manager, Engineer, MES, ERP
+
+C2: Containers
+    ├─> Vision Pipeline (Docker container)
+    ├─> Motion Planning (Docker container)
+    ├─> Control System (Docker container)
+    ├─> Orchestrator (Docker container)
+    ├─> Web Backend (FastAPI container)
+    ├─> Web Frontend (React container)
+    ├─> Database (PostgreSQL container)
+    ├─> Monitoring (Grafana/Prometheus containers)
+    └─> Message Bus (ROS2 DDS)
+
+C3: Components (per container)
+    ├─> Vision Pipeline: Camera Driver, Object Detector, Pose Estimator
+    ├─> Motion Planning: MoveIt2 Planner, Collision Checker, Trajectory Generator
+    ├─> Control: ros2_control Manager, Joint Controllers, Gripper Controller
+    └─> Orchestrator: Task Manager, Behavior Tree, State Machine
+
+C4: Code (selected critical components)
+    ├─> YoloDetector class
+    ├─> GraspSynthesizer class
+    └─> PickPlaceServer class
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{level-1-system-context-diagram}{%
+\subsection{3. Level 1: System Context
+Diagram}\label{level-1-system-context-diagram}}
+
+\hypertarget{context-diagram}{%
+\subsubsection{3.1 Context Diagram}\label{context-diagram}}
+
+\begin{verbatim}
+                                ┌──────────────────┐
+                                │   Operator       │
+                                │   [Person]       │
+                                │ Runs system,     │
+                                │ monitors status  │
+                                └────────┬─────────┘
+                                         │ Uses web UI
+                                         │ monitors
+                                         ▼
+┌──────────────┐              ┌──────────────────────────────┐
+│   Manager    │              │                              │
+│   [Person]   │──Reviews ──▶ │   Vision Pick & Place       │
+│ Views KPIs,  │   metrics    │   Robot System              │
+│ ROI          │              │   [Software System]          │
+└──────────────┘              │                              │
+                              │  Automated pick-and-place    │
+┌──────────────┐              │  using AI vision             │
+│   Engineer   │──Develops──▶ │  30 picks/min, 99% accuracy │
+│   [Person]   │   & debugs   │                              │
+│ Maintains,   │              └───────┬──────────────────────┘
+│ optimizes    │                      │
+└──────────────┘                      │ Controls
+                                      │ reads sensors
+                                      ▼
+                              ┌──────────────────┐
+                              │   UR5e Robot     │
+                              │   [Hardware]     │
+                              │  6-DOF arm,      │
+                              │  gripper, camera │
+                              └──────────────────┘
+
+┌──────────────┐                      ▲
+│   MES        │                      │
+│   [External  │ ◀────Sends status────┤
+│   System]    │      pick data       │
+│ Manufacturing│                      │
+│ Execution    │                      │
+└──────────────┘                      │
+                                      │
+┌──────────────┐                      │
+│   ERP        │                      │
+│   [External  │ ◀────Sends metrics───┤
+│   System]    │      inventory       │
+│ Enterprise   │                      │
+│ Resource     │                      │
+│ Planning     │                      │
+└──────────────┘                      │
+                                      │
+┌──────────────┐                      │
+│   Safety PLC │ ◀────E-stop signal───┘
+│   [External  │      safety status
+│   System]    │
+│ Emergency    │
+│ stop         │
+└──────────────┘
+\end{verbatim}
+
+\hypertarget{context-description}{%
+\subsubsection{3.2 Context Description}\label{context-description}}
+
+\hypertarget{people}{%
+\paragraph{3.2.1 People}\label{people}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3077}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2564}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4359}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Person}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Role}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Interaction}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Operator} & Runs daily operations & Uses web UI to start/stop
+system, monitor status, handle errors \\
+\textbf{Manager} & Oversees performance & Reviews KPIs, ROI metrics via
+dashboard \\
+\textbf{Engineer} & Develops \& maintains & Deploys code, debugs issues,
+optimizes performance via ROS2 tools \\
+\textbf{Maintenance Technician} & Repairs \& services & Diagnoses
+faults, performs preventive maintenance \\
+\textbf{Data Scientist} & Trains AI models & Collects training data,
+updates object detection models \\
+\end{longtable}
+
+\hypertarget{external-systems}{%
+\paragraph{3.2.2 External Systems}\label{external-systems}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2857}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3095}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4048}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{System}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Purpose}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Integration}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{MES (Manufacturing Execution System)} & Work orders, production
+tracking & REST API (bidirectional) \\
+\textbf{ERP (Enterprise Resource Planning)} & Inventory, analytics &
+REST API (robot → ERP) \\
+\textbf{Safety PLC} & Emergency stop, safety zones & Digital I/O, Modbus
+TCP \\
+\textbf{Robot Hardware (UR5e)} & Physical manipulation & EtherCAT,
+URScript \\
+\textbf{Camera (RealSense D435i)} & Vision sensing & USB 3.0,
+librealsense2 SDK \\
+\textbf{Gripper (Robotiq 2F-85)} & Grasping & Modbus RTU over RS-485 \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{level-2-container-diagram}{%
+\subsection{4. Level 2: Container
+Diagram}\label{level-2-container-diagram}}
+
+\hypertarget{container-diagram}{%
+\subsubsection{4.1 Container Diagram}\label{container-diagram}}
+
+\begin{verbatim}
+┌────────────────────────────────────────────────────────────────────────┐
+│                       Robot System                                     │
+│                                                                        │
+│  ┌──────────────────┐         ┌──────────────────┐                    │
+│  │  Vision Pipeline │         │ Motion Planning  │                    │
+│  │  [Docker/GPU]    │────────▶│  [Docker/CPU]    │                    │
+│  │                  │ Object  │                  │                    │
+│  │ - Camera Driver  │ poses   │ - MoveIt2        │                    │
+│  │ - YOLOv8         │         │ - OMPL Planner   │                    │
+│  │ - Pose Estimator │         │ - Collision Check│                    │
+│  │ - TensorRT       │         │                  │                    │
+│  │                  │         │  ROS2 C++/Python │                    │
+│  │  Python/C++      │         └────────┬─────────┘                    │
+│  └────────┬─────────┘                  │                              │
+│           │                            │ Trajectory                   │
+│           │ ROS2 topics                │                              │
+│           │                            ▼                              │
+│           │                  ┌──────────────────┐                     │
+│           │                  │  Control System  │                     │
+│           │                  │  [RT Docker]     │                     │
+│           │                  │                  │                     │
+│           │                  │ - ros2_control   │                     │
+│           │                  │ - Joint Ctrl     │◀──────────┐         │
+│           │                  │ - HW Interface   │           │         │
+│           │                  │                  │           │         │
+│           │                  │  C++/RT-Linux    │           │         │
+│           │                  └────────┬─────────┘           │         │
+│           │                           │                     │         │
+│           │                           │ EtherCAT            │         │
+│           │                           │                     │         │
+│           ▼                           ▼                     │         │
+│  ┌──────────────────┐       ┌──────────────────┐           │         │
+│  │  Task            │       │  Gripper Control │           │         │
+│  │  Orchestrator    │──────▶│  [Docker]        │           │         │
+│  │  [Docker]        │ Grasp │                  │           │         │
+│  │                  │ cmd   │ - Robotiq Driver │           │         │
+│  │ - Behavior Tree  │       │ - Force Control  │           │         │
+│  │ - State Machine  │       │                  │           │         │
+│  │ - Task Manager   │       │  Python          │           │         │
+│  │                  │       └────────┬─────────┘           │         │
+│  │  C++/Python      │                │                     │         │
+│  └────────┬─────────┘                │ Modbus RTU          │         │
+│           │                          │                     │         │
+│           │ ROS2 actions             ▼                     │         │
+│           │                  ┌─────────────────────────────┘         │
+│           │                  │                                       │
+│           │                  │                                       │
+│  ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─             │
+│           │  ROS2 DDS        │  (CycloneDDS message bus)             │
+│  ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─             │
+│           │                  │                                       │
+│           │                  │                                       │
+│           ▼                  │                                       │
+│  ┌──────────────────┐        │                                       │
+│  │  Web Backend     │        │                                       │
+│  │  [Docker]        │        │                                       │
+│  │                  │        │                                       │
+│  │ - FastAPI        │        │                                       │
+│  │ - REST/gRPC API  │        │                                       │
+│  │ - SQLAlchemy     │        │                                       │
+│  │                  │        │                                       │
+│  │  Python 3.11     │        │                                       │
+│  └────────┬─────────┘        │                                       │
+│           │ HTTPS/WS         │                                       │
+│           ▼                  │                                       │
+│  ┌──────────────────┐        │                                       │
+│  │  Web Frontend    │        │                                       │
+│  │  [Docker/Nginx]  │        │                                       │
+│  │                  │        │                                       │
+│  │ - React 18       │        │                                       │
+│  │ - Next.js        │        │                                       │
+│  │ - Chart.js       │        │                                       │
+│  │                  │        │                                       │
+│  │  TypeScript/JS   │        │                                       │
+│  └──────────────────┘        │                                       │
+│           ▲                  │                                       │
+│           │ HTTPS            │                                       │
+│           │                  │                                       │
+└───────────┼──────────────────┼───────────────────────────────────────┘
+            │                  │
+            │                  │
+   ┌────────┴────────┐    ┌────▼──────────┐
+   │   Operator      │    │  PostgreSQL   │
+   │   [Browser]     │    │  [Container]  │
+   │                 │    │               │
+   │ Chrome/Firefox  │    │ Operational   │
+   └─────────────────┘    │ data (picks,  │
+                          │ configs)      │
+                          │               │
+                          │ v15.3         │
+   ┌──────────────────┐   └───────────────┘
+   │  Grafana         │
+   │  [Container]     │   ┌───────────────┐
+   │                  │   │  InfluxDB     │
+   │ - Dashboards     │◀──│  [Container]  │
+   │ - Alerts         │   │               │
+   │                  │   │ Time-series   │
+   │ v10.0            │   │ metrics       │
+   └──────────────────┘   │               │
+            ▲              │ v2.7          │
+            │              └───────────────┘
+            │                      ▲
+            │                      │
+   ┌────────┴────────┐    ┌────────┴──────┐
+   │  Prometheus     │    │  Metrics      │
+   │  [Container]    │◀───│  Collector    │
+   │                 │    │  [Container]  │
+   │ Scrapes metrics │    │               │
+   │ from all nodes  │    │ Publishes to  │
+   │                 │    │ Influx/Prom   │
+   │ v2.45           │    │               │
+   └─────────────────┘    │ Python        │
+                          └───────────────┘
+\end{verbatim}
+
+\hypertarget{container-descriptions}{%
+\subsubsection{4.2 Container
+Descriptions}\label{container-descriptions}}
+
+\hypertarget{vision-pipeline-container}{%
+\paragraph{4.2.1 Vision Pipeline
+Container}\label{vision-pipeline-container}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5357}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4643}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attribute}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technology} & Python 3.10, C++17, ROS2 Humble, PyTorch 2.0,
+TensorRT 8.5 \\
+\textbf{Runtime} & Docker with NVIDIA GPU support \\
+\textbf{Responsibilities} & - Capture RGB-D images- Detect objects
+(YOLOv8)- Estimate 6DoF poses (PCA/PVNet)- Publish object poses via
+ROS2 \\
+\textbf{Data In} & Raw camera frames (USB 3.0) \\
+\textbf{Data Out} & \texttt{/vision/object\_poses} (ROS2 topic) \\
+\textbf{Dependencies} & RealSense D435i camera, CUDA runtime \\
+\textbf{Scaling} & Single instance (stateless, can scale horizontally
+with multiple cameras) \\
+\end{longtable}
+
+\hypertarget{motion-planning-container}{%
+\paragraph{4.2.2 Motion Planning
+Container}\label{motion-planning-container}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5357}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4643}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attribute}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technology} & C++17, ROS2 Humble, MoveIt2 2.5, OMPL 1.6 \\
+\textbf{Runtime} & Docker (CPU-only) \\
+\textbf{Responsibilities} & - Plan collision-free trajectories- Inverse
+kinematics- Cartesian path planning- Collision checking \\
+\textbf{Data In} & Target poses (grasp/place) via ROS2 actions \\
+\textbf{Data Out} & Joint trajectories \\
+\textbf{Dependencies} & Robot URDF, collision meshes \\
+\textbf{Scaling} & Single instance (stateful due to planning scene) \\
+\end{longtable}
+
+\hypertarget{control-system-container}{%
+\paragraph{4.2.3 Control System
+Container}\label{control-system-container}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5357}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4643}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attribute}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technology} & C++17, ROS2 Humble, ros2\_control 2.27, RT-Linux
+kernel (PREEMPT\_RT) \\
+\textbf{Runtime} & Docker with real-time capabilities
+(--cap-add=SYS\_NICE, --ulimit rtprio=99) \\
+\textbf{Responsibilities} & - 1kHz control loop- Execute joint
+trajectories- Low-level robot communication (EtherCAT)- Safety
+monitoring \\
+\textbf{Data In} & Joint trajectories from motion planner \\
+\textbf{Data Out} & Joint states (positions, velocities, efforts) \\
+\textbf{Dependencies} & UR5e robot (EtherCAT interface) \\
+\textbf{Scaling} & Single instance per robot (not scalable) \\
+\end{longtable}
+
+\hypertarget{task-orchestrator-container}{%
+\paragraph{4.2.4 Task Orchestrator
+Container}\label{task-orchestrator-container}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5357}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4643}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attribute}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technology} & C++/Python, ROS2 Humble, BehaviorTree.CPP 4.0 \\
+\textbf{Runtime} & Docker \\
+\textbf{Responsibilities} & - High-level task sequencing- State machine
+management- Error recovery logic- Workflow coordination \\
+\textbf{Data In} & System triggers, sensor data \\
+\textbf{Data Out} & ROS2 actions to subsystems (vision, motion,
+gripper) \\
+\textbf{Dependencies} & All subsystem ROS2 action servers \\
+\textbf{Scaling} & Single instance (stateful orchestration) \\
+\end{longtable}
+
+\hypertarget{web-backend-container}{%
+\paragraph{4.2.5 Web Backend Container}\label{web-backend-container}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5357}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4643}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attribute}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technology} & Python 3.11, FastAPI 0.104, SQLAlchemy 2.0,
+gRPC \\
+\textbf{Runtime} & Docker with Gunicorn (4 workers) \\
+\textbf{Responsibilities} & - REST/gRPC API for UI- Database CRUD
+operations- Authentication (OAuth2/JWT)- ROS2 bridge (rclpy client) \\
+\textbf{Data In} & HTTP requests from frontend \\
+\textbf{Data Out} & JSON responses, ROS2 messages \\
+\textbf{Dependencies} & PostgreSQL, ROS2 nodes \\
+\textbf{Scaling} & Horizontal (stateless, load balanced) \\
+\end{longtable}
+
+\hypertarget{web-frontend-container}{%
+\paragraph{4.2.6 Web Frontend Container}\label{web-frontend-container}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5357}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4643}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attribute}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technology} & TypeScript, React 18, Next.js 14, Chart.js,
+WebSockets \\
+\textbf{Runtime} & Docker with Nginx (static file serving) \\
+\textbf{Responsibilities} & - User interface- Real-time dashboard-
+System configuration forms- Live video feed \\
+\textbf{Data In} & REST API responses, WebSocket streams \\
+\textbf{Data Out} & HTTP requests to backend \\
+\textbf{Dependencies} & Web Backend API \\
+\textbf{Scaling} & Horizontal (CDN-ready static files) \\
+\end{longtable}
+
+\hypertarget{postgresql-container}{%
+\paragraph{4.2.7 PostgreSQL Container}\label{postgresql-container}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5357}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4643}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attribute}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technology} & PostgreSQL 15.3 \\
+\textbf{Runtime} & Docker with persistent volume \\
+\textbf{Responsibilities} & - Store operational data (picks, configs,
+calibrations)- Transactional guarantees- Query analytics \\
+\textbf{Data In} & SQL queries from Web Backend \\
+\textbf{Data Out} & Query results \\
+\textbf{Dependencies} & None (standalone) \\
+\textbf{Scaling} & Vertical (read replicas for scaling reads) \\
+\end{longtable}
+
+\hypertarget{influxdb-container}{%
+\paragraph{4.2.8 InfluxDB Container}\label{influxdb-container}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5357}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4643}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Attribute}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Details}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Technology} & InfluxDB 2.7 (time-series database) \\
+\textbf{Runtime} & Docker with persistent volume \\
+\textbf{Responsibilities} & - Store time-series metrics (cycle time,
+latency, joint states)- High-write throughput- Retention policies \\
+\textbf{Data In} & Metrics from Metrics Collector \\
+\textbf{Data Out} & Query results for Grafana \\
+\textbf{Dependencies} & None \\
+\textbf{Scaling} & Horizontal (InfluxDB Enterprise clustering) \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{level-3-component-diagrams}{%
+\subsection{5. Level 3: Component
+Diagrams}\label{level-3-component-diagrams}}
+
+\hypertarget{vision-pipeline-components}{%
+\subsubsection{5.1 Vision Pipeline
+Components}\label{vision-pipeline-components}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│              Vision Pipeline Container                      │
+│                                                             │
+│  ┌────────────────────┐                                     │
+│  │  Camera Driver     │  /camera/color/image_raw            │
+│  │  [ROS2 Node]       │─────────┐                          │
+│  │                    │         │                          │
+│  │ - realsense_node   │         │ sensor_msgs/Image        │
+│  │ - USB streaming    │         │                          │
+│  └────────────────────┘         │                          │
+│                                 ▼                          │
+│  ┌────────────────────┐  ┌──────────────────┐              │
+│  │  Image Processor   │◀─│  Image Buffer    │              │
+│  │  [ROS2 Node]       │  │  [Shared Memory] │              │
+│  │                    │  │                  │              │
+│  │ - Denoise (OpenCV) │  │ Ring buffer (10) │              │
+│  │ - Color correction │  └──────────────────┘              │
+│  └───────┬────────────┘                                     │
+│          │ /vision/preprocessed/image                       │
+│          │                                                  │
+│          ▼                                                  │
+│  ┌────────────────────┐                                     │
+│  │  Object Detector   │  /vision/detections                │
+│  │  [ROS2 Node]       │─────────┐                          │
+│  │                    │         │                          │
+│  │ - YOLOv8 inference │         │ vision_msgs/Detection2D  │
+│  │ - TensorRT engine  │         │                          │
+│  │ - GPU acceleration │         │                          │
+│  └────────────────────┘         │                          │
+│                                 ▼                          │
+│  ┌────────────────────┐  ┌──────────────────┐              │
+│  │  Pose Estimator    │◀─│ Detection Sync   │              │
+│  │  [ROS2 Node]       │  │ [ApproxTimeSynch]│              │
+│  │                    │  │                  │              │
+│  │ - PCA-based pose   │  │ Sync depth +     │              │
+│  │ - Point cloud proc │  │ detections       │              │
+│  │ - TF2 broadcaster  │  └──────────────────┘              │
+│  └───────┬────────────┘                                     │
+│          │ /vision/object_poses                             │
+│          │ /tf (object frames)                              │
+│          ▼                                                  │
+│  ┌────────────────────┐                                     │
+│  │  Visualization     │  /vision/debug/detections           │
+│  │  [ROS2 Node]       │─────────▶                          │
+│  │                    │                                     │
+│  │ - Draw bboxes      │  For debugging in RViz2            │
+│  │ - Overlay poses    │                                     │
+│  └────────────────────┘                                     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{motion-planning-components}{%
+\subsubsection{5.2 Motion Planning
+Components}\label{motion-planning-components}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│            Motion Planning Container                        │
+│                                                             │
+│  ┌────────────────────┐                                     │
+│  │  Pick Place Server │  /pick_place (action server)        │
+│  │  [ROS2 Action]     │◀─────────────────────┐             │
+│  │                    │                      │             │
+│  │ - Sequence pick/   │                      │             │
+│  │   place motions    │                      │             │
+│  └───────┬────────────┘                      │             │
+│          │                                   │             │
+│          │ Calls                             │             │
+│          ▼                                   │             │
+│  ┌────────────────────┐                      │             │
+│  │  MoveGroup         │                      │             │
+│  │  Interface         │                      │             │
+│  │  [MoveIt2 API]     │                      │             │
+│  │                    │                      │             │
+│  │ - setPoseTarget()  │                      │             │
+│  │ - plan()           │                      │             │
+│  │ - execute()        │                      │             │
+│  └───────┬────────────┘                      │             │
+│          │                                   │             │
+│          │ Uses                              │             │
+│          ▼                                   │             │
+│  ┌────────────────────┐  ┌──────────────────┐             │
+│  │  OMPL Planner      │  │  IK Solver       │             │
+│  │  [Plugin]          │  │  [KDL Plugin]    │             │
+│  │                    │  │                  │             │
+│  │ - RRTConnect       │  │ - Analytical IK  │             │
+│  │ - RRT*             │  │ - Numerical IK   │             │
+│  │ - PRM              │  │ - Multiple sols  │             │
+│  └───────┬────────────┘  └────────┬─────────┘             │
+│          │                        │                       │
+│          │ Queries                │                       │
+│          ▼                        │                       │
+│  ┌────────────────────┐           │                       │
+│  │  Planning Scene    │◀──────────┘                       │
+│  │  [Shared State]    │                                   │
+│  │                    │                                   │
+│  │ - Robot state      │                                   │
+│  │ - Collision objects│                                   │
+│  │ - Allowed collis.  │                                   │
+│  └───────┬────────────┘                                   │
+│          │                                                │
+│          │ Checks                                         │
+│          ▼                                                │
+│  ┌────────────────────┐                                   │
+│  │  Collision Checker │                                   │
+│  │  [FCL Library]     │                                   │
+│  │                    │                                   │
+│  │ - Self collision   │                                   │
+│  │ - Env collision    │                                   │
+│  │ - Continuous check │                                   │
+│  └────────────────────┘                                   │
+│                                                           │
+│  ┌────────────────────┐                                   │
+│  │  Trajectory        │  Publishes smoothed trajectory    │
+│  │  Processor         │─────────────────────────▶        │
+│  │  [Time-optimal]    │                                   │
+│  │                    │  /joint_trajectory (topic)        │
+│  │ - Velocity limits  │                                   │
+│  │ - Accel limits     │                                   │
+│  │ - Jerk limits      │                                   │
+│  └────────────────────┘                                   │
+│                                                           │
+└───────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{control-system-components}{%
+\subsubsection{5.3 Control System
+Components}\label{control-system-components}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│              Control System Container                       │
+│                                                             │
+│  ┌────────────────────┐                                     │
+│  │  Controller        │  Main control loop (1 kHz)          │
+│  │  Manager           │◀─────────────────────┐             │
+│  │  [ros2_control]    │                      │             │
+│  │                    │                      │             │
+│  │ - Load controllers │                      │             │
+│  │ - Update loop      │                      │             │
+│  │ - State publishing │                      │             │
+│  └───────┬────────────┘                      │             │
+│          │                                   │             │
+│          │ Updates (1 kHz)                   │             │
+│          ▼                                   │             │
+│  ┌────────────────────┐                      │             │
+│  │  Joint Trajectory  │                      │             │
+│  │  Controller        │                      │             │
+│  │  [Plugin]          │                      │             │
+│  │                    │                      │             │
+│  │ - Interpolate traj │                      │             │
+│  │ - PID control      │                      │             │
+│  │ - Feedforward      │                      │             │
+│  └───────┬────────────┘                      │             │
+│          │                                   │             │
+│          │ Commands                          │             │
+│          ▼                                   │             │
+│  ┌────────────────────┐                      │             │
+│  │  Hardware          │                      │             │
+│  │  Interface         │                      │             │
+│  │  [Custom Plugin]   │                      │             │
+│  │                    │                      │             │
+│  │ - read()  (state)  │                      │             │
+│  │ - write() (cmd)    │                      │             │
+│  └───────┬────────────┘                      │             │
+│          │                                   │             │
+│          │ EtherCAT                          │             │
+│          ▼                                   │             │
+│  ┌────────────────────┐                      │             │
+│  │  UR Driver         │                      │             │
+│  │  [Library]         │                      │             │
+│  │                    │                      │             │
+│  │ - TCP/IP socket    │                      │             │
+│  │ - URScript         │                      │             │
+│  │ - Real-time client │                      │             │
+│  └────────────────────┘                      │             │
+│                                              │             │
+│  ┌────────────────────┐                      │             │
+│  │  Joint State       │  Publishes current joint states    │
+│  │  Broadcaster       │─────────────────────────▶         │
+│  │  [ros2_control]    │                                    │
+│  │                    │  /joint_states (topic, 100 Hz)     │
+│  │ - Position         │                                    │
+│  │ - Velocity         │                                    │
+│  │ - Effort           │                                    │
+│  └────────────────────┘                                    │
+│                                                            │
+│  ┌────────────────────┐                                    │
+│  │  Safety Monitor    │  Monitors limits, publishes alerts │
+│  │  [ROS2 Node]       │─────────────────────────▶         │
+│  │                    │                                    │
+│  │ - Joint limits     │  /safety/alerts (topic)            │
+│  │ - Velocity limits  │                                    │
+│  │ - Force limits     │                                    │
+│  └────────────────────┘                                    │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{task-orchestrator-components}{%
+\subsubsection{5.4 Task Orchestrator
+Components}\label{task-orchestrator-components}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│            Task Orchestrator Container                      │
+│                                                             │
+│  ┌────────────────────┐                                     │
+│  │  Task Manager      │  Main entry point                   │
+│  │  [ROS2 Node]       │◀─────────────────────┐             │
+│  │                    │                      │             │
+│  │ - Start/stop tasks │                      │             │
+│  │ - Error recovery   │                      │             │
+│  └───────┬────────────┘                      │             │
+│          │                                   │             │
+│          │ Executes                          │             │
+│          ▼                                   │             │
+│  ┌────────────────────┐                      │             │
+│  │  Behavior Tree     │                      │             │
+│  │  Engine            │                      │             │
+│  │  [BT.CPP]          │                      │             │
+│  │                    │                      │             │
+│  │ - Load XML tree    │                      │             │
+│  │ - Tick nodes       │                      │             │
+│  │ - Blackboard       │                      │             │
+│  └───────┬────────────┘                      │             │
+│          │                                   │             │
+│          │ Ticks                             │             │
+│          ▼                                   │             │
+│  ┌────────────────────┐  ┌──────────────────┐             │
+│  │  Action Nodes      │  │  Condition Nodes │             │
+│  │  [Plugins]         │  │  [Plugins]       │             │
+│  │                    │  │                  │             │
+│  │ - CaptureImage     │  │ - ObjectDetected │             │
+│  │ - DetectObjects    │  │ - GraspValid     │             │
+│  │ - PlanGrasp        │  │ - WaitForTrigger │             │
+│  │ - ExecutePick      │  └──────────────────┘             │
+│  │ - ExecutePlace     │                                   │
+│  └───────┬────────────┘                                   │
+│          │                                                │
+│          │ Calls ROS2 services/actions                   │
+│          ▼                                                │
+│  ┌────────────────────┐                                   │
+│  │  Service Clients   │                                   │
+│  │  [ROS2 Clients]    │                                   │
+│  │                    │                                   │
+│  │ - /vision/detect   │                                   │
+│  │ - /grasp/compute   │                                   │
+│  │ - /pick_place      │                                   │
+│  └────────────────────┘                                   │
+│                                                           │
+│  ┌────────────────────┐                                   │
+│  │  Blackboard        │  Shared state between BT nodes    │
+│  │  [Memory Store]    │                                   │
+│  │                    │                                   │
+│  │ - detections       │                                   │
+│  │ - target_object    │                                   │
+│  │ - grasp_pose       │                                   │
+│  │ - error_count      │                                   │
+│  └────────────────────┘                                   │
+│                                                           │
+│  ┌────────────────────┐                                   │
+│  │  State Publisher   │  Publishes orchestrator state     │
+│  │  [ROS2 Publisher]  │─────────────────────────▶        │
+│  │                    │                                   │
+│  │  /task/status      │  TaskStatus msg (10 Hz)           │
+│  └────────────────────┘                                   │
+│                                                           │
+└───────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{level-4-code-diagrams}{%
+\subsection{6. Level 4: Code Diagrams}\label{level-4-code-diagrams}}
+
+\hypertarget{yolodetector-class-diagram}{%
+\subsubsection{6.1 YoloDetector Class
+Diagram}\label{yolodetector-class-diagram}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────┐
+│                    YoloDetector                          │
+├──────────────────────────────────────────────────────────┤
+│ - model: torch.nn.Module                                 │
+│ - device: torch.device                                   │
+│ - bridge: CvBridge                                       │
+│ - confidence_threshold: float                            │
+│ - iou_threshold: float                                   │
+│ - image_sub: Subscriber<Image>                           │
+│ - detections_pub: Publisher<Detection2DArray>            │
+│ - debug_image_pub: Publisher<Image>                      │
+├──────────────────────────────────────────────────────────┤
+│ + __init__()                                             │
+│ + load_model() -> None                                   │
+│ + image_callback(msg: Image) -> None                     │
+│ + run_inference(image: np.ndarray) -> List[Detection]    │
+│ + parse_detections(results) -> Detection2DArray          │
+│ + draw_detections(image, detections) -> np.ndarray       │
+│ - preprocess_image(image: np.ndarray) -> torch.Tensor    │
+│ - postprocess_results(outputs) -> List[BBox]             │
+│ - apply_nms(boxes, scores) -> List[int]                  │
+└──────────────────────────────────────────────────────────┘
+         │
+         │ uses
+         ▼
+┌──────────────────────────────────────────────────────────┐
+│                  TensorRTEngine                          │
+├──────────────────────────────────────────────────────────┤
+│ - engine: trt.ICudaEngine                                │
+│ - context: trt.IExecutionContext                         │
+│ - input_shape: Tuple[int, int, int]                      │
+│ - bindings: List[int]                                    │
+├──────────────────────────────────────────────────────────┤
+│ + __init__(engine_path: str)                             │
+│ + infer(input_tensor: torch.Tensor) -> torch.Tensor      │
+│ - allocate_buffers() -> None                             │
+└──────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{graspsynthesizer-class-diagram}{%
+\subsubsection{6.2 GraspSynthesizer Class
+Diagram}\label{graspsynthesizer-class-diagram}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────┐
+│                 GraspSynthesizer                         │
+├──────────────────────────────────────────────────────────┤
+│ - service: Service<ComputeGrasps>                        │
+│ - num_candidates: int                                    │
+│ - gripper_max_width: float                               │
+│ - friction_coeff: float                                  │
+│ - quality_evaluator: GraspQualityEvaluator               │
+├──────────────────────────────────────────────────────────┤
+│ + __init__()                                             │
+│ + compute_grasps_callback(req, res) -> Response          │
+│ + generate_box_grasps(req) -> List[Grasp]                │
+│ + generate_cylinder_grasps(req) -> List[Grasp]           │
+│ + generate_generic_grasps(req) -> List[Grasp]            │
+│ - compute_grasp_pose(obj_pose, approach, rot) -> Pose    │
+│ - check_force_closure(grasp) -> bool                     │
+└──────────────────────────────────────────────────────────┘
+         │
+         │ uses
+         ▼
+┌──────────────────────────────────────────────────────────┐
+│             GraspQualityEvaluator                        │
+├──────────────────────────────────────────────────────────┤
+│ - metric_type: str  # "ferrari_canny" | "volume"         │
+├──────────────────────────────────────────────────────────┤
+│ + evaluate(grasp: Grasp, object: Object) -> float        │
+│ - compute_ferrari_canny(contact_pts) -> float            │
+│ - compute_grasp_wrench_space(contacts) -> np.ndarray     │
+└──────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{pickplaceserver-class-diagram}{%
+\subsubsection{6.3 PickPlaceServer Class
+Diagram}\label{pickplaceserver-class-diagram}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────┐
+│                  PickPlaceServer                         │
+├──────────────────────────────────────────────────────────┤
+│ - action_server: ActionServer<PickPlace>                 │
+│ - move_group: MoveGroupInterface                         │
+│ - gripper_client: ActionClient<GripperCommand>           │
+│ - planning_scene: PlanningScene                          │
+├──────────────────────────────────────────────────────────┤
+│ + __init__(node_options)                                 │
+│ + handle_goal(uuid, goal) -> GoalResponse                │
+│ + handle_cancel(goal_handle) -> CancelResponse           │
+│ + handle_accepted(goal_handle) -> None                   │
+│ - execute(goal_handle) -> None                           │
+│ - plan_pick(target, approach_dist) -> Plan               │
+│ - plan_place(target) -> Plan                             │
+│ - execute_trajectory(plan) -> bool                       │
+│ - close_gripper(width, force) -> bool                    │
+│ - open_gripper() -> bool                                 │
+│ - retreat(distance) -> bool                              │
+│ - publish_feedback(handle, status, progress) -> None     │
+└──────────────────────────────────────────────────────────┘
+         │
+         │ uses
+         ▼
+┌──────────────────────────────────────────────────────────┐
+│           MoveGroupInterface (MoveIt2)                   │
+├──────────────────────────────────────────────────────────┤
+│ - robot_model: RobotModel                                │
+│ - planning_scene_monitor: PlanningSceneMonitor           │
+│ - trajectory_execution_manager: TrajectoryExecutionMgr   │
+├──────────────────────────────────────────────────────────┤
+│ + setPoseTarget(pose: Pose) -> None                      │
+│ + setJointValueTarget(joints: List[float]) -> None       │
+│ + plan(plan: Plan&) -> MoveItErrorCode                   │
+│ + execute(plan: Plan) -> MoveItErrorCode                 │
+│ + computeCartesianPath(waypoints) -> double              │
+│ + getCurrentPose() -> PoseStamped                        │
+│ + getCurrentJointValues() -> List[float]                 │
+└──────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{cross-cutting-concerns}{%
+\subsection{7. Cross-Cutting Concerns}\label{cross-cutting-concerns}}
+
+\hypertarget{logging-architecture}{%
+\subsubsection{7.1 Logging Architecture}\label{logging-architecture}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────┐
+│               All ROS2 Nodes                             │
+│  (Vision, Motion, Control, Orchestrator, etc.)           │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ rclcpp::Logger
+            │ (stdout/stderr)
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│              Docker Log Driver                           │
+│  (json-file or syslog)                                   │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ JSON logs
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│               Filebeat                                   │
+│  (Log shipper)                                           │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ Forwards
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│              Logstash                                    │
+│  (Log parsing, enrichment)                               │
+│  - Parse JSON                                            │
+│  - Add metadata (hostname, container)                    │
+│  - Filter by log level                                   │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ Indexes
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│             Elasticsearch                                │
+│  (Log storage & search)                                  │
+│  - Index: logs-robot-YYYY.MM.DD                          │
+│  - Retention: 30 days                                    │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ Queries
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│              Kibana                                      │
+│  (Log visualization)                                     │
+│  - Dashboards                                            │
+│  - Alerts (error rate > 10/min)                          │
+└──────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{monitoring-metrics}{%
+\subsubsection{7.2 Monitoring \& Metrics}\label{monitoring-metrics}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────┐
+│          Metrics Collector (Python ROS2 Node)            │
+│  - Subscribes to /task/status, /joint_states, etc.       │
+│  - Publishes Prometheus metrics on :8000/metrics         │
+│  - Writes to InfluxDB                                    │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ Scrapes (15s interval)
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│              Prometheus                                  │
+│  (Metrics storage & alerting)                            │
+│  - Time-series DB                                        │
+│  - Retention: 15 days                                    │
+│  - Alert rules (uptime < 99%, cycle_time > 3s)           │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ Queries (PromQL)
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│              Grafana                                     │
+│  (Dashboards & visualization)                            │
+│  - Real-time dashboard (refresh 5s)                      │
+│  - Historical trends                                     │
+│  - Alerts to Slack/email                                 │
+└──────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\hypertarget{security-architecture}{%
+\subsubsection{7.3 Security Architecture}\label{security-architecture}}
+
+\begin{verbatim}
+┌──────────────────────────────────────────────────────────┐
+│                 User (Browser)                           │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ HTTPS (TLS 1.3)
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│              Nginx Reverse Proxy                         │
+│  - TLS termination                                       │
+│  - Rate limiting (100 req/min per IP)                    │
+│  - Firewall rules (deny all except 443)                  │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ HTTP (internal network)
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│            Web Backend (FastAPI)                         │
+│  - OAuth2/JWT authentication                             │
+│  - RBAC (Operator, Engineer, Admin roles)                │
+│  - API key for MES/ERP                                   │
+└───────────┬──────────────────────────────────────────────┘
+            │
+            │ SQL (prepared statements)
+            ▼
+┌──────────────────────────────────────────────────────────┐
+│              PostgreSQL                                  │
+│  - TLS encryption                                        │
+│  - User permissions (least privilege)                    │
+│  - Audit logging enabled                                 │
+└──────────────────────────────────────────────────────────┘
+
+ROS2 Security:
+┌──────────────────────────────────────────────────────────┐
+│              ROS2 DDS (CycloneDDS)                       │
+│  - DDS Security (SROS2)                                  │
+│  - Encrypted topics (AES-256)                            │
+│  - Authentication (X.509 certificates)                   │
+│  - Access control lists (permissions.xml)                │
+└──────────────────────────────────────────────────────────┘
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{deployment-view}{%
+\subsection{8. Deployment View}\label{deployment-view}}
+
+\hypertarget{physical-deployment-production}{%
+\subsubsection{8.1 Physical Deployment
+(Production)}\label{physical-deployment-production}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│               Intel NUC (Main Compute)                      │
+│  CPU: Intel i7-12700H (12 cores)                            │
+│  RAM: 32 GB DDR4                                            │
+│  Disk: 1 TB NVMe SSD                                        │
+│  OS: Ubuntu 22.04 LTS + Docker                              │
+│                                                             │
+│  ┌─────────────────┐  ┌─────────────────┐                  │
+│  │ Motion Planning │  │ Orchestrator    │                  │
+│  │ (Docker)        │  │ (Docker)        │                  │
+│  └─────────────────┘  └─────────────────┘                  │
+│                                                             │
+│  ┌─────────────────┐  ┌─────────────────┐                  │
+│  │ Control System  │  │ Web Backend     │                  │
+│  │ (Docker RT)     │  │ (Docker)        │                  │
+│  └─────────────────┘  └─────────────────┘                  │
+│                                                             │
+│  ┌─────────────────┐  ┌─────────────────┐                  │
+│  │ PostgreSQL      │  │ Prometheus      │                  │
+│  │ (Docker)        │  │ (Docker)        │                  │
+│  └─────────────────┘  └─────────────────┘                  │
+└──────────────┬──────────────────────────────────────────────┘
+               │
+               │ Gigabit Ethernet
+               │
+┌──────────────▼──────────────────────────────────────────────┐
+│          Jetson Xavier NX (Edge Compute)                    │
+│  GPU: 384-core NVIDIA Volta                                 │
+│  CPU: 6-core NVIDIA Carmel ARM64                            │
+│  RAM: 8 GB LPDDR4                                           │
+│  OS: Jetson Linux (L4T) + Docker                            │
+│                                                             │
+│  ┌─────────────────┐  ┌─────────────────┐                  │
+│  │ Vision Pipeline │  │ Metrics         │                  │
+│  │ (Docker GPU)    │  │ Collector       │                  │
+│  │                 │  │ (Docker)        │                  │
+│  │ - YOLOv8 +      │  └─────────────────┘                  │
+│  │   TensorRT      │                                       │
+│  │ - Pose Estimator│                                       │
+│  └─────────────────┘                                       │
+└──────────────┬──────────────────────────────────────────────┘
+               │
+               │ USB 3.0
+               ▼
+       ┌───────────────────┐
+       │ RealSense D435i   │
+       │ (Camera)          │
+       └───────────────────┘
+
+
+         EtherCAT                  Modbus RTU
+┌──────────────┴──────────┐   ┌────────┴─────────┐
+│  UR5e Robot             │   │ Robotiq Gripper  │
+│  (6-DOF Arm)            │   │ (2F-85)          │
+└─────────────────────────┘   └──────────────────┘
+\end{verbatim}
+
+\hypertarget{logical-deployment-docker-network}{%
+\subsubsection{8.2 Logical Deployment (Docker
+Network)}\label{logical-deployment-docker-network}}
+
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────┐
+│              robot_net (Bridge Network)                     │
+│              Subnet: 172.20.0.0/16                          │
+│                                                             │
+│  Vision Pipeline ──────── 172.20.0.10                       │
+│  Motion Planning ──────── 172.20.0.20                       │
+│  Control System ───────── 172.20.0.30                       │
+│  Orchestrator ─────────── 172.20.0.40                       │
+│  Web Backend ──────────── 172.20.0.50                       │
+│  Web Frontend ─────────── 172.20.0.60                       │
+│  PostgreSQL ───────────── 172.20.0.70                       │
+│  InfluxDB ─────────────── 172.20.0.71                       │
+│  Prometheus ───────────── 172.20.0.80                       │
+│  Grafana ──────────────── 172.20.0.90                       │
+│  Metrics Collector ────── 172.20.0.100                      │
+│                                                             │
+│  (All containers communicate via this internal network)     │
+│  (No external access except Web Frontend on port 443)       │
+└─────────────────────────────────────────────────────────────┘
+
+Host Network Ports:
+  - 443 (HTTPS) → Nginx → Web Frontend
+  - 3000 (Grafana UI) → Grafana
+  - 5432 (PostgreSQL) → Blocked externally
+  - 9090 (Prometheus) → Blocked externally
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{dynamic-views}{%
+\subsection{9. Dynamic Views}\label{dynamic-views}}
+
+\hypertarget{pick-and-place-sequence-simplified-c4-dynamic}{%
+\subsubsection{9.1 Pick and Place Sequence (Simplified C4
+Dynamic)}\label{pick-and-place-sequence-simplified-c4-dynamic}}
+
+\begin{verbatim}
+Operator          Web UI        Backend       Orchestrator   Vision    Motion    Control
+   │                 │             │               │            │         │         │
+   │ Click "Start"   │             │               │            │         │         │
+   ├────────────────>│             │               │            │         │         │
+   │                 │ POST /start │               │            │         │         │
+   │                 ├────────────>│               │            │         │         │
+   │                 │             │ StartTask()   │            │         │         │
+   │                 │             ├──────────────>│            │         │         │
+   │                 │             │               │ Capture()  │         │         │
+   │                 │             │               ├───────────>│         │         │
+   │                 │             │               │ Objects    │         │         │
+   │                 │             │               │<───────────┤         │         │
+   │                 │             │               │ PlanGrasp()│         │         │
+   │                 │             │               ├──────────────────────>│         │
+   │                 │             │               │ GraspPose  │         │         │
+   │                 │             │               │<──────────────────────┤         │
+   │                 │             │               │ ExecutePick()         │         │
+   │                 │             │               ├───────────────────────────────>│
+   │                 │             │               │            │         │  Done   │
+   │                 │             │               │<───────────────────────────────┤
+   │                 │ 200 OK      │               │            │         │         │
+   │                 │<────────────┤               │            │         │         │
+   │ Status update   │             │               │            │         │         │
+   │<────────────────┤             │               │            │         │         │
+   │                 │             │               │            │         │         │
+\end{verbatim}
+
+\hypertarget{error-recovery-dynamic-behavior}{%
+\subsubsection{9.2 Error Recovery (Dynamic
+Behavior)}\label{error-recovery-dynamic-behavior}}
+
+\begin{verbatim}
+Orchestrator      Vision       Grasp Planner    Motion       Control
+     │               │               │             │            │
+     │ DetectObjects │               │             │            │
+     ├──────────────>│               │             │            │
+     │ Empty[]       │               │             │            │
+     │<──────────────┤               │             │            │
+     │               │               │             │            │
+     │ [Retry 1/3]   │               │             │            │
+     │ DetectObjects │               │             │            │
+     ├──────────────>│               │             │            │
+     │ [cube]        │               │             │            │
+     │<──────────────┤               │             │            │
+     │               │               │             │            │
+     │ ComputeGrasps │               │             │            │
+     ├───────────────────────────────>│             │            │
+     │ Grasp         │               │             │            │
+     │<───────────────────────────────┤             │            │
+     │               │               │             │            │
+     │ ExecutePick   │               │             │            │
+     ├───────────────────────────────────────────────────────>  │
+     │ FAILED        │               │             │            │
+     │<──────────────────────────────────────────────────────┤  │
+     │               │               │             │            │
+     │ [Retry 1/3 with adjusted force]              │            │
+     │ ExecutePick(force=25N)        │             │            │
+     ├───────────────────────────────────────────────────────>  │
+     │ SUCCESS       │               │             │            │
+     │<──────────────────────────────────────────────────────┤  │
+     │               │               │             │            │
+\end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{summary}{%
+\subsection{10. Summary}\label{summary}}
+
+\hypertarget{c4-model-completeness}{%
+\subsubsection{10.1 C4 Model Completeness}\label{c4-model-completeness}}
+
+✅ \textbf{Level 1 (Context):} System scope, external actors, external
+systems ✅ \textbf{Level 2 (Containers):} 11 runtime containers (Docker)
+with technologies ✅ \textbf{Level 3 (Components):} Detailed breakdown
+of Vision, Motion, Control, Orchestrator ✅ \textbf{Level 4 (Code):}
+Class diagrams for critical components (YoloDetector, GraspSynthesizer,
+PickPlaceServer)
+
+\hypertarget{key-architectural-patterns}{%
+\subsubsection{10.2 Key Architectural
+Patterns}\label{key-architectural-patterns}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.4483}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5517}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pattern}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Application}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Microservices} & Each subsystem is an independent Docker
+container \\
+\textbf{Pub/Sub} & ROS2 DDS for asynchronous communication \\
+\textbf{Request/Reply} & ROS2 services for synchronous operations \\
+\textbf{Action Pattern} & Long-running tasks (motion planning,
+pick/place) \\
+\textbf{Layered Architecture} & Clear separation: Hardware → Firmware →
+Middleware → Application → UI \\
+\textbf{Repository Pattern} & Database access via SQLAlchemy ORM \\
+\textbf{Dependency Injection} & Constructor injection for testability \\
+\end{longtable}
+
+\hypertarget{technology-summary}{%
+\subsubsection{10.3 Technology Summary}\label{technology-summary}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.2258}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3065}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.4677}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{C4 Level}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Diagram Count}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Technologies Visualized}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{C1: Context} & 1 & Operator, Manager, Engineer, MES, ERP, Safety
+PLC, UR5e, Camera, Gripper \\
+\textbf{C2: Containers} & 1 & 11 Docker containers (Vision, Motion,
+Control, Orchestrator, Backend, Frontend, PostgreSQL, InfluxDB,
+Prometheus, Grafana, Metrics) \\
+\textbf{C3: Components} & 4 & 20+ components (Camera Driver, YOLOv8,
+Pose Estimator, MoveIt2, ros2\_control, Behavior Tree, etc.) \\
+\textbf{C4: Code} & 3 & 3 critical classes (YoloDetector,
+GraspSynthesizer, PickPlaceServer) \\
+\textbf{Cross-Cutting} & 3 & Logging (ELK), Monitoring
+(Prometheus/Grafana), Security (OAuth2/TLS) \\
+\textbf{Deployment} & 2 & Physical (NUC + Jetson) and Logical (Docker
+network) \\
+\textbf{Dynamic} & 2 & Pick-place sequence, Error recovery \\
+\end{longtable}
+
+\hypertarget{next-steps}{%
+\subsubsection{10.4 Next Steps}\label{next-steps}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Validation:} Review diagrams with stakeholders (operators,
+  engineers, architects)
+\item
+  \textbf{Implementation:} Use C3/C4 diagrams as blueprints for coding
+\item
+  \textbf{Documentation:} Generate PlantUML or Structurizr DSL for
+  automated rendering
+\item
+  \textbf{Updates:} Keep diagrams synchronized with code changes (living
+  documentation)
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ v1.0 Complete \textbf{Next Document:}
+Building Block Diagrams (module decomposition, data flow)
+\textbf{Dependencies:} High-Level Design (08), Low-Level Design (14),
+Technical Stack (05)
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\end{document}

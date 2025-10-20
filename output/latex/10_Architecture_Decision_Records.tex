@@ -1,0 +1,2366 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={10 Architecture Decision Records},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{10 Architecture Decision Records}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\hypertarget{architecture-decision-records-adr}{%
+\section{Architecture Decision Records
+(ADR)}\label{architecture-decision-records-adr}}
+
+\hypertarget{vision-based-pick-and-place-robotic-system}{%
+\subsection{Vision-Based Pick and Place Robotic
+System}\label{vision-based-pick-and-place-robotic-system}}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-index}{%
+\subsection{ADR Index}\label{adr-index}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2727}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2273}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{ADR \#}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Title}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Status}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Date}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ADR-001 & Use ROS2 Humble as Middleware & Accepted & 2025-10-18 \\
+ADR-002 & Select CycloneDDS over FastDDS & Accepted & 2025-10-18 \\
+ADR-003 & Choose PyTorch over TensorFlow for AI Models & Accepted &
+2025-10-18 \\
+ADR-004 & Use MoveIt2 for Motion Planning & Accepted & 2025-10-18 \\
+ADR-005 & Adopt ros2\_control for Real-Time Control & Accepted &
+2025-10-18 \\
+ADR-006 & Use PostgreSQL as Primary Database & Accepted & 2025-10-18 \\
+ADR-007 & Implement State Machine with BehaviorTree.CPP & Accepted &
+2025-10-18 \\
+ADR-008 & Deploy YOLOv8 for Object Detection & Accepted & 2025-10-18 \\
+ADR-009 & Use Docker for Deployment & Accepted & 2025-10-18 \\
+ADR-010 & Adopt ELK Stack for Centralized Logging & Accepted &
+2025-10-18 \\
+ADR-011 & Use Grafana + Prometheus for Monitoring & Accepted &
+2025-10-18 \\
+ADR-012 & Implement OAuth2 + JWT for Authentication & Accepted &
+2025-10-18 \\
+ADR-013 & Choose Intel RealSense D435i Camera & Accepted & 2025-10-18 \\
+ADR-014 & Select UR5e Robot Arm & Accepted & 2025-10-18 \\
+ADR-015 & Use NVIDIA Jetson Xavier for Vision Processing & Accepted &
+2025-10-18 \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-template}{%
+\subsection{ADR Template}\label{adr-template}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{\# ADR{-}XXX: [Title]}
+
+\FunctionTok{\#\# Status}
+\CommentTok{[}\OtherTok{Proposed | Accepted | Rejected | Deprecated | Superseded by ADR{-}YYY}\CommentTok{]}
+
+\FunctionTok{\#\# Context}
+\CommentTok{[}\OtherTok{Description of the problem and why a decision is needed}\CommentTok{]}
+
+\FunctionTok{\#\# Decision}
+\CommentTok{[}\OtherTok{The decision that was made}\CommentTok{]}
+
+\FunctionTok{\#\# Consequences}
+\FunctionTok{\#\#\# Positive}
+\SpecialStringTok{{-} }\CommentTok{[}\OtherTok{Benefit 1}\CommentTok{]}
+\SpecialStringTok{{-} }\CommentTok{[}\OtherTok{Benefit 2}\CommentTok{]}
+
+\FunctionTok{\#\#\# Negative}
+\SpecialStringTok{{-} }\CommentTok{[}\OtherTok{Drawback 1}\CommentTok{]}
+\SpecialStringTok{{-} }\CommentTok{[}\OtherTok{Drawback 2}\CommentTok{]}
+
+\FunctionTok{\#\#\# Risks}
+\SpecialStringTok{{-} }\CommentTok{[}\OtherTok{Risk 1 + mitigation}\CommentTok{]}
+
+\FunctionTok{\#\# Alternatives Considered}
+\SpecialStringTok{1. }\NormalTok{**[Alternative 1]:** }\CommentTok{[}\OtherTok{Brief description}\CommentTok{]}\NormalTok{ {-} Rejected because }\CommentTok{[}\OtherTok{reason}\CommentTok{]}
+\SpecialStringTok{2. }\NormalTok{**[Alternative 2]:** }\CommentTok{[}\OtherTok{Brief description}\CommentTok{]}\NormalTok{ {-} Rejected because }\CommentTok{[}\OtherTok{reason}\CommentTok{]}
+
+\FunctionTok{\#\# References}
+\SpecialStringTok{{-} }\CommentTok{[}\OtherTok{Link to documentation, discussion, or research}\CommentTok{]}
+
+\FunctionTok{\#\# Metadata}
+\SpecialStringTok{{-} }\NormalTok{**Author:** }\CommentTok{[}\OtherTok{Name}\CommentTok{]}
+\SpecialStringTok{{-} }\NormalTok{**Date:** }\CommentTok{[}\OtherTok{YYYY{-}MM{-}DD}\CommentTok{]}
+\SpecialStringTok{{-} }\NormalTok{**Reviewers:** }\CommentTok{[}\OtherTok{Names}\CommentTok{]}
+\SpecialStringTok{{-} }\NormalTok{**Related ADRs:** }\CommentTok{[}\OtherTok{ADR{-}XXX, ADR{-}YYY}\CommentTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-001-use-ros2-humble-as-middleware}{%
+\subsection{ADR-001: Use ROS2 Humble as
+Middleware}\label{adr-001-use-ros2-humble-as-middleware}}
+
+\hypertarget{status}{%
+\subsubsection{Status}\label{status}}
+
+\textbf{Accepted}
+
+\hypertarget{context}{%
+\subsubsection{Context}\label{context}}
+
+The system requires a middleware framework to enable communication
+between distributed modules (vision, planning, control, monitoring).
+Options include ROS2, ROS1, YARP, OROCOS, and custom middleware.
+
+\textbf{Requirements:} - Real-time support for 1 kHz control loops -
+Mature ecosystem (motion planning, drivers) - Long-term support (LTS) -
+Security features (authentication, encryption) - Cross-platform (Linux,
+Windows)
+
+\hypertarget{decision}{%
+\subsubsection{Decision}\label{decision}}
+
+\textbf{Adopt ROS2 Humble Hawksbill (LTS release)} as the primary
+middleware.
+
+\hypertarget{consequences}{%
+\subsubsection{Consequences}\label{consequences}}
+
+\hypertarget{positive}{%
+\paragraph{Positive}\label{positive}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{LTS Support:} Maintained until May 2027 (5 years from release)
+\item
+  \textbf{Real-Time:} Supports RT-Preempt Linux, DDS for low-latency
+  communication
+\item
+  \textbf{Ecosystem:} MoveIt2, ros2\_control, image\_transport, tf2 all
+  available
+\item
+  \textbf{Security:} Built-in DDS security (SROS2), vs ROS1's insecure
+  TCPROS
+\item
+  \textbf{Active Development:} Strong community, frequent updates
+\end{itemize}
+
+\hypertarget{negative}{%
+\paragraph{Negative}\label{negative}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Learning Curve:} Team must learn ROS2 (vs ROS1 familiarity)
+\item
+  \textbf{Tooling Maturity:} Some ROS1 tools (rqt plugins) still being
+  ported
+\item
+  \textbf{Breaking Changes:} API changes between ROS2 distributions
+  (mitigated by LTS)
+\end{itemize}
+
+\hypertarget{risks}{%
+\paragraph{Risks}\label{risks}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Vendor Lock-In:} ROS2-specific code not portable to non-ROS
+  systems
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Abstract core logic into ROS-agnostic libraries,
+    use ROS2 as thin wrapper
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered}{%
+\subsubsection{Alternatives Considered}\label{alternatives-considered}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{ROS1 (Noetic)} & Mature, familiar & EOL 2025, no real-time,
+insecure & Rejected: No future \\
+\textbf{YARP} & Good real-time & Small community, fewer packages &
+Rejected: Ecosystem gap \\
+\textbf{OROCOS} & Excellent real-time & Steep learning curve, niche &
+Rejected: Overkill \\
+\textbf{Custom} & Full control & High development cost, reinvent wheel &
+Rejected: Not cost-effective \\
+\end{longtable}
+
+\hypertarget{references}{%
+\subsubsection{References}\label{references}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://docs.ros.org/en/humble/}{ROS2 Humble Documentation}
+\item
+  \href{https://design.ros2.org/articles/why_ros2.html}{ROS2 vs ROS1
+  Comparison}
+\end{itemize}
+
+\hypertarget{metadata}{%
+\subsubsection{Metadata}\label{metadata}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} System Architect
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead, CTO
+\item
+  \textbf{Related ADRs:} ADR-002 (DDS choice), ADR-004 (MoveIt2),
+  ADR-005 (ros2\_control)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-002-select-cyclonedds-over-fastdds}{%
+\subsection{ADR-002: Select CycloneDDS over
+FastDDS}\label{adr-002-select-cyclonedds-over-fastdds}}
+
+\hypertarget{status-1}{%
+\subsubsection{Status}\label{status-1}}
+
+\textbf{Accepted}
+
+\hypertarget{context-1}{%
+\subsubsection{Context}\label{context-1}}
+
+ROS2 supports multiple DDS implementations (rmw): CycloneDDS, FastDDS,
+RTI Connext, etc. The choice affects network performance, latency, and
+throughput.
+
+\textbf{Requirements:} - Low latency (\textless10ms for control
+messages) - High throughput (camera images @ 30fps) - Small network (1-3
+machines), not WAN - Open-source (no licensing fees)
+
+\hypertarget{decision-1}{%
+\subsubsection{Decision}\label{decision-1}}
+
+\textbf{Use CycloneDDS} as the ROS2 middleware (rmw\_cyclonedds\_cpp).
+
+\hypertarget{consequences-1}{%
+\subsubsection{Consequences}\label{consequences-1}}
+
+\hypertarget{positive-1}{%
+\paragraph{Positive}\label{positive-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Performance:} Benchmarks show 20-30\% lower latency than
+  FastDDS on small networks
+\item
+  \textbf{Simplicity:} Easier configuration (fewer tuning parameters)
+\item
+  \textbf{Reliability:} Stable, fewer known bugs
+\item
+  \textbf{License:} Eclipse Public License (EPL) -- permissive
+\end{itemize}
+
+\hypertarget{negative-1}{%
+\paragraph{Negative}\label{negative-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Features:} Lacks some advanced FastDDS features (discovery
+  server, DDS-Router)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Not critical for single-site deployment}
+  \end{itemize}
+\item
+  \textbf{Ecosystem:} Smaller community vs FastDDS (ROS2 default)
+\end{itemize}
+
+\hypertarget{risks-1}{%
+\paragraph{Risks}\label{risks-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Compatibility:} Future ROS2 packages might optimize for
+  FastDDS
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Easy to switch rmw via environment variable, test
+    both
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-1}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-1}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{FastDDS} & ROS2 default, most tested & Higher latency, complex
+config & Rejected: Performance gap \\
+\textbf{RTI Connext} & Enterprise-grade, best performance & Commercial
+license (\$\$\$) & Rejected: Cost prohibitive \\
+\textbf{Custom DDS} & Tailored to needs & Massive development effort &
+Rejected: Not feasible \\
+\end{longtable}
+
+\hypertarget{references-1}{%
+\subsubsection{References}\label{references-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://discourse.ros.org/t/ros2-middleware-benchmark/12345}{ROS2
+  DDS Benchmark}
+\item
+  \href{https://github.com/eclipse-cyclonedds/cyclonedds}{CycloneDDS
+  GitHub}
+\end{itemize}
+
+\hypertarget{metadata-1}{%
+\subsubsection{Metadata}\label{metadata-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Network Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead
+\item
+  \textbf{Related ADRs:} ADR-001 (ROS2 choice)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-003-choose-pytorch-over-tensorflow-for-ai-models}{%
+\subsection{ADR-003: Choose PyTorch over TensorFlow for AI
+Models}\label{adr-003-choose-pytorch-over-tensorflow-for-ai-models}}
+
+\hypertarget{status-2}{%
+\subsubsection{Status}\label{status-2}}
+
+\textbf{Accepted}
+
+\hypertarget{context-2}{%
+\subsubsection{Context}\label{context-2}}
+
+The vision pipeline requires deep learning models for object detection
+and pose estimation. Major frameworks: PyTorch, TensorFlow, JAX.
+
+\textbf{Requirements:} - Research-friendly (iterate on models) - Good
+ONNX export (for TensorRT deployment) - Strong community in
+robotics/vision - Python-first API
+
+\hypertarget{decision-2}{%
+\subsubsection{Decision}\label{decision-2}}
+
+\textbf{Use PyTorch 2.0+} for model development and training.
+
+\hypertarget{consequences-2}{%
+\subsubsection{Consequences}\label{consequences-2}}
+
+\hypertarget{positive-2}{%
+\paragraph{Positive}\label{positive-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Dynamic Graphs:} Easier debugging, more Pythonic
+\item
+  \textbf{Research Adoption:} Most recent papers use PyTorch (YOLOv8,
+  PVNet)
+\item
+  \textbf{ONNX Export:} Excellent support via \texttt{torch.onnx}
+\item
+  \textbf{TensorRT:} Smooth PyTorch → ONNX → TensorRT pipeline
+\item
+  \textbf{Community:} Large robotics community (ROS + PyTorch common)
+\end{itemize}
+
+\hypertarget{negative-2}{%
+\paragraph{Negative}\label{negative-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Production Deployment:} TensorFlow Lite slightly more mature
+  for embedded
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigated by TensorRT path}
+  \end{itemize}
+\item
+  \textbf{Google Ecosystem:} Less integration with TensorBoard (but
+  supported)
+\end{itemize}
+
+\hypertarget{risks-2}{%
+\paragraph{Risks}\label{risks-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Model Compatibility:} Some TensorFlow models hard to port to
+  PyTorch
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Use ONNX as intermediate format
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-2}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-2}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{TensorFlow} & Production-ready, TF Lite & Static graphs, less
+research-friendly & Rejected: Harder to iterate \\
+\textbf{JAX} & Functional, fast & Smaller ecosystem, steep curve &
+Rejected: Too niche \\
+\textbf{ONNX Only} & Framework-agnostic & No training, only inference &
+Rejected: Need training pipeline \\
+\end{longtable}
+
+\hypertarget{references-2}{%
+\subsubsection{References}\label{references-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://pytorch.org/}{PyTorch Official}
+\item
+  \href{https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html\#pytorch-workflow}{TensorRT
+  PyTorch Workflow}
+\end{itemize}
+
+\hypertarget{metadata-2}{%
+\subsubsection{Metadata}\label{metadata-2}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} AI/ML Lead
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead, Data Scientist
+\item
+  \textbf{Related ADRs:} ADR-008 (YOLOv8 choice), ADR-015 (Jetson
+  Xavier)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-004-use-moveit2-for-motion-planning}{%
+\subsection{ADR-004: Use MoveIt2 for Motion
+Planning}\label{adr-004-use-moveit2-for-motion-planning}}
+
+\hypertarget{status-3}{%
+\subsubsection{Status}\label{status-3}}
+
+\textbf{Accepted}
+
+\hypertarget{context-3}{%
+\subsubsection{Context}\label{context-3}}
+
+Motion planning requires computing collision-free trajectories from
+current to goal configuration. Options: MoveIt2, OMPL standalone, Pilz,
+custom planner.
+
+\textbf{Requirements:} - Collision checking with environment - Inverse
+kinematics (IK) solvers - Integration with ROS2 - Support for UR5e robot
+
+\hypertarget{decision-3}{%
+\subsubsection{Decision}\label{decision-3}}
+
+\textbf{Adopt MoveIt2} as the motion planning framework.
+
+\hypertarget{consequences-3}{%
+\subsubsection{Consequences}\label{consequences-3}}
+
+\hypertarget{positive-3}{%
+\paragraph{Positive}\label{positive-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Comprehensive:} IK, planning, collision checking, scene
+  management in one package
+\item
+  \textbf{OMPL Integration:} Access to RRT*, PRM, etc.
+\item
+  \textbf{URDF Support:} Load robot model easily
+\item
+  \textbf{ROS2 Native:} Full integration with ros2\_control, TF2
+\item
+  \textbf{Active Development:} Continuous improvements, bug fixes
+\end{itemize}
+
+\hypertarget{negative-3}{%
+\paragraph{Negative}\label{negative-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Complexity:} Large codebase, steep learning curve
+\item
+  \textbf{Performance:} Can be slow for complex scenes (\textgreater500
+  obstacles)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigated by scene simplification, octomaps}
+  \end{itemize}
+\item
+  \textbf{Overhead:} Heavy for simple point-to-point moves
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigated by direct IK for simple cases}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{risks-3}{%
+\paragraph{Risks}\label{risks-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Breaking Changes:} MoveIt2 API still evolving (Humble → Jazzy)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Stick with Humble LTS, test upgrades carefully
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-3}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-3}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{OMPL Standalone} & Lightweight, fast & No IK, no ROS integration
+& Rejected: Missing features \\
+\textbf{Pilz Industrial} & Deterministic, real-time & Limited to simple
+motions (PTP, LIN) & Rejected: Not flexible enough \\
+\textbf{Custom Planner} & Tailored to task & High development cost &
+Rejected: Reinventing wheel \\
+\textbf{Descartes} & Cartesian planning & Trajectory-only, no collision
+& Rejected: Narrow use case \\
+\end{longtable}
+
+\hypertarget{references-3}{%
+\subsubsection{References}\label{references-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://moveit.picknik.ai/humble/index.html}{MoveIt2
+  Documentation}
+\item
+  \href{https://ompl.kavrakilab.org/}{OMPL Documentation}
+\end{itemize}
+
+\hypertarget{metadata-3}{%
+\subsubsection{Metadata}\label{metadata-3}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Robotics Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead
+\item
+  \textbf{Related ADRs:} ADR-001 (ROS2), ADR-005 (ros2\_control)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-005-adopt-ros2_control-for-real-time-control}{%
+\subsection{ADR-005: Adopt ros2\_control for Real-Time
+Control}\label{adr-005-adopt-ros2_control-for-real-time-control}}
+
+\hypertarget{status-4}{%
+\subsubsection{Status}\label{status-4}}
+
+\textbf{Accepted}
+
+\hypertarget{context-4}{%
+\subsubsection{Context}\label{context-4}}
+
+Real-time motor control requires deterministic communication with drives
+at 1 kHz. Options: ros2\_control, custom control loop, vendor-specific
+SDK.
+
+\textbf{Requirements:} - 1 kHz control loop - Hardware abstraction
+(portable across robots) - Support for PID, trajectory, admittance
+controllers - Integration with MoveIt2
+
+\hypertarget{decision-4}{%
+\subsubsection{Decision}\label{decision-4}}
+
+\textbf{Use ros2\_control framework} with custom hardware interface for
+UR5e (or EtherCAT drives).
+
+\hypertarget{consequences-4}{%
+\subsubsection{Consequences}\label{consequences-4}}
+
+\hypertarget{positive-4}{%
+\paragraph{Positive}\label{positive-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Standardization:} Controller plugins (PID, trajectory)
+  reusable across robots
+\item
+  \textbf{Hardware Abstraction:} Swap robot without changing high-level
+  code
+\item
+  \textbf{MoveIt2 Integration:} Seamless via FollowJointTrajectory
+  action
+\item
+  \textbf{Real-Time:} Designed for RT-Preempt Linux
+\item
+  \textbf{Community Controllers:} Pre-built controllers (joint,
+  Cartesian, admittance)
+\end{itemize}
+
+\hypertarget{negative-4}{%
+\paragraph{Negative}\label{negative-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Complexity:} Requires implementing \texttt{HardwareInterface}
+  for custom robots
+\item
+  \textbf{Debugging:} Harder to debug than simple control loop
+\item
+  \textbf{Overhead:} Slight latency vs direct motor driver access
+  (\textasciitilde1-2ms)
+\end{itemize}
+
+\hypertarget{risks-4}{%
+\paragraph{Risks}\label{risks-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{RT Performance:} Non-RT code in hardware interface can break
+  real-time
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Careful profiling, isolate RT-critical code
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-4}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-4}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Custom Loop} & Full control, minimal overhead & No
+standardization, hard to maintain & Rejected: Not scalable \\
+\textbf{Vendor SDK (UR API)} & Optimized for UR5e & Vendor lock-in, no
+ROS integration & Rejected: Not portable \\
+\textbf{Orocos RTT} & Best real-time performance & Steep learning curve,
+small community & Rejected: Overkill \\
+\end{longtable}
+
+\hypertarget{references-4}{%
+\subsubsection{References}\label{references-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://control.ros.org/humble/index.html}{ros2\_control
+  Documentation}
+\item
+  \href{https://control.ros.org/humble/doc/getting_started/getting_started.html\#writing-a-hardware-component}{Hardware
+  Interface Tutorial}
+\end{itemize}
+
+\hypertarget{metadata-4}{%
+\subsubsection{Metadata}\label{metadata-4}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Controls Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead, Robotics Engineer
+\item
+  \textbf{Related ADRs:} ADR-001 (ROS2), ADR-004 (MoveIt2)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-006-use-postgresql-as-primary-database}{%
+\subsection{ADR-006: Use PostgreSQL as Primary
+Database}\label{adr-006-use-postgresql-as-primary-database}}
+
+\hypertarget{status-5}{%
+\subsubsection{Status}\label{status-5}}
+
+\textbf{Accepted}
+
+\hypertarget{context-5}{%
+\subsubsection{Context}\label{context-5}}
+
+Need a relational database for persistent storage (tasks, users,
+configs). Options: PostgreSQL, MySQL, SQLite.
+
+\textbf{Requirements:} - ACID compliance - JSON support (for flexible
+schemas) - Open-source, mature - Good performance (\textless100ms query)
+
+\hypertarget{decision-5}{%
+\subsubsection{Decision}\label{decision-5}}
+
+\textbf{Use PostgreSQL 15} as the primary relational database.
+
+\hypertarget{consequences-5}{%
+\subsubsection{Consequences}\label{consequences-5}}
+
+\hypertarget{positive-5}{%
+\paragraph{Positive}\label{positive-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{JSONB Support:} Native JSON column type (fast indexing)
+\item
+  \textbf{Extensibility:} PostGIS (geospatial), pg\_trgm (full-text
+  search)
+\item
+  \textbf{Performance:} Better than MySQL for complex queries
+\item
+  \textbf{Community:} Large, active community
+\item
+  \textbf{License:} PostgreSQL License (permissive)
+\end{itemize}
+
+\hypertarget{negative-5}{%
+\paragraph{Negative}\label{negative-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Complexity:} More config options vs SQLite
+\item
+  \textbf{Resource Usage:} Heavier than SQLite (\textasciitilde50MB RAM
+  baseline)
+\end{itemize}
+
+\hypertarget{risks-5}{%
+\paragraph{Risks}\label{risks-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Scaling:} Single-master write bottleneck (not a concern for
+  this project)
+\end{itemize}
+
+\hypertarget{alternatives-considered-5}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-5}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{MySQL} & Ubiquitous, familiar & Weaker JSON support & Rejected:
+JSONB advantage \\
+\textbf{SQLite} & Lightweight, serverless & No concurrent writes, no
+network & Rejected: Multi-user needs \\
+\textbf{MongoDB} & Native JSON, schemaless & No ACID, harder to join &
+Rejected: Need relational integrity \\
+\end{longtable}
+
+\hypertarget{references-5}{%
+\subsubsection{References}\label{references-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.postgresql.org/docs/15/}{PostgreSQL Documentation}
+\item
+  \href{https://www.2ndquadrant.com/en/postgresql/postgresql-vs-mysql/}{PostgreSQL
+  vs MySQL}
+\end{itemize}
+
+\hypertarget{metadata-5}{%
+\subsubsection{Metadata}\label{metadata-5}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Backend Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead
+\item
+  \textbf{Related ADRs:} None
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-007-implement-state-machine-with-behaviortree.cpp}{%
+\subsection{ADR-007: Implement State Machine with
+BehaviorTree.CPP}\label{adr-007-implement-state-machine-with-behaviortree.cpp}}
+
+\hypertarget{status-6}{%
+\subsubsection{Status}\label{status-6}}
+
+\textbf{Accepted}
+
+\hypertarget{context-6}{%
+\subsubsection{Context}\label{context-6}}
+
+Task orchestration requires high-level state management (IDLE → SCAN →
+DETECT → PICK → PLACE). Options: FSM (SMACH), Behavior Trees, custom
+code.
+
+\textbf{Requirements:} - Modular (reusable behaviors) - Reactive
+(respond to events) - Human-readable (visualize logic) - Easy error
+handling
+
+\hypertarget{decision-6}{%
+\subsubsection{Decision}\label{decision-6}}
+
+\textbf{Use BehaviorTree.CPP} for task orchestration.
+
+\hypertarget{consequences-6}{%
+\subsubsection{Consequences}\label{consequences-6}}
+
+\hypertarget{positive-6}{%
+\paragraph{Positive}\label{positive-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Modularity:} Behaviors are reusable nodes (action, condition,
+  decorator)
+\item
+  \textbf{Composability:} Build complex trees from simple nodes
+\item
+  \textbf{Visualization:} Groot tool for real-time tree visualization
+\item
+  \textbf{Error Handling:} Built-in fallback, retry nodes
+\item
+  \textbf{Performance:} C++ implementation, fast
+\item
+  \textbf{Industry Adoption:} Used in industrial robotics (Nvidia Isaac,
+  ROS2)
+\end{itemize}
+
+\hypertarget{negative-6}{%
+\paragraph{Negative}\label{negative-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Learning Curve:} BT paradigm different from FSM
+\item
+  \textbf{Debugging:} Tree execution harder to trace vs linear FSM
+\end{itemize}
+
+\hypertarget{risks-6}{%
+\paragraph{Risks}\label{risks-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Complexity:} Overly complex trees hard to understand
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Keep trees shallow (\textless5 levels), document
+    well
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-6}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-6}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{SMACH (ROS1)} & Familiar, simple FSM & Not ported to ROS2,
+linear flow only & Rejected: No ROS2 support \\
+\textbf{FlexBE} & GUI editor & Heavy, overkill for simple tasks &
+Rejected: Too complex \\
+\textbf{Custom FSM} & Simple, clear & Not reusable, hard to extend &
+Rejected: Reinventing wheel \\
+\end{longtable}
+
+\hypertarget{references-6}{%
+\subsubsection{References}\label{references-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.behaviortree.dev/}{BehaviorTree.CPP}
+\item
+  \href{https://github.com/BehaviorTree/Groot}{Groot Visualization}
+\end{itemize}
+
+\hypertarget{metadata-6}{%
+\subsubsection{Metadata}\label{metadata-6}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Software Architect
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead, Robotics Engineer
+\item
+  \textbf{Related ADRs:} ADR-001 (ROS2)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-008-deploy-yolov8-for-object-detection}{%
+\subsection{ADR-008: Deploy YOLOv8 for Object
+Detection}\label{adr-008-deploy-yolov8-for-object-detection}}
+
+\hypertarget{status-7}{%
+\subsubsection{Status}\label{status-7}}
+
+\textbf{Accepted}
+
+\hypertarget{context-7}{%
+\subsubsection{Context}\label{context-7}}
+
+Vision pipeline requires real-time object detection. Options: YOLOv5/v8,
+Faster R-CNN, SSD, EfficientDet.
+
+\textbf{Requirements:} - Real-time inference (\textless50ms on Jetson
+Xavier) - High accuracy (mAP \textgreater90\%) - Easy to train on custom
+datasets - ONNX export support
+
+\hypertarget{decision-7}{%
+\subsubsection{Decision}\label{decision-7}}
+
+\textbf{Use YOLOv8} (Ultralytics) for object detection.
+
+\hypertarget{consequences-7}{%
+\subsubsection{Consequences}\label{consequences-7}}
+
+\hypertarget{positive-7}{%
+\paragraph{Positive}\label{positive-7}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Speed:} 30+ FPS on Jetson Xavier (TensorRT)
+\item
+  \textbf{Accuracy:} State-of-the-art mAP (95\%+ on COCO)
+\item
+  \textbf{Ease of Use:} Simple Python API (\texttt{ultralytics} package)
+\item
+  \textbf{Custom Training:} One command to fine-tune on custom data
+\item
+  \textbf{Export:} Native ONNX/TensorRT export
+\item
+  \textbf{Active Development:} Frequent updates from Ultralytics
+\end{itemize}
+
+\hypertarget{negative-7}{%
+\paragraph{Negative}\label{negative-7}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Model Size:} YOLOv8-large is 80MB (vs 20MB for YOLOv5-small)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigated by YOLOv8-nano variant (6MB)}
+  \end{itemize}
+\item
+  \textbf{Dependency:} Relies on Ultralytics library (could change API)
+\end{itemize}
+
+\hypertarget{risks-7}{%
+\paragraph{Risks}\label{risks-7}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{License:} AGPL-3.0 (must open-source modifications)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Use as black box, no modifications (or buy
+    enterprise license)
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-7}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-7}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Faster R-CNN} & High accuracy & Slow (200ms), complex &
+Rejected: Too slow \\
+\textbf{SSD} & Balanced speed/accuracy & Lower mAP than YOLO & Rejected:
+Accuracy gap \\
+\textbf{EfficientDet} & Good efficiency & Harder to deploy & Rejected:
+YOLO easier \\
+\textbf{YOLOv5} & Stable, proven & Slightly slower than v8 & Rejected:
+v8 improvements \\
+\end{longtable}
+
+\hypertarget{references-7}{%
+\subsubsection{References}\label{references-7}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://docs.ultralytics.com/}{YOLOv8 Documentation}
+\item
+  \href{https://github.com/ultralytics/ultralytics\#benchmarks}{YOLOv8
+  Benchmarks}
+\end{itemize}
+
+\hypertarget{metadata-7}{%
+\subsubsection{Metadata}\label{metadata-7}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Computer Vision Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} AI/ML Lead, Tech Lead
+\item
+  \textbf{Related ADRs:} ADR-003 (PyTorch), ADR-015 (Jetson Xavier)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-009-use-docker-for-deployment}{%
+\subsection{ADR-009: Use Docker for
+Deployment}\label{adr-009-use-docker-for-deployment}}
+
+\hypertarget{status-8}{%
+\subsubsection{Status}\label{status-8}}
+
+\textbf{Accepted}
+
+\hypertarget{context-8}{%
+\subsubsection{Context}\label{context-8}}
+
+Deployment requires reproducible environments across dev, test,
+production machines. Options: Docker, conda, bare metal.
+
+\textbf{Requirements:} - Reproducibility (same environment everywhere) -
+Isolation (dependencies don't conflict) - Easy rollback (version
+control) - CI/CD integration
+
+\hypertarget{decision-8}{%
+\subsubsection{Decision}\label{decision-8}}
+
+\textbf{Use Docker} for containerized deployment with Docker Compose for
+multi-container orchestration.
+
+\hypertarget{consequences-8}{%
+\subsubsection{Consequences}\label{consequences-8}}
+
+\hypertarget{positive-8}{%
+\paragraph{Positive}\label{positive-8}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Reproducibility:} Dockerfile specifies exact environment
+\item
+  \textbf{Isolation:} Each container has own dependencies
+\item
+  \textbf{Portability:} Runs on any Docker-compatible host
+\item
+  \textbf{CI/CD:} Easy to build, test, deploy in pipelines
+\item
+  \textbf{Rollback:} Tag images, revert to previous version
+\item
+  \textbf{Multi-Container:} Docker Compose for ROS2 + DB + monitoring
+\end{itemize}
+
+\hypertarget{negative-8}{%
+\paragraph{Negative}\label{negative-8}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Overhead:} \textasciitilde100MB per container, slight
+  performance cost
+\item
+  \textbf{Complexity:} Requires understanding Docker networking, volumes
+\item
+  \textbf{GPU Access:} Requires nvidia-docker for GPU containers
+\end{itemize}
+
+\hypertarget{risks-8}{%
+\paragraph{Risks}\label{risks-8}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Debugging:} Harder to debug inside containers
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Remote debugging, VS Code devcontainers
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-8}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-8}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Conda} & Good for Python & No isolation for system libs &
+Rejected: Not comprehensive \\
+\textbf{Snap/Flatpak} & OS-level packages & Complex for multi-service
+apps & Rejected: Overkill \\
+\textbf{Bare Metal} & No overhead & Hard to reproduce & Rejected: Ops
+nightmare \\
+\end{longtable}
+
+\hypertarget{references-8}{%
+\subsubsection{References}\label{references-8}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://docs.docker.com/}{Docker Documentation}
+\item
+  \href{https://github.com/NVIDIA/nvidia-docker}{NVIDIA Container
+  Toolkit}
+\end{itemize}
+
+\hypertarget{metadata-8}{%
+\subsubsection{Metadata}\label{metadata-8}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} DevOps Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead
+\item
+  \textbf{Related ADRs:} None
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-010-adopt-elk-stack-for-centralized-logging}{%
+\subsection{ADR-010: Adopt ELK Stack for Centralized
+Logging}\label{adr-010-adopt-elk-stack-for-centralized-logging}}
+
+\hypertarget{status-9}{%
+\subsubsection{Status}\label{status-9}}
+
+\textbf{Accepted}
+
+\hypertarget{context-9}{%
+\subsubsection{Context}\label{context-9}}
+
+System generates logs from multiple nodes (vision, planning, control).
+Need centralized logging for search, analysis, debugging.
+
+\textbf{Requirements:} - Full-text search (find logs by keyword) -
+Real-time ingestion (logs appear \textless1 sec) - Visualization
+(dashboards, charts) - Scalable (handle 10k logs/min)
+
+\hypertarget{decision-9}{%
+\subsubsection{Decision}\label{decision-9}}
+
+\textbf{Use ELK Stack} (Elasticsearch, Logstash, Kibana) + Filebeat for
+log shipping.
+
+\hypertarget{consequences-9}{%
+\subsubsection{Consequences}\label{consequences-9}}
+
+\hypertarget{positive-9}{%
+\paragraph{Positive}\label{positive-9}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Search:} Elasticsearch provides powerful full-text search
+\item
+  \textbf{Visualization:} Kibana dashboards for log analysis
+\item
+  \textbf{Scalability:} Elasticsearch scales horizontally
+\item
+  \textbf{Flexibility:} Logstash filters/transforms logs
+\item
+  \textbf{Community:} Large ecosystem, many integrations
+\end{itemize}
+
+\hypertarget{negative-9}{%
+\paragraph{Negative}\label{negative-9}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Resource Usage:} Elasticsearch requires 2GB+ RAM
+\item
+  \textbf{Complexity:} 4-component stack (ES, Logstash, Kibana,
+  Filebeat)
+\item
+  \textbf{Cost:} If using Elastic Cloud (mitigated by self-hosting)
+\end{itemize}
+
+\hypertarget{risks-9}{%
+\paragraph{Risks}\label{risks-9}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Performance:} Slow queries on large log volumes
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Index retention policies (delete logs
+    \textgreater30 days)
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-9}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-9}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Splunk} & Enterprise-grade & Expensive (\$\$\$) & Rejected: Cost
+prohibitive \\
+\textbf{Graylog} & Simpler than ELK & Smaller community & Rejected:
+Prefer ELK ecosystem \\
+\textbf{Loki (Grafana)} & Lightweight, integrates with Grafana & Less
+mature & Considered, but ELK more proven \\
+\textbf{CloudWatch} & Managed service & Vendor lock-in, cost & Rejected:
+On-prem requirement \\
+\end{longtable}
+
+\hypertarget{references-9}{%
+\subsubsection{References}\label{references-9}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.elastic.co/elastic-stack}{Elastic Stack}
+\item
+  \href{https://www.elastic.co/beats/filebeat}{Filebeat}
+\end{itemize}
+
+\hypertarget{metadata-9}{%
+\subsubsection{Metadata}\label{metadata-9}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Site Reliability Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead, DevOps
+\item
+  \textbf{Related ADRs:} ADR-011 (Grafana monitoring)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-011-use-grafana-prometheus-for-monitoring}{%
+\subsection{ADR-011: Use Grafana + Prometheus for
+Monitoring}\label{adr-011-use-grafana-prometheus-for-monitoring}}
+
+\hypertarget{status-10}{%
+\subsubsection{Status}\label{status-10}}
+
+\textbf{Accepted}
+
+\hypertarget{context-10}{%
+\subsubsection{Context}\label{context-10}}
+
+Need real-time monitoring of system metrics (CPU, RAM, cycle time, error
+rate). Options: Grafana, Datadog, New Relic.
+
+\textbf{Requirements:} - Real-time dashboards (\textless1 sec latency) -
+Time-series data storage - Alerting (threshold-based) - Open-source
+
+\hypertarget{decision-10}{%
+\subsubsection{Decision}\label{decision-10}}
+
+\textbf{Use Grafana} for visualization + \textbf{Prometheus} for metrics
+collection.
+
+\hypertarget{consequences-10}{%
+\subsubsection{Consequences}\label{consequences-10}}
+
+\hypertarget{positive-10}{%
+\paragraph{Positive}\label{positive-10}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Open-Source:} No licensing costs
+\item
+  \textbf{Flexibility:} Highly customizable dashboards
+\item
+  \textbf{Alerting:} Built-in alert manager
+\item
+  \textbf{Ecosystem:} 100+ data sources (Prometheus, InfluxDB,
+  PostgreSQL)
+\item
+  \textbf{Community:} Large user base, many plugins
+\end{itemize}
+
+\hypertarget{negative-10}{%
+\paragraph{Negative}\label{negative-10}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Setup:} Requires configuring exporters (node\_exporter,
+  custom)
+\item
+  \textbf{Retention:} Prometheus default 15 days (need long-term storage
+  for InfluxDB)
+\end{itemize}
+
+\hypertarget{risks-10}{%
+\paragraph{Risks}\label{risks-10}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Scalability:} Prometheus single-node (not distributed)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Federation or Thanos for multi-cluster
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-10}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-10}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Datadog} & All-in-one, easy setup & \$15/host/month & Rejected:
+Cost for small deployment \\
+\textbf{New Relic} & APM + monitoring & Expensive, vendor lock-in &
+Rejected: Overkill \\
+\textbf{CloudWatch} & AWS-native & Only works with AWS & Rejected:
+On-prem deployment \\
+\end{longtable}
+
+\hypertarget{references-10}{%
+\subsubsection{References}\label{references-10}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://grafana.com/docs/}{Grafana Documentation}
+\item
+  \href{https://prometheus.io/docs/}{Prometheus Documentation}
+\end{itemize}
+
+\hypertarget{metadata-10}{%
+\subsubsection{Metadata}\label{metadata-10}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Site Reliability Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead
+\item
+  \textbf{Related ADRs:} ADR-010 (ELK logging)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-012-implement-oauth2-jwt-for-authentication}{%
+\subsection{ADR-012: Implement OAuth2 + JWT for
+Authentication}\label{adr-012-implement-oauth2-jwt-for-authentication}}
+
+\hypertarget{status-11}{%
+\subsubsection{Status}\label{status-11}}
+
+\textbf{Accepted}
+
+\hypertarget{context-11}{%
+\subsubsection{Context}\label{context-11}}
+
+Web dashboard and API require user authentication. Options: Basic Auth,
+OAuth2, SAML, API keys.
+
+\textbf{Requirements:} - Secure (encrypted tokens) - Stateless (no
+server-side sessions) - Role-based access control (RBAC) - Token
+expiry/refresh
+
+\hypertarget{decision-11}{%
+\subsubsection{Decision}\label{decision-11}}
+
+\textbf{Use OAuth2} with \textbf{JWT (JSON Web Tokens)} for
+authentication and authorization.
+
+\hypertarget{consequences-11}{%
+\subsubsection{Consequences}\label{consequences-11}}
+
+\hypertarget{positive-11}{%
+\paragraph{Positive}\label{positive-11}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Stateless:} JWT contains all user info (no DB lookup per
+  request)
+\item
+  \textbf{Scalable:} No session storage required
+\item
+  \textbf{Standard:} OAuth2 widely adopted, many libraries
+\item
+  \textbf{RBAC:} JWT claims include user roles
+\item
+  \textbf{Security:} Tokens expire, refresh tokens for re-auth
+\end{itemize}
+
+\hypertarget{negative-11}{%
+\paragraph{Negative}\label{negative-11}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Token Size:} JWT larger than session ID (\textasciitilde200
+  bytes)
+\item
+  \textbf{Revocation:} Hard to revoke JWT before expiry
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigated by short TTL (15 min) + refresh tokens}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{risks-11}{%
+\paragraph{Risks}\label{risks-11}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Secret Leakage:} If JWT secret exposed, all tokens compromised
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Rotate secrets regularly, store in secret manager
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-11}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-11}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Basic Auth} & Simple & Send password every request (insecure) &
+Rejected: Not secure \\
+\textbf{Session Cookies} & Familiar & Requires server-side storage &
+Rejected: Not stateless \\
+\textbf{API Keys} & Simple for bots & No user identity, hard to rotate &
+Rejected: Need user auth \\
+\textbf{SAML} & Enterprise SSO & Complex, overkill for small system &
+Rejected: Too complex \\
+\end{longtable}
+
+\hypertarget{references-11}{%
+\subsubsection{References}\label{references-11}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://oauth.net/2/}{OAuth2 Specification}
+\item
+  \href{https://jwt.io/}{JWT.io}
+\end{itemize}
+
+\hypertarget{metadata-11}{%
+\subsubsection{Metadata}\label{metadata-11}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Security Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Tech Lead, Backend Engineer
+\item
+  \textbf{Related ADRs:} None
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-013-choose-intel-realsense-d435i-camera}{%
+\subsection{ADR-013: Choose Intel RealSense D435i
+Camera}\label{adr-013-choose-intel-realsense-d435i-camera}}
+
+\hypertarget{status-12}{%
+\subsubsection{Status}\label{status-12}}
+
+\textbf{Accepted}
+
+\hypertarget{context-12}{%
+\subsubsection{Context}\label{context-12}}
+
+Vision system requires RGB-D camera for object detection and pose
+estimation. Options: RealSense D435i, Azure Kinect, Orbbec Astra.
+
+\textbf{Requirements:} - RGB: 1920×1080 @ 30fps - Depth: Range 0.3-3m,
+accuracy ±2\% - USB 3.0 interface - ROS2 driver available -
+\textless\$500 cost
+
+\hypertarget{decision-12}{%
+\subsubsection{Decision}\label{decision-12}}
+
+\textbf{Use Intel RealSense D435i} RGB-D camera.
+
+\hypertarget{consequences-12}{%
+\subsubsection{Consequences}\label{consequences-12}}
+
+\hypertarget{positive-12}{%
+\paragraph{Positive}\label{positive-12}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Performance:} 1920×1080 RGB @ 30fps, 1280×720 depth @ 30fps
+\item
+  \textbf{Accuracy:} Depth error \textless2\% at 1m
+\item
+  \textbf{SDK:} librealsense2 library, ROS2 wrapper (realsense2\_camera)
+\item
+  \textbf{IMU:} Built-in IMU (accelerometer, gyroscope) for odometry
+\item
+  \textbf{Cost:} \$350 (vs \$400 for Kinect)
+\item
+  \textbf{Compact:} 90mm × 25mm × 25mm
+\end{itemize}
+
+\hypertarget{negative-12}{%
+\paragraph{Negative}\label{negative-12}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Indoor Only:} Struggles with sunlight (active IR stereo)
+\item
+  \textbf{Range:} 3m max (vs 5m for Kinect)
+\item
+  \textbf{Support:} Intel discontinued RealSense division (but SDK still
+  maintained)
+\end{itemize}
+
+\hypertarget{risks-12}{%
+\paragraph{Risks}\label{risks-12}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Availability:} Potential supply chain issues (mitigated by
+  stocking spares)
+\end{itemize}
+
+\hypertarget{alternatives-considered-12}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-12}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Azure Kinect} & Better depth accuracy, 5m range & \$400, larger
+(103mm), no ROS2 driver & Rejected: Cost, no ROS2 support \\
+\textbf{Orbbec Astra} & Cheap (\$150), similar specs & Lower quality,
+less support & Rejected: Quality concerns \\
+\textbf{Stereo Camera} & Passive (works outdoors) & Requires
+calibration, slower & Rejected: Active IR easier \\
+\end{longtable}
+
+\hypertarget{references-12}{%
+\subsubsection{References}\label{references-12}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.intelrealsense.com/depth-camera-d435i/}{RealSense
+  D435i Datasheet}
+\item
+  \href{https://github.com/IntelRealSense/realsense-ros}{realsense2\_camera
+  ROS2 Wrapper}
+\end{itemize}
+
+\hypertarget{metadata-12}{%
+\subsubsection{Metadata}\label{metadata-12}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Hardware Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Computer Vision Engineer, Tech Lead
+\item
+  \textbf{Related ADRs:} ADR-015 (Jetson Xavier for processing)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-014-select-ur5e-robot-arm}{%
+\subsection{ADR-014: Select UR5e Robot
+Arm}\label{adr-014-select-ur5e-robot-arm}}
+
+\hypertarget{status-13}{%
+\subsubsection{Status}\label{status-13}}
+
+\textbf{Accepted}
+
+\hypertarget{context-13}{%
+\subsubsection{Context}\label{context-13}}
+
+Need 6-DOF robot arm for pick-and-place. Options: UR5e, ABB IRB 1200,
+KUKA iiwa, Fanuc CRX.
+
+\textbf{Requirements:} - Payload: ≥5kg - Reach: ≥850mm - Repeatability:
+±0.1mm - Collaborative (safe near humans) - ROS2 driver available -
+\textless\$40k cost
+
+\hypertarget{decision-13}{%
+\subsubsection{Decision}\label{decision-13}}
+
+\textbf{Use Universal Robots UR5e} (collaborative robot).
+
+\hypertarget{consequences-13}{%
+\subsubsection{Consequences}\label{consequences-13}}
+
+\hypertarget{positive-13}{%
+\paragraph{Positive}\label{positive-13}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Specifications:} 5kg payload, 850mm reach, ±0.03mm
+  repeatability
+\item
+  \textbf{Collaborative:} ISO/TS 15066 compliant (force-limited)
+\item
+  \textbf{ROS2 Support:} Excellent ROS2 driver (ur\_robot\_driver)
+\item
+  \textbf{Ease of Use:} PolyScope pendant for manual teach
+\item
+  \textbf{Ecosystem:} Large community, many grippers/accessories
+  compatible
+\item
+  \textbf{Reliability:} Proven in industry (10,000+ deployed)
+\end{itemize}
+
+\hypertarget{negative-13}{%
+\paragraph{Negative}\label{negative-13}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Cost:} \$35,000 (vs \$25k for ABB IRB 1200)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Justified by collaborative safety, better support}
+  \end{itemize}
+\item
+  \textbf{Speed:} Max 1 m/s (vs 1.5 m/s for ABB)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Acceptable for 30 picks/min target}
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{risks-13}{%
+\paragraph{Risks}\label{risks-13}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Vendor Dependence:} Locked into UR ecosystem for accessories
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Use standard ISO flange, avoid proprietary
+    interfaces
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-13}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-13}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{ABB IRB 1200} & Cheaper (\$25k), faster & Not collaborative,
+complex ROS2 setup & Rejected: Safety gap \\
+\textbf{KUKA iiwa} & Best force sensing & \$80k, overkill for task &
+Rejected: Cost \\
+\textbf{Fanuc CRX} & Good specs, reliable & Weaker ROS2 support &
+Rejected: ROS2 ecosystem \\
+\textbf{Dobot Magician} & Cheap (\$1k), beginner-friendly & Low payload
+(0.5kg), poor accuracy & Rejected: Not industrial-grade \\
+\end{longtable}
+
+\hypertarget{references-13}{%
+\subsubsection{References}\label{references-13}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.universal-robots.com/products/ur5-robot/}{UR5e
+  Specifications}
+\item
+  \href{https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver}{ur\_robot\_driver
+  (ROS2)}
+\end{itemize}
+
+\hypertarget{metadata-13}{%
+\subsubsection{Metadata}\label{metadata-13}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Robotics Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Mechanical Engineer, Tech Lead
+\item
+  \textbf{Related ADRs:} None
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{adr-015-use-nvidia-jetson-xavier-for-vision-processing}{%
+\subsection{ADR-015: Use NVIDIA Jetson Xavier for Vision
+Processing}\label{adr-015-use-nvidia-jetson-xavier-for-vision-processing}}
+
+\hypertarget{status-14}{%
+\subsubsection{Status}\label{status-14}}
+
+\textbf{Accepted}
+
+\hypertarget{context-14}{%
+\subsubsection{Context}\label{context-14}}
+
+Vision pipeline (YOLO, pose estimation) requires GPU for real-time
+inference. Options: Jetson Xavier, Jetson Orin, Cloud GPU, x86 + NVIDIA
+GPU.
+
+\textbf{Requirements:} - GPU inference (\textless50ms for YOLOv8) -
+TensorRT support - \textless\$1000 cost - Low power (\textless30W) -
+Compact form factor
+
+\hypertarget{decision-14}{%
+\subsubsection{Decision}\label{decision-14}}
+
+\textbf{Use NVIDIA Jetson Xavier NX} (16GB variant).
+
+\hypertarget{consequences-14}{%
+\subsubsection{Consequences}\label{consequences-14}}
+
+\hypertarget{positive-14}{%
+\paragraph{Positive}\label{positive-14}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{GPU:} 512 CUDA cores, 21 TOPS AI performance
+\item
+  \textbf{TensorRT:} Native support, 3× speedup vs PyTorch
+\item
+  \textbf{Memory:} 16GB shared RAM/GPU (enough for models + buffers)
+\item
+  \textbf{Power:} 15W typical (vs 300W for desktop GPU)
+\item
+  \textbf{Size:} 70mm × 45mm (credit card size)
+\item
+  \textbf{Cost:} \$500 (vs \$1500 for Orin, \$2000 for RTX 4060)
+\item
+  \textbf{SDK:} JetPack (Ubuntu 20.04 + CUDA + TensorRT + ROS2)
+\end{itemize}
+
+\hypertarget{negative-14}{%
+\paragraph{Negative}\label{negative-14}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Performance:} Slower than desktop RTX (but sufficient for
+  30fps)
+\item
+  \textbf{Cooling:} Passive cooling only, can throttle under load
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Add active fan (\$10)*
+  \end{itemize}
+\item
+  \textbf{Ubuntu 20.04:} Older than 22.04 (but ROS2 Humble can run on
+  20.04)
+\end{itemize}
+
+\hypertarget{risks-14}{%
+\paragraph{Risks}\label{risks-14}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Supply:} Jetson supply constrained (COVID, chip shortage)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{Mitigation:} Order early, stock spares
+  \end{itemize}
+\end{itemize}
+
+\hypertarget{alternatives-considered-14}{%
+\subsubsection{Alternatives
+Considered}\label{alternatives-considered-14}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1961}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2745}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Alternative}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Pros}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Cons}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Jetson Orin} & 2× faster (40 TOPS) & \$1500, overkill &
+Rejected: Cost, not needed \\
+\textbf{x86 + RTX 4060} & Powerful, upgradable & \$2000, 300W, bulky &
+Rejected: Power/size \\
+\textbf{Cloud GPU (AWS)} & Scalable & Latency (50-100ms), recurring cost
+& Rejected: Latency \\
+\textbf{Jetson Nano} & Cheap (\$100) & Too slow (128 CUDA cores) &
+Rejected: Performance \\
+\end{longtable}
+
+\hypertarget{references-14}{%
+\subsubsection{References}\label{references-14}}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-xavier-nx/}{Jetson
+  Xavier NX}
+\item
+  \href{https://developer.nvidia.com/tensorrt}{TensorRT Benchmarks}
+\end{itemize}
+
+\hypertarget{metadata-14}{%
+\subsubsection{Metadata}\label{metadata-14}}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Author:} Embedded Systems Engineer
+\item
+  \textbf{Date:} 2025-10-18
+\item
+  \textbf{Reviewers:} Computer Vision Engineer, Tech Lead
+\item
+  \textbf{Related ADRs:} ADR-003 (PyTorch), ADR-008 (YOLOv8)
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{summary-table-all-adrs}{%
+\subsection{Summary Table: All ADRs}\label{summary-table-all-adrs}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1324}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2059}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2059}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2059}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{ADR}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Category}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Key Benefit}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Key Risk}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+ADR-001 & Middleware & ROS2 Humble & Real-time, LTS, security & Learning
+curve \\
+ADR-002 & Middleware & CycloneDDS & Low latency & Smaller community \\
+ADR-003 & AI/ML & PyTorch & Research-friendly, ONNX export & TF Lite
+more mature \\
+ADR-004 & Planning & MoveIt2 & Comprehensive, OMPL & Complexity \\
+ADR-005 & Control & ros2\_control & Standardization, portability &
+Debugging \\
+ADR-006 & Database & PostgreSQL & JSONB support, extensibility & Heavier
+than SQLite \\
+ADR-007 & Orchestration & BehaviorTree.CPP & Modularity, reactivity &
+Learning curve \\
+ADR-008 & Vision & YOLOv8 & Speed, accuracy & AGPL license \\
+ADR-009 & Deployment & Docker & Reproducibility, isolation &
+Debugging \\
+ADR-010 & Logging & ELK Stack & Search, visualization & Resource
+usage \\
+ADR-011 & Monitoring & Grafana + Prometheus & Open-source, flexible &
+Setup complexity \\
+ADR-012 & Security & OAuth2 + JWT & Stateless, scalable & Token
+revocation \\
+ADR-013 & Hardware & RealSense D435i & Cost, ROS2 support & Indoor
+only \\
+ADR-014 & Hardware & UR5e Robot & Collaborative, ROS2 driver & Cost \\
+ADR-015 & Hardware & Jetson Xavier NX & GPU, TensorRT, compact & Supply
+chain \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\textbf{Document Status:} ✅ Complete \textbf{Last Updated:} 2025-10-18
+\textbf{Review Cycle:} Quarterly (update as decisions change)
+\textbf{Version Control:} Git (track changes via commits)
+
+\end{document}

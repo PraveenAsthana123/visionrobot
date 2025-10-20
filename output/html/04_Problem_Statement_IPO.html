@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>04 Problem Statement IPO</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.min.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">04 Problem Statement IPO</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a
+href="#problem-statement-ipo-analysis---vision-based-pick-and-place-system"
+id="toc-problem-statement-ipo-analysis---vision-based-pick-and-place-system"><span
+class="toc-section-number">1</span> Problem Statement + IPO Analysis -
+Vision-Based Pick and Place System</a>
+<ul>
+<li><a href="#problem-statement" id="toc-problem-statement"><span
+class="toc-section-number">1.1</span> 1. Problem Statement</a>
+<ul>
+<li><a href="#business-problem" id="toc-business-problem"><span
+class="toc-section-number">1.1.1</span> 1.1 Business Problem</a></li>
+<li><a href="#technical-problem" id="toc-technical-problem"><span
+class="toc-section-number">1.1.2</span> 1.2 Technical Problem</a></li>
+<li><a href="#success-criteria" id="toc-success-criteria"><span
+class="toc-section-number">1.1.3</span> 1.3 Success Criteria</a></li>
+</ul></li>
+<li><a href="#system-level-ipo-input-process-output"
+id="toc-system-level-ipo-input-process-output"><span
+class="toc-section-number">1.2</span> 2. System-Level IPO
+(Input-Process-Output)</a>
+<ul>
+<li><a href="#high-level-system-ipo"
+id="toc-high-level-system-ipo"><span
+class="toc-section-number">1.2.1</span> 2.1 High-Level System
+IPO</a></li>
+<li><a href="#detailed-system-ipo-table"
+id="toc-detailed-system-ipo-table"><span
+class="toc-section-number">1.2.2</span> 2.2 Detailed System IPO
+Table</a></li>
+</ul></li>
+<li><a href="#module-level-ipo" id="toc-module-level-ipo"><span
+class="toc-section-number">1.3</span> 3. Module-Level IPO</a>
+<ul>
+<li><a href="#vision-perception-module"
+id="toc-vision-perception-module"><span
+class="toc-section-number">1.3.1</span> 3.1 Vision Perception
+Module</a></li>
+<li><a href="#grasp-planning-module"
+id="toc-grasp-planning-module"><span
+class="toc-section-number">1.3.2</span> 3.2 Grasp Planning
+Module</a></li>
+<li><a href="#motion-planning-module-moveit2"
+id="toc-motion-planning-module-moveit2"><span
+class="toc-section-number">1.3.3</span> 3.3 Motion Planning Module
+(MoveIt2)</a></li>
+<li><a href="#control-execution-module-ros2_control"
+id="toc-control-execution-module-ros2_control"><span
+class="toc-section-number">1.3.4</span> 3.4 Control &amp; Execution
+Module (ros2_control)</a></li>
+<li><a href="#gripper-control-module"
+id="toc-gripper-control-module"><span
+class="toc-section-number">1.3.5</span> 3.5 Gripper Control
+Module</a></li>
+<li><a href="#task-orchestration-module-state-machine"
+id="toc-task-orchestration-module-state-machine"><span
+class="toc-section-number">1.3.6</span> 3.6 Task Orchestration Module
+(State Machine)</a></li>
+<li><a href="#monitoring-logging-module"
+id="toc-monitoring-logging-module"><span
+class="toc-section-number">1.3.7</span> 3.7 Monitoring &amp; Logging
+Module</a></li>
+</ul></li>
+<li><a href="#data-flow-diagram" id="toc-data-flow-diagram"><span
+class="toc-section-number">1.4</span> 4. Data Flow Diagram</a>
+<ul>
+<li><a href="#end-to-end-data-flow" id="toc-end-to-end-data-flow"><span
+class="toc-section-number">1.4.1</span> 4.1 End-to-End Data
+Flow</a></li>
+</ul></li>
+<li><a href="#ipo-for-key-interfaces"
+id="toc-ipo-for-key-interfaces"><span
+class="toc-section-number">1.5</span> 5. IPO for Key Interfaces</a>
+<ul>
+<li><a href="#camera-vision-pipeline"
+id="toc-camera-vision-pipeline"><span
+class="toc-section-number">1.5.1</span> 5.1 Camera ↔︎ Vision
+Pipeline</a></li>
+<li><a href="#vision-pipeline-motion-planning"
+id="toc-vision-pipeline-motion-planning"><span
+class="toc-section-number">1.5.2</span> 5.2 Vision Pipeline ↔︎ Motion
+Planning</a></li>
+<li><a href="#motion-planning-control"
+id="toc-motion-planning-control"><span
+class="toc-section-number">1.5.3</span> 5.3 Motion Planning ↔︎
+Control</a></li>
+<li><a href="#control-motor-drivers"
+id="toc-control-motor-drivers"><span
+class="toc-section-number">1.5.4</span> 5.4 Control ↔︎ Motor
+Drivers</a></li>
+</ul></li>
+<li><a href="#performance-requirements-per-module"
+id="toc-performance-requirements-per-module"><span
+class="toc-section-number">1.6</span> 6. Performance Requirements per
+Module</a></li>
+<li><a href="#error-handling-ipo" id="toc-error-handling-ipo"><span
+class="toc-section-number">1.7</span> 7. Error Handling IPO</a>
+<ul>
+<li><a href="#error-detection-inputs"
+id="toc-error-detection-inputs"><span
+class="toc-section-number">1.7.1</span> 7.1 Error Detection
+Inputs</a></li>
+<li><a href="#error-recovery-process"
+id="toc-error-recovery-process"><span
+class="toc-section-number">1.7.2</span> 7.2 Error Recovery
+Process</a></li>
+</ul></li>
+<li><a href="#ipo-summary-matrix" id="toc-ipo-summary-matrix"><span
+class="toc-section-number">1.8</span> 8. IPO Summary Matrix</a></li>
+<li><a href="#dimensional-analysis" id="toc-dimensional-analysis"><span
+class="toc-section-number">1.9</span> 9. Dimensional Analysis</a>
+<ul>
+<li><a href="#data-dimensions" id="toc-data-dimensions"><span
+class="toc-section-number">1.9.1</span> 9.1 Data Dimensions</a></li>
+</ul></li>
+<li><a href="#conclusion" id="toc-conclusion"><span
+class="toc-section-number">1.10</span> 10. Conclusion</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 data-number="1"
+id="problem-statement-ipo-analysis---vision-based-pick-and-place-system"><span
+class="header-section-number">1</span> Problem Statement + IPO Analysis
+- Vision-Based Pick and Place System</h1>
+<h2 data-number="1.1" id="problem-statement"><span
+class="header-section-number">1.1</span> 1. Problem Statement</h2>
+<h3 data-number="1.1.1" id="business-problem"><span
+class="header-section-number">1.1.1</span> 1.1 Business Problem</h3>
+<p><strong>Context:</strong> Manufacturing, warehousing, and logistics
+industries face challenges with: - <strong>Labor-intensive</strong>
+manual pick-and-place operations - <strong>High error rates</strong> in
+object sorting and placement - <strong>Scalability limitations</strong>
+due to workforce constraints - <strong>Repetitive strain
+injuries</strong> from repetitive manual tasks - <strong>Inconsistent
+throughput</strong> due to human fatigue - <strong>Inability to operate
+24/7</strong> without shift rotations</p>
+<p><strong>Opportunity:</strong> Automate object detection, grasping,
+and placement using vision-guided robotics to: - Increase throughput
+(target: 30 picks/minute) - Reduce errors (target: &lt;1% failure rate)
+- Operate continuously (24/7 with minimal supervision) - Handle varying
+object types/sizes (within defined workspace) - Ensure worker safety
+(collaborative operation)</p>
+<h3 data-number="1.1.2" id="technical-problem"><span
+class="header-section-number">1.1.2</span> 1.2 Technical Problem</h3>
+<p><strong>Challenge:</strong> Develop a robotic system that can: 1.
+<strong>Perceive:</strong> Detect and localize objects in a cluttered
+workspace 2. <strong>Plan:</strong> Compute collision-free trajectories
+to pick and place objects 3. <strong>Execute:</strong> Precisely grasp
+objects and place them at target locations 4. <strong>Adapt:</strong>
+Handle variations in object pose, lighting, occlusions 5. <strong>Ensure
+Safety:</strong> Operate safely near humans, detect collisions</p>
+<p><strong>Constraints:</strong> - <strong>Real-time:</strong> Vision
+processing &lt;50ms, control loop 1kHz - <strong>Accuracy:</strong>
+Position repeatability ±0.1mm - <strong>Reliability:</strong> 99.9%
+uptime, graceful error recovery - <strong>Cost:</strong> Solution must
+be cost-effective (ROI &lt;2 years)</p>
+<h3 data-number="1.1.3" id="success-criteria"><span
+class="header-section-number">1.1.3</span> 1.3 Success Criteria</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 23%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Metric</strong></th>
+<th><strong>Target</strong></th>
+<th><strong>Measurement Method</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pick rate</td>
+<td>≥30 picks/min</td>
+<td>Throughput test (100 cycles)</td>
+</tr>
+<tr class="even">
+<td>Grasp success rate</td>
+<td>≥99%</td>
+<td>1000-pick test, count failures</td>
+</tr>
+<tr class="odd">
+<td>Positional accuracy</td>
+<td>±0.1mm</td>
+<td>CMM measurement at target location</td>
+</tr>
+<tr class="even">
+<td>Vision detection accuracy</td>
+<td>≥95% mAP</td>
+<td>Test on labeled dataset</td>
+</tr>
+<tr class="odd">
+<td>Cycle time</td>
+<td>≤2 sec/object</td>
+<td>Time from scan to place completion</td>
+</tr>
+<tr class="even">
+<td>Uptime</td>
+<td>≥99.5%</td>
+<td>Track operational hours vs downtime</td>
+</tr>
+<tr class="odd">
+<td>Safety incidents</td>
+<td>0</td>
+<td>Collision detection, E-stop tests</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.2" id="system-level-ipo-input-process-output"><span
+class="header-section-number">1.2</span> 2. System-Level IPO
+(Input-Process-Output)</h2>
+<h3 data-number="1.2.1" id="high-level-system-ipo"><span
+class="header-section-number">1.2.1</span> 2.1 High-Level System
+IPO</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                         SYSTEM BOUNDARY                         │
+│                                                                 │
+│  INPUTS                  PROCESS                   OUTPUTS      │
+│  ─────────              ──────────                ─────────     │
+│                                                                 │
+│  • Objects in            ┌──────────────┐         • Objects at  │
+│    workspace             │   VISION     │           target      │
+│  • Target locations      │  PERCEPTION  │           locations   │
+│  • User commands         └──────┬───────┘         • Status      │
+│    (start/stop)                 │                   reports     │
+│  • Environmental                ▼                 • Logs/       │
+│    data (lighting,       ┌──────────────┐           telemetry  │
+│    obstacles)            │   MOTION     │         • Alerts/     │
+│                          │   PLANNING   │           alarms      │
+│                          └──────┬───────┘                       │
+│                                 │                               │
+│                                 ▼                               │
+│                          ┌──────────────┐                       │
+│                          │  EXECUTION   │                       │
+│                          │  &amp; CONTROL   │                       │
+│                          └──────────────┘                       │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘</code></pre>
+<h3 data-number="1.2.2" id="detailed-system-ipo-table"><span
+class="header-section-number">1.2.2</span> 2.2 Detailed System IPO
+Table</h3>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 27%" />
+<col style="width: 35%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Phase</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1. Scan</strong></td>
+<td>- RGB-D camera stream<br>- Trigger command</td>
+<td>- Capture image<br>- Preprocess (denoise, crop)</td>
+<td>- RGB image (1920x1080)<br>- Depth map</td>
+</tr>
+<tr class="even">
+<td><strong>2. Detect</strong></td>
+<td>- RGB image<br>- Pre-trained model</td>
+<td>- Run object detection (YOLO)<br>- Filter low-confidence
+detections</td>
+<td>- Bounding boxes<br>- Class labels<br>- Confidence scores</td>
+</tr>
+<tr class="odd">
+<td><strong>3. Localize</strong></td>
+<td>- Bounding boxes<br>- Depth map<br>- Camera calibration</td>
+<td>- Extract 3D point cloud<br>- Estimate 6DoF pose<br>- Transform to
+robot frame</td>
+<td>- Object pose (x,y,z,r,p,y)<br>- Point cloud</td>
+</tr>
+<tr class="even">
+<td><strong>4. Plan Grasp</strong></td>
+<td>- Object pose<br>- Point cloud<br>- Gripper constraints</td>
+<td>- Compute grasp candidates<br>- Rank by quality score<br>- Select
+best grasp</td>
+<td>- Gripper pose<br>- Approach vector<br>- Grasp quality score</td>
+</tr>
+<tr class="odd">
+<td><strong>5. Plan Motion</strong></td>
+<td>- Gripper pose<br>- Current robot state<br>- Obstacles</td>
+<td>- Inverse kinematics<br>- Path planning (RRT*)<br>- Trajectory
+generation</td>
+<td>- Joint trajectory (waypoints)<br>- Collision-free path</td>
+</tr>
+<tr class="even">
+<td><strong>6. Execute Pick</strong></td>
+<td>- Joint trajectory<br>- Gripper command</td>
+<td>- Send trajectory to controller<br>- Monitor execution<br>- Close
+gripper</td>
+<td>- Joint positions (actual)<br>- Grasp force feedback</td>
+</tr>
+<tr class="odd">
+<td><strong>7. Plan Place</strong></td>
+<td>- Target location<br>- Current robot state</td>
+<td>- Compute placement pose<br>- Plan trajectory (pick → place)</td>
+<td>- Placement trajectory<br>- Orientation</td>
+</tr>
+<tr class="even">
+<td><strong>8. Execute Place</strong></td>
+<td>- Placement trajectory<br>- Gripper release command</td>
+<td>- Move to target<br>- Open gripper<br>- Retract</td>
+<td>- Object at target location<br>- Task completion status</td>
+</tr>
+<tr class="odd">
+<td><strong>9. Verify</strong></td>
+<td>- Camera image<br>- Expected location</td>
+<td>- Capture post-placement image<br>- Verify object position</td>
+<td>- Success/failure flag<br>- Error magnitude</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.3" id="module-level-ipo"><span
+class="header-section-number">1.3</span> 3. Module-Level IPO</h2>
+<h3 data-number="1.3.1" id="vision-perception-module"><span
+class="header-section-number">1.3.1</span> 3.1 Vision Perception
+Module</h3>
+<p><strong>Purpose:</strong> Detect and localize objects in 3D space</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Image Acquisition</strong></td>
+<td>- Camera trigger<br>- Exposure settings</td>
+<td>- Capture RGB-D frame<br>- Sync RGB and depth</td>
+<td>- RGB image<br>- Aligned depth map</td>
+</tr>
+<tr class="even">
+<td><strong>Preprocessing</strong></td>
+<td>- Raw RGB image</td>
+<td>- Resize to 640x640<br>- Normalize pixel values</td>
+<td>- Preprocessed tensor (3x640x640)</td>
+</tr>
+<tr class="odd">
+<td><strong>Object Detection</strong></td>
+<td>- Preprocessed image</td>
+<td>- Forward pass through YOLOv8<br>- NMS (non-max suppression)</td>
+<td>- Bounding boxes [x,y,w,h]<br>- Class IDs<br>- Confidence
+scores</td>
+</tr>
+<tr class="even">
+<td><strong>Pose Estimation</strong></td>
+<td>- RGB-D image<br>- Bounding box<br>- Object model</td>
+<td>- Extract object ROI<br>- Run PnP or deep pose estimator<br>- Refine
+with ICP</td>
+<td>- 6DoF pose [x,y,z,qx,qy,qz,qw]<br>- Covariance (uncertainty)</td>
+</tr>
+<tr class="odd">
+<td><strong>Point Cloud Gen.</strong></td>
+<td>- Depth map<br>- Camera intrinsics</td>
+<td>- Deproject pixels to 3D points<br>- Filter outliers
+(statistical)</td>
+<td>- Point cloud (XYZ + RGB)<br>- Downsampled cloud</td>
+</tr>
+<tr class="even">
+<td><strong>Coordinate Transform</strong></td>
+<td>- Object pose (camera frame)<br>- TF tree (camera→robot)</td>
+<td>- Apply homogeneous transformation<br>- Publish TF</td>
+<td>- Object pose (robot base frame)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IPO Summary:</strong></p>
+<pre><code>INPUT: RGB-D frames (30 Hz)
+PROCESS: Detection → Pose Estimation → Coordinate Transform
+OUTPUT: Object poses in robot frame (x,y,z,roll,pitch,yaw) at 10 Hz</code></pre>
+<hr />
+<h3 data-number="1.3.2" id="grasp-planning-module"><span
+class="header-section-number">1.3.2</span> 3.2 Grasp Planning
+Module</h3>
+<p><strong>Purpose:</strong> Compute optimal gripper pose for stable
+grasping</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Grasp Candidate Gen.</strong></td>
+<td>- Object point cloud<br>- Gripper geometry</td>
+<td>- Sample grasp poses (centroid, normals)<br>- Check
+reachability</td>
+<td>- List of candidate grasps [pose, score]</td>
+</tr>
+<tr class="even">
+<td><strong>Collision Check</strong></td>
+<td>- Grasp candidates<br>- Scene point cloud</td>
+<td>- Check gripper-object collision<br>- Check gripper-table
+collision</td>
+<td>- Collision-free grasps</td>
+</tr>
+<tr class="odd">
+<td><strong>Grasp Ranking</strong></td>
+<td>- Grasp candidates<br>- Force closure metrics</td>
+<td>- Compute grasp quality (wrench space)<br>- Sort by score</td>
+<td>- Ranked list of grasps</td>
+</tr>
+<tr class="even">
+<td><strong>Grasp Selection</strong></td>
+<td>- Ranked grasps</td>
+<td>- Select top-ranked grasp<br>- Fallback to 2nd if 1st fails</td>
+<td>- Selected grasp pose<br>- Approach vector</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IPO Summary:</strong></p>
+<pre><code>INPUT: Object pose, point cloud
+PROCESS: Sample grasps → Filter collisions → Rank by quality → Select best
+OUTPUT: Gripper pose (6DoF) + approach direction</code></pre>
+<hr />
+<h3 data-number="1.3.3" id="motion-planning-module-moveit2"><span
+class="header-section-number">1.3.3</span> 3.3 Motion Planning Module
+(MoveIt2)</h3>
+<p><strong>Purpose:</strong> Generate collision-free trajectories</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Planning Scene</strong></td>
+<td>- Robot URDF<br>- Point cloud (obstacles)</td>
+<td>- Build occupancy grid<br>- Update collision objects</td>
+<td>- Planning scene (internal state)</td>
+</tr>
+<tr class="even">
+<td><strong>IK Solver</strong></td>
+<td>- Target end-effector pose<br>- Current joint state</td>
+<td>- Solve inverse kinematics<br>- Validate joint limits</td>
+<td>- Joint angles [θ1..θ6]<br>- IK success flag</td>
+</tr>
+<tr class="odd">
+<td><strong>Path Planner (OMPL)</strong></td>
+<td>- Start state<br>- Goal state<br>- Planning scene</td>
+<td>- Run RRT*/PRM<br>- Search for collision-free path</td>
+<td>- Path (sequence of joint configs)</td>
+</tr>
+<tr class="even">
+<td><strong>Trajectory Generator</strong></td>
+<td>- Path waypoints<br>- Velocity/accel limits</td>
+<td>- Time-parameterization (parabolic blend)<br>- Smooth jerk</td>
+<td>- Joint trajectory (time-stamped)</td>
+</tr>
+<tr class="odd">
+<td><strong>Trajectory Smoothing</strong></td>
+<td>- Raw trajectory</td>
+<td>- Iterative optimization (shortcut, smooth)</td>
+<td>- Smoothed trajectory</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IPO Summary:</strong></p>
+<pre><code>INPUT: Target pose (x,y,z,roll,pitch,yaw), obstacles
+PROCESS: IK → Path Planning (RRT*) → Trajectory Generation → Smoothing
+OUTPUT: Time-parameterized joint trajectory</code></pre>
+<hr />
+<h3 data-number="1.3.4" id="control-execution-module-ros2_control"><span
+class="header-section-number">1.3.4</span> 3.4 Control &amp; Execution
+Module (ros2_control)</h3>
+<p><strong>Purpose:</strong> Execute trajectories with real-time
+feedback control</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Trajectory Interpolator</strong></td>
+<td>- Joint trajectory<br>- Current time</td>
+<td>- Interpolate setpoints at control frequency (1kHz)</td>
+<td>- Joint position/velocity setpoints</td>
+</tr>
+<tr class="even">
+<td><strong>Joint Controller (PID)</strong></td>
+<td>- Setpoint<br>- Actual position (encoder)</td>
+<td>- Compute error<br>- PID control law<br>- Feedforward
+compensation</td>
+<td>- Motor torque command</td>
+</tr>
+<tr class="odd">
+<td><strong>Motor Driver Interface</strong></td>
+<td>- Torque command</td>
+<td>- Convert to current command<br>- Send via EtherCAT</td>
+<td>- Motor current (3-phase)</td>
+</tr>
+<tr class="even">
+<td><strong>Feedback Loop</strong></td>
+<td>- Encoder position/velocity</td>
+<td>- Read encoder data<br>- Publish joint states</td>
+<td>- Joint states (position, velocity, effort)</td>
+</tr>
+<tr class="odd">
+<td><strong>Safety Monitor</strong></td>
+<td>- Following error<br>- Joint limits</td>
+<td>- Check error bounds<br>- Detect collisions (F/T sensor)</td>
+<td>- Safety status<br>- E-stop trigger</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IPO Summary:</strong></p>
+<pre><code>INPUT: Joint trajectory
+PROCESS: Interpolate → PID Control → Motor Drive → Feedback
+OUTPUT: Robot motion (joint positions), safety status</code></pre>
+<hr />
+<h3 data-number="1.3.5" id="gripper-control-module"><span
+class="header-section-number">1.3.5</span> 3.5 Gripper Control
+Module</h3>
+<p><strong>Purpose:</strong> Actuate gripper (open/close) with force
+control</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Gripper Controller</strong></td>
+<td>- Gripper command (open/close/force)</td>
+<td>- Compute motor PWM<br>- Apply force setpoint</td>
+<td>- Gripper motor PWM signal</td>
+</tr>
+<tr class="even">
+<td><strong>Force Feedback</strong></td>
+<td>- F/T sensor readings</td>
+<td>- Measure grip force<br>- Compare to setpoint</td>
+<td>- Actual grip force<br>- Force error</td>
+</tr>
+<tr class="odd">
+<td><strong>Position Feedback</strong></td>
+<td>- Encoder/limit switches</td>
+<td>- Measure jaw opening<br>- Detect object presence</td>
+<td>- Jaw position<br>- Grasp success flag</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IPO Summary:</strong></p>
+<pre><code>INPUT: Gripper command (open/close), target force
+PROCESS: Force control loop (PID)
+OUTPUT: Gripper state (open/closed), grip force</code></pre>
+<hr />
+<h3 data-number="1.3.6"
+id="task-orchestration-module-state-machine"><span
+class="header-section-number">1.3.6</span> 3.6 Task Orchestration Module
+(State Machine)</h3>
+<p><strong>Purpose:</strong> High-level task sequencing and error
+recovery</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>State Machine</strong></td>
+<td>- System events (triggers)<br>- Sensor data</td>
+<td>- Evaluate state transitions<br>- Execute state actions</td>
+<td>- Current state<br>- State outputs</td>
+</tr>
+<tr class="even">
+<td><strong>Error Handler</strong></td>
+<td>- Fault signals (vision fail, grasp fail)</td>
+<td>- Analyze failure type<br>- Trigger recovery action</td>
+<td>- Recovery command<br>- Retry/abort decision</td>
+</tr>
+<tr class="odd">
+<td><strong>Task Scheduler</strong></td>
+<td>- Task queue<br>- Robot availability</td>
+<td>- Prioritize tasks<br>- Dispatch to modules</td>
+<td>- Task assignments<br>- Execution order</td>
+</tr>
+</tbody>
+</table>
+<p><strong>States:</strong> 1. <strong>IDLE:</strong> Wait for start
+command 2. <strong>SCAN:</strong> Capture image 3.
+<strong>DETECT:</strong> Run vision pipeline 4.
+<strong>PLAN_PICK:</strong> Compute grasp and trajectory 5.
+<strong>EXECUTE_PICK:</strong> Move and grasp 6.
+<strong>PLAN_PLACE:</strong> Compute placement trajectory 7.
+<strong>EXECUTE_PLACE:</strong> Move and release 8.
+<strong>VERIFY:</strong> Check placement success 9.
+<strong>ERROR:</strong> Handle failures, retry or abort 10.
+<strong>HOME:</strong> Return to home position</p>
+<p><strong>IPO Summary:</strong></p>
+<pre><code>INPUT: User commands, sensor events
+PROCESS: State transitions based on events and conditions
+OUTPUT: High-level commands to subsystems (vision, motion, gripper)</code></pre>
+<hr />
+<h3 data-number="1.3.7" id="monitoring-logging-module"><span
+class="header-section-number">1.3.7</span> 3.7 Monitoring &amp; Logging
+Module</h3>
+<p><strong>Purpose:</strong> Collect telemetry, logs, and metrics for
+observability</p>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 25%" />
+<col style="width: 32%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Component</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Data Collector</strong></td>
+<td>- ROS topics (joint states, images, etc.)</td>
+<td>- Subscribe to topics<br>- Timestamp data</td>
+<td>- Time-series data streams</td>
+</tr>
+<tr class="even">
+<td><strong>Logger</strong></td>
+<td>- Log messages (INFO, WARN, ERROR)</td>
+<td>- Format logs<br>- Write to file/database</td>
+<td>- Log files<br>- Database entries</td>
+</tr>
+<tr class="odd">
+<td><strong>Metrics Aggregator</strong></td>
+<td>- Performance metrics (latency, success rate)</td>
+<td>- Compute statistics (mean, std, percentiles)</td>
+<td>- Aggregated metrics</td>
+</tr>
+<tr class="even">
+<td><strong>Alert Manager</strong></td>
+<td>- Metric thresholds<br>- Anomalies</td>
+<td>- Evaluate alert rules<br>- Trigger notifications</td>
+<td>- Alerts (email, SMS, dashboard)</td>
+</tr>
+<tr class="odd">
+<td><strong>Visualization</strong></td>
+<td>- Time-series data<br>- Logs</td>
+<td>- Render graphs (Grafana)<br>- Display logs (Kibana)</td>
+<td>- Dashboards<br>- Real-time plots</td>
+</tr>
+</tbody>
+</table>
+<p><strong>IPO Summary:</strong></p>
+<pre><code>INPUT: ROS topics, log messages, performance metrics
+PROCESS: Collect → Store → Aggregate → Visualize
+OUTPUT: Dashboards, alerts, historical logs</code></pre>
+<hr />
+<h2 data-number="1.4" id="data-flow-diagram"><span
+class="header-section-number">1.4</span> 4. Data Flow Diagram</h2>
+<h3 data-number="1.4.1" id="end-to-end-data-flow"><span
+class="header-section-number">1.4.1</span> 4.1 End-to-End Data Flow</h3>
+<pre><code>┌────────────┐
+│   Camera   │ (RGB-D frames @ 30 Hz)
+└──────┬─────┘
+       │
+       ▼
+┌─────────────────┐
+│ Vision Pipeline │ (Object poses @ 10 Hz)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│ Grasp Planner   │ (Gripper pose)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│ Motion Planner  │ (Joint trajectory)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│ ros2_control    │ (Motor commands @ 1 kHz)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│  Motor Drivers  │ (Currents to motors)
+└──────┬──────────┘
+       │
+       ▼
+┌─────────────────┐
+│ Robot Actuators │ (Physical motion)
+└──────┬──────────┘
+       │
+       ▼ (feedback)
+┌─────────────────┐
+│    Encoders     │ (Joint positions @ 1 kHz)
+└──────┬──────────┘
+       │
+       └─────► (feedback to ros2_control)</code></pre>
+<hr />
+<h2 data-number="1.5" id="ipo-for-key-interfaces"><span
+class="header-section-number">1.5</span> 5. IPO for Key Interfaces</h2>
+<h3 data-number="1.5.1" id="camera-vision-pipeline"><span
+class="header-section-number">1.5.1</span> 5.1 Camera ↔︎ Vision
+Pipeline</h3>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspect</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Input</strong></td>
+<td>USB 3.0 stream (RGB 1920x1080 @ 30fps, Depth 1280x720 @ 30fps)</td>
+</tr>
+<tr class="even">
+<td><strong>Process</strong></td>
+<td>Image transport (compressed), synchronization (ApproxTime)</td>
+</tr>
+<tr class="odd">
+<td><strong>Output</strong></td>
+<td>ROS2 topics: <code>/camera/color/image_raw</code>,
+<code>/camera/depth/image_rect</code></td>
+</tr>
+<tr class="even">
+<td><strong>Latency</strong></td>
+<td>&lt;30ms (USB transfer + decompression)</td>
+</tr>
+<tr class="odd">
+<td><strong>Data Rate</strong></td>
+<td>~200 MB/s (uncompressed), ~50 MB/s (compressed JPEG)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.5.2" id="vision-pipeline-motion-planning"><span
+class="header-section-number">1.5.2</span> 5.2 Vision Pipeline ↔︎ Motion
+Planning</h3>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspect</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Input</strong></td>
+<td>Object pose (geometry_msgs/PoseStamped)</td>
+</tr>
+<tr class="even">
+<td><strong>Process</strong></td>
+<td>ROS2 service call: <code>/compute_grasp</code> →
+<code>/plan_pick_motion</code></td>
+</tr>
+<tr class="odd">
+<td><strong>Output</strong></td>
+<td>Joint trajectory (trajectory_msgs/JointTrajectory)</td>
+</tr>
+<tr class="even">
+<td><strong>Latency</strong></td>
+<td>200-500ms (IK + planning)</td>
+</tr>
+<tr class="odd">
+<td><strong>Frequency</strong></td>
+<td>On-demand (per object detected)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.5.3" id="motion-planning-control"><span
+class="header-section-number">1.5.3</span> 5.3 Motion Planning ↔︎
+Control</h3>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspect</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Input</strong></td>
+<td>Joint trajectory (moveit_msgs/action/ExecuteTrajectory)</td>
+</tr>
+<tr class="even">
+<td><strong>Process</strong></td>
+<td>ROS2 action interface (goal, feedback, result)</td>
+</tr>
+<tr class="odd">
+<td><strong>Output</strong></td>
+<td>Joint commands @ 1kHz
+(control_msgs/JointTrajectoryControllerState)</td>
+</tr>
+<tr class="even">
+<td><strong>Latency</strong></td>
+<td>&lt;10ms (action call overhead)</td>
+</tr>
+<tr class="odd">
+<td><strong>Frequency</strong></td>
+<td>1 kHz (controller loop)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.5.4" id="control-motor-drivers"><span
+class="header-section-number">1.5.4</span> 5.4 Control ↔︎ Motor
+Drivers</h3>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 83%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Aspect</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Input</strong></td>
+<td>Motor current commands (EtherCAT PDO, 16-bit signed int)</td>
+</tr>
+<tr class="even">
+<td><strong>Process</strong></td>
+<td>EtherCAT cyclic communication (1 kHz)</td>
+</tr>
+<tr class="odd">
+<td><strong>Output</strong></td>
+<td>Motor phase currents (Ia, Ib, Ic)</td>
+</tr>
+<tr class="even">
+<td><strong>Latency</strong></td>
+<td>&lt;1ms (deterministic EtherCAT cycle)</td>
+</tr>
+<tr class="odd">
+<td><strong>Jitter</strong></td>
+<td>&lt;10 μs (EtherCAT distributed clocks)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.6" id="performance-requirements-per-module"><span
+class="header-section-number">1.6</span> 6. Performance Requirements per
+Module</h2>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 21%" />
+<col style="width: 19%" />
+<col style="width: 21%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Module</strong></th>
+<th><strong>Throughput</strong></th>
+<th><strong>Latency</strong></th>
+<th><strong>Accuracy</strong></th>
+<th><strong>Reliability</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vision Perception</td>
+<td>10 detections/sec</td>
+<td>&lt;50ms per frame</td>
+<td>mAP ≥0.95</td>
+<td>99% uptime</td>
+</tr>
+<tr class="even">
+<td>Pose Estimation</td>
+<td>10 poses/sec</td>
+<td>&lt;100ms per object</td>
+<td>±5mm position, ±5° orientation</td>
+<td>95% accuracy</td>
+</tr>
+<tr class="odd">
+<td>Grasp Planning</td>
+<td>5 grasps/sec</td>
+<td>&lt;200ms per object</td>
+<td>Quality score ≥0.8</td>
+<td>90% success</td>
+</tr>
+<tr class="even">
+<td>Motion Planning</td>
+<td>2 plans/sec</td>
+<td>&lt;500ms per plan</td>
+<td>Collision-free (100%)</td>
+<td>99% plan success</td>
+</tr>
+<tr class="odd">
+<td>Trajectory Execution</td>
+<td>1 kHz control loop</td>
+<td>&lt;10ms per cycle</td>
+<td>Tracking error &lt;2mm</td>
+<td>99.9% uptime</td>
+</tr>
+<tr class="even">
+<td>Gripper Control</td>
+<td>100 Hz</td>
+<td>&lt;10ms</td>
+<td>Force ±1N</td>
+<td>99% grasp success</td>
+</tr>
+<tr class="odd">
+<td>Task Orchestration</td>
+<td>1 task/2sec</td>
+<td>&lt;50ms state trans.</td>
+<td>N/A</td>
+<td>100% state integrity</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.7" id="error-handling-ipo"><span
+class="header-section-number">1.7</span> 7. Error Handling IPO</h2>
+<h3 data-number="1.7.1" id="error-detection-inputs"><span
+class="header-section-number">1.7.1</span> 7.1 Error Detection
+Inputs</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 47%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Error Type</strong></th>
+<th><strong>Input Signal</strong></th>
+<th><strong>Detection Method</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vision failure</td>
+<td>No objects detected for &gt;5 sec</td>
+<td>Timeout counter</td>
+</tr>
+<tr class="even">
+<td>Grasp failure</td>
+<td>F/T sensor: grip force &lt;threshold</td>
+<td>Force threshold check</td>
+</tr>
+<tr class="odd">
+<td>Motion planning failure</td>
+<td>Planner returns no solution</td>
+<td>Planner status code</td>
+</tr>
+<tr class="even">
+<td>Collision</td>
+<td>F/T sensor: force spike &gt;150N</td>
+<td>Anomaly detection (force)</td>
+</tr>
+<tr class="odd">
+<td>Joint limit violation</td>
+<td>Encoder position outside [q_min, q_max]</td>
+<td>Range check</td>
+</tr>
+<tr class="even">
+<td>E-stop</td>
+<td>Emergency stop button pressed</td>
+<td>Digital input (hardwired)</td>
+</tr>
+</tbody>
+</table>
+<h3 data-number="1.7.2" id="error-recovery-process"><span
+class="header-section-number">1.7.2</span> 7.2 Error Recovery
+Process</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 47%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Error Type</strong></th>
+<th><strong>Recovery Action</strong></th>
+<th><strong>Outcome</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vision failure</td>
+<td>Re-trigger camera, adjust lighting, rescan</td>
+<td>Resume detection or abort</td>
+</tr>
+<tr class="even">
+<td>Grasp failure</td>
+<td>Retry with alternate grasp, reduce speed</td>
+<td>Retry (max 3x) or skip object</td>
+</tr>
+<tr class="odd">
+<td>Motion planning failure</td>
+<td>Relax constraints, replan with wider clearance</td>
+<td>New plan or abort task</td>
+</tr>
+<tr class="even">
+<td>Collision</td>
+<td>E-stop, retract, re-home robot</td>
+<td>Safe state, await manual reset</td>
+</tr>
+<tr class="odd">
+<td>Joint limit violation</td>
+<td>Stop motion, move back to safe position</td>
+<td>Resume from safe configuration</td>
+</tr>
+<tr class="even">
+<td>E-stop</td>
+<td>Power off motors, log event, await user reset</td>
+<td>System halted, manual intervention</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.8" id="ipo-summary-matrix"><span
+class="header-section-number">1.8</span> 8. IPO Summary Matrix</h2>
+<table>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Module</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Process</strong></th>
+<th><strong>Output</strong></th>
+<th><strong>Frequency</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Vision Perception</td>
+<td>RGB-D frames</td>
+<td>Detection + Pose Estimation</td>
+<td>Object poses (robot frame)</td>
+<td>10 Hz</td>
+</tr>
+<tr class="even">
+<td>Grasp Planning</td>
+<td>Object pose, point cloud</td>
+<td>Sample + Rank grasps</td>
+<td>Gripper pose, quality score</td>
+<td>On-demand</td>
+</tr>
+<tr class="odd">
+<td>Motion Planning</td>
+<td>Target pose, obstacles</td>
+<td>IK + Path Planning</td>
+<td>Joint trajectory</td>
+<td>On-demand</td>
+</tr>
+<tr class="even">
+<td>Trajectory Execution</td>
+<td>Joint trajectory</td>
+<td>Interpolation + PID control</td>
+<td>Motor commands</td>
+<td>1 kHz</td>
+</tr>
+<tr class="odd">
+<td>Gripper Control</td>
+<td>Gripper command, force setpoint</td>
+<td>Force control loop</td>
+<td>Gripper state, grip force</td>
+<td>100 Hz</td>
+</tr>
+<tr class="even">
+<td>Task Orchestration</td>
+<td>User commands, sensor events</td>
+<td>State machine transitions</td>
+<td>High-level commands to modules</td>
+<td>Event-driven</td>
+</tr>
+<tr class="odd">
+<td>Monitoring &amp; Logging</td>
+<td>ROS topics, logs, metrics</td>
+<td>Collect + Aggregate + Visualize</td>
+<td>Dashboards, alerts</td>
+<td>Continuous</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.9" id="dimensional-analysis"><span
+class="header-section-number">1.9</span> 9. Dimensional Analysis</h2>
+<h3 data-number="1.9.1" id="data-dimensions"><span
+class="header-section-number">1.9.1</span> 9.1 Data Dimensions</h3>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 27%" />
+<col style="width: 27%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Data Type</strong></th>
+<th><strong>Dimensions</strong></th>
+<th><strong>Units</strong></th>
+<th><strong>Example Value</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RGB Image</td>
+<td>1920 × 1080 × 3</td>
+<td>pixels (uint8)</td>
+<td>[0-255] per channel</td>
+</tr>
+<tr class="even">
+<td>Depth Image</td>
+<td>1280 × 720</td>
+<td>mm (uint16)</td>
+<td>0-10000 mm</td>
+</tr>
+<tr class="odd">
+<td>Point Cloud</td>
+<td>N × 3 (XYZ)</td>
+<td>m (float32)</td>
+<td>N ≈ 100,000 points</td>
+</tr>
+<tr class="even">
+<td>Object Pose</td>
+<td>7 (x,y,z,qx,qy,qz,qw)</td>
+<td>m, quaternion (float64)</td>
+<td>[0.5, 0.2, 0.1, 0,0,0,1]</td>
+</tr>
+<tr class="odd">
+<td>Joint Angles</td>
+<td>6 (θ1..θ6)</td>
+<td>rad (float64)</td>
+<td>[-π, π]</td>
+</tr>
+<tr class="even">
+<td>Joint Trajectory</td>
+<td>T × 6 (time, positions)</td>
+<td>s, rad</td>
+<td>T ≈ 100 waypoints</td>
+</tr>
+<tr class="odd">
+<td>Force/Torque</td>
+<td>6 (Fx,Fy,Fz,Tx,Ty,Tz)</td>
+<td>N, N·m (float64)</td>
+<td>Fx ∈ [-100, 100] N</td>
+</tr>
+<tr class="even">
+<td>Gripper State</td>
+<td>2 (position, force)</td>
+<td>m, N</td>
+<td>[0.05m, 20N]</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 data-number="1.10" id="conclusion"><span
+class="header-section-number">1.10</span> 10. Conclusion</h2>
+<p>This IPO documentation provides a <strong>complete mapping</strong>
+of: - <strong>System-level</strong> inputs, processes, and outputs -
+<strong>Module-level</strong> IPO for each major subsystem -
+<strong>Data flow</strong> through the entire pipeline (camera → motors)
+- <strong>Interfaces</strong> between modules with latency and data rate
+specs - <strong>Error handling</strong> IPO for fault detection and
+recovery</p>
+<p><strong>Key Takeaways:</strong> - <strong>Vision → Planning →
+Control</strong> pipeline with clear IPO at each stage -
+<strong>Real-time performance</strong> requirements (1 kHz control,
+&lt;50ms vision) - <strong>Dimensional consistency</strong> enforced
+across all data types - <strong>Error recovery</strong> mechanisms for
+robust operation</p>
+<hr />
+<p><strong>Document Status:</strong> ✅ Complete <strong>Last
+Updated:</strong> 2025-10-18 <strong>Author:</strong> System Engineering
+Team <strong>Review Status:</strong> Pending Review</p>
+</body>
+</html>
